@@ -1,13 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
-  ],
-  "assignees": [
-    "modem7"
-  ],
-  "labels": [
-    "dependencies"
-  ],
-  "timezone": "Europe/London"
+    "github>modem7/renovate-config"
+  ]
 }
