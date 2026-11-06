@@ -6,7 +6,7 @@ PowerShell was made open-source and cross-platform with PowerShell Core, and can
 
 ### Windows
 1. Download MSI Package from the [Official PowerShell Docs](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.2)
-2. Set up PowerShell Profile in Windows Terminal ([[windows-terminal]]).
+2. Set up PowerShell Profile in [Windows Terminal](windows-terminal.md).
 ```json
 "commandline": "pwsh.exe -nologo",
 "name": "Powershell",
@@ -38,7 +38,7 @@ code $PROFILE
 ```
 
 ## (Optional) Set up starship Prompt
-You can customize the look and feel of PowerShell with the Starship Prompt ([[starship]]).
+You can customize the look and feel of PowerShell with the [Starship Prompt](../tools/starship.md).
 
 ## Getting Around
 COMMAND | DESCRIPTION
@@ -101,7 +101,7 @@ COMMAND | DESCRIPTION
 `[PSCustomObject]@{ Name='x'; Id=1 }` | Create an object
 `$h.GetEnumerator() \| Sort-Object Name` | Iterate a hashtable
 `[int]'42'`, `[datetime]'2025-01-31'` | Type casting
-`$env:PATH` / `$env:COMPUTERNAME` | Environment variables ([[environment-variables]])
+`$env:PATH` / `$env:COMPUTERNAME` | Environment variables ([Environment Variables in Windows](environment-variables.md))
 `$PSScriptRoot` / `$PWD` / `$HOME` | Script folder, current folder, home folder
 `$null`, `$true`, `$false` | Constants
 `-eq -ne -gt -lt -like -match -contains -in` | Comparison operators (case-insensitive by default; `-ceq` is case-sensitive)
@@ -117,7 +117,7 @@ COMMAND | DESCRIPTION
 `Select-String -Path *.log -Pattern 'error'` | grep for PowerShell
 `Import-Csv data.csv \| Where-Object Age -gt 30` | CSV to objects
 `Export-Csv out.csv -NoTypeInformation` | Objects to CSV
-`Get-Content cfg.json -Raw \| ConvertFrom-Json` | JSON to objects ([[jq]] for the shell)
+`Get-Content cfg.json -Raw \| ConvertFrom-Json` | JSON to objects ([jq](../tools/jq.md) for the shell)
 `$obj \| ConvertTo-Json -Depth 5` | Objects to JSON (default depth is only 2)
 `Invoke-RestMethod https://api.example.com/items` | HTTP GET, parsed JSON
 `Invoke-WebRequest -Uri <URL> -OutFile file.zip` | Download a file
@@ -158,7 +158,7 @@ COMMAND | DESCRIPTION
 `Set-StrictMode -Version Latest` | Error on uninitialised variables and bad property access
 `-WhatIf` / `-Confirm` | Preview or confirm a change (on cmdlets that support them)
 
-External programs do not throw: check `$LASTEXITCODE` after calling them (for example `robocopy`, see [[robocopy]]).
+External programs do not throw: check `$LASTEXITCODE` after calling them (for example `robocopy`, see [Robocopy](robocopy.md)).
 
 ## Functions and Scripts
 ```powershell
@@ -176,7 +176,7 @@ function Get-DiskReport {
 Save as `script.ps1` and run `.\script.ps1` (the `.\` is required). Use `[CmdletBinding()]` for `-Verbose`, `-ErrorAction` and other common parameters, and `param()` with attributes for validation (`[ValidateSet('a','b')]`, `[ValidateRange(1,10)]`).
 
 ## Remoting
-Run commands on other machines with `Invoke-Command -ComputerName <SERVER> -ScriptBlock { ... }` or open an interactive session with `Enter-PSSession`. WinRM and SSH setup, sessions and file copy are in [[powershell-remote]]. Remote output comes back as deserialised objects (properties yes, methods no).
+Run commands on other machines with `Invoke-Command -ComputerName <SERVER> -ScriptBlock { ... }` or open an interactive session with `Enter-PSSession`. WinRM and SSH setup, sessions and file copy are in [PowerShell Remote Access](powershell-remote.md). Remote output comes back as deserialised objects (properties yes, methods no).
 
 ## Scheduled Tasks
 COMMAND | DESCRIPTION
@@ -202,10 +202,10 @@ COMMAND | DESCRIPTION
 ---|---
 `Get-CimInstance Win32_LogicalDisk \| Select DeviceID, @{n='FreeGB';e={[int]($_.FreeSpace/1GB)}}` | Free disk space
 `Get-ChildItem C:\ -Recurse -File -ErrorAction SilentlyContinue \| Sort Length -Desc \| Select -First 10 FullName,Length` | Ten largest files
-`Get-HotFix \| Sort InstalledOn -Desc \| Select -First 5` | Recent updates ([[windows-updates]])
+`Get-HotFix \| Sort InstalledOn -Desc \| Select -First 5` | Recent updates ([Windows Updates](windows-updates.md))
 `(Get-Date).AddDays(-7)` | Date arithmetic
-`Get-NetTCPConnection -State Listen` | Listening ports ([[windows-networking]])
-`winget upgrade --all` | Upgrade software ([[winget]])
-`Get-WinEvent -LogName System -MaxEvents 20` | Event logs ([[windows-troubleshooting]])
-`Get-ADUser -Filter * -Properties LastLogonDate` | Active Directory ([[active-directory]])
+`Get-NetTCPConnection -State Listen` | Listening ports ([Windows Networking](windows-networking.md))
+`winget upgrade --all` | Upgrade software ([winget](winget.md))
+`Get-WinEvent -LogName System -MaxEvents 20` | Event logs ([Windows Troubleshooting](windows-troubleshooting.md))
+`Get-ADUser -Filter * -Properties LastLogonDate` | [Active Directory](active-directory.md)
 

@@ -1,5 +1,5 @@
 # AWS CLI
-The AWS CLI (v2) manages Amazon Web Services from the terminal. Compare [[azure-cli]] and [[gcloud]]; for infrastructure as code see [[terraform]].
+The AWS CLI (v2) manages Amazon Web Services from the terminal. Compare [Azure CLI (az)](azure-cli.md) and [gcloud (Google Cloud CLI)](gcloud.md); for infrastructure as code see [Terraform](terraform.md).
 
 Documentation: [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/)
 
@@ -10,7 +10,7 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o awscliv2.zip
 unzip awscliv2.zip && sudo ./aws/install
 aws --version
 ```
-Use `awscli-exe-linux-aarch64.zip` on ARM. macOS: `brew install awscli` ([[homebrew]]). Windows: `choco install awscli` ([[chocolatey]]) or the MSI. Update by re-running the installer with `--update`.
+Use `awscli-exe-linux-aarch64.zip` on ARM. macOS: `brew install awscli` ([Homebrew](../macos/homebrew.md)). Windows: `choco install awscli` ([Chocolatey](../windows/chocolatey.md)) or the MSI. Update by re-running the installer with `--update`.
 
 ## Credentials and Profiles
 COMMAND | DESCRIPTION
@@ -51,8 +51,8 @@ COMMAND | DESCRIPTION
 `aws iam list-users --output table` | List users
 `aws iam list-attached-user-policies --user-name NAME` | A user's policies
 `aws eks list-clusters` | List EKS clusters
-`aws eks update-kubeconfig --name CLUSTER --region eu-west-2` | Add the cluster to kubeconfig ([[kubectl]])
-`aws ecr get-login-password --region eu-west-2 \| docker login --username AWS --password-stdin <ACCOUNT>.dkr.ecr.eu-west-2.amazonaws.com` | Log Docker in to ECR ([[docker]])
+`aws eks update-kubeconfig --name CLUSTER --region eu-west-2` | Add the cluster to kubeconfig ([Kubectl](../kubernetes/kubectl.md))
+`aws ecr get-login-password --region eu-west-2 \| docker login --username AWS --password-stdin <ACCOUNT>.dkr.ecr.eu-west-2.amazonaws.com` | Log Docker in to ECR ([Docker](../docker/docker.md))
 `aws ssm get-parameter --name /path/key --with-decryption --query Parameter.Value --output text` | Read a parameter
 `aws secretsmanager get-secret-value --secret-id NAME --query SecretString --output text` | Read a secret
 
@@ -66,7 +66,7 @@ OPTION | DESCRIPTION
 `aws <service> help` | Help for a service
 `aws <service> <command> help` | Help and examples for a command
 
-Combine with [[jq]] for anything JMESPath makes awkward.
+Combine with [jq](jq.md) for anything JMESPath makes awkward.
 
 ## Not Verified
 Written from knowledge of AWS CLI v2 and not run against an account. Check `aws <service> <command> help` for current flags.

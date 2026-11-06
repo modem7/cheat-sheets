@@ -5,7 +5,7 @@ Documentation: [docker system prune](https://docs.docker.com/reference/cli/docke
 
 > **Verification:** the `container prune --filter until=`, `builder prune` (`--keep-storage`, `--filter until=`, `-a`) options and the `daemon.json` log options were checked against the Docker docs. The rest is from the CLI reference. No command was executed. Review what a prune would delete before you run it, and never run `--volumes` on a host whose data lives in anonymous volumes you still need.
 
-See also: [[docker]] · [[docker-troubleshooting]] · [[docker-registry]] · [[docker-compose]] · [[storage-and-filesystems]]
+See also: [Docker](docker.md) · [Docker Troubleshooting](docker-troubleshooting.md) · [Docker Registry](docker-registry.md) · [Docker-Compose](docker-compose.md) · [Storage and Filesystems](../linux/storage-and-filesystems.md)
 
 ---
 ## See What Takes Space
@@ -90,7 +90,7 @@ COMMAND | DESCRIPTION
 
 Rules of thumb:
 - A volume counts as "unused" if no **container** (running or stopped) references it. Stopped containers protect their volumes. If you removed the stack with `compose down`, its volumes become prunable.
-- Back up first: `docker run --rm -v VOLUME:/data -v "$PWD":/backup busybox tar czf /backup/VOLUME.tgz -C /data .` (see [[docker]]).
+- Back up first: `docker run --rm -v VOLUME:/data -v "$PWD":/backup busybox tar czf /backup/VOLUME.tgz -C /data .` (see [Docker](docker.md)).
 - Name important volumes and label them (`labels: keep: "true"` in Compose) so filters can protect them.
 
 ## Build Cache
@@ -138,13 +138,13 @@ COMMAND | DESCRIPTION
 `docker inspect -f '{{.HostConfig.LogConfig}}' CONTAINER` | Log config in use
 `docker inspect -f '{{.LogPath}}' CONTAINER` | Log file path
 `sudo truncate -s 0 $(docker inspect -f '{{.LogPath}}' CONTAINER)` | Empty a runaway log now without restarting
-`sudo journalctl --vacuum-size=500M` | If you use the `journald` driver, trim the journal ([[systemd]])
+`sudo journalctl --vacuum-size=500M` | If you use the `journald` driver, trim the journal ([systemd](../linux/systemd.md))
 
 Do not `rm` the log file of a running container: the daemon keeps it open and the space stays used. Truncate it instead.
 
 ---
 ## Automate It
-A weekly systemd timer ([[systemd]]) running a conservative prune:
+A weekly systemd timer ([systemd](../linux/systemd.md)) running a conservative prune:
 
 `/etc/systemd/system/docker-prune.service`:
 ```ini

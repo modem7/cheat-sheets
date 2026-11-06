@@ -5,7 +5,7 @@ Documentation: [Cluster Manager](https://pve.proxmox.com/pve-docs/chapter-pvecm.
 
 > **Verification:** `pvecm` commands, node removal procedure, QDevice setup, `ha-manager` commands, `qm migrate --online` and `pvesr create-local-job` were checked against the docs. **Not verified:** `pct migrate --restart`, `pvesr status`, `pvesr list`, and the `/etc/pve` read-only behaviour without quorum (stated from experience). No command was executed. In PVE 9, HA groups were replaced by HA node-affinity rules, so older group-based guides differ.
 
-See also: [[proxmox-networking]] · [[proxmox-storage]] · [[proxmox-backup]] · [[proxmox-troubleshooting]] · [[proxmox-firewall]]
+See also: [Proxmox Networking](proxmox-networking.md) · [Proxmox Storage](proxmox-storage.md) · [Proxmox Backup and Restore](proxmox-backup.md) · [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md) · [Proxmox Firewall](proxmox-firewall.md)
 
 ---
 ## Requirements
@@ -13,7 +13,7 @@ See also: [[proxmox-networking]] · [[proxmox-storage]] · [[proxmox-backup]] ·
 - A stable low-latency network for corosync, ideally a dedicated NIC or VLAN, ideally with a second link.
 - A new node must have **no guests** when joining (IDs would clash).
 - Do not change a node's hostname or IP after joining without reading the docs.
-- Open ports: corosync UDP 5405-5412, SSH 22, web/API 8006 ([[proxmox-firewall]]).
+- Open ports: corosync UDP 5405-5412, SSH 22, web/API 8006 ([Proxmox Firewall](proxmox-firewall.md)).
 
 ---
 ## Create and Join
@@ -90,7 +90,7 @@ COMMAND | DESCRIPTION
 `pvesr delete <VMID>-0` | Delete a job
 `pvesr schedule-now <VMID>-0` | Run now
 
-Replication works on ZFS ([[proxmox-storage]]). On failover you can lose up to one interval of data.
+Replication works on ZFS ([Proxmox Storage](proxmox-storage.md)). On failover you can lose up to one interval of data.
 
 ---
 ## High Availability
@@ -111,6 +111,6 @@ States: `started`, `stopped`, `disabled`, `ignored`. Fenced nodes reboot via the
 
 ---
 ## Tips
-- Take backups before any cluster change ([[proxmox-backup]]).
+- Take backups before any cluster change ([Proxmox Backup and Restore](proxmox-backup.md)).
 - Keep SSH between nodes working (`pvecm updatecerts` repairs known_hosts).
-- Automate node maintenance with [[ansible]].
+- Automate node maintenance with [Ansible Cheat-Sheet](../tools/ansible.md).

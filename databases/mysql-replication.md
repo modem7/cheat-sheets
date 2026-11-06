@@ -1,11 +1,11 @@
 # MySQL and MariaDB Replication
-Asynchronous source/replica replication using GTIDs (global transaction IDs), how to watch lag, and how to fail over. MySQL 8.4 and MariaDB use different GTID implementations and slightly different commands, so each has its own section. Basics are in [[mysql]] and [[mariadb]].
+Asynchronous source/replica replication using GTIDs (global transaction IDs), how to watch lag, and how to fail over. MySQL 8.4 and MariaDB use different GTID implementations and slightly different commands, so each has its own section. Basics are in [MySQL](mysql.md) and [MariaDB Cheat-Sheet](mariadb.md).
 
 Documentation: [MySQL 8.4 Replication](https://dev.mysql.com/doc/refman/8.4/en/replication.html) · [CHANGE REPLICATION SOURCE TO](https://dev.mysql.com/doc/refman/8.4/en/change-replication-source-to.html) · [MariaDB Replication](https://mariadb.com/kb/en/replication/) · [MariaDB CHANGE MASTER TO](https://mariadb.com/kb/en/change-master-to/) · [MariaDB GTID](https://mariadb.com/kb/en/gtid/)
 
 > **Verification:** `CHANGE REPLICATION SOURCE TO ... SOURCE_AUTO_POSITION=1` and `GET_SOURCE_PUBLIC_KEY` (MySQL 8.4), MariaDB `MASTER_USE_GTID=slave_pos` and that `SHOW SLAVE STATUS` and `SHOW REPLICA STATUS` are interchangeable in MariaDB were checked against the official docs. **Not verified against the docs:** the status field names, the MariaDB version that added the REPLICA aliases, the config examples and the failover procedures (they follow the documentation as known). No command was executed. Terminology changed: MySQL 8.4 uses SOURCE/REPLICA (the old `CHANGE MASTER TO` and `START SLAVE` were removed in 8.4), MariaDB still accepts MASTER/SLAVE.
 
-See also: [[mysql]] · [[mariadb]] · [[postgres-backup-replication]] · [[docker]] · [[ufw]] · [[linux]]
+See also: [MySQL](mysql.md) · [MariaDB Cheat-Sheet](mariadb.md) · [PostgreSQL Backup and Replication](postgres-backup-replication.md) · [Docker](../docker/docker.md) · [UFW (uncomplicated firewall)](../linux/ufw.md) · [Linux](../linux/linux.md)
 
 ---
 ## Concepts
@@ -17,12 +17,12 @@ GTID | Global transaction ID. Lets a replica find its position by itself, no log
 Binary log | `log_bin`. Required on the source (and on a replica that is a failover candidate)
 `server_id` | Unique number per server. Required
 
-Replication is **asynchronous**: the source does not wait for the replica, so a failover can lose the last transactions. Semi-synchronous plugins and Galera (MariaDB) or Group Replication / InnoDB Cluster (MySQL) exist for stronger guarantees. Replication is not a backup: a `DROP TABLE` replicates. See also the [[mysql]] backup commands.
+Replication is **asynchronous**: the source does not wait for the replica, so a failover can lose the last transactions. Semi-synchronous plugins and Galera (MariaDB) or Group Replication / InnoDB Cluster (MySQL) exist for stronger guarantees. Replication is not a backup: a `DROP TABLE` replicates. See also the [MySQL](mysql.md) backup commands.
 
 ---
-# MySQL 8.4 (GTID)
+## MySQL 8.4 (GTID)
 
-## 1. Configure the Source
+### 1. Configure the Source
 `/etc/mysql/mysql.conf.d/replication.cnf` (or `my.cnf`):
 ```ini
 [mysqld]
@@ -39,9 +39,9 @@ Restart, then create a replication user:
 CREATE USER 'repl'@'192.168.1.%' IDENTIFIED BY '<PASSWORD>';
 GRANT REPLICATION SLAVE ON *.* TO 'repl'@'192.168.1.%';
 ```
-(`REPLICATION SLAVE` is still the privilege name.) Open port 3306 only to the replica ([[ufw]]).
+(`REPLICATION SLAVE` is still the privilege name.) Open port 3306 only to the replica ([UFW (uncomplicated firewall)](../linux/ufw.md)).
 
-## 2. Configure the Replica
+### 2. Configure the Replica
 ```ini
 [mysqld]
 server-id                = 2
@@ -55,7 +55,7 @@ log_replica_updates      = ON
 ```
 Restart.
 
-## 3. Seed the Replica With Data
+### 3. Seed the Replica With Data
 For an empty source, skip this. Otherwise take a consistent dump with GTIDs from the source and load it on the replica:
 ```bash
 # on the source
@@ -66,7 +66,7 @@ mysql -u root -p < seed.sql
 ```
 `--set-gtid-purged=ON` writes `SET @@GLOBAL.GTID_PURGED=...` into the dump so the replica starts from the right place. Clone plugin (`CLONE INSTANCE FROM`) or Percona XtraBackup are faster for large databases. On the replica run `RESET BINARY LOGS AND GTIDS;` first if it is not new.
 
-## 4. Point the Replica at the Source
+### 4. Point the Replica at the Source
 ```sql
 CHANGE REPLICATION SOURCE TO
   SOURCE_HOST = '<SOURCE-HOST>',
@@ -79,7 +79,7 @@ START REPLICA;
 ```
 `GET_SOURCE_PUBLIC_KEY=1` lets the `caching_sha2_password` login work without TLS. Prefer `SOURCE_SSL=1` on untrusted networks. The replica threads must be stopped (`STOP REPLICA;`) when you run `CHANGE REPLICATION SOURCE TO`.
 
-## 5. Check Status
+### 5. Check Status
 ```sql
 SHOW REPLICA STATUS\G
 ```
@@ -93,10 +93,10 @@ FIELD | GOOD VALUE
 `Source_Log_File`, `Read_Source_Log_Pos` | Position (informational with GTIDs)
 
 ---
-# MariaDB (GTID)
+## MariaDB (GTID)
 MariaDB GTIDs look like `domain-server_id-sequence` (for example `0-1-1234`) and are tracked per domain. They work differently from MySQL GTIDs, so `SOURCE_AUTO_POSITION` does not exist: you use `MASTER_USE_GTID`.
 
-## 1. Source
+### 1. Source
 `/etc/mysql/mariadb.conf.d/60-replication.cnf`:
 ```ini
 [mysqld]
@@ -113,7 +113,7 @@ GRANT REPLICATION SLAVE ON *.* TO 'repl'@'192.168.1.%';
 ```
 (On MariaDB 10.5.1+ the privilege is also named `REPLICATION REPLICA`, and `REPLICATION SLAVE` still works.)
 
-## 2. Replica
+### 2. Replica
 ```ini
 [mysqld]
 server_id         = 2
@@ -123,7 +123,7 @@ relay_log         = relay-bin
 log_slave_updates = ON
 ```
 
-## 3. Seed
+### 3. Seed
 ```bash
 # on the source
 mariadb-dump --all-databases --single-transaction --routines --triggers --master-data=2 --gtid > seed.sql
@@ -132,7 +132,7 @@ mariadb < seed.sql
 ```
 The dump comment holds the GTID, or on the replica `SELECT @@gtid_slave_pos;`. Set it before starting: `SET GLOBAL gtid_slave_pos = '0-1-1234';`.
 
-## 4. Connect
+### 4. Connect
 ```sql
 CHANGE MASTER TO
   MASTER_HOST='<SOURCE-HOST>',
@@ -143,7 +143,7 @@ START SLAVE;
 ```
 `MASTER_USE_GTID` values: `slave_pos` (the replica's own position, normal), `current_pos` (use after promotion, so the replica's own writes are accounted for), `no` (classic file and position).
 
-## 5. Check Status
+### 5. Check Status
 ```sql
 SHOW REPLICA STATUS\G      -- same output as SHOW SLAVE STATUS
 ```
@@ -222,7 +222,7 @@ volumes:
   source-data:
   replica-data:
 ```
-Then run the `CREATE USER` on the source and the `CHANGE REPLICATION SOURCE TO` on the replica with `SOURCE_HOST='mysql-source'`. See [[docker-compose]] and [[docker]].
+Then run the `CREATE USER` on the source and the `CHANGE REPLICATION SOURCE TO` on the replica with `SOURCE_HOST='mysql-source'`. See [Docker-Compose](../docker/docker-compose.md) and [Docker](../docker/docker.md).
 
 ## Useful Commands
 COMMAND | DESCRIPTION

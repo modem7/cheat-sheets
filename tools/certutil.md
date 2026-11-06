@@ -1,5 +1,5 @@
 # Certutil
-`certutil` is a Windows command-line tool for managing certificates and certificate stores. Run from an elevated prompt for machine-wide changes. For cross-platform work see [[openssl]], and for background see [[tls]] and [[ssl-certs]].
+`certutil` is a Windows command-line tool for managing certificates and certificate stores. Run from an elevated prompt for machine-wide changes. For cross-platform work see [OpenSSL](openssl.md), and for background see [TLS (Transport Layer Security)](../networking/tls.md) and [SSL Certificates Cheat-Sheet](../misc/ssl-certs.md).
 
 ## Trusted Root Store
 COMMAND | DESCRIPTION
@@ -50,4 +50,4 @@ Get-ChildItem Cert:\LocalMachine\Root | Select Subject, Thumbprint, NotAfter
 Get-ChildItem Cert:\LocalMachine\My | Where NotAfter -lt (Get-Date).AddDays(30)
 Remove-Item Cert:\LocalMachine\Root\<THUMBPRINT>
 ```
-See [[powershell]].
+See [PowerShell Cheat-Sheet](../windows/powershell.md).

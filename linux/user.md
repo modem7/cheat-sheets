@@ -1,5 +1,5 @@
 # User Management
-Create, change and remove users and groups, set up sudo and SSH keys, and inspect logins. Debian/Ubuntu `adduser` is a friendlier wrapper around the lower-level `useradd` found on every distribution. See also [[linux]], [[openssh]] and [[linuxbasics]].
+Create, change and remove users and groups, set up sudo and SSH keys, and inspect logins. Debian/Ubuntu `adduser` is a friendlier wrapper around the lower-level `useradd` found on every distribution. See also [Linux](linux.md), [OpenSSH Cheat-Sheet](../tools/openssh.md) and [Linux Basics](linuxbasics.md).
 
 > **Verification:** commands follow the man pages. No command was executed. Always keep a second root session open when changing sudo or SSH settings.
 
@@ -25,7 +25,7 @@ COMMAND | DESCRIPTION
 `sudo deluser <USER> <GROUP>` | Remove a user from a group (Debian)
 `sudo gpasswd -d <USER> <GROUP>` | Remove a user from a group (any distro)
 
-New group membership applies at the next login. Use `newgrp <GROUP>` or log out and in. For Docker see [[docker]].
+New group membership applies at the next login. Use `newgrp <GROUP>` or log out and in. For Docker see [Docker](../docker/docker.md).
 
 ## Groups
 COMMAND | DESCRIPTION
@@ -85,7 +85,7 @@ echo '<PUBLIC-KEY>' | sudo tee -a /home/<USER>/.ssh/authorized_keys
 sudo chown <USER>:<USER> /home/<USER>/.ssh/authorized_keys
 sudo chmod 600 /home/<USER>/.ssh/authorized_keys
 ```
-Or, from the client: `ssh-copy-id -i ~/.ssh/id_ed25519.pub <USER>@<HOST>`. Hardening the daemon (`PasswordAuthentication no`, `PermitRootLogin no`) is covered in [[openssh]].
+Or, from the client: `ssh-copy-id -i ~/.ssh/id_ed25519.pub <USER>@<HOST>`. Hardening the daemon (`PasswordAuthentication no`, `PermitRootLogin no`) is covered in [OpenSSH Cheat-Sheet](../tools/openssh.md).
 
 ## Files and Defaults
 PATH | DESCRIPTION
@@ -96,7 +96,7 @@ PATH | DESCRIPTION
 `/etc/sudoers`, `/etc/sudoers.d/` | sudo policy
 `/etc/login.defs` | Defaults: UID range, password ageing, `UMASK`
 `/etc/skel/` | Files copied into new home directories
-`/etc/subuid`, `/etc/subgid` | Sub-UID ranges (rootless containers, see [[docker]])
+`/etc/subuid`, `/etc/subgid` | Sub-UID ranges (rootless containers, see [Docker](../docker/docker.md))
 `/etc/security/limits.conf` | Per-user resource limits
 
 `sudo vipw` and `sudo vigr` edit `passwd` and `group` with locking.

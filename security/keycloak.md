@@ -1,5 +1,5 @@
 # Keycloak
-Keycloak is an open source identity and access management server (CNCF project) providing SSO, OIDC, OAuth2, SAML, user federation (LDAP/AD), social login and fine-grained authorisation. It is heavier than [[authentik]] but very widely supported. Users and config live in realms.
+Keycloak is an open source identity and access management server (CNCF project) providing SSO, OIDC, OAuth2, SAML, user federation (LDAP/AD), social login and fine-grained authorisation. It is heavier than [authentik](authentik.md) but very widely supported. Users and config live in realms.
 
 Documentation: [Keycloak Guides](https://www.keycloak.org/guides) · [Running in a container](https://www.keycloak.org/server/containers)
 
@@ -14,7 +14,7 @@ docker run --rm -p 8080:8080 \
 Admin console: `http://localhost:8080`. (Releases before 26 used `KEYCLOAK_ADMIN` / `KEYCLOAK_ADMIN_PASSWORD`.)
 
 ## Production Compose with PostgreSQL
-Behind a TLS-terminating reverse proxy ([[traefik]], [[nginx]]):
+Behind a TLS-terminating reverse proxy ([Traefik](../apps/traefik.md), [Nginx](../apps/nginx.md)):
 ```yaml
 services:
   keycloak:
@@ -53,7 +53,7 @@ services:
 volumes:
   kc-db:
 ```
-The bootstrap admin is temporary: log in, create a permanent admin user and delete it. See [[docker-compose]] and [[postgres]].
+The bootstrap admin is temporary: log in, create a permanent admin user and delete it. See [Docker-Compose](../docker/docker-compose.md) and [PostgreSQL Cheat-Sheet](../databases/postgres.md).
 
 ### Important Settings
 OPTION / ENV | DESCRIPTION
@@ -65,7 +65,7 @@ OPTION / ENV | DESCRIPTION
 `KC_PROXY_HEADERS` | `xforwarded` or `forwarded`, to trust proxy headers (replaces the deprecated `KC_PROXY`)
 `KC_HTTP_ENABLED` | Allow plain HTTP (needed behind a TLS-terminating proxy)
 `KC_DB` / `KC_DB_URL` | Database vendor and JDBC URL
-`KC_HEALTH_ENABLED` / `KC_METRICS_ENABLED` | Health and Prometheus endpoints, see [[prometheus]]
+`KC_HEALTH_ENABLED` / `KC_METRICS_ENABLED` | Health and Prometheus endpoints, see [Prometheus](../apps/prometheus.md)
 `KC_LOG_LEVEL` | `info`, `debug`, ...
 
 ## Create a Realm and OIDC Client
@@ -92,7 +92,7 @@ Test a token with a client-credentials client:
 curl -s -X POST https://sso.example.com/realms/<REALM>/protocol/openid-connect/token \
   -d grant_type=client_credentials -d client_id=<CLIENT_ID> -d client_secret=<CLIENT_SECRET> | jq .access_token
 ```
-Decode and inspect JWTs with [[jq]] (base64-decode the middle part).
+Decode and inspect JWTs with [jq](../tools/jq.md) (base64-decode the middle part).
 
 ## kcadm.sh (admin CLI)
 Inside the container it lives at `/opt/keycloak/bin/kcadm.sh`.

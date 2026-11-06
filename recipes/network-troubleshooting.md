@@ -43,7 +43,7 @@ Reading `mtr`: loss that **continues to the last hop** is real. Loss at one midd
 getent hosts app.example.com
 dig +short app.example.com
 ```
-If the IP works and the name does not, follow [[dns-troubleshooting]].
+If the IP works and the name does not, follow [DNS Troubleshooting](dns-troubleshooting.md).
 
 ### 5. Port and service
 ```bash
@@ -62,7 +62,7 @@ Timeout | Packets dropped by a firewall, security group, wrong route or the host
 sudo ss -tulpn                    # listening TCP and UDP sockets with process
 sudo ss -tn state established '( sport = :443 )'
 ```
-A service bound to `127.0.0.1:8080` is not reachable from other hosts; it must listen on `0.0.0.0` or the LAN address. Containers: check the published ports with `docker ps` ([[docker-networking]]).
+A service bound to `127.0.0.1:8080` is not reachable from other hosts; it must listen on `0.0.0.0` or the LAN address. Containers: check the published ports with `docker ps` ([Docker Networking](../docker/docker-networking.md)).
 
 ### 7. Firewall
 ```bash
@@ -70,7 +70,7 @@ sudo ufw status verbose
 sudo iptables -S                  # or: sudo nft list ruleset
 sudo iptables -L -n -v | head -50 # packet counters show which rule is matching
 ```
-Also check the router, cloud security groups and the destination's own firewall ([[ufw]], [[iptables]]). Docker publishes ports with its own rules that UFW does not control.
+Also check the router, cloud security groups and the destination's own firewall ([UFW (uncomplicated firewall)](../linux/ufw.md), [IPTables](../linux/iptables.md)). Docker publishes ports with its own rules that UFW does not control.
 
 ### 8. Watch the packets
 Capture on the server while the client tries to connect:
@@ -86,14 +86,14 @@ No packets at all | They never arrive: routing, upstream firewall or NAT
 `SYN` in, no `SYN-ACK` out | Local firewall drops it, or nothing listens
 `SYN` in, `RST` out | Port closed
 `SYN, SYN-ACK`, then no `ACK` | Return path or asymmetric routing problem
-Large transfers stall, small ones work | MTU problem: test `ping -M do -s 1472 198.51.100.10` and lower the size until it passes (typical with VPNs, see [[wireguard-remote-access]])
+Large transfers stall, small ones work | MTU problem: test `ping -M do -s 1472 198.51.100.10` and lower the size until it passes (typical with VPNs, see [WireGuard Remote Access](wireguard-remote-access.md))
 
 ### 9. The application layer
 ```bash
 curl -v https://app.example.com/
 curl -sS -o /dev/null -w 'dns %{time_namelookup} connect %{time_connect} tls %{time_appconnect} first-byte %{time_starttransfer} total %{time_total}\n' https://app.example.com/
 ```
-Certificate errors: [[tls-troubleshooting]]. HTTP status codes: [[http-status-codes]].
+Certificate errors: [TLS Troubleshooting](tls-troubleshooting.md). HTTP status codes: [HTTP Status Codes](../misc/http-status-codes.md).
 
 ## Verify
 ```bash
@@ -107,7 +107,8 @@ Then repeat from the original failing client, not only from where you debugged.
 Everything above is read-only apart from `tcpdump`. Delete capture files (`rm /tmp/cap.pcap`) because they can contain sensitive traffic. If you changed a firewall rule while testing, remove it (`sudo ufw delete <NUMBER>`) and confirm with `sudo ufw status numbered`.
 
 ## Related Sheets
-- [[tcp-vs-udp]] · [[linux]] · [[linuxbasics]] · [[iptables]] · [[ufw]]
-- [[nmap]] · [[curl]] · [[http-status-codes]]
-- [[docker-networking]] · [[proxmox-networking]] · [[kubernetes-dns]]
-- [[dns-troubleshooting]] · [[tls-troubleshooting]] · [[wireguard-remote-access]]
+- [TCP vs UDP](../networking/tcp-vs-udp.md) · [Linux](../linux/linux.md) · [Linux Basics](../linux/linuxbasics.md) · [IPTables](../linux/iptables.md) · [UFW (uncomplicated firewall)](../linux/ufw.md)
+- [NMap](../tools/nmap.md) · [curl](../tools/curl.md) · [HTTP Status Codes](../misc/http-status-codes.md)
+- [Docker Networking](../docker/docker-networking.md) · [Proxmox Networking](../proxmox/proxmox-networking.md) · [Kubernetes DNS](../kubernetes/kubernetes-dns.md)
+- [DNS Troubleshooting](dns-troubleshooting.md) · [TLS Troubleshooting](tls-troubleshooting.md) · [WireGuard Remote Access](wireguard-remote-access.md)
+- [VLANs](../homelab/vlans.md) · [Homelab](../homelab/homelab.md) · [CrowdSec](../security/crowdsec.md) · [Bash Recipes](../scripting/bash-recipes.md)

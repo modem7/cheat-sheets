@@ -7,32 +7,32 @@ Overview of a typical self-hosted homelab and network-services stack, with a sug
 ## Sheets in This Section
 SHEET | USE IT FOR
 ---|---
-[[vlans]] | Segmenting the network, trunk/access ports, Proxmox VLAN-aware bridges, inter-VLAN firewall rules, mDNS reflection
-[[pihole]] | Network-wide ad/tracker blocking and local DNS records (v6)
-[[adguard-home]] | Alternative DNS filter with built-in DoH/DoT/DoQ and per-client settings
-[[unbound]] | Recursive, validating resolver behind Pi-hole or AdGuard; local zones
-[[dnsmasq-dhcp]] | DHCP ranges, static leases, local DNS and DHCP relay
-[[reverse-proxy-patterns]] | Traefik vs Nginx vs Caddy, wildcard certificates by DNS-01, split-horizon DNS, internal-only services
-[[wake-on-lan]] | Powering machines on remotely
-[[nut-ups]] | UPS monitoring and clean shutdown
+[VLANs](vlans.md) | Segmenting the network, trunk/access ports, Proxmox VLAN-aware bridges, inter-VLAN firewall rules, mDNS reflection
+[Pi-hole](pihole.md) | Network-wide ad/tracker blocking and local DNS records (v6)
+[AdGuard Home](adguard-home.md) | Alternative DNS filter with built-in DoH/DoT/DoQ and per-client settings
+[Unbound](unbound.md) | Recursive, validating resolver behind Pi-hole or AdGuard; local zones
+[dnsmasq DHCP and DNS](dnsmasq-dhcp.md) | DHCP ranges, static leases, local DNS and DHCP relay
+[Reverse Proxy Patterns](reverse-proxy-patterns.md) | Traefik vs Nginx vs Caddy, wildcard certificates by DNS-01, split-horizon DNS, internal-only services
+[Wake-on-LAN](wake-on-lan.md) | Powering machines on remotely
+[NUT (Network UPS Tools)](nut-ups.md) | UPS monitoring and clean shutdown
 
-Related sheets elsewhere: [[proxmox-overview]], [[proxmox-networking]], [[proxmox-firewall]], [[docker-networking]], [[docker-compose]], [[tailscale]], [[wireguard]], [[vpn]], [[traefik]], [[nginx]], [[cert-manager]], [[ufw]], [[iptables]], [[dns-record-types]], [[tls]], [[prometheus]], [[grafana]].
+Related sheets elsewhere: [Proxmox VE Overview and Install](../proxmox/proxmox-overview.md), [Proxmox Networking](../proxmox/proxmox-networking.md), [Proxmox Firewall](../proxmox/proxmox-firewall.md), [Docker Networking](../docker/docker-networking.md), [Docker-Compose](../docker/docker-compose.md), [Tailscale](../apps/tailscale.md), [WireGuard](../apps/wireguard.md), [VPN (Virtual Private Network)](../networking/vpn.md), [Traefik](../apps/traefik.md), [Nginx](../apps/nginx.md), [Cert-Manager](../apps/cert-manager.md), [UFW (uncomplicated firewall)](../linux/ufw.md), [IPTables](../linux/iptables.md), [DNS Record Types](../networking/dns-record-types.md), [TLS (Transport Layer Security)](../networking/tls.md), [Prometheus](../apps/prometheus.md), [Grafana](../apps/grafana.md).
 
 ---
 ## Suggested Service Map
 LAYER | SERVICE | RUNS ON | NOTES
 ---|---|---|---
-Gateway | Router/firewall (OPNsense, UniFi, OpenWrt) | Dedicated box | Owns VLAN gateways, inter-VLAN rules, WAN; see [[vlans]]
-DHCP | Router DHCP, or dnsmasq / Kea | Gateway or a small server | One per VLAN; relay if central; see [[dnsmasq-dhcp]]
-DNS filter | Pi-hole or AdGuard Home | Two small instances (LXC/VM/Pi) | Give two resolvers for redundancy; see [[pihole]], [[adguard-home]]
-DNS resolver | Unbound | Next to each filter | Recursive and DNSSEC; see [[unbound]]
-Reverse proxy | Traefik / Caddy / Nginx | Docker host or LXC | Wildcard certificate via DNS-01; see [[reverse-proxy-patterns]]
-Remote access | Tailscale or WireGuard | Gateway or a subnet router | See [[tailscale]], [[wireguard]]
-Virtualisation | Proxmox cluster | 1-3 nodes | See [[proxmox-overview]], [[proxmox-networking]]
-Containers | Docker/Compose | VM or LXC on Proxmox | See [[docker-compose]]
-Monitoring | Prometheus, Grafana, NUT exporter | Docker host | See [[prometheus]], [[grafana]], [[nut-ups]]
-Power | UPS with NUT | Node cabled to UPS | Clients shut down first; see [[nut-ups]]
-Wake | Wake-on-LAN | Gateway or helper host | See [[wake-on-lan]]
+Gateway | Router/firewall (OPNsense, UniFi, OpenWrt) | Dedicated box | Owns VLAN gateways, inter-VLAN rules, WAN; see [VLANs](vlans.md)
+DHCP | Router DHCP, or dnsmasq / Kea | Gateway or a small server | One per VLAN; relay if central; see [dnsmasq DHCP and DNS](dnsmasq-dhcp.md)
+DNS filter | Pi-hole or AdGuard Home | Two small instances (LXC/VM/Pi) | Give two resolvers for redundancy; see [Pi-hole](pihole.md), [AdGuard Home](adguard-home.md)
+DNS resolver | Unbound | Next to each filter | Recursive and DNSSEC; see [Unbound](unbound.md)
+Reverse proxy | Traefik / Caddy / Nginx | Docker host or LXC | Wildcard certificate via DNS-01; see [Reverse Proxy Patterns](reverse-proxy-patterns.md)
+Remote access | Tailscale or WireGuard | Gateway or a subnet router | See [Tailscale](../apps/tailscale.md), [WireGuard](../apps/wireguard.md)
+Virtualisation | Proxmox cluster | 1-3 nodes | See [Proxmox VE Overview and Install](../proxmox/proxmox-overview.md), [Proxmox Networking](../proxmox/proxmox-networking.md)
+Containers | Docker/Compose | VM or LXC on Proxmox | See [Docker-Compose](../docker/docker-compose.md)
+Monitoring | Prometheus, Grafana, NUT exporter | Docker host | See [Prometheus](../apps/prometheus.md), [Grafana](../apps/grafana.md), [NUT (Network UPS Tools)](nut-ups.md)
+Power | UPS with NUT | Node cabled to UPS | Clients shut down first; see [NUT (Network UPS Tools)](nut-ups.md)
+Wake | Wake-on-LAN | Gateway or helper host | See [Wake-on-LAN](wake-on-lan.md)
 
 ---
 ## Example Addressing Plan
@@ -50,23 +50,23 @@ Conventions: gateway is `.1`, infrastructure sits below `.100`, DHCP above, and 
 
 ---
 ## Build Order
-1. **Network:** router, VLANs and a management network ([[vlans]]). Keep a console route in case of lockout.
-2. **DHCP and DNS:** pick the DHCP server, then two DNS filters with Unbound ([[pihole]], [[unbound]]). Hand out both resolvers through DHCP.
-3. **Hypervisor:** Proxmox with VLAN-aware bridge ([[proxmox-networking]]), storage and backups ([[proxmox-backup]]).
-4. **Reverse proxy and certificates:** wildcard certificate, internal DNS record pointing at the proxy ([[reverse-proxy-patterns]]).
-5. **Remote access:** VPN to the LAN, with the internal resolver pushed to clients ([[tailscale]], [[wireguard]]).
-6. **Power and monitoring:** UPS and NUT, then metrics and alerts ([[nut-ups]], [[prometheus]]).
-7. **Services:** deploy apps as Compose stacks behind the proxy ([[docker-compose]]).
+1. **Network:** router, VLANs and a management network ([VLANs](vlans.md)). Keep a console route in case of lockout.
+2. **DHCP and DNS:** pick the DHCP server, then two DNS filters with Unbound ([Pi-hole](pihole.md), [Unbound](unbound.md)). Hand out both resolvers through DHCP.
+3. **Hypervisor:** Proxmox with VLAN-aware bridge ([Proxmox Networking](../proxmox/proxmox-networking.md)), storage and backups ([Proxmox Backup and Restore](../proxmox/proxmox-backup.md)).
+4. **Reverse proxy and certificates:** wildcard certificate, internal DNS record pointing at the proxy ([Reverse Proxy Patterns](reverse-proxy-patterns.md)).
+5. **Remote access:** VPN to the LAN, with the internal resolver pushed to clients ([Tailscale](../apps/tailscale.md), [WireGuard](../apps/wireguard.md)).
+6. **Power and monitoring:** UPS and NUT, then metrics and alerts ([NUT (Network UPS Tools)](nut-ups.md), [Prometheus](../apps/prometheus.md)).
+7. **Services:** deploy apps as Compose stacks behind the proxy ([Docker-Compose](../docker/docker-compose.md)).
 
 ---
 ## Design Rules
 - **Two DNS servers.** If the only resolver is down, nothing works. Run two, on different hosts, and give both through DHCP.
-- **DNS is not a firewall.** Clients can use DoH or hardcoded resolvers. Enforce at the gateway: allow port 53 only to your resolvers, and block or redirect the rest ([[vlans]]).
+- **DNS is not a firewall.** Clients can use DoH or hardcoded resolvers. Enforce at the gateway: allow port 53 only to your resolvers, and block or redirect the rest ([VLANs](vlans.md)).
 - **One DHCP server per VLAN.** Rogue servers are a common cause of intermittent failure.
 - **Management on its own VLAN.** Keep hypervisors, switches and IPMI off the user networks.
 - **Do not expose services directly.** Use DNS-01 certificates for internal names, keep 80/443 closed to the internet unless a service is public, and reach the rest over a VPN.
-- **Have a boot-order plan.** DNS and DHCP must start before things that need them; after a power outage the UPS, Proxmox start order and [[wake-on-lan]] decide how smoothly it comes back.
-- **Back up configs.** Pi-hole Teleporter, AdGuard `AdGuardHome.yaml`, `/etc/nut`, router exports, and Compose directories belong in git (without secrets) or backups ([[proxmox-backup]]).
+- **Have a boot-order plan.** DNS and DHCP must start before things that need them; after a power outage the UPS, Proxmox start order and [Wake-on-LAN](wake-on-lan.md) decide how smoothly it comes back.
+- **Back up configs.** Pi-hole Teleporter, AdGuard `AdGuardHome.yaml`, `/etc/nut`, router exports, and Compose directories belong in git (without secrets) or backups ([Proxmox Backup and Restore](../proxmox/proxmox-backup.md)).
 - **Document the IPs.** A table like the one above, kept next to the Compose files, saves hours.
 
 ---

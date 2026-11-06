@@ -138,7 +138,7 @@ SYMPTOM | FIX
 Stale or odd install | `rm -rf node_modules` then `npm ci`
 Wrong Node version | `node -v`, then `nvm use` / `fnm use`; check `.nvmrc`
 Behind a proxy or private registry | `npm config set registry <URL>` or a project `.npmrc`
-Port already in use | `ss -ltnp \| grep <PORT>` ([[linuxbasics]])
+Port already in use | `ss -ltnp \| grep <PORT>` ([Linux Basics](../linux/linuxbasics.md))
 
 Never commit an `.npmrc` that holds an auth token; use environment variables (`//registry.npmjs.org/:_authToken=${NPM_TOKEN}`).
 

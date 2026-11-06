@@ -1,5 +1,5 @@
 # Ansible Cheat-Sheet
-Ansible is agentless automation over SSH ([[openssh]]). Playbooks have their own sheet: [[ansible-playbook]].
+Ansible is agentless automation over SSH ([OpenSSH Cheat-Sheet](openssh.md)). Playbooks have their own sheet: [Ansible-Playbook Cheat-Sheet](ansible-playbook.md).
 
 Documentation: [Ansible Docs](https://docs.ansible.com/)
 

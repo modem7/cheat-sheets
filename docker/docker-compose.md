@@ -1,5 +1,5 @@
 # Docker-Compose
-Compose defines and runs multi-container applications from a single YAML file (`compose.yaml`). It ships with Docker as the `docker compose` plugin (the old standalone `docker-compose` is end-of-life). See [[docker]], [[docker-file]] and [[docker-networking]].
+Compose defines and runs multi-container applications from a single YAML file (`compose.yaml`). It ships with Docker as the `docker compose` plugin (the old standalone `docker-compose` is end-of-life). See [Docker](docker.md), [Dockerfile](docker-file.md) and [Docker Networking](docker-networking.md).
 
 Documentation: [Compose file reference](https://docs.docker.com/reference/compose-file/)
 

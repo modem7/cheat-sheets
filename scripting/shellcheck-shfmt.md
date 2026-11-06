@@ -1,5 +1,5 @@
 # ShellCheck and shfmt
-`shellcheck` is a static analyser that finds quoting bugs, portability problems and common mistakes in shell scripts; `shfmt` is a formatter for the same scripts. Run both locally, in [[pre-commit]] and in CI. Language reference: [[bash]]; patterns that already pass: [[bash-recipes]].
+`shellcheck` is a static analyser that finds quoting bugs, portability problems and common mistakes in shell scripts; `shfmt` is a formatter for the same scripts. Run both locally, in [pre-commit](pre-commit.md) and in CI. Language reference: [Bash](bash.md); patterns that already pass: [Bash Recipes](bash-recipes.md).
 
 Documentation: [ShellCheck wiki](https://www.shellcheck.net/wiki/) (each code has a page at `https://www.shellcheck.net/wiki/SC2086`), [shfmt](https://github.com/mvdan/sh#shfmt)
 
@@ -150,4 +150,4 @@ steps:
     commands:
       - find . -name '*.sh' -not -path './.git/*' -print0 | xargs -0 -r shellcheck -x
 ```
-Local gate before every commit: [[pre-commit]] with the `shellcheck-py` and `shfmt` hooks.
+Local gate before every commit: [pre-commit](pre-commit.md) with the `shellcheck-py` and `shfmt` hooks.

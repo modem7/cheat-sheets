@@ -1,5 +1,5 @@
 # authentik
-authentik is a self-hosted identity provider: SSO via OIDC, OAuth2, SAML, LDAP and RADIUS, plus a forward-auth proxy outpost for apps with no native SSO. It is lighter than [[keycloak]] and has a flow/stage system for customising login. Since release 2025.10 it needs only PostgreSQL (Redis was removed).
+authentik is a self-hosted identity provider: SSO via OIDC, OAuth2, SAML, LDAP and RADIUS, plus a forward-auth proxy outpost for apps with no native SSO. It is lighter than [Keycloak](keycloak.md) and has a flow/stage system for customising login. Since release 2025.10 it needs only PostgreSQL (Redis was removed).
 
 Documentation: [authentik Docs](https://docs.goauthentik.io/) · [Docker Compose install](https://docs.goauthentik.io/install-config/install/docker-compose/)
 
@@ -17,7 +17,7 @@ docker compose up -d
 ```
 The stack is three services: `postgresql`, `server` (UI/API, ports 9000 and 9443) and `worker` (background tasks). Then browse to `http://<HOST>:9000/if/flow/initial-setup/` to set the `akadmin` password.
 
-Never change `AUTHENTIK_SECRET_KEY` after first start: it encrypts stored data. Back it up with the database ([[bitwarden]]). See [[docker-compose]].
+Never change `AUTHENTIK_SECRET_KEY` after first start: it encrypts stored data. Back it up with the database ([Bitwarden Cheat-Sheet](../tools/bitwarden.md)). See [Docker-Compose](../docker/docker-compose.md).
 
 ### Useful .env settings
 VARIABLE | DESCRIPTION
@@ -37,7 +37,7 @@ COMMAND | DESCRIPTION
 `docker compose exec server ak create_recovery_key 10 akadmin` | One-time recovery link (valid 10 minutes) for a user
 `docker compose exec server ak changepassword akadmin` | Reset a password from the CLI
 `docker compose exec server ak --help` | List management commands
-`docker compose exec postgresql pg_dump -U authentik authentik > authentik.sql` | Database backup, see [[postgres]]
+`docker compose exec postgresql pg_dump -U authentik authentik > authentik.sql` | Database backup, see [PostgreSQL Cheat-Sheet](../databases/postgres.md)
 `docker compose pull && docker compose up -d --remove-orphans` | Upgrade (read the release notes first; `--remove-orphans` cleans up the removed Redis container)
 
 ## Add an OIDC Application
@@ -64,7 +64,7 @@ Check the discovery document:
 curl -s https://auth.example.com/application/o/<SLUG>/.well-known/openid-configuration | jq .issuer
 ```
 
-### Example: Grafana ([[grafana]])
+### Example: [Grafana](../apps/grafana.md)
 ```ini
 [auth.generic_oauth]
 enabled = true
@@ -80,7 +80,7 @@ role_attribute_path = contains(groups[*], 'Grafana Admins') && 'Admin' || 'Viewe
 ```
 
 ## Forward Auth (apps without SSO)
-Create a **Proxy provider** in *Forward auth (single application)* mode and attach it to an outpost (the embedded outpost works). Then in [[traefik]]:
+Create a **Proxy provider** in *Forward auth (single application)* mode and attach it to an outpost (the embedded outpost works). Then in [Traefik](../apps/traefik.md):
 ```yaml
 http:
   middlewares:
@@ -93,7 +93,7 @@ http:
           - X-authentik-groups
           - X-authentik-email
 ```
-For [[nginx]] use `auth_request` against the same outpost path with the nginx variant of the snippet from the authentik docs.
+For [Nginx](../apps/nginx.md) use `auth_request` against the same outpost path with the nginx variant of the snippet from the authentik docs.
 
 ## Troubleshooting
 SYMPTOM | FIX

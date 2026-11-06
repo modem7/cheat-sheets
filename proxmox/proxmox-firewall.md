@@ -5,7 +5,7 @@ Documentation: [Proxmox VE Firewall](https://pve.proxmox.com/pve-docs/chapter-pv
 
 > **Verification:** config file locations, the port list, and `pve-firewall status|start|stop|localnet` were checked against the docs. The docs state that traffic is blocked by default once enabled (with an exception for GUI and SSH from the local network), but do not give exact default policy values, so the "input DROP, output ACCEPT" detail below is from experience and unverified. `pve-firewall compile` and `simulate` are **not** documented for the legacy iptables firewall (`compile` appears for the newer nftables `proxmox-firewall`), so they are not listed. No command was executed.
 
-See also: [[proxmox-networking]] · [[proxmox-access-api]] · [[proxmox-cluster-ha]] · [[ufw]] · [[iptables]]
+See also: [Proxmox Networking](proxmox-networking.md) · [Proxmox Users, Permissions, API Tokens and pvesh](proxmox-access-api.md) · [Proxmox Clustering and HA](proxmox-cluster-ha.md) · [UFW (uncomplicated firewall)](../linux/ufw.md) · [IPTables](../linux/iptables.md)
 
 ---
 ## Enable Safely
@@ -19,7 +19,7 @@ COMMAND | DESCRIPTION
 `pve-firewall start` / `pve-firewall stop` | Start or stop the service (stop is useful if you locked yourself out)
 `pve-firewall localnet` | Show the detected local network
 `systemctl status pve-firewall` | Service health
-`iptables-save \| less` | See the generated rules (legacy firewall, see [[iptables]])
+`iptables-save \| less` | See the generated rules (legacy firewall, see [IPTables](../linux/iptables.md))
 
 ---
 ## Config Files
@@ -52,7 +52,7 @@ UDP 5405-5412 | Corosync cluster traffic
 TCP 60000-60050 | Live migration
 TCP 5900-5999 | VNC console (via the proxy, normally not needed externally)
 
-Keep the cluster and migration networks on their own subnet and allow them with IP sets ([[proxmox-cluster-ha]]).
+Keep the cluster and migration networks on their own subnet and allow them with IP sets ([Proxmox Clustering and HA](proxmox-cluster-ha.md)).
 
 ---
 ## IP Sets, Aliases and Security Groups
@@ -68,4 +68,4 @@ Keep the cluster and migration networks on their own subnet and allow them with 
 4. Guests: enable per guest, add only the inbound ports needed.
 5. Check logs: `journalctl -u pve-firewall` and the firewall log in the GUI.
 
-If you lock yourself out, use the console, run `pve-firewall stop`, fix the rules in `/etc/pve/firewall/cluster.fw` or the node file, then `pve-firewall start`. On Debian-based guests, a host firewall inside the guest can be done with [[ufw]].
+If you lock yourself out, use the console, run `pve-firewall stop`, fix the rules in `/etc/pve/firewall/cluster.fw` or the node file, then `pve-firewall start`. On Debian-based guests, a host firewall inside the guest can be done with [UFW (uncomplicated firewall)](../linux/ufw.md).

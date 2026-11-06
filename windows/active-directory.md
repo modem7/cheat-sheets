@@ -1,5 +1,5 @@
 # Active Directory
-Managing Active Directory Domain Services with the PowerShell `ActiveDirectory` module, plus the classic `dcdiag`, `repadmin` and `ntdsutil` tools for domain controller health. Run from a domain-joined machine with RSAT or on a domain controller, in an elevated PowerShell ([[powershell]]). Related: [[group-policy]], [[windows-dns-server]], [[windows-networking]], [[powershell-remote]].
+Managing Active Directory Domain Services with the PowerShell `ActiveDirectory` module, plus the classic `dcdiag`, `repadmin` and `ntdsutil` tools for domain controller health. Run from a domain-joined machine with RSAT or on a domain controller, in an elevated PowerShell ([PowerShell Cheat-Sheet](powershell.md)). Related: [Group Policy](group-policy.md), [Windows DNS Server](windows-dns-server.md), [Windows Networking](windows-networking.md), [PowerShell Remote Access](powershell-remote.md).
 
 Documentation: [ActiveDirectory module](https://learn.microsoft.com/en-us/powershell/module/activedirectory/)
 
@@ -203,7 +203,7 @@ $pdc = (Get-ADDomain).PDCEmulator
 Get-WinEvent -ComputerName $pdc -FilterHashtable @{LogName='Security'; Id=4740} -MaxEvents 20 |
   Select TimeCreated, @{n='User';e={$_.Properties[0].Value}}, @{n='Source';e={$_.Properties[1].Value}}
 ```
-More event queries in [[windows-troubleshooting]].
+More event queries in [Windows Troubleshooting](windows-troubleshooting.md).
 
 ## Backup and Recovery
 COMMAND | DESCRIPTION

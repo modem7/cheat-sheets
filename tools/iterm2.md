@@ -1,5 +1,5 @@
 # iTerm2
-macOS terminal replacement. A good companion is a multiplexer such as [[tmux]], and a prompt such as [[starship]].
+macOS terminal replacement. A good companion is a multiplexer such as [tmux](tmux.md), and a prompt such as [Starship Prompt](starship.md).
 
 Install: `brew install --cask iterm2`
 

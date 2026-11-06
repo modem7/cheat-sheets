@@ -3,7 +3,7 @@ Kubernetes (K8s) is an open source system for automating deployment, scaling and
 
 Documentation: [Kubernetes Docs](https://kubernetes.io/docs/)
 
-Related sheets: [[kubectl]], [[k3s]], [[k9s]], [[kind]], [[helm]], [[kubernetes-dns]], [[kubernetes-automation]]
+Related sheets: [Kubectl](kubectl.md), [K3S](k3s.md), [K9s](k9s.md), [Kind](kind.md), [Helm Cheat-Sheet](../tools/helm.md), [Kubernetes DNS](kubernetes-dns.md), [Kubernetes Automation](kubernetes-automation.md)
 
 ## Core Concepts
 OBJECT | DESCRIPTION
@@ -34,7 +34,7 @@ COMPONENT | ROLE
 Container runtime | containerd or CRI-O
 
 ## Everyday Commands
-See [[kubectl]] for the full list.
+See [Kubectl](kubectl.md) for the full list.
 
 COMMAND | DESCRIPTION
 ---|---

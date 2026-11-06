@@ -63,7 +63,7 @@ COMMAND | DESCRIPTION
 aptly serve                 # simple HTTP server on :8080, for testing
 aptly api serve -listen=:8081   # REST API
 ```
-In production publish to a directory and serve it with [[nginx]] (or any web server), and protect the API.
+In production publish to a directory and serve it with [Nginx](../apps/nginx.md) (or any web server), and protect the API.
 
 ## Client Setup
 ```bash

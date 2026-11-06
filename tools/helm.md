@@ -1,5 +1,5 @@
 # Helm Cheat-Sheet
-Helm is the package manager for Kubernetes ([[kubernetes]]). This sheet uses **Helm 3** syntax: there is no Tiller, release names are positional (no `--name`), and `helm delete` is `helm uninstall`.
+Helm is the package manager for [Kubernetes](../kubernetes/kubernetes.md). This sheet uses **Helm 3** syntax: there is no Tiller, release names are positional (no `--name`), and `helm delete` is `helm uninstall`.
 
 Documentation: [Helm Docs](https://helm.sh/docs/)
 

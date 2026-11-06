@@ -24,7 +24,7 @@ sudo /opt/kasm/bin/stop
 sudo cp <your_cert> /opt/kasm/current/certs/kasm_nginx.crt
 sudo cp <your_key> /opt/kasm/current/certs/kasm_nginx.key
 ```
-Use the full chain in the `.crt` file. See [[openssl]] for creating certificates.
+Use the full chain in the `.crt` file. See [OpenSSL](../tools/openssl.md) for creating certificates.
 
 3. Start the Kasm Services
 ```
@@ -33,7 +33,7 @@ sudo /opt/kasm/bin/start
 
 ---
 ## Custom Images
-Add a workspace under **Workspaces > Add Workspace** using a Docker image ([[docker]]).
+Add a workspace under **Workspaces > Add Workspace** using a Docker image ([Docker](../docker/docker.md)).
 
 Registry
 ```
@@ -66,7 +66,7 @@ Open a SQL shell:
 ```
 sudo docker exec -it kasm_db psql -U kasmapp -d kasm
 ```
-Back up before changing anything: `sudo docker exec kasm_db pg_dump -U kasmapp kasm > kasm-backup.sql` (see [[postgres]]).
+Back up before changing anything: `sudo docker exec kasm_db pg_dump -U kasmapp kasm > kasm-backup.sql` (see [PostgreSQL Cheat-Sheet](../databases/postgres.md)).
 
 ### Delete invalid users from user_groups table
 

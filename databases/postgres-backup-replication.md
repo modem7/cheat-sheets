@@ -1,11 +1,11 @@
 # PostgreSQL Backup and Replication
-Logical dumps with `pg_dump`, physical base backups, WAL archiving with point-in-time recovery (PITR), streaming replication and logical replication. Basic setup, users and psql are in [[postgres]].
+Logical dumps with `pg_dump`, physical base backups, WAL archiving with point-in-time recovery (PITR), streaming replication and logical replication. Basic setup, users and psql are in [PostgreSQL Cheat-Sheet](postgres.md).
 
 Documentation: [Backup and Restore](https://www.postgresql.org/docs/current/backup.html) · [Continuous archiving and PITR](https://www.postgresql.org/docs/current/continuous-archiving.html) · [High availability and replication](https://www.postgresql.org/docs/current/high-availability.html) · [Logical replication](https://www.postgresql.org/docs/current/logical-replication.html) · [pg_basebackup](https://www.postgresql.org/docs/current/app-pgbasebackup.html) · [pgBackRest](https://pgbackrest.org/)
 
 > **Verification:** the `pg_basebackup` flags (`-D`, `-F p`, `-X s`, `-P`, `-R`) were checked against the PostgreSQL docs (current is 18). **Not verified against the docs:** `archive_command`, recovery settings, replication slots, publication and subscription syntax, `pg_dump`/`pg_restore` parallel flags, and `pg_promote()` (they follow the documentation as known). No command was executed. Test every restore on a spare machine: a backup you have not restored is not a backup. Replace the `16` in paths with your major version.
 
-See also: [[postgres]] · [[docker]] · [[mysql-replication]] · [[systemd]] · [[ufw]] · [[linux]]
+See also: [PostgreSQL Cheat-Sheet](postgres.md) · [Docker](../docker/docker.md) · [MySQL and MariaDB Replication](mysql-replication.md) · [systemd](../linux/systemd.md) · [UFW (uncomplicated firewall)](../linux/ufw.md) · [Linux](../linux/linux.md)
 
 ---
 ## Choosing a Method
@@ -54,7 +54,7 @@ docker exec -i postgres pg_restore -U <USER> -d <DB> --clean --if-exists < db.du
 ```
 Do not add `-t` (a TTY) when redirecting binary output, it corrupts the dump. Restores need `-i` to read stdin.
 
-Use `~/.pgpass` (`HOST:PORT:DB:USER:PASSWORD`, mode `0600`) or `PGPASSFILE` for scripts, never passwords on the command line. A scheduled backup belongs in a [[systemd]] timer or cron.
+Use `~/.pgpass` (`HOST:PORT:DB:USER:PASSWORD`, mode `0600`) or `PGPASSFILE` for scripts, never passwords on the command line. A scheduled backup belongs in a [systemd](../linux/systemd.md) timer or cron.
 
 ---
 ## Base Backup (pg_basebackup)
@@ -97,7 +97,7 @@ archive_mode = on
 archive_command = 'test ! -f /mnt/wal_archive/%f && cp %p /mnt/wal_archive/%f'
 archive_timeout = 300
 ```
-`archive_mode` needs a restart; `archive_command` a reload. The command must return 0 only when the file is safely stored and must not overwrite existing files. `/mnt/wal_archive` should be on another disk or host ([[nfs]]). Check it works: `SELECT * FROM pg_stat_archiver;` and `SELECT pg_switch_wal();`.
+`archive_mode` needs a restart; `archive_command` a reload. The command must return 0 only when the file is safely stored and must not overwrite existing files. `/mnt/wal_archive` should be on another disk or host ([NFS](../linux/nfs.md)). Check it works: `SELECT * FROM pg_stat_archiver;` and `SELECT pg_switch_wal();`.
 
 Restore to a point in time:
 1. Stop PostgreSQL and move the damaged data directory away.

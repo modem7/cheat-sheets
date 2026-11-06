@@ -1,11 +1,11 @@
 # LVM
-The **Logical Volume Manager** adds a layer between disks and file systems. Physical volumes (PV) are pooled into volume groups (VG), and logical volumes (LV) are carved out of the pool. LVs can be grown online, snapshotted and moved between disks. Used by default on many Ubuntu server and RHEL installs, and by Proxmox ([[proxmox-storage]]).
+The **Logical Volume Manager** adds a layer between disks and file systems. Physical volumes (PV) are pooled into volume groups (VG), and logical volumes (LV) are carved out of the pool. LVs can be grown online, snapshotted and moved between disks. Used by default on many Ubuntu server and RHEL installs, and by Proxmox ([Proxmox Storage](../proxmox/proxmox-storage.md)).
 
 Documentation: [Red Hat LVM guide](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_logical_volumes/index) · `man lvm`, `man lvcreate`, `man lvextend`
 
 > **Verification:** commands follow the LVM man pages and the Red Hat guide. No command was executed. Test on a spare disk first. Resizing and shrinking can destroy data: back up before you start.
 
-See also: [[storage-and-filesystems]] · [[raid-mdadm]] · [[mount]] · [[linux]]
+See also: [Storage and Filesystems](storage-and-filesystems.md) · [RAID with mdadm](raid-mdadm.md) · [Mount](mount.md) · [Linux](linux.md)
 
 ---
 ## Concepts
@@ -142,7 +142,7 @@ COMMAND | DESCRIPTION
 `sudo lvextend --poolmetadatasize +1G vg_data/tpool` | Grow pool metadata
 `sudo lvchange -ay -K vg_data/lv_vm1_snap` | Activate a thin snapshot (they are skipped by default)
 
-A full thin pool freezes or corrupts the volumes. Do not over-provision without monitoring. Proxmox uses `local-lvm` as a thin pool ([[proxmox-storage]]).
+A full thin pool freezes or corrupts the volumes. Do not over-provision without monitoring. Proxmox uses `local-lvm` as a thin pool ([Proxmox Storage](../proxmox/proxmox-storage.md)).
 
 ---
 ## Rename, Remove, Repair
@@ -161,5 +161,5 @@ COMMAND | DESCRIPTION
 
 ## Notes
 - LVM metadata backups live in `/etc/lvm/backup` and `/etc/lvm/archive`. Copy them off the machine.
-- LVM is not redundancy. Use [[raid-mdadm]] underneath, or `--type raid1`, or ZFS or Btrfs for that.
+- LVM is not redundancy. Use [RAID with mdadm](raid-mdadm.md) underneath, or `--type raid1`, or ZFS or Btrfs for that.
 - Add `nofail` to non-root mounts so a missing disk does not drop boot to emergency mode.

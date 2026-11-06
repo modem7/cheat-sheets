@@ -1,11 +1,11 @@
 # Storage and Filesystems
-Partitioning, creating file systems, checking disk health and measuring disk speed on Linux. Mounting is covered in [[mount]]; volume management in [[lvm]] and software RAID in [[raid-mdadm]].
+Partitioning, creating file systems, checking disk health and measuring disk speed on Linux. Mounting is covered in [Mount](mount.md); volume management in [LVM](lvm.md) and software RAID in [RAID with mdadm](raid-mdadm.md).
 
 Documentation: [smartmontools](https://www.smartmontools.org/wiki/TocDoc) · [fio](https://fio.readthedocs.io/en/latest/fio_doc.html) · [Btrfs docs](https://btrfs.readthedocs.io/en/latest/)
 
 > **Verification:** commands follow the man pages and common practice. No command was executed. `mkfs`, `parted`, `wipefs` and `fio` write tests destroy data on the target. Check the device name with `lsblk` every time.
 
-See also: [[lvm]] · [[raid-mdadm]] · [[mount]] · [[nfs]] · [[performance-troubleshooting]] · [[linux]]
+See also: [LVM](lvm.md) · [RAID with mdadm](raid-mdadm.md) · [Mount](mount.md) · [NFS](nfs.md) · [Linux Performance Troubleshooting](performance-troubleshooting.md) · [Linux](linux.md)
 
 ---
 ## Identify Disks
@@ -56,7 +56,7 @@ Mount permanently with the UUID from `blkid`:
 ```
 UUID=<UUID>  /srv/data  ext4  defaults,nofail  0  2
 ```
-Test it with `sudo mount -a` before rebooting. Details in [[mount]].
+Test it with `sudo mount -a` before rebooting. Details in [Mount](mount.md).
 
 ---
 ## Choosing a File System
@@ -65,7 +65,7 @@ FS | GOOD FOR | NOTES
 ext4 | General purpose, root disks | Mature, can shrink and grow
 XFS | Large files, big arrays, RHEL default | Grow only, cannot shrink
 Btrfs | Snapshots, checksums, compression | Built-in RAID1 and RAID10 are fine; RAID5/6 is not recommended
-ZFS | Pools, snapshots, send/receive | Out of tree on Linux. See [[proxmox-storage]]
+ZFS | Pools, snapshots, send/receive | Out of tree on Linux. See [Proxmox Storage](../proxmox/proxmox-storage.md)
 FAT32 / exFAT | Removable media, EFI | No permissions or journaling
 
 ---
@@ -167,5 +167,5 @@ COMMAND | DESCRIPTION
 `sudo ncdu -x /` | Interactive usage browser
 `df -i` | Out of inodes with free space left? Many tiny files
 `sudo lsof +L1` | Deleted files still held open by a process
-`sudo journalctl --vacuum-size=500M` | Shrink the journal ([[systemd]])
+`sudo journalctl --vacuum-size=500M` | Shrink the journal ([systemd](systemd.md))
 `sudo fstrim -av` | Trim SSDs (a timer `fstrim.timer` normally does this weekly)

@@ -1,12 +1,12 @@
 # Kubernetes Automation
-Tools and patterns for managing Kubernetes ([[kubernetes]]) declaratively instead of by hand.
+Tools and patterns for managing [Kubernetes](kubernetes.md) declaratively instead of by hand.
 
 ## GitOps
 Keep manifests in Git and let a controller in the cluster apply them. Drift is corrected automatically.
 
 TOOL | DESCRIPTION
 ---|---
-Argo CD | See [[argocd]]. UI plus CRDs, syncs apps from Git or Helm
+Argo CD | See [Argo CD](../apps/argocd.md). UI plus CRDs, syncs apps from Git or Helm
 Flux | Controller toolkit. CLI-first, integrates with Helm and Kustomize
 
 ```bash
@@ -36,7 +36,7 @@ patches:
 ```
 
 ## Helm
-See [[helm]]. Use `helm upgrade --install --atomic` in pipelines.
+See [Helm Cheat-Sheet](../tools/helm.md). Use `helm upgrade --install --atomic` in pipelines.
 
 ## Validating Manifests Before Applying
 COMMAND | DESCRIPTION
@@ -46,7 +46,7 @@ COMMAND | DESCRIPTION
 `kubectl diff -f <FILE>` | Show what would change
 `kubeconform -strict -summary <DIR>` | Validate against the Kubernetes schemas
 `kube-linter lint <DIR>` | Best-practice lint
-`datree test <FILE>` | Policy check, see [[datree]]
+`datree test <FILE>` | Policy check, see [Datree](../tools/datree.md)
 
 ## Autoscaling
 COMMAND | DESCRIPTION

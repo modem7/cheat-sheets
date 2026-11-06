@@ -5,7 +5,7 @@ Documentation: [qm(1)](https://pve.proxmox.com/pve-docs/qm.1.html) · [pct(1)](h
 
 > **Verification:** all `qm` commands, including `qm disk import`, `qm disk move`, `qm disk resize`, `qm guest exec`, `qm showcmd` and `qm monitor`, were checked against the qm docs. The `pct` subcommands (`create`, `set`, `resize`, `snapshot`, `move-volume`, `fsck`, `migrate --restart`) were **not** verified against the docs and no command was executed. Run `pct help <SUBCOMMAND>` to confirm.
 
-See also: [[proxmox-overview]] · [[proxmox-storage]] · [[proxmox-cloud-init]] · [[proxmox-troubleshooting]]
+See also: [Proxmox VE Overview and Install](proxmox-overview.md) · [Proxmox Storage](proxmox-storage.md) · [Proxmox Cloud-Init Templates](proxmox-cloud-init.md) · [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md)
 
 ---
 ## qm: Virtual Machines
@@ -34,7 +34,7 @@ COMMAND | DESCRIPTION
 `qm terminal <VMID>` | Serial console (needs a serial port, `-serial0 socket`)
 `qm monitor <VMID>` | QEMU monitor
 `qm showcmd <VMID> --pretty` | Show the kvm command line
-`qm migrate <VMID> <TARGET> --online` | Live migrate in a cluster ([[proxmox-cluster-ha]])
+`qm migrate <VMID> <TARGET> --online` | Live migrate in a cluster ([Proxmox Clustering and HA](proxmox-cluster-ha.md))
 
 ### Guest agent
 COMMAND | DESCRIPTION
@@ -57,7 +57,7 @@ COMMAND | DESCRIPTION
 Grow in the GUI or with `qm disk resize <VMID> scsi0 +5G`. Then grow the partition and filesystem inside the guest (`growpart`, `resize2fs` or `xfs_growfs`).
 
 ### Shrink a disk (manual, risky)
-> Take a backup first ([[proxmox-backup]]). Proxmox cannot shrink disks. Shrink the filesystem and partition inside the guest first, otherwise data is lost.
+> Take a backup first ([Proxmox Backup and Restore](proxmox-backup.md)). Proxmox cannot shrink disks. Shrink the filesystem and partition inside the guest first, otherwise data is lost.
 
 1. Convert qcow2 to raw
 ```
@@ -87,7 +87,7 @@ COMMAND | DESCRIPTION
 `pct push <CTID> <LOCAL> <REMOTE>` | Copy a file in
 `pct pull <CTID> <REMOTE> <LOCAL>` | Copy a file out
 `pct set <CTID> --memory 1024 --cores 2` | Change resources
-`pct set <CTID> --features nesting=1,keyctl=1` | Enable nesting (needed for [[docker]] in LXC)
+`pct set <CTID> --features nesting=1,keyctl=1` | Enable nesting (needed for [Docker](../docker/docker.md) in LXC)
 `pct set <CTID> --mp0 <STORAGE>:8,mp=/data` | Add a mount point volume
 `pct set <CTID> --mp0 /host/path,mp=/mnt/path` | Bind mount a host directory
 `pct resize <CTID> rootfs +4G` | Grow the root disk
@@ -101,7 +101,7 @@ COMMAND | DESCRIPTION
 `pct restore <CTID> <ARCHIVE> --storage <STORAGE>` | Restore from a vzdump archive
 
 ### Unprivileged containers and bind mounts
-Unprivileged containers map container UID 0 to host UID 100000. A bind-mounted host directory must be owned by the mapped IDs (for example `chown -R 100000:100000 <DIR>`) or you need custom `lxc.idmap` entries. Sharing an NFS export into a container is usually easiest by mounting it on the host first, see [[nfs]] and [[proxmox-storage]].
+Unprivileged containers map container UID 0 to host UID 100000. A bind-mounted host directory must be owned by the mapped IDs (for example `chown -R 100000:100000 <DIR>`) or you need custom `lxc.idmap` entries. Sharing an NFS export into a container is usually easiest by mounting it on the host first, see [NFS](../linux/nfs.md) and [Proxmox Storage](proxmox-storage.md).
 
 ---
 ## Container Templates
@@ -113,4 +113,4 @@ COMMAND | DESCRIPTION
 `pveam list local` | Downloaded templates
 `pveam remove <STORAGE>:vztmpl/<TEMPLATE>` | Delete a template
 
-General Linux commands inside guests: [[linux]].
+General Linux commands inside guests: [Linux](../linux/linux.md).

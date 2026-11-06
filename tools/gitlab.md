@@ -1,11 +1,11 @@
 # GitLab and the glab CLI
-GitLab is a Git host with built-in CI/CD, container registry and issue tracking, available as a SaaS (gitlab.com) or self-hosted. `glab` is its official CLI. For plain Git see [[git]], for GitHub see [[github-cli]], and for a lighter self-hosted option see [[gitea]].
+GitLab is a Git host with built-in CI/CD, container registry and issue tracking, available as a SaaS (gitlab.com) or self-hosted. `glab` is its official CLI. For plain Git see [Git](git.md), for GitHub see [GitHub and the gh CLI](github-cli.md), and for a lighter self-hosted option see [Gitea (and Forgejo)](gitea.md).
 
 Documentation: [GitLab Docs](https://docs.gitlab.com), [glab](https://gitlab.com/gitlab-org/cli)
 
 ---
 ## glab CLI
-Install: `brew install glab` ([[homebrew]]), `choco install glab` ([[chocolatey]]) or a release package.
+Install: `brew install glab` ([Homebrew](../macos/homebrew.md)), `choco install glab` ([Chocolatey](../windows/chocolatey.md)) or a release package.
 
 COMMAND | DESCRIPTION
 ---|---
@@ -48,7 +48,7 @@ build:
     - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
 ```
-Common predefined variables: `CI_COMMIT_SHA`, `CI_COMMIT_REF_NAME`, `CI_PROJECT_DIR`, `CI_REGISTRY_IMAGE`, `CI_DEFAULT_BRANCH`. Mask secrets in Settings > CI/CD > Variables. Image tags above are examples; pin the versions you use. See [[docker]].
+Common predefined variables: `CI_COMMIT_SHA`, `CI_COMMIT_REF_NAME`, `CI_PROJECT_DIR`, `CI_REGISTRY_IMAGE`, `CI_DEFAULT_BRANCH`. Mask secrets in Settings > CI/CD > Variables. Image tags above are examples; pin the versions you use. See [Docker](../docker/docker.md).
 
 ## Self-Host with Docker
 ```yaml
@@ -72,7 +72,7 @@ services:
         external_url 'https://gitlab.example.com'
         gitlab_rails['gitlab_shell_ssh_port'] = 2222
 ```
-GitLab needs several GB of RAM and a few minutes to start. Get the first root password with `docker exec gitlab cat /etc/gitlab/initial_root_password` (the file is removed after about 24 hours). See [[docker-compose]].
+GitLab needs several GB of RAM and a few minutes to start. Get the first root password with `docker exec gitlab cat /etc/gitlab/initial_root_password` (the file is removed after about 24 hours). See [Docker-Compose](../docker/docker-compose.md).
 
 ## Runner
 ```bash

@@ -1,5 +1,5 @@
 # DNS over HTTPS (DoH)
-DoH sends DNS queries inside HTTPS ([[tls]]) on **TCP port 443**, as defined in RFC 8484. It looks like normal web traffic. Compare with [[dns-over-tls]] and see the overview in [[dns-encryption]].
+DoH sends DNS queries inside HTTPS ([TLS (Transport Layer Security)](tls.md)) on **TCP port 443**, as defined in RFC 8484. It looks like normal web traffic. Compare with [DNS over TLS (DoT)](dns-over-tls.md) and see the overview in [DNS Encryption](dns-encryption.md).
 
 ## Public Endpoints
 PROVIDER | URL

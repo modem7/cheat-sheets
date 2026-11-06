@@ -1,12 +1,12 @@
 # Kind
 
-Using the Kind project, you can easily deploy a Kubernetes cluster on top of Docker. Kind starts separate containers that act as the Kubernetes nodes. This document gives some examples, plus a link to an Ansible ([[ansible]]) playbook that can do the cluster creation and deletion for you. It only covers the basics; for more detail see the [official Kind documentation](https://kind.sigs.k8s.io/docs/user/quick-start/).
+Using the Kind project, you can easily deploy a Kubernetes cluster on top of Docker. Kind starts separate containers that act as the Kubernetes nodes. This document gives some examples, plus a link to an Ansible ([Ansible Cheat-Sheet](../tools/ansible.md)) playbook that can do the cluster creation and deletion for you. It only covers the basics; for more detail see the [official Kind documentation](https://kind.sigs.k8s.io/docs/user/quick-start/).
 
 Kind is ideal for a local development environment or a build pipeline run.
 
 ## Installation
 
-Kind needs a container engine such as Docker ([[docker]]) (Podman also works).
+Kind needs a container engine such as [Docker](../docker/docker.md) (Podman also works).
 
 ### On Linux
 Download the release binary for your platform. Check the [releases page](https://github.com/kubernetes-sigs/kind/releases) for the current version and replace `<VERSION>`:
@@ -22,13 +22,13 @@ Use `kind-linux-arm64` on ARM.
 ```bash
 brew install kind
 ```
-See [[homebrew]].
+See [Homebrew](../macos/homebrew.md).
 
 ### On Windows
 ```powershell
 choco install kind
 ```
-See [[chocolatey]].
+See [Chocolatey](../windows/chocolatey.md).
 
 ## Cluster management
 
@@ -126,7 +126,7 @@ kind
 kind-2
 ```
 
-After creation, the kubectl context is switched to the new cluster automatically (named `kind-<NAME>`). Switch with [kubectx](https://github.com/ahmetb/kubectx), `kubectl config use-context kind-<NAME>` ([[kubectl]]), or pass `--context` to a command.
+After creation, the kubectl context is switched to the new cluster automatically (named `kind-<NAME>`). Switch with [kubectx](https://github.com/ahmetb/kubectx), `kubectl config use-context kind-<NAME>` ([Kubectl](kubectl.md)), or pass `--context` to a command.
 
 COMMAND | DESCRIPTION
 ---|---
@@ -154,4 +154,4 @@ kind delete clusters --all
 ## Further information
 
 - Creating an Ansible playbook to manage Kind clusters: [Lightweight Kubernetes cluster using Kind and Ansible](https://thedatabaseme.de/2022/04/22/lightweight-kubernetes-cluster-using-kind-and-ansible/)
-- Alternatives: [[k3s]] on a VM, or minikube.
+- Alternatives: [K3S](k3s.md) on a VM, or minikube.

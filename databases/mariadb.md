@@ -1,5 +1,5 @@
 # MariaDB Cheat-Sheet
-MariaDB is a community fork of MySQL. Day-to-day SQL, backup and user commands are the same, see [[mysql]].
+MariaDB is a community fork of MySQL. Day-to-day SQL, backup and user commands are the same, see [MySQL](mysql.md).
 
 ## Install MariaDB on Ubuntu
 ```bash
@@ -14,7 +14,7 @@ Open `/etc/mysql/mariadb.conf.d/50-server.cnf` and change the `bind-address` to:
 ```
 bind-address = 0.0.0.0
 ```
-Restart with `sudo systemctl restart mariadb`, then open the firewall only to trusted hosts (`sudo ufw allow from <CIDR> to any port 3306`, see [[ufw]]). Prefer a specific interface address over `0.0.0.0`.
+Restart with `sudo systemctl restart mariadb`, then open the firewall only to trusted hosts (`sudo ufw allow from <CIDR> to any port 3306`, see [UFW (uncomplicated firewall)](../linux/ufw.md)). Prefer a specific interface address over `0.0.0.0`.
 
 ## Create Administrative User
 1. Create a new user `newuser` for the host `localhost` with a new `password`:
@@ -64,10 +64,10 @@ SQL | DESCRIPTION
 `SET PASSWORD FOR 'app'@'%' = PASSWORD('<NEWPASS>');` | Change a password
 `DROP USER 'app'@'%';` | Remove
 
-On Debian/Ubuntu `sudo mariadb` works for root through the unix socket, a password is not needed and a remote root login is not possible. Create a separate admin user for remote use, see [[mysql]].
+On Debian/Ubuntu `sudo mariadb` works for root through the unix socket, a password is not needed and a remote root login is not possible. Create a separate admin user for remote use, see [MySQL](mysql.md).
 
 ## Indexes, EXPLAIN and Slow Queries
-Index and query tuning follow [[mysql]]. MariaDB specifics:
+Index and query tuning follow [MySQL](mysql.md). MariaDB specifics:
 
 SQL | DESCRIPTION
 ---|---
@@ -108,6 +108,6 @@ COMMAND | DESCRIPTION
 `mariadb-backup --prepare --target-dir=/backup/full` | Prepare it for restore
 `mariadb-backup --copy-back --target-dir=/backup/full` | Restore into an empty data dir (stop the server first, then `chown -R mysql:mysql`)
 
-GTID replication, monitoring lag and failover are in [[mysql-replication]]. Galera Cluster gives multi-primary replication: see the MariaDB docs.
+GTID replication, monitoring lag and failover are in [MySQL and MariaDB Replication](mysql-replication.md). Galera Cluster gives multi-primary replication: see the MariaDB docs.
 
-Used as the external datastore for K3s HA in [[k3s-install-ha-externaldb]]. MariaDB 10.5+ also ships `mariadb*` command names, with `mysql*` kept as links.
+Used as the external datastore for K3s HA in [Install K3S in High Availability Mode](../kubernetes/k3s-install-ha-externaldb.md). MariaDB 10.5+ also ships `mariadb*` command names, with `mysql*` kept as links.

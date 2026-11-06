@@ -5,12 +5,12 @@ Documentation: [Red Hat SELinux guide](https://docs.redhat.com/en/documentation/
 
 > **Verification:** commands follow the distribution documentation and man pages. No command was executed. Package names differ by distribution.
 
-See also: [[systemd]] · [[linux]] · [[docker]] · [[ufw]]
+See also: [systemd](systemd.md) · [Linux](linux.md) · [Docker](../docker/docker.md) · [UFW (uncomplicated firewall)](ufw.md)
 
 ---
-# SELinux
+## SELinux
 
-## Status and Modes
+### Status and Modes
 COMMAND | DESCRIPTION
 ---|---
 `getenforce` | `Enforcing`, `Permissive` or `Disabled`
@@ -21,7 +21,7 @@ COMMAND | DESCRIPTION
 
 Persistent mode: `SELINUX=enforcing|permissive|disabled` in `/etc/selinux/config`. Moving from `disabled` to `enforcing` triggers a full relabel on the next boot (`sudo touch /.autorelabel`).
 
-## Contexts
+### Contexts
 A context looks like `user:role:type:level`. The **type** (for example `httpd_sys_content_t`) is what policy matches.
 
 COMMAND | DESCRIPTION
@@ -41,7 +41,7 @@ sudo restorecon -Rv /srv/www
 ```
 Package: `policycoreutils-python-utils` (RHEL 8+) provides `semanage`.
 
-## Booleans and Ports
+### Booleans and Ports
 COMMAND | DESCRIPTION
 ---|---
 `getsebool -a \| grep httpd` | List booleans
@@ -52,7 +52,7 @@ COMMAND | DESCRIPTION
 `sudo semanage port -a -t http_port_t -p tcp 8081` | Allow a service on a non-standard port
 `sudo semanage port -a -t ssh_port_t -p tcp 2222` | Same for SSH
 
-## Read Denials
+### Read Denials
 COMMAND | DESCRIPTION
 ---|---
 `sudo ausearch -m AVC -ts recent` | Recent denials
@@ -61,7 +61,7 @@ COMMAND | DESCRIPTION
 `sudo sealert -a /var/log/audit/audit.log` | Analyse the audit log
 `sudo grep denied /var/log/audit/audit.log` | Raw denials
 
-## Build a Local Policy Module (audit2allow)
+### Build a Local Policy Module (audit2allow)
 Only after you have ruled out a wrong label, a boolean or a port label, and have read what you are allowing.
 ```bash
 sudo ausearch -m AVC -ts recent | audit2allow -M myapp
@@ -75,18 +75,18 @@ COMMAND | DESCRIPTION
 `sudo semanage permissive -a httpd_t` | Make one domain permissive, the rest stay enforcing
 `sudo semanage permissive -d httpd_t` | Undo
 
-## Containers and Volumes
+### Containers and Volumes
 Bind mounts for Docker and Podman need a label or the container is denied:
 ```bash
 docker run -v /srv/app:/data:Z <IMAGE>    # private label for this container
 docker run -v /srv/shared:/data:z <IMAGE> # shared label for several containers
 ```
-Do not use `:Z` on system directories such as `/home` or `/etc`. See [[docker]].
+Do not use `:Z` on system directories such as `/home` or `/etc`. See [Docker](../docker/docker.md).
 
 ---
-# AppArmor
+## AppArmor
 
-## Status
+### Status
 COMMAND | DESCRIPTION
 ---|---
 `sudo aa-status` | Loaded profiles, modes and confined processes
@@ -96,7 +96,7 @@ COMMAND | DESCRIPTION
 `ls /etc/apparmor.d/` | Profiles
 `cat /sys/module/apparmor/parameters/enabled` | `Y` if the kernel has it on
 
-## Modes
+### Modes
 MODE | EFFECT
 ---|---
 `enforce` | Violations are blocked and logged
@@ -112,7 +112,7 @@ COMMAND | DESCRIPTION
 `sudo apparmor_parser -R /etc/apparmor.d/<PROFILE>` | Unload
 `sudo aa-complain /etc/apparmor.d/*` | All profiles to complain (debugging only)
 
-## Read Denials
+### Read Denials
 COMMAND | DESCRIPTION
 ---|---
 `sudo journalctl -k \| grep -i apparmor` | Kernel log lines with `apparmor="DENIED"`
@@ -123,15 +123,15 @@ COMMAND | DESCRIPTION
 
 Install the tools: `sudo apt install apparmor-utils apparmor-profiles`.
 
-## Local Overrides
+### Local Overrides
 Do not edit packaged profiles. Add rules to the local include file named in the profile, for example `/etc/apparmor.d/local/usr.sbin.mysqld`:
 ```
 /srv/mysql/ r,
 /srv/mysql/** rwk,
 ```
-Then reload: `sudo apparmor_parser -r /etc/apparmor.d/usr.sbin.mysqld`. This is the usual fix when moving a database data directory ([[mysql]], [[postgres]]).
+Then reload: `sudo apparmor_parser -r /etc/apparmor.d/usr.sbin.mysqld`. This is the usual fix when moving a database data directory ([MySQL](../databases/mysql.md), [PostgreSQL Cheat-Sheet](../databases/postgres.md)).
 
-## Docker
+### Docker
 Docker applies the `docker-default` AppArmor profile to containers when AppArmor is on.
 
 COMMAND | DESCRIPTION

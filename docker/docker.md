@@ -23,7 +23,7 @@ Install Docker Engine : [Docker Engine](https://docs.docker.com/engine/install/)
 
 ---
 ## Build Images
-See [[docker-file]] for instructions, multi-stage builds and best practices.
+See [Dockerfile](docker-file.md) for instructions, multi-stage builds and best practices.
 
 COMMAND | DESCRIPTION
 ---|---
@@ -76,7 +76,7 @@ COMMAND | DESCRIPTION
 `docker rmi -f $(docker images -a -q)` | To delete all the images
 `docker system prune` | Delete stopped containers, unused networks, dangling images and dangling build cache (not volumes)
 `docker system prune -a` | Also delete all images not used by a container
-`docker system prune --volumes` | Also delete anonymous volumes not used by any container (see [[docker-cleanup]])
+`docker system prune --volumes` | Also delete anonymous volumes not used by any container (see [Docker Cleanup](docker-cleanup.md))
 
 **Inspect Containers:**
 
@@ -149,7 +149,7 @@ Restore the volume with a tarball archive.
 `docker run --rm --volumes-from CONTAINER -v $(pwd):/backup busybox sh -c "cd CONTAINERPATH && tar xvf /backup/backup.tar --strip 1"`
 
 ## Networks
-See [[docker-networking]] for drivers, port publishing and debugging.
+See [Docker Networking](docker-networking.md) for drivers, port publishing and debugging.
 
 COMMAND | DESCRIPTION
 ---|---
@@ -195,7 +195,7 @@ OPTION | DESCRIPTION
 `--shm-size 256m` | Size of `/dev/shm` (default 64 MB)
 `--device-read-bps /dev/sda:50mb` | Throttle disk reads
 
-Change limits on a running container: `docker update --memory 1g --memory-swap 1g --cpus 2 CONTAINER`. Check use with `docker stats`. See [[docker-troubleshooting]] for OOM kills. In Compose use `deploy.resources.limits` or `mem_limit`, see [[docker-compose]].
+Change limits on a running container: `docker update --memory 1g --memory-swap 1g --cpus 2 CONTAINER`. Check use with `docker stats`. See [Docker Troubleshooting](docker-troubleshooting.md) for OOM kills. In Compose use `deploy.resources.limits` or `mem_limit`, see [Docker-Compose](docker-compose.md).
 
 ## Restart Policies
 POLICY | BEHAVIOUR
@@ -226,7 +226,7 @@ COMMAND | DESCRIPTION
 `docker inspect -f '{{.State.Status}}' CONTAINER` | One field
 `docker inspect -f '{{.State.ExitCode}} {{.State.OOMKilled}}' CONTAINER` | Exit code and OOM flag
 `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' CONTAINER` | Container IP addresses
-`docker inspect -f '{{json .Mounts}}' CONTAINER \| jq` | Mounts as JSON (see [[jq]])
+`docker inspect -f '{{json .Mounts}}' CONTAINER \| jq` | Mounts as JSON (see [jq](../tools/jq.md))
 `docker inspect -f '{{.HostConfig.LogConfig.Type}}' CONTAINER` | Logging driver in use
 `docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}'` | One snapshot of resource use
 `docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' NAME` | Containers on a network
@@ -244,7 +244,7 @@ COMMAND | DESCRIPTION
 `docker stats` | Live CPU, memory, network and block I/O
 `du -sh /var/lib/docker/*` | Raw size on disk of the Docker root
 
-Cleaning up is covered in [[docker-cleanup]].
+Cleaning up is covered in [Docker Cleanup](docker-cleanup.md).
 
 ## Logging
 `docker logs` works for the `json-file`, `local` and `journald` drivers.
@@ -263,7 +263,7 @@ Default driver is `json-file` with **no rotation**. Set limits globally in `/etc
   "log-opts": { "max-size": "10m", "max-file": "3" }
 }
 ```
-Or per container: `docker run --log-driver json-file --log-opt max-size=10m --log-opt max-file=3 IMAGE`. The `local` driver compresses and defaults to 20 MB x 5 files. Other drivers: `journald`, `syslog`, `gelf`, `fluentd`, `awslogs`, `none`. In Compose set `logging:` per service, see [[docker-compose]].
+Or per container: `docker run --log-driver json-file --log-opt max-size=10m --log-opt max-file=3 IMAGE`. The `local` driver compresses and defaults to 20 MB x 5 files. Other drivers: `journald`, `syslog`, `gelf`, `fluentd`, `awslogs`, `none`. In Compose set `logging:` per service, see [Docker-Compose](docker-compose.md).
 
 ## Contexts (remote Docker hosts)
 COMMAND | DESCRIPTION
@@ -276,7 +276,7 @@ COMMAND | DESCRIPTION
 `docker context rm remote` | Remove
 `DOCKER_HOST=ssh://USER@HOST docker ps` | Same without a context
 
-SSH access needs key-based login and the user in the `docker` group on the remote host. See [[openssh]].
+SSH access needs key-based login and the user in the `docker` group on the remote host. See [OpenSSH Cheat-Sheet](../tools/openssh.md).
 
 ## Buildx and Multi-Platform Builds
 COMMAND | DESCRIPTION
@@ -292,7 +292,7 @@ COMMAND | DESCRIPTION
 `docker buildx prune` | Clear the builder cache
 `docker run --privileged --rm tonistiigi/binfmt --install all` | Install QEMU emulators to build non-native platforms
 
-`--load` only works for one platform at a time. See [[docker-file]] for Dockerfile practices.
+`--load` only works for one platform at a time. See [Dockerfile](docker-file.md) for Dockerfile practices.
 
 ## Rootless Mode
 Run the daemon and containers without root. Limits: no ports below 1024 by default, some network and storage drivers differ.
@@ -318,10 +318,10 @@ COMMAND | DESCRIPTION
 Scout needs a Docker login and some features need a Docker subscription. Free alternatives: Trivy (`trivy image IMAGE`) and Grype.
 
 ## Debugging
-`docker debug CONTAINER` opens a shell with extra tools inside a container, even a distroless one (needs Docker Desktop or a recent Docker CLI and a Docker login; check your plan). Other recipes, such as netshoot, `docker events` and exit codes, are in [[docker-troubleshooting]].
+`docker debug CONTAINER` opens a shell with extra tools inside a container, even a distroless one (needs Docker Desktop or a recent Docker CLI and a Docker login; check your plan). Other recipes, such as netshoot, `docker events` and exit codes, are in [Docker Troubleshooting](docker-troubleshooting.md).
 
 `docker run --name netshoot --rm -it nicolaka/netshoot /bin/bash`
 
 ## See Also
-[[docker-compose]] · [[docker-file]] · [[docker-networking]] · [[docker-troubleshooting]] · [[docker-cleanup]] · [[docker-registry]] · [[docker-desktop]] · [[ufw]]
+[Docker-Compose](docker-compose.md) · [Dockerfile](docker-file.md) · [Docker Networking](docker-networking.md) · [Docker Troubleshooting](docker-troubleshooting.md) · [Docker Cleanup](docker-cleanup.md) · [Docker Registry](docker-registry.md) · [Docker Desktop](../tools/docker-desktop.md) · [UFW (uncomplicated firewall)](../linux/ufw.md)
 

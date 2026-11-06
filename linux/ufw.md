@@ -1,5 +1,5 @@
 # UFW (uncomplicated firewall)
-UFW (uncomplicated firewall) is a firewall configuration tool for **Linux ([[linux]])** that runs on top of IPTables ([[iptables]]), included by default within Ubuntu distributions. It provides a streamlined interface for configuring common firewall use cases via the command line.
+UFW (uncomplicated firewall) is a firewall configuration tool for **[Linux](linux.md)** that runs on top of [IPTables](iptables.md), included by default within Ubuntu distributions. It provides a streamlined interface for configuring common firewall use cases via the command line.
 
 ## Enable UFW
 
@@ -64,7 +64,7 @@ COMMAND | DESCRIPTION
 `sudo ufw show added` | Rules as commands
 
 ## Docker Warning
-Docker publishes ports through its own iptables rules, which **bypass UFW**. A `-p 8080:80` container is reachable even if UFW denies 8080. Bind to localhost (`-p 127.0.0.1:8080:80`) or manage rules in the `DOCKER-USER` chain. See [[docker-networking]].
+Docker publishes ports through its own iptables rules, which **bypass UFW**. A `-p 8080:80` container is reachable even if UFW denies 8080. Bind to localhost (`-p 127.0.0.1:8080:80`) or manage rules in the `DOCKER-USER` chain. See [Docker Networking](../docker/docker-networking.md).
 
 ## Common Recipes
 ```bash
@@ -98,7 +98,7 @@ sudo ufw show added                            # rules as commands, easy to reap
 ```
 When changing rules over SSH, keep a second session open. If you lock yourself out, use the console: `sudo ufw disable`.
 
-UFW uses the nftables backend through `iptables-nft` on current Ubuntu. For raw nftables see [[nftables]].
+UFW uses the nftables backend through `iptables-nft` on current Ubuntu. For raw nftables see [nftables](nftables.md).
 
 ## Config Files
 PATH | DESCRIPTION

@@ -27,7 +27,7 @@ git config --global pull.rebase false     # or true to rebase on pull
 git config --global core.autocrlf input   # Windows: true, Linux/macOS: input
 git config --list --show-origin
 ```
-Hosting and CLIs: [[github-cli]], [[gitlab]], [[gitea]]. Repository SSH keys: [[openssh]]. Faster tooling: [[modern-cli-tools]].
+Hosting and CLIs: [GitHub and the gh CLI](github-cli.md), [GitLab and the glab CLI](gitlab.md), [Gitea (and Forgejo)](gitea.md). Repository SSH keys: [OpenSSH Cheat-Sheet](openssh.md). Faster tooling: [Modern CLI Tools](modern-cli-tools.md).
 
 ## Using Git
 
@@ -95,7 +95,7 @@ git config --global gpg.format ssh
 git config --global user.signingkey ~/.ssh/id_ed25519.pub
 git config --global commit.gpgsign true
 ```
-Upload the public key to your Git host as both an authentication and a signing key. See [[openssh]].
+Upload the public key to your Git host as both an authentication and a signing key. See [OpenSSH Cheat-Sheet](openssh.md).
 
 ### Working with git-flow
 

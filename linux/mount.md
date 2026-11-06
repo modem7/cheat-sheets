@@ -1,5 +1,5 @@
 # Mount
-In **Linux ([[linux]])**, `mount` attaches a filesystem on a device to a directory. Before a user can access a file on a Unix-like machine, the filesystem on the device which contains the file needs to be mounted. It is used for disks, SD cards, USB storage, ISO images and network shares ([[nfs]]).
+In **[Linux](linux.md)**, `mount` attaches a filesystem on a device to a directory. Before a user can access a file on a Unix-like machine, the filesystem on the device which contains the file needs to be mounted. It is used for disks, SD cards, USB storage, ISO images and network shares ([NFS](nfs.md)).
 
 ---
 ## List mount-points

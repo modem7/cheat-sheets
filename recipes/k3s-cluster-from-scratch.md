@@ -7,23 +7,23 @@ Documentation: [K3s docs](https://docs.k3s.io/) · [HA embedded etcd](https://do
 A working cluster with `kubectl` access from your workstation, HTTPS ingress with automatic certificates, replicated storage, Argo CD and a metrics stack.
 
 ## Prerequisites
-- Three Ubuntu 24.04 hosts, 2 CPU / 2 GB RAM or more each: `k3s-1` (`192.0.2.11`), `k3s-2` (`192.0.2.12`), `k3s-3` (`192.0.2.13`), prepared as in [[new-server-checklist]] (or cloned with [[proxmox-vm-template-and-clone]]); a fixed address or DNS name for the API, `k3s.example.com` (`192.0.2.10`, a virtual IP, load balancer or DNS round-robin)
+- Three Ubuntu 24.04 hosts, 2 CPU / 2 GB RAM or more each: `k3s-1` (`192.0.2.11`), `k3s-2` (`192.0.2.12`), `k3s-3` (`192.0.2.13`), prepared as in [New Server Checklist](new-server-checklist.md) (or cloned with [Proxmox VM Template and Clone](proxmox-vm-template-and-clone.md)); a fixed address or DNS name for the API, `k3s.example.com` (`192.0.2.10`, a virtual IP, load balancer or DNS round-robin)
 - Unique hostnames, synchronised clocks, no swap issues
 - Ports between nodes: `6443/tcp` (API), `10250/tcp` (kubelet), `8472/udp` (flannel VXLAN), and for embedded etcd `2379-2380/tcp` between servers
-- `kubectl` and `helm` on your workstation ([[kubectl]], [[helm]])
+- `kubectl` and `helm` on your workstation ([Kubectl](../kubernetes/kubectl.md), [Helm Cheat-Sheet](../tools/helm.md))
 
 A single node is fine to start. Skip the server join steps if you only want one.
 
 ## Steps
 ### 1. First server
-Use `--cluster-init` from the start if you may want HA later. A default single-node install uses SQLite; K3s can migrate it to embedded etcd by restarting with `--cluster-init`, but starting with it is simpler ([[k3s-install-ha-embeddeddb]]):
+Use `--cluster-init` from the start if you may want HA later. A default single-node install uses SQLite; K3s can migrate it to embedded etcd by restarting with `--cluster-init`, but starting with it is simpler ([Install K3S in High Availability Mode with an embedded Database](../kubernetes/k3s-install-ha-embeddeddb.md)):
 ```bash
 curl -sfL https://get.k3s.io | K3S_TOKEN=<SECRET> sh -s - server \
   --cluster-init \
   --tls-san k3s.example.com --tls-san 192.0.2.10
 sudo k3s kubectl get nodes
 ```
-For a plain single node without HA: `curl -sfL https://get.k3s.io | sh -` ([[k3s-install-single]]). K3s bundles Traefik (ingress), ServiceLB, CoreDNS, metrics-server and the local-path storage provisioner. Add `--disable traefik` to the install command if you bring your own ingress ([[k3s]]).
+For a plain single node without HA: `curl -sfL https://get.k3s.io | sh -` ([K3S Single-Node Installation](../kubernetes/k3s-install-single.md)). K3s bundles Traefik (ingress), ServiceLB, CoreDNS, metrics-server and the local-path storage provisioner. Add `--disable traefik` to the install command if you bring your own ingress ([K3S](../kubernetes/k3s.md)).
 
 ### 2. Join more servers (HA)
 ```bash
@@ -48,7 +48,7 @@ chmod 600 ~/.kube/k3s.yaml
 export KUBECONFIG=~/.kube/k3s.yaml
 kubectl get nodes -o wide
 ```
-The `--tls-san` flags in steps 1 and 2 are what make the API certificate valid for `k3s.example.com`. Without them you get `x509: certificate is valid for ... not ...` ([[tls-troubleshooting]]). The file is readable by root only on the server, so copy it via an account with sudo.
+The `--tls-san` flags in steps 1 and 2 are what make the API certificate valid for `k3s.example.com`. Without them you get `x509: certificate is valid for ... not ...` ([TLS Troubleshooting](tls-troubleshooting.md)). The file is readable by root only on the server, so copy it via an account with sudo.
 
 ### 5. Ingress (Traefik, bundled)
 Check that the bundled Traefik is running, then publish a test app:
@@ -59,7 +59,7 @@ kubectl expose deployment hello --port=80
 kubectl create ingress hello --class=traefik --rule="hello.example.com/*=hello:80"
 curl -H 'Host: hello.example.com' http://192.0.2.11/
 ```
-Point `hello.example.com` (DNS) at the node or VIP. See [[traefik]] and [[kubernetes]].
+Point `hello.example.com` (DNS) at the node or VIP. See [Traefik](../apps/traefik.md) and [Kubernetes](../kubernetes/kubernetes.md).
 
 ### 6. TLS with cert-manager
 ```bash
@@ -68,7 +68,7 @@ helm install cert-manager jetstack/cert-manager \
   --namespace cert-manager --create-namespace --set crds.enabled=true
 kubectl -n cert-manager get pods
 ```
-Then create a staging `ClusterIssuer` (HTTP-01 against the `traefik` class), request a certificate by annotating the Ingress with `cert-manager.io/cluster-issuer`, and switch to the production issuer when it works ([[cert-manager]]).
+Then create a staging `ClusterIssuer` (HTTP-01 against the `traefik` class), request a certificate by annotating the Ingress with `cert-manager.io/cluster-issuer`, and switch to the production issuer when it works ([Cert-Manager](../apps/cert-manager.md)).
 
 ### 7. Persistent storage with Longhorn
 K3s ships `local-path`, which is not replicated. For replicated volumes install Longhorn after meeting its node prerequisites:
@@ -82,7 +82,7 @@ helm install longhorn longhorn/longhorn -n longhorn-system --create-namespace
 kubectl -n longhorn-system get pods
 kubectl get storageclass
 ```
-Run Longhorn's preflight check first (`longhornctl check preflight`, see the install docs) and open the UI with a port-forward. Details and the default-StorageClass choice are in [[longhorn]].
+Run Longhorn's preflight check first (`longhornctl check preflight`, see the install docs) and open the UI with a port-forward. Details and the default-StorageClass choice are in [Longhorn](../apps/longhorn.md).
 
 ### 8. GitOps with Argo CD
 ```bash
@@ -93,12 +93,12 @@ kubectl -n argocd get pods
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d; echo
 kubectl -n argocd port-forward svc/argocd-server 8080:443
 ```
-Pin a release tag instead of `stable` for reproducible installs. Then declare your apps in Git ([[argocd]]).
+Pin a release tag instead of `stable` for reproducible installs. Then declare your apps in Git ([Argo CD](../apps/argocd.md)).
 
 ### 9. Monitoring pointers
-- Metrics and dashboards: the `kube-prometheus-stack` Helm chart from `https://prometheus-community.github.io/helm-charts` installs Prometheus, Alertmanager, Grafana and node exporters in one release ([[prometheus]], [[grafana]]).
-- Day-to-day: `kubectl top nodes` (metrics-server is bundled), and [[k9s]] for a terminal UI.
-- Cluster DNS problems: [[kubernetes-dns]], [[dns-troubleshooting]].
+- Metrics and dashboards: the `kube-prometheus-stack` Helm chart from `https://prometheus-community.github.io/helm-charts` installs Prometheus, Alertmanager, Grafana and node exporters in one release ([Prometheus](../apps/prometheus.md), [Grafana](../apps/grafana.md)).
+- Day-to-day: `kubectl top nodes` (metrics-server is bundled), and [K9s](../kubernetes/k9s.md) for a terminal UI.
+- Cluster DNS problems: [Kubernetes DNS](../kubernetes/kubernetes-dns.md), [DNS Troubleshooting](dns-troubleshooting.md).
 
 ## Verify
 ```bash
@@ -118,7 +118,8 @@ sudo /usr/local/bin/k3s-agent-uninstall.sh    # on agents
 These remove K3s and its data on that node, including etcd and local volumes. Drain and delete a node first when removing it from a live cluster: `kubectl drain <NODE> --ignore-daemonsets --delete-emptydir-data && kubectl delete node <NODE>`. Remove one Helm release with `helm uninstall <RELEASE> -n <NAMESPACE>` (CRDs and PVCs can remain; check before deleting). Back up `/var/lib/rancher/k3s/server/db/snapshots` or use `k3s etcd-snapshot save` before upgrades.
 
 ## Related Sheets
-- [[k3s]] · [[k3s-install-single]] · [[k3s-install-ha-embeddeddb]] · [[k3s-install-ha-externaldb]]
-- [[kubectl]] · [[kubernetes]] · [[kubernetes-automation]] · [[k9s]] · [[kind]] · [[helm]]
-- [[traefik]] · [[cert-manager]] · [[longhorn]] · [[argocd]] · [[prometheus]] · [[grafana]] · [[rancher]]
-- [[new-server-checklist]] · [[proxmox-vm-template-and-clone]] · [[tls-troubleshooting]] · [[dns-troubleshooting]]
+- [K3S](../kubernetes/k3s.md) · [K3S Single-Node Installation](../kubernetes/k3s-install-single.md) · [Install K3S in High Availability Mode with an embedded Database](../kubernetes/k3s-install-ha-embeddeddb.md) · [Install K3S in High Availability Mode](../kubernetes/k3s-install-ha-externaldb.md)
+- [Kubectl](../kubernetes/kubectl.md) · [Kubernetes](../kubernetes/kubernetes.md) · [Kubernetes Automation](../kubernetes/kubernetes-automation.md) · [K9s](../kubernetes/k9s.md) · [Kind](../kubernetes/kind.md) · [Helm Cheat-Sheet](../tools/helm.md)
+- [Traefik](../apps/traefik.md) · [Cert-Manager](../apps/cert-manager.md) · [Longhorn](../apps/longhorn.md) · [Argo CD](../apps/argocd.md) · [Prometheus](../apps/prometheus.md) · [Grafana](../apps/grafana.md) · [Rancher](../apps/rancher.md)
+- [New Server Checklist](new-server-checklist.md) · [Proxmox VM Template and Clone](proxmox-vm-template-and-clone.md) · [TLS Troubleshooting](tls-troubleshooting.md) · [DNS Troubleshooting](dns-troubleshooting.md)
+- [GitHub Actions](../cicd/github-actions.md) · [Renovate](../cicd/renovate.md) · [SOPS and age](../security/sops-age.md) · [Backup Strategy](../backup/backup.md) · [Container Scanning](../security/container-scanning.md)

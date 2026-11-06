@@ -1,5 +1,5 @@
 # Ansible-Playbook Cheat-Sheet
-Playbooks describe the desired state of your hosts in YAML. Setup and ad-hoc commands: [[ansible]].
+Playbooks describe the desired state of your hosts in YAML. Setup and ad-hoc commands: [Ansible Cheat-Sheet](ansible.md).
 
 ## Run
 COMMAND | DESCRIPTION

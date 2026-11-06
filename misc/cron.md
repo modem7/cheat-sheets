@@ -1,5 +1,5 @@
 # Cron
-Cron runs commands on a schedule. This sheet covers crontab syntax, the Debian/Ubuntu layout, the gotchas that make a job work in a terminal but fail under cron, overlap protection with `flock`, and how the same schedules look in systemd timers, Kubernetes CronJobs and GitHub Actions. Related: [[linux]], [[kubernetes]], [[regex]].
+Cron runs commands on a schedule. This sheet covers crontab syntax, the Debian/Ubuntu layout, the gotchas that make a job work in a terminal but fail under cron, overlap protection with `flock`, and how the same schedules look in systemd timers, Kubernetes CronJobs and GitHub Actions. Related: [Linux](../linux/linux.md), [Kubernetes](../kubernetes/kubernetes.md), [Regex](regex.md).
 
 Documentation: `man 5 crontab`, [systemd.time(7)](https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html), [Kubernetes CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/), [GitHub Actions `schedule`](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
 
@@ -191,7 +191,7 @@ ONCALENDAR | MEANING
 Timers are accurate to within `AccuracySec=` (default 1 minute) to batch wake-ups; set `AccuracySec=1s` if that matters.
 
 ## Kubernetes CronJob
-Uses the standard five-field syntax (plus the `@` macros). See [[kubernetes]] and [[kubectl]].
+Uses the standard five-field syntax (plus the `@` macros). See [Kubernetes](../kubernetes/kubernetes.md) and [Kubectl](../kubernetes/kubectl.md).
 
 ```yaml
 apiVersion: batch/v1

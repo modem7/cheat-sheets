@@ -1,5 +1,5 @@
 # Generate a DKIM Keypair
-DKIM signs outgoing mail with a private key. The public key is published in DNS as a TXT record so receivers can verify it. We use OpenSSL ([[openssl]]) to generate the keypair. See [[dns-record-mailserver]] for the other mail records and [[dns-record-types]] for TXT.
+DKIM signs outgoing mail with a private key. The public key is published in DNS as a TXT record so receivers can verify it. We use [OpenSSL](../tools/openssl.md) to generate the keypair. See [Mail Server DNS Records Cheat-Sheet](dns-record-mailserver.md) for the other mail records and [DNS Record Types](dns-record-types.md) for TXT.
 
 ## Generate
 Private key:

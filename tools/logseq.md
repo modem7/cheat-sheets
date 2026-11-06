@@ -1,5 +1,5 @@
 # Logseq
-Logseq is an open-source, local-first **outliner** for notes and knowledge management. Everything is a block in a bulleted outline, pages link to each other with `[[wikilinks]]`, and every day gets a journal page. Data is stored as Markdown (or Org-mode) files in a folder. Similar to [[obsidian]] but block-first; for a notebook style app see [[joplin]].
+Logseq is an open-source, local-first **outliner** for notes and knowledge management. Everything is a block in a bulleted outline, pages link to each other with `[[wikilinks]]`, and every day gets a journal page. Data is stored as Markdown (or Org-mode) files in a folder. Similar to [Obsidian](obsidian.md) but block-first; for a notebook style app see [Joplin](joplin.md).
 
 Homepage: [Logseq](https://logseq.com)
 Docs: [Logseq Docs](https://docs.logseq.com)
@@ -14,7 +14,7 @@ FOLDER | CONTENT
 `assets/` | Attached images and files
 `logseq/` | Config, custom CSS and plugins (`config.edn`, `custom.css`)
 
-Because it is plain Markdown, the folder works with [[git]] and any file sync tool.
+Because it is plain Markdown, the folder works with [Git](git.md) and any file sync tool.
 
 ## Syntax
 SYNTAX | DESCRIPTION
@@ -60,12 +60,12 @@ SHORTCUT | DESCRIPTION
 Single-letter `t` and `g` shortcuts work when you are not editing a block.
 
 ## Sync and Backup
-- Folder-based, so use [[git]], Syncthing, Nextcloud or iCloud on the graph folder.
+- Folder-based, so use [Git](git.md), Syncthing, Nextcloud or iCloud on the graph folder.
 - **Logseq Sync** is a paid encrypted service.
 - Keep one sync method per graph to avoid conflicts, and commit before big changes.
 
 ## Logseq vs Obsidian
-- Logseq is outline-first (each line is a block you can reference and query); [[obsidian]] is document-first.
+- Logseq is outline-first (each line is a block you can reference and query); [Obsidian](obsidian.md) is document-first.
 - Logseq is open source; Obsidian is closed source but free for personal use.
 - Logseq is moving to a database-backed version. The file-based version described here is the long-standing one; check the project for the state of the newer release.
 

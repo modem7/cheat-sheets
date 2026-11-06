@@ -2,14 +2,14 @@
 
 Homepage: [Civo](https://www.civo.com/)
 Documentation: [Civo Docs](https://www.civo.com/docs)
-Terraform Registry: [Terraform Registry](https://registry.terraform.io/providers/civo/civo/latest) (see [[terraform]])
+Terraform Registry: [Terraform Registry](https://registry.terraform.io/providers/civo/civo/latest) (see [Terraform](../../tools/terraform.md))
 
 > Civo's product line and regions change over time. Check the docs for what is currently offered before relying on any size, image or region below. Commands here were written from knowledge and not run against a live account.
 
 ---
 
 ## Civo CLI
-Civo CLI is a tool to manage your Civo account from the terminal. It is built with Go and distributed as binaries for multiple operating systems, available at https://github.com/civo/cli/releases (or `brew install civo` on macOS, see [[homebrew]]).
+Civo CLI is a tool to manage your Civo account from the terminal. It is built with Go and distributed as binaries for multiple operating systems, available at https://github.com/civo/cli/releases (or `brew install civo` on macOS, see [Homebrew](../../macos/homebrew.md)).
 
 ### Authentication
 You authenticate to the Civo API with an API key. Find or regenerate it in the Civo dashboard under your account security settings.
@@ -23,7 +23,7 @@ COMMAND | DESCRIPTION
 `civo region current <REGION>` | Choose the active region
 
 ### Kubernetes
-Civo's Kubernetes is based on K3s ([[k3s]]).
+Civo's Kubernetes is based on [K3s](../../kubernetes/k3s.md).
 
 COMMAND | DESCRIPTION
 ---|---
@@ -31,7 +31,7 @@ COMMAND | DESCRIPTION
 `civo kubernetes create <NAME> --size <SIZE> --nodes 3 --wait` | Create a cluster
 `civo kubernetes create <NAME> --nodes 3 --wait --save --merge --switch` | Create and add it to `~/.kube/config` and switch context
 `civo kubernetes list` | List clusters
-`civo kubernetes config <NAME> --save --merge` | Fetch the kubeconfig and merge it (see [[kubectl]])
+`civo kubernetes config <NAME> --save --merge` | Fetch the kubeconfig and merge it (see [Kubectl](../../kubernetes/kubectl.md))
 `civo kubernetes scale <NAME> --nodes 5` | Change the node count
 `civo kubernetes remove <NAME>` | Delete a cluster
 
@@ -68,4 +68,4 @@ COMMAND | DESCRIPTION
 `civo firewall create <NAME>` | Create a firewall (then add rules with `civo firewall rule create`)
 
 ### Traefik and DNS
-Civo DNS is a supported ACME DNS provider for Traefik (`provider: civo`, see [[traefik]]) and cert-manager ([[cert-manager]] via a webhook solver).
+Civo DNS is a supported ACME DNS provider for Traefik (`provider: civo`, see [Traefik](../../apps/traefik.md)) and cert-manager ([Cert-Manager](../../apps/cert-manager.md) via a webhook solver).

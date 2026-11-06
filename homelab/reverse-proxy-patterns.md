@@ -1,11 +1,11 @@
 # Reverse Proxy Patterns
-How to put a reverse proxy in front of homelab services, with the same task shown in Traefik, Nginx and Caddy: routing by hostname, a wildcard certificate through the ACME DNS-01 challenge, split-horizon DNS and internal-only services. Tool-specific detail lives in [[traefik]], [[nginx]] and [[cert-manager]]; this sheet is about choosing and combining them.
+How to put a reverse proxy in front of homelab services, with the same task shown in Traefik, Nginx and Caddy: routing by hostname, a wildcard certificate through the ACME DNS-01 challenge, split-horizon DNS and internal-only services. Tool-specific detail lives in [Traefik](../apps/traefik.md), [Nginx](../apps/nginx.md) and [Cert-Manager](../apps/cert-manager.md); this sheet is about choosing and combining them.
 
 Documentation: [Traefik ACME](https://doc.traefik.io/traefik/https/acme/) · [Caddy automatic HTTPS](https://caddyserver.com/docs/automatic-https) · [certbot DNS plugins](https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins) · [Let's Encrypt challenge types](https://letsencrypt.org/docs/challenge-types/)
 
 > **Verification:** snippets were written from the upstream documentation and **not executed**. Check image tags, provider names and DNS-plugin options against the current docs before use.
 
-See also: [[homelab]] · [[pihole]] · [[adguard-home]] · [[unbound]] · [[vlans]] · [[tailscale]] · [[wireguard]] · [[docker-compose]] · [[docker-networking]] · [[tls]] · [[dns-record-types]]
+See also: [Homelab](homelab.md) · [Pi-hole](pihole.md) · [AdGuard Home](adguard-home.md) · [Unbound](unbound.md) · [VLANs](vlans.md) · [Tailscale](../apps/tailscale.md) · [WireGuard](../apps/wireguard.md) · [Docker-Compose](../docker/docker-compose.md) · [Docker Networking](../docker/docker-networking.md) · [TLS (Transport Layer Security)](../networking/tls.md) · [DNS Record Types](../networking/dns-record-types.md)
 
 ---
 ## Traefik vs Nginx vs Caddy
@@ -19,7 +19,7 @@ See also: [[homelab]] · [[pihole]] · [[adguard-home]] · [[unbound]] · [[vlan
 | Best for | Many containers that come and go | Static sites, caching, fine control, non-HTTP via `stream` | Simplest config for a handful of services |
 | Gotcha | Labels get long; Docker socket access is sensitive | Manual certificate renewal wiring | DNS provider needs `xcaddy` or the downloaded custom build |
 
-Pick one edge proxy per host or per VLAN, and keep services on a private Docker network so only the proxy publishes ports 80/443 ([[docker-networking]]).
+Pick one edge proxy per host or per VLAN, and keep services on a private Docker network so only the proxy publishes ports 80/443 ([Docker Networking](../docker/docker-networking.md)).
 
 ---
 ## Wildcard Certificates via DNS-01
@@ -158,9 +158,9 @@ Use the same hostname inside and outside the house: internal clients get the pri
 APPROACH | HOW
 ---|---
 Public zone has no record | Only the internal resolver knows `app.home.example.com` (nothing leaks, certificate still works via DNS-01)
-Internal override | Local DNS record on [[pihole]] / [[adguard-home]] / [[unbound]] points the name or whole wildcard at the proxy IP
+Internal override | Local DNS record on [Pi-hole](pihole.md) / [AdGuard Home](adguard-home.md) / [Unbound](unbound.md) points the name or whole wildcard at the proxy IP
 Wildcard rewrite | One record for `*.home.example.com` to the proxy IP, then routing happens by `Host` header in the proxy
-Remote access | Reach the same names over [[tailscale]] or [[wireguard]]; point the VPN DNS at the internal resolver
+Remote access | Reach the same names over [Tailscale](../apps/tailscale.md) or [WireGuard](../apps/wireguard.md); point the VPN DNS at the internal resolver
 
 Wildcard to the proxy, three resolvers:
 ```
@@ -190,7 +190,7 @@ GOAL | TECHNIQUE
 Not reachable from the internet | Do not port-forward 80/443; use DNS-01 for certs; keep the public zone free of A records
 Only from LAN or VPN | Traefik `ipAllowList` middleware (named `ipWhiteList` in v2), Nginx `allow 192.168.0.0/16; deny all;`, Caddy `@lan remote_ip private_ranges`
 Separate entrypoints | Internal entrypoint bound to the LAN address (`address: "192.168.20.10:443"`), public one to the WAN side
-Per-network proxies | One proxy instance on the public VLAN, one on the internal VLAN; see [[vlans]]
+Per-network proxies | One proxy instance on the public VLAN, one on the internal VLAN; see [VLANs](vlans.md)
 Auth in front of apps | Forward-auth (Authelia, Authentik, oauth2-proxy) via Traefik `forwardAuth`, Nginx `auth_request`, Caddy `forward_auth`
 Do not trust the header | Only trust `X-Forwarded-For` from your proxy: set `forwardedHeaders.trustedIPs` in Traefik, `set_real_ip_from` in Nginx
 
@@ -228,6 +228,6 @@ Certificate request fails with TXT lookup errors | Propagation: set the resolver
 Browser shows the default Traefik cert | Router `Host()` rule does not match, or the router has no `tls`; check the dashboard
 502 / 504 from proxy | Wrong upstream name or port, service on another Docker network, or the upstream listens on `127.0.0.1` only
 Redirect loop | App behind the proxy thinks it is plain HTTP; set the forwarded proto header or the app's "trusted proxy" option
-Works internally, fails externally | DNS is correct, but 443 is not forwarded, or the firewall blocks it ([[ufw]])
+Works internally, fails externally | DNS is correct, but 443 is not forwarded, or the firewall blocks it ([UFW (uncomplicated firewall)](../linux/ufw.md))
 Rate limited by Let's Encrypt | Use the staging CA while testing; wildcard reduces the number of certificates
 `curl -vk --resolve app.home.example.com:443:192.168.20.10 https://app.home.example.com` | Test the proxy directly, bypassing DNS

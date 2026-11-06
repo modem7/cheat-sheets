@@ -1,5 +1,5 @@
 # Gitea (and Forgejo)
-Gitea is a lightweight, self-hosted Git service written in Go with issues, pull requests, packages and built-in CI (Gitea Actions, mostly compatible with GitHub Actions workflows). **Forgejo** is a community fork with the same layout and a very similar setup. Compare with [[github-cli]] and [[gitlab]]; basics of Git itself are in [[git]].
+Gitea is a lightweight, self-hosted Git service written in Go with issues, pull requests, packages and built-in CI (Gitea Actions, mostly compatible with GitHub Actions workflows). **Forgejo** is a community fork with the same layout and a very similar setup. Compare with [GitHub and the gh CLI](github-cli.md) and [GitLab and the glab CLI](gitlab.md); basics of Git itself are in [Git](git.md).
 
 Documentation: [Gitea Docs](https://docs.gitea.com), [Forgejo Docs](https://forgejo.org/docs/latest/)
 
@@ -23,15 +23,15 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
 ```
-Open `http://<HOST>:3000` and complete the install page (the first registered user, or the admin you create, becomes the administrator). Pin a version tag instead of `latest`, and check the docs for the current image name, as the registry location has moved. Use PostgreSQL or MariaDB for more than a few users ([[postgres]], [[mariadb]]). See [[docker-compose]].
+Open `http://<HOST>:3000` and complete the install page (the first registered user, or the admin you create, becomes the administrator). Pin a version tag instead of `latest`, and check the docs for the current image name, as the registry location has moved. Use PostgreSQL or MariaDB for more than a few users ([PostgreSQL Cheat-Sheet](../databases/postgres.md), [MariaDB Cheat-Sheet](../databases/mariadb.md)). See [Docker-Compose](../docker/docker-compose.md).
 
 Settings can be given as `GITEA__section__KEY` environment variables, matching `app.ini` (for example `GITEA__server__ROOT_URL`).
 
 ## Git over SSH
-The container's SSH is mapped to host port 2222. Clone with `git clone ssh://git@HOST:2222/USER/REPO.git`, or add `Port 2222` for the host in `~/.ssh/config` ([[openssh]]).
+The container's SSH is mapped to host port 2222. Clone with `git clone ssh://git@HOST:2222/USER/REPO.git`, or add `Port 2222` for the host in `~/.ssh/config` ([OpenSSH Cheat-Sheet](openssh.md)).
 
 ## tea CLI
-`tea` is the official Gitea CLI (`brew install tea`, see [[homebrew]]).
+`tea` is the official Gitea CLI (`brew install tea`, see [Homebrew](../macos/homebrew.md)).
 
 COMMAND | DESCRIPTION
 ---|---

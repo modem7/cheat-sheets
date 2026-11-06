@@ -1,11 +1,11 @@
 # Unbound
-Unbound is a validating, recursive, caching DNS resolver from NLnet Labs. In a homelab it usually sits behind [[pihole]] or [[adguard-home]]: it resolves names itself from the root servers (so no single upstream sees your queries), validates DNSSEC, caches, and can also serve local zones. It can instead forward all queries over DNS-over-TLS to a public resolver.
+Unbound is a validating, recursive, caching DNS resolver from NLnet Labs. In a homelab it usually sits behind [Pi-hole](pihole.md) or [AdGuard Home](adguard-home.md): it resolves names itself from the root servers (so no single upstream sees your queries), validates DNSSEC, caches, and can also serve local zones. It can instead forward all queries over DNS-over-TLS to a public resolver.
 
 Documentation: [unbound.conf](https://unbound.docs.nlnetlabs.nl/en/latest/manual/unbound/unbound.conf.html) · [unbound-control](https://nlnetlabs.nl/documentation/unbound/unbound-control/) · [Pi-hole + Unbound guide](https://docs.pi-hole.net/guides/dns/unbound/)
 
 > **Verification:** the Pi-hole-style listener (port 5335, `prefetch`, `edns-buffer-size: 1232`, `use-caps-for-id: no`, `private-address` lines) and the `unbound-control` subcommands `flush`, `flush_zone`, `list_local_data`, `local_data`, `dump_cache`, `stats_noreset`, `reload` were checked against the docs. **Not verified:** DoT forwarding options, `access-control`, trust-anchor handling, `unbound-checkconf`/`unbound-anchor`, and the packaging paths (from memory). No command was executed.
 
-See also: [[homelab]] · [[dns-over-tls]] · [[dns-encryption]] · [[dns-record-types]] · [[reverse-proxy-patterns]] · [[docker-compose]]
+See also: [Homelab](homelab.md) · [DNS over TLS (DoT)](../networking/dns-over-tls.md) · [DNS Encryption](../networking/dns-encryption.md) · [DNS Record Types](../networking/dns-record-types.md) · [Reverse Proxy Patterns](reverse-proxy-patterns.md) · [Docker-Compose](../docker/docker-compose.md)
 
 ---
 ## Install
@@ -61,7 +61,7 @@ dig pi-hole.net @127.0.0.1 -p 5335            # NOERROR, answer
 dig fail01.dnssec.works @127.0.0.1 -p 5335    # should be SERVFAIL (bad signature)
 dig dnssec.works @127.0.0.1 -p 5335           # NOERROR with "ad" flag
 ```
-Then in Pi-hole: `dns.upstreams = ["127.0.0.1#5335"]` (see [[pihole]]). Do not turn on DNSSEC in both Pi-hole and Unbound; Unbound is enough.
+Then in Pi-hole: `dns.upstreams = ["127.0.0.1#5335"]` (see [Pi-hole](pihole.md)). Do not turn on DNSSEC in both Pi-hole and Unbound; Unbound is enough.
 
 For other hosts on the LAN (not just localhost) use `interface: 0.0.0.0` and restrict who may ask:
 ```yaml
@@ -92,7 +92,7 @@ A clock that is wrong breaks validation (signatures appear expired); check NTP f
 
 ---
 ## Local Zones and Data
-For names that only exist inside the house, or to override public answers (split-horizon DNS, see [[reverse-proxy-patterns]]):
+For names that only exist inside the house, or to override public answers (split-horizon DNS, see [Reverse Proxy Patterns](reverse-proxy-patterns.md)):
 ```yaml
 server:
     local-zone: "home.example.com." transparent
@@ -131,7 +131,7 @@ forward-zone:
     forward-addr: 1.0.0.1@853#cloudflare-dns.com
     forward-addr: 9.9.9.9@853#dns.quad9.net
 ```
-Syntax is `IP@PORT#TLS-AUTH-NAME`. The name after `#` is verified against the server certificate. Only the destination resolver sees your queries, so you trade privacy from your ISP for trust in the resolver. See [[dns-over-tls]] and [[dns-encryption]].
+Syntax is `IP@PORT#TLS-AUTH-NAME`. The name after `#` is verified against the server certificate. Only the destination resolver sees your queries, so you trade privacy from your ISP for trust in the resolver. See [DNS over TLS (DoT)](../networking/dns-over-tls.md) and [DNS Encryption](../networking/dns-encryption.md).
 
 Forward only one domain (for example, a corporate or lab zone) to another server:
 ```yaml
@@ -183,7 +183,7 @@ Records added with `local_data` are lost on restart; put permanent ones in the c
 
 ---
 ## Docker Compose
-Run it as a plain service and point [[pihole]] at it (see the combined example there). Mount your config read-only:
+Run it as a plain service and point [Pi-hole](pihole.md) at it (see the combined example there). Mount your config read-only:
 ```yaml
 services:
   unbound:

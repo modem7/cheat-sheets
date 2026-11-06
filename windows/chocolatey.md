@@ -1,5 +1,5 @@
 # Chocolatey
-Chocolatey is a machine-level, command-line package manager and installer for Windows software. Run it from an **elevated** PowerShell ([[powershell]]). For per-user installs also consider `winget`.
+Chocolatey is a machine-level, command-line package manager and installer for Windows software. Run it from an **elevated** PowerShell ([PowerShell Cheat-Sheet](powershell.md)). For per-user installs also consider `winget`.
 
 Project Homepage: [Chocolatey Homepage](https://chocolatey.org)
 

@@ -1,6 +1,6 @@
 # Environment Variables in Windows
 ## How to use them in PowerShell
-Environment variables can be used in PowerShell ([[powershell]]) with the prefix `$env:`.
+Environment variables can be used in PowerShell ([PowerShell Cheat-Sheet](powershell.md)) with the prefix `$env:`.
 
 **Example:**
 *Variable:* `%APPDATA%`
@@ -26,7 +26,7 @@ Permanent variables are not visible to windows that are already open; restart th
 $old = [Environment]::GetEnvironmentVariable("Path","User")
 [Environment]::SetEnvironmentVariable("Path", "$old;C:\Tools", "User")
 ```
-The GUI is under System Properties > Advanced > Environment Variables (`sysdm.cpl`). Package managers such as [[chocolatey]] add their own entries.
+The GUI is under System Properties > Advanced > Environment Variables (`sysdm.cpl`). Package managers such as [Chocolatey](chocolatey.md) add their own entries.
 
 ## List of environment variables
 Variable | Description
@@ -76,4 +76,4 @@ Variable | Description
 `%RANDOM%`|Outputs random number from 0 through 32767. (Command Prompt.)
 `%OS%`|Windows_NT
 
-`%CD%`, `%DATE%`, `%TIME%`, `%ERRORLEVEL%` and `%RANDOM%` are dynamic Command Prompt values and do not exist as `$env:` variables in PowerShell. For WSL variables see [[wsl]].
+`%CD%`, `%DATE%`, `%TIME%`, `%ERRORLEVEL%` and `%RANDOM%` are dynamic Command Prompt values and do not exist as `$env:` variables in PowerShell. For WSL variables see [WSL Cheat-Sheet](../tools/wsl.md).

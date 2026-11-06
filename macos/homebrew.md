@@ -1,5 +1,5 @@
 # Homebrew
-Homebrew is the package manager for macOS (and Linux). It installs command line tools ("formulae") and GUI apps ("casks"). On Windows use [[chocolatey]]; on Debian and Ubuntu use `apt`.
+Homebrew is the package manager for macOS (and Linux). It installs command line tools ("formulae") and GUI apps ("casks"). On Windows use [Chocolatey](../windows/chocolatey.md); on Debian and Ubuntu use `apt`.
 
 Homepage and docs: [brew.sh](https://brew.sh), [Homebrew Docs](https://docs.brew.sh)
 
@@ -10,7 +10,7 @@ Copy the one-line install command from [brew.sh](https://brew.sh) (read the scri
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 ```
-Intel Macs use `/usr/local`, and Linux uses `/home/linuxbrew/.linuxbrew`. Run `brew doctor` after installing. See [[docker-on-macos-silicon]] for Apple Silicon notes.
+Intel Macs use `/usr/local`, and Linux uses `/home/linuxbrew/.linuxbrew`. Run `brew doctor` after installing. See [Docker on macOS Silicon](docker-on-macos-silicon.md) for Apple Silicon notes.
 
 ## Everyday Commands
 COMMAND | DESCRIPTION
@@ -50,10 +50,10 @@ COMMAND | DESCRIPTION
 brew bundle dump --file=~/Brewfile --force
 brew bundle --file=~/Brewfile
 ```
-`brew bundle dump` writes everything installed into a `Brewfile`. Commit it to a [[git]] repository to rebuild a machine in one command. A Brewfile contains lines such as `brew "jq"`, `cask "iterm2"` and `tap "homebrew/cask-fonts"`.
+`brew bundle dump` writes everything installed into a `Brewfile`. Commit it to a [Git](../tools/git.md) repository to rebuild a machine in one command. A Brewfile contains lines such as `brew "jq"`, `cask "iterm2"` and `tap "homebrew/cask-fonts"`.
 
 ## Tools Covered Here
-`kubernetes-cli` ([[kubectl]]), `k9s` ([[k9s]]), `kind` ([[kind]]), `helm` ([[helm]]), `jq` ([[jq]]), `tmux` ([[tmux]]), `starship` ([[starship]]), `gh` ([[github-cli]]), `azure-cli` ([[azure-cli]]), `awscli` ([[aws-cli]]), `iterm2` ([[iterm2]]).
+`kubernetes-cli` ([Kubectl](../kubernetes/kubectl.md)), `k9s` ([K9s](../kubernetes/k9s.md)), `kind` ([Kind](../kubernetes/kind.md)), `helm` ([Helm Cheat-Sheet](../tools/helm.md)), `jq` ([jq](../tools/jq.md)), `tmux` ([tmux](../tools/tmux.md)), `starship` ([Starship Prompt](../tools/starship.md)), `gh` ([GitHub and the gh CLI](../tools/github-cli.md)), `azure-cli` ([Azure CLI (az)](../tools/azure-cli.md)), `awscli` ([AWS CLI](../tools/aws-cli.md)), `iterm2` ([iTerm2](../tools/iterm2.md)).
 
 ## Not Verified
 Written from knowledge of Homebrew and not run here.

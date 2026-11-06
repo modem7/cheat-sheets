@@ -2,7 +2,7 @@
 
 X.509 is an ITU standard defining the format of public key certificates. X.509 certificates are used in TLS/SSL, the basis for HTTPS. An X.509 certificate binds an identity to a public key using a digital signature. A certificate contains an identity (hostname, organization, etc.) and a public key (RSA, DSA, ECDSA, ed25519, etc.), and is either signed by a Certificate Authority or is Self-Signed.
 
-See [[tls]], [[tls-handshake]], [[ssl-security]] and [[openssl]]. In Kubernetes, [[cert-manager]] automates issuing and renewal.
+See [TLS (Transport Layer Security)](../networking/tls.md), [TLS Handshake](../networking/tls-handshake.md), [SSL Security Cheat-Sheet](ssl-security.md) and [OpenSSL](../tools/openssl.md). In Kubernetes, [Cert-Manager](../apps/cert-manager.md) automates issuing and renewal.
 
 ## Self-Signed Certificates
 
@@ -127,7 +127,7 @@ In Command Prompt, run:
 certutil.exe -addstore root C:\ca.pem
 ```
 
-- `certutil.exe` is a built-in tool (see [[certutil]]) and adds a system-wide trust anchor.
+- `certutil.exe` is a built-in tool (see [Certutil](../tools/certutil.md)) and adds a system-wide trust anchor.
 
 ### In Firefox
 Firefox uses its own store by default. Add the CA under Settings > Privacy & Security > View Certificates > Authorities > Import, or set `security.enterprise_roots.enabled` to `true` in `about:config` to use the system store.

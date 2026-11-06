@@ -1,5 +1,5 @@
 # Traefik
-Traefik is an open-source Edge Router for **Docker ([[docker]])**, and **Kubernetes ([[kubernetes]])** that makes publishing your services a fun and easy experience. It receives requests on behalf of your system and finds out which components are responsible for handling them.
+Traefik is an open-source Edge Router for **[Docker](../docker/docker.md)**, and **[Kubernetes](../kubernetes/kubernetes.md)** that makes publishing your services a fun and easy experience. It receives requests on behalf of your system and finds out which components are responsible for handling them.
 
 Documentation & Project Homepage: [Traefik Docs](https://doc.traefik.io/traefik/)
 
@@ -140,7 +140,7 @@ certificatesResolvers:
         resolvers:
           - "1.1.1.1:53"
 ```
-Provider credentials are passed as environment variables, e.g. `CF_DNS_API_TOKEN` for Cloudflare. `acme.json` must have permissions `600`. See also [[cert-manager]] for the Kubernetes-native alternative.
+Provider credentials are passed as environment variables, e.g. `CF_DNS_API_TOKEN` for Cloudflare. `acme.json` must have permissions `600`. See also [Cert-Manager](cert-manager.md) for the Kubernetes-native alternative.
 
 ---
 ## ServersTransport
@@ -167,7 +167,7 @@ tls:
 ```
 
 ### options
-Set a minimum TLS version (this disables TLS 1.0 and 1.1). See [[ssl-security]].
+Set a minimum TLS version (this disables TLS 1.0 and 1.1). See [SSL Security Cheat-Sheet](../misc/ssl-security.md).
 ```yaml
 tls:
   options:
@@ -202,7 +202,7 @@ providers:
   kubernetesCRD: {}      # IngressRoute, Middleware and other CRDs
   kubernetesIngress: {}  # standard Ingress objects
 ```
-Traefik's CRD API group is `traefik.io/v1alpha1` (v3 and later v2 releases); older v2 uses `traefik.containo.us/v1alpha1`. K3s ([[k3s]]) ships Traefik by default. For an `IngressRoute` example see [[argocd]].
+Traefik's CRD API group is `traefik.io/v1alpha1` (v3 and later v2 releases); older v2 uses `traefik.containo.us/v1alpha1`. [K3s](../kubernetes/k3s.md) ships Traefik by default. For an `IngressRoute` example see [Argo CD](argocd.md).
 
 ---
 ## Log

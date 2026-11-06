@@ -5,7 +5,7 @@ Documentation: [ethtool man page](https://man7.org/linux/man-pages/man8/ethtool.
 
 > **Verification:** commands and snippets were written from the upstream documentation and **not executed**. Behaviour depends heavily on NIC, driver and firmware, so test with the machine fully shut down, not just suspended.
 
-See also: [[homelab]] · [[vlans]] · [[proxmox-networking]] · [[proxmox-qm-pct]] · [[nut-ups]] · [[tailscale]] · [[wireguard]]
+See also: [Homelab](homelab.md) · [VLANs](vlans.md) · [Proxmox Networking](../proxmox/proxmox-networking.md) · [Proxmox qm and pct](../proxmox/proxmox-qm-pct.md) · [NUT (Network UPS Tools)](nut-ups.md) · [Tailscale](../apps/tailscale.md) · [WireGuard](../apps/wireguard.md)
 
 ---
 ## Target Machine Setup
@@ -61,7 +61,7 @@ In `/etc/network/interfaces`, under the physical NIC that is a bridge port:
 iface eno1 inet manual
     post-up /usr/sbin/ethtool -s eno1 wol g
 ```
-Apply with `ifreload -a`. See [[proxmox-networking]]. Proxmox can also start guests on a schedule or by API ([[proxmox-qm-pct]]), which is often easier than waking the host; wake the **node** with WoL, then start its VMs.
+Apply with `ifreload -a`. See [Proxmox Networking](../proxmox/proxmox-networking.md). Proxmox can also start guests on a schedule or by API ([Proxmox qm and pct](../proxmox/proxmox-qm-pct.md)), which is often easier than waking the host; wake the **node** with WoL, then start its VMs.
 
 ### Windows
 Device Manager -> network adapter -> Properties: Advanced "Wake on Magic Packet" enabled, Power Management "Allow this device to wake the computer" and "Only allow a magic packet to wake the computer". Disable Fast Startup, which often breaks WoL after a shutdown.
@@ -103,10 +103,10 @@ Same VLAN | Broadcast works as-is
 Directed broadcast | Send to `192.168.20.255:9` from another VLAN; the router must forward directed broadcasts (often disabled by default, and a firewall rule is needed)
 Helper host | Run a small always-on device (Raspberry Pi, router, container) on the target VLAN, and SSH to it: `ssh pi 'wakeonlan <MAC>'`
 Router feature | OPNsense: Services -> Wake on LAN (stores devices, one-click wake); UniFi: client page -> Wake-on-LAN option (UniFi gateways with this feature); OpenWrt: `etherwake` or `luci-app-wol`
-Over VPN | Connect with [[tailscale]] or [[wireguard]], then SSH to an always-on machine on the LAN, or use a Tailscale subnet router there
+Over VPN | Connect with [Tailscale](../apps/tailscale.md) or [WireGuard](../apps/wireguard.md), then SSH to an always-on machine on the LAN, or use a Tailscale subnet router there
 WoL does not work over Wi-Fi | Most laptops only wake from wired NICs (some support "Wake on Wireless LAN")
 
-Web front-ends such as a small WoL container or Home Assistant's `wake_on_lan` integration give a button without SSH; whichever you use, keep it internal-only ([[reverse-proxy-patterns]]).
+Web front-ends such as a small WoL container or Home Assistant's `wake_on_lan` integration give a button without SSH; whichever you use, keep it internal-only ([Reverse Proxy Patterns](reverse-proxy-patterns.md)).
 
 ---
 ## Check That the Machine Woke

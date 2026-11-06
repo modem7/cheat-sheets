@@ -1,5 +1,5 @@
 # Bash
-Bash is the default shell on most Linux servers and the language most homelab glue is written in. This sheet covers the syntax you reach for daily; ready-made patterns are in [[bash-recipes]], linting in [[shellcheck-shfmt]]. For text tools see [[grep]], [[sed]], [[awk]] and [[jq]].
+Bash is the default shell on most Linux servers and the language most homelab glue is written in. This sheet covers the syntax you reach for daily; ready-made patterns are in [Bash Recipes](bash-recipes.md), linting in [ShellCheck and shfmt](shellcheck-shfmt.md). For text tools see [Grep](../linux/grep.md), [SED Cheat-Sheet](../linux/sed.md), [AWK](../linux/awk.md) and [jq](../tools/jq.md).
 
 Documentation: [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html)
 
@@ -214,7 +214,7 @@ while getopts ":vn:h" opt; do
 done
 shift $((OPTIND - 1))     # remaining args are the positional ones
 ```
-`getopts` handles short options only. For `--long` options see the template in [[bash-recipes]].
+`getopts` handles short options only. For `--long` options see the template in [Bash Recipes](bash-recipes.md).
 
 ## Here-docs and Here-strings
 ```bash

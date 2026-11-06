@@ -5,7 +5,7 @@ Documentation: [restic documentation](https://restic.readthedocs.io/) · [Prepar
 
 > **Verification:** Written from the restic documentation and experience, but **not** re-checked against the docs this session (command names, flags, repository URL forms, environment variables, the systemd units). `RESTIC_COMPRESSION` needs repository format v2 (restic 0.14+). No command was executed. Test a restore before trusting any setup.
 
-See also: [[backup]] · [[borg]] · [[rclone]] · [[database-dumps]] · [[docker-volume-backup]] · [[linux]] · [[openssh]]
+See also: [Backup Strategy](backup.md) · [BorgBackup](borg.md) · [rclone](rclone.md) · [Database Dumps](database-dumps.md) · [Docker Volume Backup](docker-volume-backup.md) · [Linux](../linux/linux.md) · [OpenSSH Cheat-Sheet](../tools/openssh.md)
 
 ---
 ## Environment Variables
@@ -46,8 +46,8 @@ REST server | `rest:https://<USER>:<PASS>@<HOST>:8000/<REPO>/`
 rclone (any remote) | `rclone:<REMOTE>:<PATH>`
 
 Notes:
-- SFTP uses your normal SSH config and keys ([[openssh]]). For a non-default key or port use `-o sftp.command="ssh -p <PORT> -i <KEY> <USER>@<HOST> -s sftp"`.
-- The `rclone:` backend runs `rclone serve restic` behind the scenes, so the remote must already exist in your rclone config, see [[rclone]].
+- SFTP uses your normal SSH config and keys ([OpenSSH Cheat-Sheet](../tools/openssh.md)). For a non-default key or port use `-o sftp.command="ssh -p <PORT> -i <KEY> <USER>@<HOST> -s sftp"`.
+- The `rclone:` backend runs `rclone serve restic` behind the scenes, so the remote must already exist in your rclone config, see [rclone](rclone.md).
 - For B2, prefer a bucket-scoped application key, not the master key.
 
 ---
@@ -79,7 +79,7 @@ COMMAND | DESCRIPTION
 `restic backup --stdin --stdin-filename <NAME>` | Back up data piped on stdin (for example a database dump)
 `restic backup --limit-upload 5000 <PATH>` | Limit upload speed in KiB/s
 
-Example, a database dump streamed straight into a snapshot (no temp file), see [[database-dumps]]:
+Example, a database dump streamed straight into a snapshot (no temp file), see [Database Dumps](database-dumps.md):
 ```bash
 pg_dump -Fc <DATABASE> | restic backup --stdin --stdin-filename <DATABASE>.dump --tag db
 ```
@@ -200,8 +200,8 @@ With cron and a dead-man's switch:
 
 ---
 ## Gotchas
-- **The password is the key.** Lose it and the data is gone. Store it outside the backed-up host, see [[backup]].
+- **The password is the key.** Lose it and the data is gone. Store it outside the backed-up host, see [Backup Strategy](backup.md).
 - `restic unlock` while another backup is genuinely running can corrupt nothing but will break its lock. Check with `pgrep restic` first.
 - Snapshots are grouped by host and paths. Changing the hostname or the backed-up path set creates a new group and breaks "latest" and the keep policies. Use `--host` to pin the name.
-- Backing up a live database directory yields an inconsistent copy. Dump first, see [[database-dumps]].
+- Backing up a live database directory yields an inconsistent copy. Dump first, see [Database Dumps](database-dumps.md).
 - Ransomware on the source can use the repo credentials to delete the backups. For a hardened target use an append-only [REST server](https://github.com/restic/rest-server) (`--append-only`) or object lock on the bucket, and run `forget`/`prune` from a separate trusted host.

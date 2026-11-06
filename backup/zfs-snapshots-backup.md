@@ -1,11 +1,11 @@
 # ZFS Snapshots and Replication
-ZFS snapshots are instant, read-only, point-in-time views of a dataset. `zfs send` and `zfs receive` replicate them (fully or incrementally) to another pool or host, and Sanoid and Syncoid automate the snapshot schedule and the replication. Snapshots on the same pool protect against mistakes, not pool loss, so replicate to a second system. See [[backup]] for the 3-2-1 reasoning.
+ZFS snapshots are instant, read-only, point-in-time views of a dataset. `zfs send` and `zfs receive` replicate them (fully or incrementally) to another pool or host, and Sanoid and Syncoid automate the snapshot schedule and the replication. Snapshots on the same pool protect against mistakes, not pool loss, so replicate to a second system. See [Backup Strategy](backup.md) for the 3-2-1 reasoning.
 
 Documentation: [OpenZFS zfs-snapshot](https://openzfs.github.io/openzfs-docs/man/master/8/zfs-snapshot.8.html) · [zfs-send](https://openzfs.github.io/openzfs-docs/man/master/8/zfs-send.8.html) · [Sanoid and Syncoid](https://github.com/jimsalterjrs/sanoid) · [Syncoid wiki](https://github.com/jimsalterjrs/sanoid/wiki/Syncoid)
 
 > **Verification:** Sanoid template keys, `process_children_only`, `recursive = yes|zfs`, and the Syncoid options `--no-sync-snap`, `--sendoptions`, `--recvoptions`, `--no-privilege-elevation`, `--sshkey`, `--exclude-datasets` and `--create-bookmark` (needs `--no-sync-snap`) were checked against the Sanoid repository and wiki. The raw `zfs`/`zpool` commands and the sanoid CLI flags were **not** re-checked against the man pages. No command was executed. Use `-n` dry runs and test on a scratch dataset first.
 
-See also: [[backup]] · [[truenas-scale]] (replication tasks in the UI) · [[proxmox-storage]] · [[rsync]] · [[openssh]] · [[linux]]
+See also: [Backup Strategy](backup.md) · [TrueNAS Scale](../infra/truenas-scale.md) (replication tasks in the UI) · [Proxmox Storage](../proxmox/proxmox-storage.md) · [rsync](rsync.md) · [OpenSSH Cheat-Sheet](../tools/openssh.md) · [Linux](../linux/linux.md)
 
 ---
 ## Snapshots
@@ -48,7 +48,7 @@ COMMAND | DESCRIPTION
 `zfs send -I @<OLD> <POOL>/<DATASET>@<NEW> \| ...` | Incremental including all intermediate snapshots
 `zfs send -R <POOL>/<DATASET>@<SNAP> \| ...` | Replication stream: dataset, children, properties and snapshots
 `zfs send -w <POOL>/<DATASET>@<SNAP> \| ...` | **Raw** send of an encrypted dataset: stays encrypted, the target never sees the key
-`zfs send -c ... ` | Send blocks as stored compressed
+`zfs send -c ...` | Send blocks as stored compressed
 `zfs receive -u ...` | Do not mount the received dataset
 `zfs receive -F ...` | Force rollback of the target to the latest common snapshot (can destroy newer target data)
 `zfs receive -s ...` | Save partial state if interrupted, so it can be resumed
@@ -181,5 +181,5 @@ WantedBy=timers.target
 - `zfs receive -F` can destroy newer data on the target. Use `-nv` first and know what you are overwriting.
 - Syncoid with `--no-sync-snap` replicates only what Sanoid created, make sure Sanoid runs on the source and pruning on the target does not remove the last common snapshot.
 - Keep snapshots small in number on pools with heavy churn: each holds blocks. Check `zfs list -t snapshot -o name,used`.
-- A snapshot of a running database is crash-consistent at best. Quiesce or dump first, see [[database-dumps]].
-- Test restores: clone a replicated snapshot (`zfs clone`) and mount it, then compare, see the checklist in [[backup]].
+- A snapshot of a running database is crash-consistent at best. Quiesce or dump first, see [Database Dumps](database-dumps.md).
+- Test restores: clone a replicated snapshot (`zfs clone`) and mount it, then compare, see the checklist in [Backup Strategy](backup.md).

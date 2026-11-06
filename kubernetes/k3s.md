@@ -1,5 +1,5 @@
 # K3S
-Lightweight Kubernetes ([[kubernetes]]). Production ready, easy to install, half the memory, all in a binary less than 100 MB.
+Lightweight [Kubernetes](kubernetes.md). Production ready, easy to install, half the memory, all in a binary less than 100 MB.
 
 Project Homepage: [K3s.io](https://www.k3s.io/)
 Documentation: [K3s Documentation](https://docs.k3s.io/)
@@ -8,22 +8,22 @@ Documentation: [K3s Documentation](https://docs.k3s.io/)
 ## Installation
 To install k3s, you can follow different approaches.
 
-**K3s with external DB ([[k3s-install-ha-externaldb]])** - Set up an HA K3s cluster backed by an external datastore such as MySQL, PostgreSQL, or etcd.
+**K3s with external DB ([Install K3S in High Availability Mode](k3s-install-ha-externaldb.md))** - Set up an HA K3s cluster backed by an external datastore such as MySQL, PostgreSQL, or etcd.
 
-**K3s with embedded DB ([[k3s-install-ha-embeddeddb]])** - Set up an HA K3s cluster that leverages a built-in distributed database.
+**K3s with embedded DB ([Install K3S in High Availability Mode with an embedded Database](k3s-install-ha-embeddeddb.md))** - Set up an HA K3s cluster that leverages a built-in distributed database.
 
-**K3s single node** ([[k3s-install-single]]) - Set up K3s as a single node installation.
+**K3s single node** ([K3S Single-Node Installation](k3s-install-single.md)) - Set up K3s as a single node installation.
 
 ---
 ## What is Bundled
 COMPONENT | DEFAULT | DISABLE WITH
 ---|---|---
-Ingress | Traefik ([[traefik]]) | `--disable traefik`
+Ingress | [Traefik](../apps/traefik.md) | `--disable traefik`
 Service load balancer | ServiceLB (klipper) | `--disable servicelb`
-Storage | local-path-provisioner | `--disable local-storage` (use [[longhorn]])
+Storage | local-path-provisioner | `--disable local-storage` (use [Longhorn](../apps/longhorn.md))
 Metrics | metrics-server | `--disable metrics-server`
 CNI | Flannel | `--flannel-backend=none` (to install Cilium/Calico)
-DNS | CoreDNS, see [[kubernetes-dns]] | n/a
+DNS | CoreDNS, see [Kubernetes DNS](kubernetes-dns.md) | n/a
 
 Make flags permanent in `/etc/rancher/k3s/config.yaml`:
 ```yaml

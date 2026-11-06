@@ -1,5 +1,5 @@
 # Linux Basics
-Network and host configuration on Ubuntu. For everyday commands see [[linux]].
+Network and host configuration on Ubuntu. For everyday commands see [Linux](linux.md).
 
 ## Change Hostname
 
@@ -79,7 +79,7 @@ COMMAND | DESCRIPTION
 `sudo timedatectl set-ntp true` | Enable time sync
 `sudo localectl set-locale LANG=en_GB.UTF-8` | Set the locale
 `resolvectl status` | DNS servers in use
-`sudo ufw allow OpenSSH && sudo ufw enable` | Basic firewall, see [[ufw]]
+`sudo ufw allow OpenSSH && sudo ufw enable` | Basic firewall, see [UFW (uncomplicated firewall)](ufw.md)
 `sudo apt update && sudo apt full-upgrade` | Update the system
 `sudo reboot` / `sudo poweroff` | Reboot / shut down
 `sudo unattended-upgrades --dry-run -d` | Test automatic security updates

@@ -1,5 +1,5 @@
 # Bash Recipes
-Copy-paste patterns for scripts that run unattended: argument parsing, logging, locking, retries, safe temp files and parallelism. Syntax is explained in [[bash]]; run [[shellcheck-shfmt]] over anything you paste in. Text processing lives in [[grep]], [[sed]], [[awk]] and [[jq]]; HTTP calls in [[curl]].
+Copy-paste patterns for scripts that run unattended: argument parsing, logging, locking, retries, safe temp files and parallelism. Syntax is explained in [Bash](bash.md); run [ShellCheck and shfmt](shellcheck-shfmt.md) over anything you paste in. Text processing lives in [Grep](../linux/grep.md), [SED Cheat-Sheet](../linux/sed.md), [AWK](../linux/awk.md) and [jq](../tools/jq.md); HTTP calls in [curl](../tools/curl.md).
 
 ## Argument Parsing Template (long and short options)
 ```bash
@@ -92,7 +92,7 @@ retry() {
 
 retry 5 2 curl -fsS https://example.com/health
 ```
-`curl` has its own retry flags (`--retry 5 --retry-delay 2 --retry-connrefused`), see [[curl]].
+`curl` has its own retry flags (`--retry 5 --retry-delay 2 --retry-connrefused`), see [curl](../tools/curl.md).
 
 ## Temp Files and Directories Safely
 ```bash

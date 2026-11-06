@@ -1,11 +1,11 @@
 # systemd
-`systemd` is the init system and service manager on nearly every modern Linux distribution. It starts services, runs timers, collects logs (`journald`) and applies resource and security limits. Units are plain text files; `systemctl` controls them and `journalctl` reads their logs. Short versions of the commands are in [[linux]].
+`systemd` is the init system and service manager on nearly every modern Linux distribution. It starts services, runs timers, collects logs (`journald`) and applies resource and security limits. Units are plain text files; `systemctl` controls them and `journalctl` reads their logs. Short versions of the commands are in [Linux](linux.md).
 
 Documentation: [systemd.service](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html) · [systemd.exec](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html) · [systemd.timer](https://www.freedesktop.org/software/systemd/man/latest/systemd.timer.html) · [systemd-analyze](https://www.freedesktop.org/software/systemd/man/latest/systemd-analyze.html)
 
 > **Verification:** options and commands below come from the systemd man pages and common practice. No command was executed. Check the hardening options against your systemd version (`systemctl --version`) and test with `systemd-analyze security`.
 
-See also: [[linux]] · [[performance-troubleshooting]] · [[selinux-apparmor]] · [[docker]]
+See also: [Linux](linux.md) · [Linux Performance Troubleshooting](performance-troubleshooting.md) · [SELinux and AppArmor](selinux-apparmor.md) · [Docker](../docker/docker.md)
 
 ---
 ## systemctl

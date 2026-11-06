@@ -5,7 +5,7 @@ Documentation: [dnsmasq man page](https://thekelleys.org.uk/dnsmasq/docs/dnsmasq
 
 > **Verification:** option syntax for `dhcp-range`, `dhcp-host`, `dhcp-option`, `dhcp-relay`, `dhcp-proxy`, `address`, `host-record`, `cname`, `server`, `local`, `domain-needed`, `bogus-priv` and `--test` was checked against the man page. **Not verified:** the dnsmasq version that introduced `dhcp-relay`, how `giaddr` is set in every case, the Debian/Ubuntu service details, and the `nmap`/`dhcping` test commands. DHCP option numbers (3, 6, 15, 42) are from memory. No command was executed.
 
-See also: [[homelab]] · [[vlans]] · [[pihole]] · [[adguard-home]] · [[unbound]] · [[proxmox-networking]] · [[wake-on-lan]] · [[ufw]] · [[docker-compose]]
+See also: [Homelab](homelab.md) · [VLANs](vlans.md) · [Pi-hole](pihole.md) · [AdGuard Home](adguard-home.md) · [Unbound](unbound.md) · [Proxmox Networking](../proxmox/proxmox-networking.md) · [Wake-on-LAN](wake-on-lan.md) · [UFW (uncomplicated firewall)](../linux/ufw.md) · [Docker-Compose](../docker/docker-compose.md)
 
 ---
 ## Install and Run
@@ -82,7 +82,7 @@ FORM | MEANING
 
 dnsmasq decides which `dhcp-range` applies by the interface the request arrived on (and, via relays, the relay address `giaddr`), so each subnet needs its own range line and the host needs an address in it (or a relay in front).
 
-Multiple VLANs on one server (the box has interfaces `eth0.20`, `eth0.30`, see [[vlans]]):
+Multiple VLANs on one server (the box has interfaces `eth0.20`, `eth0.30`, see [VLANs](vlans.md)):
 ```ini
 interface=eth0.20
 interface=eth0.30
@@ -125,7 +125,7 @@ server=/20.168.192.in-addr.arpa/192.168.20.1    # reverse zone forward
 ptr-record=10.20.168.192.in-addr.arpa,nas.home.example.com
 rebind-domain-ok=/home.example.com/             # allow private answers for this domain
 ```
-`address=` and `server=` matches apply to subdomains too. A `cname=` target must be something dnsmasq itself can answer (a DHCP lease, `host-record`, or `/etc/hosts` entry); a CNAME to an external name that dnsmasq only forwards will not work. See [[dns-record-types]] and, for split-horizon, [[reverse-proxy-patterns]].
+`address=` and `server=` matches apply to subdomains too. A `cname=` target must be something dnsmasq itself can answer (a DHCP lease, `host-record`, or `/etc/hosts` entry); a CNAME to an external name that dnsmasq only forwards will not work. See [DNS Record Types](../networking/dns-record-types.md) and, for split-horizon, [Reverse Proxy Patterns](reverse-proxy-patterns.md).
 
 ---
 ## dnsmasq as a DHCP Relay
@@ -149,7 +149,7 @@ Rules and limits:
 - IPv4 and IPv6 are both supported; an IPv4 request cannot be relayed to an IPv6 server or the reverse.
 - A server and a relay on the **same interface** is unsupported (the relay wins). Do not define a `dhcp-range` for the subnet you relay.
 - The DHCP server needs a scope for the relay subnet (for example `192.168.30.0/24` with `giaddr` `192.168.30.1`) and must be able to reach `giaddr` for replies. Add the route or keep the relay on a routed path.
-- The relay host's firewall must allow UDP 67 and 68 on the client side ([[ufw]]).
+- The relay host's firewall must allow UDP 67 and 68 on the client side ([UFW (uncomplicated firewall)](../linux/ufw.md)).
 - `dhcp-proxy` (IPv4 only) makes dnsmasq a full DHCP proxy: it rewrites the server identifier so clients talk back to the relay, for use when the relay cannot rely on RFC 5107 server-identifier-override support. Read the man page entry before using it.
 - Often the simplest alternative is a router DHCP relay/"DHCP helper" on the VLAN gateway (OPNsense: Services -> DHCPv4 -> Relay; Cisco `ip helper-address`; UniFi: DHCP Relay setting on the network). Use dnsmasq only when the gateway cannot relay.
 

@@ -10,7 +10,7 @@ TOOL | USE
 `kubescape` | Security and compliance scanning (NSA, CIS frameworks)
 `conftest` | Write your own policies in Rego (OPA)
 `trivy config .` | Misconfiguration scan for Kubernetes, Terraform and Dockerfiles
-`kubectl apply --dry-run=server -f file.yaml` | Let the API server validate ([[kubectl]])
+`kubectl apply --dry-run=server -f file.yaml` | Let the API server validate ([Kubectl](../kubernetes/kubectl.md))
 Kyverno / OPA Gatekeeper | Admission-time policy in the cluster
 
 ```bash
@@ -18,7 +18,7 @@ kubeconform -strict -summary manifests/
 kube-linter lint manifests/
 helm template ./chart | kubeconform -strict -summary
 ```
-See [[helm]] and [[kubernetes]].
+See [Helm Cheat-Sheet](helm.md) and [Kubernetes](../kubernetes/kubernetes.md).
 
 ---
 ## Datree (Legacy)

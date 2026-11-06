@@ -1,5 +1,5 @@
 # Renovate
-Renovate opens pull requests that update dependencies (Docker images, GitHub Actions, npm, Go, Compose files, Helm charts, Terraform providers and more) and can automerge the safe ones. It is configured with a JSON config file in each repo, usually extending a shared preset. Updated Actions versions are covered in [[github-actions]], Woodpecker steps in [[woodpecker-ci]], image tags in [[ci-docker-builds]] and [[docker-compose]].
+Renovate opens pull requests that update dependencies (Docker images, GitHub Actions, npm, Go, Compose files, Helm charts, Terraform providers and more) and can automerge the safe ones. It is configured with a JSON config file in each repo, usually extending a shared preset. Updated Actions versions are covered in [GitHub Actions](github-actions.md), Woodpecker steps in [Woodpecker CI](woodpecker-ci.md), image tags in [CI Docker Builds](ci-docker-builds.md) and [Docker-Compose](../docker/docker-compose.md).
 
 Documentation: [Renovate docs](https://docs.renovatebot.com), [Configuration options](https://docs.renovatebot.com/configuration-options/), [Preset reference](https://docs.renovatebot.com/presets-default/), [Config validation](https://docs.renovatebot.com/config-validation/)
 
@@ -114,6 +114,7 @@ MATCHER | MATCHES
 `matchFileNames` | Files the dependency was found in (globs)
 `matchCurrentVersion` | Current version range
 `matchBaseBranches` | Target branches
+
 Actions on a match: `automerge`, `enabled`, `groupName`, `schedule`, `labels`, `addLabels`, `assignees`, `allowedVersions`, `versioning`, `pinDigests`, `minimumReleaseAge`, `extends` (apply a preset)
 
 ## Automerge
@@ -130,7 +131,7 @@ Actions on a match: `automerge`, `enabled`, `groupName`, `schedule`, `labels`, `
   ]
 }
 ```
-- Automerge needs required status checks to pass, so give the repo CI (see [[ci-recipes]]) or set `ignoreTests`.
+- Automerge needs required status checks to pass, so give the repo CI (see [CI Recipes](ci-recipes.md)) or set `ignoreTests`.
 - `platformAutomerge: true` uses GitHub's own auto-merge and requires branch protection with required checks; `false` makes Renovate merge on its next run.
 - Run Renovate often enough (hourly) for automerge to complete; each run only merges a PR that is up to date and green.
 - Keep majors manual. Digest and patch updates of CI plumbing are good automerge candidates.
@@ -191,6 +192,7 @@ FIELD | DESCRIPTION
 `datasourceTemplate`, `depNameTemplate`, `packageNameTemplate` | Fixed values instead of capture groups; use `{{{ }}}` to avoid escaping
 `versioningTemplate` | `semver`, `loose`, `docker`, `regex:...`
 `extractVersionTemplate` | Strip a prefix like `v` from tags
+
 Common datasources: `github-releases`, `github-tags`, `docker`, `npm`, `pypi`, `go`, `helm`, `node-version`.
 
 The `modem7/renovate-config:shared` preset already ships two regex managers for `version:` and `*_VERSION:` values annotated with `# renovate: datasource=... depName=...` in `.github/workflows/` and `.woodpecker/` files.
@@ -214,11 +216,11 @@ Run it with no filename for a normal repo: passing a filename makes the validato
 |---|---|---|
 | Setup | Install the GitHub app on repos | Run the `renovate/renovate` container or `npx renovate` on a schedule |
 | Runs | Hosted by Mend | Your cron, GitHub Action, Woodpecker cron or K8s CronJob |
-| Platforms | GitHub | GitHub, GitLab, Gitea/Forgejo ([[gitea]]), Bitbucket, Azure DevOps |
+| Platforms | GitHub | GitHub, GitLab, Gitea/Forgejo ([Gitea (and Forgejo)](../tools/gitea.md)), Bitbucket, Azure DevOps |
 | Control | Per-repo config only | Global config, private registries, any schedule |
 | Maintenance | None | You upgrade it and manage the token |
 
-Self-hosted run with Docker ([[docker]]):
+Self-hosted run with [Docker](../docker/docker.md):
 ```bash
 docker run --rm \
   -e RENOVATE_TOKEN="$RENOVATE_TOKEN" \
@@ -240,7 +242,7 @@ VARIABLE | DESCRIPTION
 `RENOVATE_GITHUB_COM_TOKEN` | A github.com token so changelogs and release lookups are not rate limited
 `LOG_LEVEL` | `info`, `debug` (use `debug` when diagnosing)
 
-Run it on a schedule from GitHub Actions with the official action (see [[github-actions]]) or from a Woodpecker cron job ([[woodpecker-ci]]) using the same container.
+Run it on a schedule from GitHub Actions with the official action (see [GitHub Actions](github-actions.md)) or from a Woodpecker cron job ([Woodpecker CI](woodpecker-ci.md)) using the same container.
 
 ## Troubleshooting
 SYMPTOM | CAUSE AND FIX

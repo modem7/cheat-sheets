@@ -5,7 +5,7 @@ Documentation: [Brendan Gregg: Linux Performance](https://www.brendangregg.com/l
 
 > **Verification:** commands follow the man pages and common practice. No command was executed. Most need `sysstat` (`sudo apt install sysstat`), plus `htop`, `iotop`, `iftop` or `nethogs` where noted. `perf` and `strace` can slow the target; use them briefly on production.
 
-See also: [[linux]] · [[systemd]] · [[storage-and-filesystems]] · [[docker-troubleshooting]] · [[iptables]] · [[tmux]]
+See also: [Linux](linux.md) · [systemd](systemd.md) · [Storage and Filesystems](storage-and-filesystems.md) · [Docker Troubleshooting](../docker/docker-troubleshooting.md) · [IPTables](iptables.md) · [tmux](../tools/tmux.md)
 
 ---
 ## USE Method Checklist
@@ -68,13 +68,13 @@ COMMAND | DESCRIPTION
 `cat /proc/<PID>/status \| grep -e VmRSS -e VmSwap` | One process's memory
 `cat /proc/sys/vm/swappiness` | Swap tendency (default 60, lower on database hosts)
 
-OOM in containers: the container's cgroup limit is hit, see [[docker-troubleshooting]].
+OOM in containers: the container's cgroup limit is hit, see [Docker Troubleshooting](../docker/docker-troubleshooting.md).
 
 Drop caches only for testing, never as a fix: `echo 3 | sudo tee /proc/sys/vm/drop_caches`.
 
 ---
 ## Disk I/O
-More detail in [[storage-and-filesystems]].
+More detail in [Storage and Filesystems](storage-and-filesystems.md).
 
 COMMAND | DESCRIPTION
 ---|---
@@ -112,7 +112,7 @@ COMMAND | DESCRIPTION
 `dig +stats <NAME>` | DNS response time
 `cat /proc/sys/net/netfilter/nf_conntrack_count /proc/sys/net/netfilter/nf_conntrack_max` | Conntrack table fill (full table drops packets)
 
-Many `TIME_WAIT` sockets are normal. Many `CLOSE_WAIT` sockets mean the application is not closing connections. See also [[iptables]] and [[nftables]] for firewall counters.
+Many `TIME_WAIT` sockets are normal. Many `CLOSE_WAIT` sockets mean the application is not closing connections. See also [IPTables](iptables.md) and [nftables](nftables.md) for firewall counters.
 
 ---
 ## Processes and Tracing
@@ -128,21 +128,21 @@ COMMAND | DESCRIPTION
 `sudo pstack <PID>` / `gdb -p <PID> -batch -ex "thread apply all bt"` | Thread stacks
 `ps -eo stat,pid,cmd \| awk '$1 ~ /^D/'` | Processes stuck in uninterruptible sleep (usually I/O)
 `ps -eo stat,ppid,pid,cmd \| awk '$1 ~ /^Z/'` | Zombies
-`systemd-cgtop` | Per-service CPU, memory, I/O ([[systemd]])
+`systemd-cgtop` | Per-service CPU, memory, I/O ([systemd](systemd.md))
 `journalctl -p warning -b` | Warnings and errors since boot
 
 ---
 ## Quick Diagnosis
 SYMPTOM | LOOK AT
 ---|---
-High load, low CPU | I/O wait: `iostat -xz 1`, `D` state processes, NFS hangs ([[nfs]])
+High load, low CPU | I/O wait: `iostat -xz 1`, `D` state processes, NFS hangs ([NFS](nfs.md))
 High `sy` CPU | Interrupts, syscalls: `perf top`, `pidstat -w 1` for context switches
 Free memory low | Normal if `available` is fine. Swapping or OOM kills are the real signs
 Swap growing | `smem`, `vmstat 1`, a leaking process, `swappiness`
-Slow disk | `await` high: failing disk (SMART), RAID rebuild ([[raid-mdadm]]), a noisy process
+Slow disk | `await` high: failing disk (SMART), RAID rebuild ([RAID with mdadm](raid-mdadm.md)), a noisy process
 Random timeouts | Packet loss and retransmits (`nstat`, `ip -s link`), conntrack full, DNS slow
 "No space left on device" | `df -h` and `df -i`, deleted-but-open files
-Service slow after boot only | `systemd-analyze blame`, `critical-chain` ([[systemd]])
+Service slow after boot only | `systemd-analyze blame`, `critical-chain` ([systemd](systemd.md))
 
 ## Monitoring Tools
 TOOL | USE

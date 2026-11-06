@@ -1,12 +1,12 @@
 # Rancher
-**Rancher**, the open-source multi-cluster orchestration platform, lets operations teams deploy, manage and secure enterprise **Kubernetes ([[kubernetes]])**.
+**Rancher**, the open-source multi-cluster orchestration platform, lets operations teams deploy, manage and secure enterprise **[Kubernetes](../kubernetes/kubernetes.md)**.
 
 Project Homepage: [Rancher Homepage](https://www.rancher.com)
 Documentation: [Rancher Docs](https://ranchermanager.docs.rancher.com)
 
 ---
 ## Install on Kubernetes with Helm
-Needs cert-manager first ([[cert-manager]]), and a hostname that resolves to the cluster ([[helm]], [[k3s]]).
+Needs cert-manager first ([Cert-Manager](cert-manager.md)), and a hostname that resolves to the cluster ([Helm Cheat-Sheet](../tools/helm.md), [K3S](../kubernetes/k3s.md)).
 ```bash
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 helm repo update
