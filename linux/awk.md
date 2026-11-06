@@ -1,25 +1,63 @@
 # AWK
-AWK (awk) is a domain-specific language designed for text processing and typically used as a data extraction and reporting tool. Similar to the **[Sed](sed)** and **[Grep](grep)** commands, it is a filter, and is a standard feature of most Unix-like operating systems, like **[Linux](linux)**.
+AWK (awk) is a domain-specific language designed for text processing and typically used as a data extraction and reporting tool. Similar to the **[Sed](sed.md)** and **[Grep](grep.md)** commands, it is a filter, and is a standard feature of most Unix-like operating systems, like **[Linux](linux.md)**.
+
+## Basics
+
+```bash
+awk 'pattern { action }' file
+```
+For each input line awk tests `pattern`; if it matches, `action` runs. A missing pattern matches every line, and a missing action prints the line.
+
+VARIABLE | MEANING
+---|---
+`$0` | The whole line
+`$1`, `$2`, ... | Fields (split on whitespace by default)
+`$NF` | Last field
+`NF` | Number of fields on the line
+`NR` | Line number across all input
+`FNR` | Line number within the current file
+`FS` / `-F` | Input field separator
+`OFS` | Output field separator
+`BEGIN { }` | Runs once before any input
+`END { }` | Runs once after all input
+
+COMMAND | DESCRIPTION
+---|---
+`awk -F: '{print $1}' /etc/passwd` | Use `:` as separator
+`awk -F, -v OFS='\t' '{print $1, $3}' file.csv` | Print columns 1 and 3 tab-separated (simple CSV only, no quoted commas)
+`awk -v name=bob '$1 == name' file` | Pass a shell value in with `-v`
+`awk '{sum += $3} END {print sum}' file` | Sum a column
+`awk '{sum += $3} END {print sum/NR}' file` | Average of a column
+`awk '{c[$1]++} END {for (k in c) print k, c[k]}' file` | Count occurrences of the first field
+`awk '$3 > 100 {print $1, $3}' file` | Filter on a numeric field
+`awk 'NR > 1' file` | Skip a header line
+`awk 'BEGIN {printf "%-10s %5s\n", "NAME", "SIZE"} {printf "%-10s %5d\n", $1, $2}' file` | Formatted report
+`ps aux \| awk '$3 > 50 {print $2, $11}'` | Processes above 50% CPU
+`df -h \| awk 'NR>1 {print $5, $6}'` | Usage per mount point
+`docker ps -a \| awk 'NR>1 {print $1}'` | Container IDs (see [[docker]])
+`awk '{print > $1".txt"}' file` | Split a file into one file per first field
+
+For regex-only filtering see [[grep]], and for substitution see [[sed]].
 
 ## Awk Cheat Sheet
 
 A PDF format cheat sheet is freely available:
 
-![Awk Cheat Sheet](assets/awk.cheat.sheet.pdf)
+[Awk Cheat Sheet (PDF)](assets/awk.cheat.sheet.pdf)
 
 ## Usage
 
 ### Unix/Linux
 
 ```bash
-awk '/pattern/ {print "$1"}'    # standard Unix shells
+awk '/pattern/ {print $1}'      # standard Unix shells (single quotes keep $1 away from the shell)
 ```
 
 ### DOS/Win
 
 ```bash
-awk '/pattern/ {print "$1"}'    # compiled with DJGPP, Cygwin
-awk "/pattern/ {print \"$1\"}"  # GnuWin32, UnxUtils, Mingw
+awk '/pattern/ {print $1}'      # compiled with DJGPP, Cygwin
+awk "/pattern/ {print \$1}"     # GnuWin32, UnxUtils, Mingw
 ```
 
 Note that the DJGPP compilation (for DOS or Windows-32) permits an awk

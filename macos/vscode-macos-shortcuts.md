@@ -1,89 +1,103 @@
-# VSCode shortcuts
+# VSCode shortcuts (macOS)
+Default key bindings for Visual Studio Code on macOS. On Windows and Linux replace `⌘` with `Ctrl` and `⌥` with `Alt`. See [[vscode]] for settings and extensions, and [[macos-shortcuts]] for system keys.
 
-- [MacOS vscode keyboard shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
-- [Howto vscode custom shortcuts](https://code.visualstudio.com/docs/getstarted/keybindings)
-- [Learn vscode keyboard shortcuts](https://blog.logrocket.com/learn-these-keyboard-shortcuts-to-become-a-vs-code-ninja/)
+- [macOS keyboard shortcuts PDF](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
+- [Key bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings)
+- Open the shortcut editor with `⌘ + K` then `⌘ + S`. Your overrides live in `keybindings.json`.
 
+## General
+| shortcut  | description                |
+| :-------- | :------------------------- |
+| ⌘ + ⇧ + P | Command palette            |
+| ⌘ + P     | Quick open a file          |
+| ⌘ + ,     | Settings                   |
+| ⌘ + ⇧ + O | Go to symbol in file       |
+| ⌃ + G     | Go to line                 |
+| F12       | Go to definition           |
+| ⌘ + /     | Toggle line comment        |
 
 ## Side Menu
-| shortcut  | description          |
-| :-------- | :------------------- |
-| ⌘ + B     | Hide show side menu  |
-| ⌘ + ⇧ + E | Explorer window      |
-| ⌘ + ⇧ + F | Find window          |
-| ⌘ + ⇧ + J | Find in files window |
-| ⌃ + ⇧ + G | Git window           |
-| ⌘ + ⇧ + D | Debug window         |
-| ⌘ + ⇧ + X | Extension window     |
+| shortcut  | description                         |
+| :-------- | :---------------------------------- |
+| ⌘ + B     | Show or hide the side bar           |
+| ⌘ + ⇧ + E | Explorer                            |
+| ⌘ + ⇧ + F | Search across files                 |
+| ⌘ + F     | Find in the current file            |
+| ⌘ + ⌥ + F | Replace in the current file         |
+| ⌃ + ⇧ + G | Source control (Git)                |
+| ⌘ + ⇧ + D | Run and debug                       |
+| ⌘ + ⇧ + X | Extensions                          |
+| ⌘ + J     | Toggle the bottom panel             |
 
 ## Multi-Cursor Editing
-| shortcut  | description                                   |
-| :-------- | :-------------------------------------------- |
-| ⌘ + ⌥ + ↓ | add a new cursor below                        |
-| ⌥ + Click | add a new cursor at the mouse click           |
-| ⌘ + ⇧ + L | add new cursor behind all instances of a word |
+| shortcut  | description                                       |
+| :-------- | :------------------------------------------------ |
+| ⌘ + ⌥ + ↓ | add a cursor below (`↑` for above)                |
+| ⌥ + Click | add a cursor at the mouse click                   |
+| ⌘ + D     | select the next occurrence of the current word    |
+| ⌘ + ⇧ + L | select all occurrences of the current selection   |
 
-## Split editor
-| shortcut | description |
-| :------- | :---------- |
-| ⌘ + \    | split       |
-
-## Split Window focusing
-| shortcut | description                           |
-| :------- | :------------------------------------ |
-| ⌘ + 0    | explorer panel                        |
-| ⌘ + 1    | 1st window split window               |
-| ⌘ + 2    | 2nd window split window               |
-| ⌃ + ~    | terminal window                       |
-| ^ + tab  | switch between tabs                   |
-| ⌘ + ~    | switch between VS code editor windows |
+## Split Editor
+| shortcut | description                         |
+| :------- | :---------------------------------- |
+| ⌘ + \    | split the editor                    |
+| ⌘ + 1    | focus the 1st editor group          |
+| ⌘ + 2    | focus the 2nd editor group          |
+| ⌃ + `    | toggle the integrated terminal      |
+| ⌃ + tab  | switch between open tabs            |
+| ⌘ + `    | switch between VS Code windows      |
+| ⌘ + ⇧ + E | focus the Explorer                 |
 
 ## IntelliSense
-| shortcut  | description            |
-| :-------- | :--------------------- |
-| ⌃ + Space | to invoke IntelliSense |
-
-## Line Action
 | shortcut  | description                    |
 | :-------- | :----------------------------- |
-| ⇧ + ⌥ + ↓ | copy the line and insert below |
-| ⇧ + ⌥ + ↑ | copy the line and insert above |
-| ⌥ + ↓     | move entire line below         |
-| ⌥ + ↑     | move entire line above         |
-| ⌘ + ⇧ + K | delete entire line             |
+| ⌃ + Space | trigger suggestions            |
+| ⌘ + ⇧ + Space | trigger parameter hints    |
+| ⌘ + .     | quick fix and code actions     |
+
+## Line Actions
+| shortcut  | description                     |
+| :-------- | :------------------------------ |
+| ⇧ + ⌥ + ↓ | copy the line below             |
+| ⇧ + ⌥ + ↑ | copy the line above             |
+| ⌥ + ↓     | move the line down              |
+| ⌥ + ↑     | move the line up                |
+| ⌘ + ⇧ + K | delete the line                 |
+| ⌘ + Enter | insert a line below             |
+| ⌘ + ⇧ + Enter | insert a line above         |
 
 ## Rename Refactoring
 | shortcut                           | description                          |
 | :--------------------------------- | :----------------------------------- |
-| F2 (Fn + F2)                       | Rename Symbol in the current project |
-| Right Mouse Click -> Rename Symbol | Rename Symbol in the current project |
+| F2 (Fn + F2)                       | Rename symbol in the current project |
+| Right-click, Rename Symbol         | Rename symbol in the current project |
 
 ## Formatting
 | shortcut      | description            |
 | :------------ | :--------------------- |
 | ⇧ + ⌥ + F     | format entire document |
-| ⌘ + K and ⌘ F | format selected text   |
+| ⌘ + K, ⌘ + F  | format selected text   |
 
-## Transform selected
-| shortcut      | description                     |
-| :------------ | :------------------------------ |
-| ^ + ⇧ + ⌥ + L | transform selected to lower     |
-| ^ + ⇧ + ⌥ + U | transform selected to upper     |
-| ^ + ⇧ + ⌥ + S | transform selected to snake     |
-| ^ + ⇧ + ⌥ + T | transform selected to titelcase |
+## Transform Selected Text
+The commands exist (Command palette: *Transform to Uppercase*, *Transform to Lowercase*, *Transform to Snake Case*, *Transform to Title Case*) but have **no default key binding** in current versions. Bind your own in `keybindings.json` if you use them often.
 
 ## Code Folding
-| shortcut    | description   |
-| :---------- | :------------ |
-| ⌘ + ⌥ + [   | fold          |
-| ⌘ + ⌥ + ]   | unfold        |
-| ⌘ K and ⌘ 0 | fold all      |
-| ⌘ K and ⌘ J | unfold all    |
-| ⌘ K and ⌘ 1 | fold 1 level  |
-| ⌘ K and ⌘ 2 | fold 2 levels |
-| ⌘ K and ⌘ 5 | fold 5 levels |
+| shortcut      | description     |
+| :------------ | :-------------- |
+| ⌘ + ⌥ + [     | fold            |
+| ⌘ + ⌥ + ]     | unfold          |
+| ⌘ + K, ⌘ + 0  | fold all        |
+| ⌘ + K, ⌘ + J  | unfold all      |
+| ⌘ + K, ⌘ + 1  | fold level 1    |
+| ⌘ + K, ⌘ + 2  | fold level 2    |
+| ⌘ + K, ⌘ + 5  | fold level 5    |
 
 ## Errors and Warnings
-| shortcut | description            |
-| :------- | :--------------------- |
-| F8       | navigate across errors |
+| shortcut  | description                   |
+| :-------- | :---------------------------- |
+| F8        | next error or warning         |
+| ⇧ + F8    | previous error or warning     |
+| ⌘ + ⇧ + M | open the Problems panel       |
+
+## Not Verified
+Shortcuts are the long-standing macOS defaults, not re-checked against the newest release. Open the shortcut editor to confirm.
