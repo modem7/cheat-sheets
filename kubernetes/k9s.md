@@ -1,12 +1,13 @@
 # K9s
-K9s is a command line interface to easy up managing Kubernetes([[kubernetes]]) clusters.
+K9s is a terminal UI that makes managing Kubernetes ([[kubernetes]]) clusters easier.
 
-Core features of k9s are for instance:
+Core features of k9s include:
 - Editing of resource manifests
 - Shell into a Pod / Container
-- Manage multiple Kubernetes clusters using one tool
+- Log viewing and port-forwarding
+- Managing multiple Kubernetes clusters from one tool
 
-More information and current releases of k9s, can be found on their [Github repository](https://github.com/derailed/k9s).
+More information and current releases are on the [GitHub repository](https://github.com/derailed/k9s) and at [k9scli.io](https://k9scli.io/).
 
 **Screenshots:**
 
@@ -19,59 +20,86 @@ More information and current releases of k9s, can be found on their [Github repo
 
 ### On Linux
 
-1. Find and download the latest release
-
-Check the release page [here](https://github.com/derailed/k9s/releases) and search for the
-fitting package type (e.g. Linux_x86_64). Copy the link to the archive of your choice.
-Download and unpack the archive like in this example:
+Using Homebrew on Linux ([[homebrew]]), snap or a release archive.
 
 ```bash
-wget https://github.com/derailed/k9s/releases/download/v0.26.6/k9s_Linux_x86_64.tar.gz
-tar -xvf k9s_Linux_x86.tar.gz
+brew install k9s
 ```
 
-2. Install k9s
+To use a release archive, check the [release page](https://github.com/derailed/k9s/releases), pick the package for your platform (for example `k9s_Linux_amd64.tar.gz`) and replace `<VERSION>`:
+
 ```bash
+wget https://github.com/derailed/k9s/releases/download/<VERSION>/k9s_Linux_amd64.tar.gz
+tar -xvf k9s_Linux_amd64.tar.gz k9s
 sudo install -o root -g root -m 0755 k9s /usr/local/bin/k9s
 ```
+The archive name must match what you downloaded (the architecture part is `amd64` or `arm64`).
+
+### On macOS
+```bash
+brew install k9s
+```
+
+### On Windows
+```powershell
+choco install k9s
+```
+See [[chocolatey]].
+
+### Run
+```bash
+k9s                          # current context
+k9s -n kube-system           # start in a namespace
+k9s --context <CONTEXT>      # use another context
+k9s --readonly               # disable all write actions
+```
+k9s uses your kubeconfig and `KUBECONFIG` variable, like [[kubectl]].
 
 ---
 ## Commands
 
 ### Cluster selection
-As soon as you've started k9s, you can use a bunch of commands to interact with your selected
-cluster (which is the context you have selected in you current shell environment).
+Once k9s has started, you work with the cluster of your current kubeconfig context.
 
-You can everytime change the cluster you want to work with by typing `:context`. A list of
-available cluster configurations appear, you can select the cluster to connect to with the
-arrow keys and select the context to be used by pressing enter.
+Switch cluster at any time by typing `:context`. A list of available contexts appears. Select one with the arrow keys and press enter.
 
 ### General command structure
 
 **Menu**
-You can switch between resource types to show using a text menu selection. You need to press `:`
-to bring up this menu. Then you can type the resource type you want to switch to
-(e.g. `pod`, `services`...). Press the enter key to finish the command. 
+Press `:` to bring up the command prompt, type the resource type to switch to (for example `pod`, `svc`, `deploy`) and press enter. `:q` or `ctrl`+`c` quits.
 
 **Selection**
-Selections are made with the arrow keys. To confirm your selection or to show more information,
-use the enter key again. For instance, you can select a pod with the arrow keys and type enter
-to "drill down" in that pod and view the running containers in it.
+Select with the arrow keys (or `j` and `k`). Press enter to confirm or to "drill down", for instance from a pod into its containers. `esc` goes back.
 
 **Filter and searches**
-In nearly every screen of k9s, you can apply filters or search for something (e.g. in the log output
-of a pod). This can be done by pressing `/` followed by the search / filter term. Press enter so apply
-the filter / search.
-Also in some screens, there are shortcuts for namespace filters bound to the number keys. Where `0`
-always shows all namespaces.
+On most screens press `/` followed by a term to filter or search (for instance in a pod's log output). Press enter to apply. Use `/!term` to invert the filter, `/-l app=web` to filter by label and `/-f term` for fuzzy.
+The number keys select namespace shortcuts; `0` shows all namespaces.
 
 ### Useful shortcuts and commands
 
-| Command     | Comment                                                                        | Compareable kubectl command                                               |
+| Command     | Comment                                                                        | Comparable kubectl command                                                |
 |-------------|--------------------------------------------------------------------------------|---------------------------------------------------------------------------|
 | `:pod`      | Switches to the pod screen, where you can see all pods on the current cluster. | `kubectl get pods --all-namespaces`                                       |
-| `:services` | Switches to the service screen, where you can see all services.                | `kubectl get services --all-namespaces`                                   |
-| `ctrl`+`d`  | Delete a resource.                                                             | `kubectl delete <resource> -n <namespace>`                                |
-| `ctrl`+`k`  | Kill a resource (no confirmation)                                              |                                                                           |
-| `s`         | When on the Pod screen, you then open a shell into the selected pod.           | `kubectl exec -n <namespace> <pod_name> -c <container_name> -- /bin/bash` |
+| `:svc`      | Switches to the service screen.                                                | `kubectl get services --all-namespaces`                                   |
+| `:ns`       | Switches to namespaces.                                                        | `kubectl get namespaces`                                                  |
+| `:deploy`   | Switches to deployments.                                                       | `kubectl get deploy -A`                                                   |
+| `:node`     | Switches to nodes.                                                             | `kubectl get nodes`                                                       |
+| `:events`   | Cluster events.                                                                | `kubectl get events -A`                                                   |
+| `:xray deploy` | Tree view of a resource and what it owns.                                   |                                                                           |
+| `:pulse`    | Cluster overview dashboard.                                                    | `kubectl top` and friends                                                 |
+| `:popeye`   | Cluster sanitizer report (when Popeye reports are enabled).                    |                                                                           |
+| `?`         | Show all keys for the current screen.                                          |                                                                           |
+| `d`         | Describe the selected resource.                                                | `kubectl describe <resource> <name>`                                      |
+| `y`         | View the YAML.                                                                 | `kubectl get <resource> <name> -o yaml`                                   |
+| `e`         | Edit the resource.                                                             | `kubectl edit <resource> <name>`                                          |
+| `ctrl`+`d`  | Delete a resource (asks for confirmation).                                     | `kubectl delete <resource> -n <namespace>`                                |
+| `ctrl`+`k`  | Kill a resource (no confirmation).                                             |                                                                           |
+| `s`         | On the pod screen, open a shell in the selected pod.                           | `kubectl exec -it -n <namespace> <pod_name> -c <container_name> -- /bin/sh` |
 | `l`         | Show the log output of a pod.                                                  | `kubectl logs -n <namespace> <pod_name>`                                  |
+| `p`         | Previous logs of the container (in the log view).                              | `kubectl logs --previous`                                                 |
+| `shift`+`f` | Port-forward the selected pod or service.                                      | `kubectl port-forward`                                                    |
+| `r`         | Restart (deployments, statefulsets, daemonsets).                               | `kubectl rollout restart`                                                 |
+| `x`         | Decode a secret (on the secrets screen).                                       | `kubectl get secret -o jsonpath=... \| base64 -d`                         |
+| `ctrl`+`a`  | List all available resource aliases.                                           | `kubectl api-resources`                                                   |
+
+Key bindings can differ between versions. Press `?` inside k9s for the list that applies to your version. Configuration lives in `~/.config/k9s` (or `$XDG_CONFIG_HOME/k9s`), where `config.yaml`, `aliases.yaml`, `hotkeys.yaml` and skins can be edited.
