@@ -66,6 +66,40 @@ COMMAND | DESCRIPTION
 ## Docker Warning
 Docker publishes ports through its own iptables rules, which **bypass UFW**. A `-p 8080:80` container is reachable even if UFW denies 8080. Bind to localhost (`-p 127.0.0.1:8080:80`) or manage rules in the `DOCKER-USER` chain. See [[docker-networking]].
 
+## Common Recipes
+```bash
+# Web server
+sudo ufw allow 80,443/tcp
+
+# SSH only from the LAN
+sudo ufw delete allow OpenSSH
+sudo ufw allow from 192.168.1.0/24 to any port 22 proto tcp
+
+# Rate-limit SSH
+sudo ufw limit 22/tcp
+
+# Block outgoing to one address
+sudo ufw deny out to 203.0.113.9
+
+# Allow a container host forwarding (see Docker Warning)
+sudo ufw route allow in on eth0 out on docker0 to any port 80 proto tcp
+```
+`ufw route` rules go in the forward chain and apply to routed and NAT traffic, which includes forwarded container traffic. `sudo ufw default deny routed` sets the default for that chain.
+
+## IPv6 and Logging
+- IPv6 is enabled in `/etc/default/ufw` (`IPV6=yes`). Reload with `sudo ufw disable && sudo ufw enable` after changing it.
+- Log levels: `sudo ufw logging low|medium|high|full`. Blocked packets appear in `/var/log/ufw.log` and `journalctl -k | grep UFW`.
+- Read a log line: `SRC=` is the source, `DST=` the destination, `DPT=` the destination port, `PROTO=` the protocol.
+
+## Backup and Rollback
+```bash
+sudo cp -a /etc/ufw /root/ufw-backup           # rules live in /etc/ufw/user.rules and user6.rules
+sudo ufw show added                            # rules as commands, easy to reapply
+```
+When changing rules over SSH, keep a second session open. If you lock yourself out, use the console: `sudo ufw disable`.
+
+UFW uses the nftables backend through `iptables-nft` on current Ubuntu. For raw nftables see [[nftables]].
+
 ## Config Files
 PATH | DESCRIPTION
 ---|---
