@@ -16,10 +16,10 @@ jobs:
     permissions:
       issues: write
     steps:
-        - name: 'Auto-assign issue'
-          uses: pozil/auto-assign-issue@v4.1.0
-          with:
-            assignees: modem7
+      - name: 'Auto-assign issue'
+        uses: pozil/auto-assign-issue@v4.1.0
+        with:
+          assignees: modem7
 
   auto-assign-pr:
     if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]'
@@ -28,10 +28,10 @@ jobs:
       pull-requests: write
       issues: write
     steps:
-        - name: 'Auto-assign PR'
-          uses: pozil/auto-assign-issue@v4.1.0
-          with:
-            assignees: modem7
+      - name: 'Auto-assign PR'
+        uses: pozil/auto-assign-issue@v4.1.0
+        with:
+          assignees: modem7
 
   auto-assign-stale-renovate-pr:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
