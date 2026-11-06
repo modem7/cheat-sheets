@@ -23,6 +23,12 @@ Install Docker Engine : [Docker Engine](https://docs.docker.com/engine/install/)
 
 ---
 ## Build Images
+See [[docker-file]] for instructions, multi-stage builds and best practices.
+
+COMMAND | DESCRIPTION
+---|---
+`docker build -t NAME:TAG .` | Build an image from the current directory
+`docker buildx build --platform linux/amd64,linux/arm64 -t NAME --push .` | Multi-arch build and push
 
 
 ---
@@ -119,7 +125,7 @@ COMMAND | DESCRIPTION
 
 COMMAND | DESCRIPTION
 ---|---
-`docker volume ls` | List all vol1umes
+`docker volume ls` | List all volumes
 `docker volume create VOLUME` | Create a volume
 `docker volume inspect VOLUME` | Show information (json formatted)
 `docker volume rm VOLUME` | Destroy a volume
@@ -141,7 +147,16 @@ A more detailed tutorial on how to use docker-replay can be found [here](https:/
 ### Restore container from backup
 Restore the volume with a tarball archive.
 `docker run --rm --volumes-from CONTAINER -v $(pwd):/backup busybox sh -c "cd CONTAINERPATH && tar xvf /backup/backup.tar --strip 1"`
+
 ## Networks
+See [[docker-networking]] for drivers, port publishing and debugging.
+
+COMMAND | DESCRIPTION
+---|---
+`docker network ls` | List networks
+`docker network create NAME` | Create a user-defined bridge
+`docker network connect NETWORK CONTAINER` | Attach a container
+`docker network inspect NAME` | Show details
 
 ## Troubleshooting
 ### Networking
