@@ -62,6 +62,86 @@ CREATE INDEX idx_users_name ON users(name);
 EXPLAIN QUERY PLAN SELECT * FROM users WHERE name = 'alice';
 ```
 
+## Users and Access
+SQLite has **no users, roles or passwords**. Access is controlled by file permissions on the database file and its directory (SQLite also creates `-wal`, `-shm` or `-journal` files next to it, so the directory must be writable by the same user):
+```bash
+chmod 600 app.db
+chown appuser:appuser app.db
+```
+Open read-only with `sqlite3 -readonly app.db` or `file:app.db?mode=ro` URIs. For encryption use SQLCipher or an encrypted file system.
+
+## Indexes
+SQL | DESCRIPTION
+---|---
+`CREATE INDEX idx_users_name ON users(name);` | Index
+`CREATE UNIQUE INDEX uq_users_email ON users(email);` | Unique
+`CREATE INDEX idx_open ON orders(created_at) WHERE status = 'open';` | Partial index
+`CREATE INDEX idx_lower ON users(lower(email));` | Expression index
+`DROP INDEX idx_users_name;` | Remove
+`.indexes users` | List (shell)
+`PRAGMA index_info(idx_users_name);` | Columns of an index
+`REINDEX;` | Rebuild
+`ANALYZE;` | Gather statistics for the planner
+`PRAGMA optimize;` | Run `ANALYZE` where useful. Run before closing a long-lived connection
+
+## EXPLAIN QUERY PLAN
+```sql
+EXPLAIN QUERY PLAN SELECT * FROM users WHERE name = 'alice';
+```
+OUTPUT | MEANING
+---|---
+`SEARCH users USING INDEX idx_users_name (name=?)` | Index lookup (good)
+`SEARCH users USING INTEGER PRIMARY KEY (rowid=?)` | Primary key lookup
+`SCAN users` | Full table scan. Fine for small tables, a problem on big ones
+`USE TEMP B-TREE FOR ORDER BY` | Sort without an index
+`COVERING INDEX` | Answered from the index alone
+
+In the shell, `.eqp on` shows the plan for each query, and `.scanstats on` adds scan statistics.
+
+## Vacuum and Maintenance
+COMMAND | DESCRIPTION
+---|---
+`VACUUM;` | Rebuild the file to reclaim free pages (needs free disk of about the database size, takes a write lock)
+`VACUUM INTO 'copy.db';` | Write a compacted copy (also a safe backup)
+`PRAGMA auto_vacuum = INCREMENTAL;` | Set **before** creating tables (or follow with `VACUUM`), then `PRAGMA incremental_vacuum;`
+`PRAGMA wal_checkpoint(TRUNCATE);` | Fold the WAL file back into the database
+`PRAGMA integrity_check;` / `PRAGMA quick_check;` | Verify the file (`ok` is good)
+`PRAGMA foreign_key_check;` | Find foreign key violations
+`PRAGMA page_count; PRAGMA freelist_count;` | Pages in the file and free pages (a high ratio means `VACUUM` would help)
+`PRAGMA page_size;` | Page size (set before creating the database)
+`.dbinfo` | Summary of database properties (shell)
+
+## Performance Settings
+Set per connection when opening the database (WAL persists in the file, the rest do not):
+```sql
+PRAGMA journal_mode = WAL;
+PRAGMA synchronous = NORMAL;      -- safe with WAL, much faster than FULL
+PRAGMA foreign_keys = ON;
+PRAGMA busy_timeout = 5000;
+PRAGMA cache_size = -64000;       -- negative = KiB, here 64 MB
+PRAGMA temp_store = MEMORY;
+PRAGMA mmap_size = 268435456;
+```
+Group many writes in one transaction (`BEGIN; ... COMMIT;`), it is the largest single speed-up. One writer at a time: use WAL and a busy timeout for concurrent readers. Do not put SQLite database files on NFS or other network file systems ([[nfs]]), file locking is unreliable.
+
+## Extensions and Features
+FEATURE | USE
+---|---
+`FTS5` | Full-text search virtual tables: `CREATE VIRTUAL TABLE docs USING fts5(title, body);` then `SELECT * FROM docs WHERE docs MATCH 'word';`
+`JSON1` | `json_extract(col, '$.key')`, `col ->> '$.key'`, `json_each()` (built in from 3.38)
+`R*Tree` | Spatial indexes
+`STRICT` tables | `CREATE TABLE t (...) STRICT;` enforces column types (3.37+)
+`generated columns` | `full_name TEXT GENERATED ALWAYS AS (first || ' ' || last) VIRTUAL`
+`.load ./ext` | Load a loadable extension (for example `sqlite-vec`, `spellfix1`)
+`UPSERT` | `INSERT ... ON CONFLICT(id) DO UPDATE SET name = excluded.name;`
+`RETURNING` | `INSERT ... RETURNING id;` (3.35+)
+
+## Backup
+- `sqlite3 app.db ".backup 'backup.db'"` or `VACUUM INTO` are consistent while the app is running.
+- `.dump` gives portable SQL, slower to restore.
+- Copying the file is only safe when no process writes. With WAL copy the `-wal` and `-shm` files too, or checkpoint first.
+- [Litestream](https://litestream.io/) streams WAL changes to S3-compatible storage for continuous backup.
+
 ## Notes
 - `sqlite_master` lists all schema objects: `SELECT name, type FROM sqlite_master;`
 - Do not copy a live database file with `cp` while it is being written. Use `.backup`.

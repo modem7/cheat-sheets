@@ -1,5 +1,5 @@
 # Linux
-Quick reference for everyday Linux administration. Topic-specific sheets: [[linuxbasics]], [[user]], [[grep]], [[sed]], [[awk]], [[mount]], [[nfs]], [[ufw]], [[iptables]].
+Quick reference for everyday Linux administration. Topic-specific sheets: [[linuxbasics]], [[user]], [[grep]], [[sed]], [[awk]], [[mount]], [[nfs]], [[ufw]], [[iptables]], [[nftables]], [[systemd]], [[lvm]], [[raid-mdadm]], [[storage-and-filesystems]], [[selinux-apparmor]], [[performance-troubleshooting]].
 
 ## System Information
 COMMAND | DESCRIPTION
@@ -32,6 +32,8 @@ COMMAND | DESCRIPTION
 `jobs`, `fg`, `bg` | Manage shell jobs
 
 ## systemd
+Units, timers, drop-ins and hardening are in [[systemd]].
+
 COMMAND | DESCRIPTION
 ---|---
 `systemctl status <UNIT>` | Show unit status
@@ -95,3 +97,74 @@ COMMAND | DESCRIPTION
 `<CMD> > out.log 2>&1` | Redirect stdout and stderr
 `watch -n 2 <CMD>` | Re-run a command every 2 seconds
 `xargs -I{} <CMD> {}` | Run a command per input line
+
+## Logs and Diagnostics
+COMMAND | DESCRIPTION
+---|---
+`dmesg -T \| tail` | Kernel messages with readable timestamps
+`journalctl -k -b` | Kernel log this boot
+`last -n 10` / `lastb -n 10` | Recent logins / failed logins
+`sudo tail -f /var/log/syslog` | System log on Debian/Ubuntu (`/var/log/messages` on RHEL)
+`sudo tail -f /var/log/auth.log` | Auth log on Debian/Ubuntu (`/var/log/secure` on RHEL)
+`lsof +D <DIR>` | Processes using files under a directory
+`lsmod \| grep <NAME>` | Is a kernel module loaded
+`sudo sysctl -a \| grep <KEY>` | Kernel parameters
+`sudo sysctl -w net.ipv4.ip_forward=1` | Set at runtime (persist in `/etc/sysctl.d/*.conf`, load with `sudo sysctl --system`)
+`ulimit -n` | Open file limit of this shell
+
+Deeper dives: [[performance-troubleshooting]], [[storage-and-filesystems]].
+
+## Scheduling
+COMMAND | DESCRIPTION
+---|---
+`crontab -e` | Edit your cron jobs
+`crontab -l` | List them
+`sudo crontab -u <USER> -l` | Another user's jobs
+`systemctl list-timers` | systemd timers, see [[systemd]]
+`echo "<CMD>" \| at now + 10 minutes` | One-off job (`atq` lists, `atrm <ID>` removes)
+
+Cron fields: `minute hour day-of-month month day-of-week command`. Example: `30 2 * * 1-5 /usr/local/bin/backup.sh >> /var/log/backup.log 2>&1` runs at 02:30 on weekdays. Use full paths in cron: its `PATH` is minimal.
+
+## Time and Locale
+COMMAND | DESCRIPTION
+---|---
+`timedatectl` | Time, zone and NTP status
+`sudo timedatectl set-timezone Europe/London` | Set the timezone
+`sudo timedatectl set-ntp true` | Enable network time
+`chronyc tracking` | Clock offset when using chrony
+`locale -a` / `sudo update-locale LANG=en_GB.UTF-8` | Locales (Debian/Ubuntu)
+
+## Swap and Memory
+COMMAND | DESCRIPTION
+---|---
+`swapon --show` | Swap devices
+`sudo fallocate -l 2G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile` | Create a swap file (not on Btrfs or ZFS without extra steps)
+`echo '/swapfile none swap sw 0 0' \| sudo tee -a /etc/fstab` | Make it permanent
+`sudo swapoff -a` | Disable swap
+`sudo sysctl vm.swappiness=10` | Prefer RAM over swap (persist in `/etc/sysctl.d/`)
+
+## SSH Quick Reference
+Full detail in [[openssh]].
+
+COMMAND | DESCRIPTION
+---|---
+`ssh-keygen -t ed25519 -C "<COMMENT>"` | Create a key
+`ssh-copy-id <USER>@<HOST>` | Install your public key
+`ssh -J <JUMPHOST> <USER>@<HOST>` | Connect through a jump host
+`ssh -L 8080:localhost:80 <USER>@<HOST>` | Local port forward
+`scp -r <DIR> <USER>@<HOST>:<DEST>` | Copy over SSH (prefer `rsync`)
+
+## Archives and Compression
+COMMAND | DESCRIPTION
+---|---
+`tar -cf - <DIR> \| zstd -T0 > out.tar.zst` | Fast multi-threaded compression
+`tar --zstd -xf out.tar.zst` | Extract zstd archive
+`tar -tf out.tar.gz` | List contents
+`zip -r out.zip <DIR>` / `unzip out.zip -d <DEST>` | Zip files
+`gzip -k <FILE>` / `gunzip <FILE>.gz` | Gzip, keep the original with `-k`
+
+## Safety Habits
+- Run `sudo !!` only after reading the command you are repeating.
+- Preview destructive globs first: `ls <PATTERN>` before `rm <PATTERN>`.
+- Use `set -euo pipefail` at the top of bash scripts.
+- Edit config in `/etc` with a backup: `sudo cp -a <FILE> <FILE>.bak`.

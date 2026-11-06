@@ -3,6 +3,8 @@ PostgreSQL, also known as Postgres, is a free and open-source relational databas
 
 Documentation: [PostgreSQL Docs](https://www.postgresql.org/docs/current/)
 
+See also: [[postgres-backup-replication]] · [[redis]] · [[mysql]] · [[sqlite]]
+
 ## Installation
 ### Install PostgreSQL on Ubuntu / Debian
 ```bash
@@ -187,3 +189,142 @@ DROP DATABASE dbname;
 DROP USER myuser;
 ```
 A user that owns objects cannot be dropped. Use `REASSIGN OWNED BY myuser TO postgres; DROP OWNED BY myuser;` first.
+
+## Roles and Privileges
+In Postgres users and groups are both **roles**. `CREATE USER` is `CREATE ROLE ... LOGIN`.
+
+SQL | DESCRIPTION
+---|---
+`CREATE ROLE readonly NOLOGIN;` | Group role with no login
+`GRANT CONNECT ON DATABASE dbname TO readonly;` | Allow connecting
+`GRANT USAGE ON SCHEMA public TO readonly;` | Allow seeing the schema
+`GRANT SELECT ON ALL TABLES IN SCHEMA public TO readonly;` | Read existing tables
+`ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO readonly;` | Read future tables (for objects created by the current role)
+`GRANT readonly TO alice;` | Add a user to the group
+`CREATE ROLE app LOGIN PASSWORD '<PASSWORD>' CONNECTION LIMIT 20;` | App user with a connection cap
+`ALTER ROLE app SET search_path = app, public;` | Per-role setting
+`ALTER ROLE app VALID UNTIL '2027-01-01';` | Password expiry
+`REVOKE ALL ON DATABASE dbname FROM PUBLIC;` | Stop other roles connecting by default
+`REVOKE CREATE ON SCHEMA public FROM PUBLIC;` | Harden the `public` schema
+`\du+` / `\dp` / `\ddp` | psql: roles, table privileges, default privileges
+`SELECT rolname, rolsuper, rolcanlogin FROM pg_roles;` | List roles
+
+Give each application its own role and database. Do not use the `postgres` superuser in applications.
+
+## Indexes
+SQL | DESCRIPTION
+---|---
+`CREATE INDEX idx_users_email ON users (email);` | B-tree index (default)
+`CREATE INDEX CONCURRENTLY idx_orders_user ON orders (user_id);` | Build without blocking writes (cannot run in a transaction)
+`CREATE UNIQUE INDEX ON users (lower(email));` | Unique, on an expression
+`CREATE INDEX ON orders (created_at) WHERE status = 'open';` | Partial index
+`CREATE INDEX ON orders (user_id, created_at DESC);` | Multi-column (order matters)
+`CREATE INDEX ON docs USING gin (tags);` | GIN: arrays, `jsonb`, full text
+`CREATE INDEX ON events USING brin (created_at);` | BRIN: tiny index for huge, naturally ordered tables
+`DROP INDEX CONCURRENTLY idx_users_email;` | Drop without a long lock
+`REINDEX INDEX CONCURRENTLY idx_users_email;` | Rebuild a bloated index
+`\di+` | psql: indexes and sizes
+
+Find unused and missing indexes:
+```sql
+SELECT relname, indexrelname, idx_scan FROM pg_stat_user_indexes ORDER BY idx_scan ASC LIMIT 20;
+SELECT relname, seq_scan, idx_scan FROM pg_stat_user_tables ORDER BY seq_scan DESC LIMIT 20;
+```
+Primary keys and unique constraints create their own indexes. Foreign key columns are **not** indexed automatically.
+
+## EXPLAIN
+SQL | DESCRIPTION
+---|---
+`EXPLAIN SELECT ...;` | Estimated plan, runs nothing
+`EXPLAIN ANALYZE SELECT ...;` | Runs the query and shows real times and row counts
+`EXPLAIN (ANALYZE, BUFFERS) SELECT ...;` | Adds buffer (cache and disk) use
+`EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) ...` | Machine-readable output
+
+`EXPLAIN ANALYZE` really executes the statement. Wrap `INSERT`, `UPDATE` and `DELETE` in `BEGIN; ... ROLLBACK;`.
+
+What to look for: `Seq Scan` on a big table with a selective filter (missing index), estimated rows far from actual rows (run `ANALYZE`), `Sort` spilling to disk (`work_mem`), nested loops with large row counts, `Rows Removed by Filter` very high.
+
+Find slow queries with the `pg_stat_statements` extension:
+```sql
+CREATE EXTENSION pg_stat_statements;      -- also needs shared_preload_libraries = 'pg_stat_statements' and a restart
+SELECT calls, round(total_exec_time) AS ms, round(mean_exec_time) AS mean_ms, left(query, 80) AS query
+FROM pg_stat_statements ORDER BY total_exec_time DESC LIMIT 10;
+```
+Log slow statements: `log_min_duration_statement = 500` (milliseconds) in `postgresql.conf`.
+
+## Vacuum and Autovacuum
+Updates and deletes leave dead rows. Autovacuum removes them and updates statistics. It is on by default and should stay on.
+
+SQL | DESCRIPTION
+---|---
+`VACUUM (ANALYZE, VERBOSE) tablename;` | Reclaim space for reuse and refresh statistics
+`VACUUM FULL tablename;` | Rewrite the table, returns disk to the OS, **locks the table**
+`ANALYZE;` | Update planner statistics for the database (run after big loads or restores)
+`SELECT relname, n_dead_tup, last_autovacuum, last_autoanalyze FROM pg_stat_user_tables ORDER BY n_dead_tup DESC LIMIT 10;` | Tables with dead rows
+`SELECT pg_size_pretty(pg_total_relation_size('tablename'));` | Table plus index size
+`ALTER TABLE tablename SET (autovacuum_vacuum_scale_factor = 0.02);` | Vacuum a busy table more often
+`SELECT pid, now() - xact_start AS age, state, query FROM pg_stat_activity WHERE xact_start IS NOT NULL ORDER BY age DESC;` | Long transactions (they stop vacuum from cleaning up)
+
+Command line: `vacuumdb --all --analyze-in-stages` (after a `pg_upgrade`), `reindexdb`. For bloat without downtime use the `pg_repack` extension.
+
+## Extensions
+SQL | DESCRIPTION
+---|---
+`SELECT * FROM pg_available_extensions ORDER BY name;` | What can be installed
+`CREATE EXTENSION IF NOT EXISTS pg_trgm;` | Install into the current database (needs the right privileges, `postgresql-contrib` package on Debian/Ubuntu)
+`\dx` | Installed extensions
+`ALTER EXTENSION name UPDATE;` | Update after a package upgrade
+`DROP EXTENSION name;` | Remove
+
+EXTENSION | USE
+---|---
+`pg_stat_statements` | Query statistics
+`pg_trgm` | Fuzzy and `LIKE '%x%'` search with a GIN or GiST index
+`uuid-ossp` / `pgcrypto` | UUID and crypto functions (`gen_random_uuid()` is built in since 13)
+`citext` | Case-insensitive text type
+`hstore` | Key/value column (`jsonb` is usually better)
+`postgis` | Geospatial data
+`pgvector` | Vector similarity search (separate package, extension name `vector`)
+`timescaledb` | Time-series (separate package)
+`pg_repack` | Online table and index rebuild
+`postgres_fdw` | Query other Postgres servers as tables
+
+In Docker, use an image that ships the extension (for example `postgis/postgis`, `pgvector/pgvector`, `timescale/timescaledb`) because extension binaries must be on the server host.
+
+## Tuning Basics
+Settings in `postgresql.conf` (or `ALTER SYSTEM SET ...;` then `SELECT pg_reload_conf();`). Defaults are conservative. Check with `SHOW <SETTING>;` and see what needs a restart: `SELECT name, setting, pending_restart FROM pg_settings WHERE pending_restart;`
+
+SETTING | STARTING POINT | NOTES
+---|---|---
+`shared_buffers` | 25% of RAM | Restart needed
+`effective_cache_size` | 50-75% of RAM | Planner hint only, no memory is reserved
+`work_mem` | 4-64 MB | Per sort or hash **per query node**, many connections multiply it
+`maintenance_work_mem` | 256 MB - 1 GB | Vacuum, index builds
+`max_connections` | 100 | Use PgBouncer instead of thousands of connections
+`wal_buffers` | 16 MB | Default usually fine
+`checkpoint_timeout` / `max_wal_size` | `15min` / `4GB` | Fewer, smoother checkpoints on write-heavy loads
+`random_page_cost` | `1.1` on SSD | Default `4` suits spinning disks
+`effective_io_concurrency` | `200` on SSD / NVMe |
+`log_min_duration_statement` | `500` | Log slow queries (ms)
+`idle_in_transaction_session_timeout` | `5min` | Kill forgotten transactions
+
+Use [PGTune](https://pgtune.leopard.in.ua/) for a first draft and measure afterwards. Docker: pass settings as `postgres -c shared_buffers=1GB -c max_connections=200` after the image name. Also see [[performance-troubleshooting]] and [[postgres-backup-replication]].
+
+## Useful Queries
+```sql
+-- Database and table sizes
+SELECT datname, pg_size_pretty(pg_database_size(datname)) FROM pg_database ORDER BY pg_database_size(datname) DESC;
+SELECT relname, pg_size_pretty(pg_total_relation_size(relid)) FROM pg_catalog.pg_statio_user_tables ORDER BY pg_total_relation_size(relid) DESC LIMIT 10;
+
+-- Active queries and blockers
+SELECT pid, usename, state, wait_event_type, now() - query_start AS runtime, left(query, 60)
+FROM pg_stat_activity WHERE state <> 'idle' ORDER BY runtime DESC;
+SELECT pg_blocking_pids(pid), pid, query FROM pg_stat_activity WHERE cardinality(pg_blocking_pids(pid)) > 0;
+
+-- Cancel (polite) or terminate (hard)
+SELECT pg_cancel_backend(<PID>);
+SELECT pg_terminate_backend(<PID>);
+
+-- Cache hit ratio (aim for >99% on OLTP)
+SELECT sum(blks_hit) * 100.0 / nullif(sum(blks_hit) + sum(blks_read), 0) AS hit_pct FROM pg_stat_database;
+```
