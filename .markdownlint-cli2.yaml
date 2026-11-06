@@ -1,0 +1,39 @@
+# markdownlint-cli2 configuration, tuned for the cheat-sheet house style.
+# Run locally: npx markdownlint-cli2 "**/*.md"
+# Every rule not listed below stays at its default (enabled).
+config:
+  default: true
+
+  # Content shape: long table rows and URLs, occasional inline HTML,
+  # same heading text under different sections, pointer files without an H1.
+  MD013: false # line length
+  MD033: false # inline HTML
+  MD024: false # duplicate headings
+  MD041: false # first line should be a heading (CLAUDE.md is a one-line pointer)
+  MD026: false # trailing punctuation in headings
+  MD034: false # bare URLs
+
+  # House layout: a heading is followed directly by its text, fences and lists
+  # sit tight against surrounding lines, and tables use pipe-less edges.
+  MD022: false # blank lines around headings
+  MD031: false # blank lines around fences
+  MD032: false # blank lines around lists
+  MD055: false # table pipe style
+  MD060: false # table column style
+  MD058: false # blank lines around tables
+
+  # Existing content that would need a mass rewrite to satisfy.
+  MD045: false # image alt text
+  MD059: false # descriptive link text
+  MD036: false # emphasis used as heading
+  MD029: false # ordered list prefix
+  MD040: false # fenced code language (still required by docs/CONTRIBUTING.md)
+  MD009: false # trailing spaces
+  MD010: false # hard tabs
+  MD012: false # multiple blank lines
+  MD030: false # spaces after list markers
+  MD047: false # single trailing newline
+
+ignores:
+  - ".claude/**"
+  - "node_modules/**"
