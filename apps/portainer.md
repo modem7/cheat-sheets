@@ -41,3 +41,8 @@ COMMAND | DESCRIPTION
 - **Templates**: one-click app deployments.
 - **Users and teams**: role-based access to environments.
 - **Kubernetes**: manage namespaces, deployments and apply manifests.
+
+## Portainer vs Dockhand
+- **Portainer**: manages Docker, Swarm, Kubernetes and Nomad; mature, with Community and paid Business editions and RBAC in Business.
+- **[[dockhand]]**: Docker only, newer and lighter; Git stacks with webhooks, built-in Grype/Trivy scanning, Hawser agents; BSL 1.1 licence (free for personal and non-production use).
+- Choose Portainer for Kubernetes/Swarm or a long-established tool, Dockhand for a simple Docker-only UI. Full table in [[dockhand]].

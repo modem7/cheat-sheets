@@ -30,7 +30,7 @@ K3s: [K3s](kubernetes/k3s.md) · [Single node](kubernetes/k3s-install-single.md)
 [Git](tools/git.md) · [curl](tools/curl.md) · [jq](tools/jq.md) · [tmux](tools/tmux.md) · [OpenSSH](tools/openssh.md) · [OpenSSL](tools/openssl.md) · [Certutil](tools/certutil.md) · [Nmap](tools/nmap.md) · [Ansible](tools/ansible.md) · [Ansible Playbooks](tools/ansible-playbook.md) · [Terraform](tools/terraform.md) · [Helm](tools/helm.md) · [Datree](tools/datree.md) · [Vagrant](tools/vagrant.md) · [Bitwarden](tools/bitwarden.md) · [Starship](tools/starship.md) · [VSCode](tools/vscode.md) · [iTerm2](tools/iterm2.md) · [WSL](tools/wsl.md)
 
 ### Apps
-[Argo CD](apps/argocd.md) · [cert-manager](apps/cert-manager.md) · [Grafana](apps/grafana.md) · [Prometheus](apps/prometheus.md) · [Kasm](apps/kasm.md) · [Longhorn](apps/longhorn.md) · [Nginx](apps/nginx.md) · [Portainer](apps/portainer.md) · [Rancher](apps/rancher.md) · [Tailscale](apps/tailscale.md) · [Teleport](apps/teleport.md) · [Traefik](apps/traefik.md) · [WireGuard](apps/wireguard.md)
+[Argo CD](apps/argocd.md) · [cert-manager](apps/cert-manager.md) · [Dockhand](apps/dockhand.md) · [Grafana](apps/grafana.md) · [Prometheus](apps/prometheus.md) · [Kasm](apps/kasm.md) · [Longhorn](apps/longhorn.md) · [Nginx](apps/nginx.md) · [Portainer](apps/portainer.md) · [Rancher](apps/rancher.md) · [Tailscale](apps/tailscale.md) · [Teleport](apps/teleport.md) · [Traefik](apps/traefik.md) · [WireGuard](apps/wireguard.md)
 
 ### Databases
 [MariaDB](databases/mariadb.md) · [MySQL](databases/mysql.md) · [PostgreSQL](databases/postgres.md) · [SQLite](databases/sqlite.md)
