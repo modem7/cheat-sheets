@@ -1,0 +1,8 @@
+{{ define "main" }}
+<section class="notfound">
+  <p class="hero-kicker"><span aria-hidden="true">$ </span>cat: no such file</p>
+  <h1>404: sheet not found</h1>
+  <p>That page does not exist, or it moved. Try the search (<kbd>/</kbd>) or head back to the index.</p>
+  <p><a class="btn" href="{{ "" | relURL }}">Browse all sheets</a> <button class="btn btn-ghost" type="button" data-search-open>Search</button></p>
+</section>
+{{ end }}

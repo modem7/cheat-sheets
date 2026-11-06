@@ -1,0 +1,25 @@
+/* Chroma token classes mapped onto per-theme colours. Dark is the default. */
+:root, :root[data-theme="dark"] {
+  --t-comment: #6b778c; --t-keyword: #ff8f6b; --t-string: #a5d6a7; --t-number: #ffcc80; --t-name: #6cc6e6;
+  --t-func: #82aaff; --t-var: #f2cfa0; --t-op: #b4bfd0; --t-tag: #ff8f6b; --t-del: #ff7b72; --t-ins: #7fd99a;
+}
+:root[data-theme="light"] {
+  --t-comment: #6a7280; --t-keyword: #b3402a; --t-string: #1f6f3a; --t-number: #8a4b00; --t-name: #0a5f80;
+  --t-func: #2c4fa8; --t-var: #7a3b00; --t-op: #4a5568; --t-tag: #b3402a; --t-del: #b3261e; --t-ins: #1a7a3c;
+}
+.chroma { color: var(--text); }
+.chroma .c, .chroma .c1, .chroma .cm, .chroma .cs, .chroma .ch, .chroma .cp, .chroma .cpf { color: var(--t-comment); font-style: italic; }
+.chroma .k, .chroma .kc, .chroma .kd, .chroma .kn, .chroma .kp, .chroma .kr, .chroma .kt, .chroma .ow { color: var(--t-keyword); }
+.chroma .s, .chroma .sa, .chroma .sb, .chroma .sc, .chroma .dl, .chroma .sd, .chroma .s2, .chroma .se, .chroma .sh, .chroma .si, .chroma .sx, .chroma .sr, .chroma .s1, .chroma .ss { color: var(--t-string); }
+.chroma .m, .chroma .mb, .chroma .mf, .chroma .mh, .chroma .mi, .chroma .il, .chroma .mo { color: var(--t-number); }
+.chroma .nb, .chroma .bp, .chroma .nc, .chroma .no, .chroma .nd, .chroma .ni, .chroma .ne, .chroma .nl, .chroma .nn, .chroma .py { color: var(--t-name); }
+.chroma .nf, .chroma .fm, .chroma .nx { color: var(--t-func); }
+.chroma .nv, .chroma .vc, .chroma .vg, .chroma .vi, .chroma .vm, .chroma .na { color: var(--t-var); }
+.chroma .nt { color: var(--t-tag); }
+.chroma .o { color: var(--t-op); }
+.chroma .gd { color: var(--t-del); }
+.chroma .gi { color: var(--t-ins); }
+.chroma .gh, .chroma .gu, .chroma .gs { font-weight: 700; }
+.chroma .ge { font-style: italic; }
+.chroma .gp { color: var(--t-comment); user-select: none; }
+.chroma .err { color: var(--t-del); }

@@ -1,0 +1,22 @@
+{{- $cur := . -}}
+<a class="nav-home{{ if .IsHome }} is-current{{ end }}" href="{{ "" | relURL }}"{{ if .IsHome }} aria-current="page"{{ end }}>All sheets<span class="count">{{ len site.RegularPages }}</span></a>
+{{- range partialCached "sections.html" . }}
+  {{- $sec := .page -}}
+  {{- $open := eq $cur.FirstSection.RelPermalink $sec.RelPermalink -}}
+  {{- $pages := partial "section-pages.html" $sec }}
+<details class="nav-sec"{{ if $open }} open{{ end }}>
+  <summary><span class="nav-sec-name">{{ .name }}</span><span class="count">{{ len $pages }}</span></summary>
+  <ul>
+    {{- $last := "" -}}
+    {{- range $pages }}
+      {{- if ne .Parent.RelPermalink $sec.RelPermalink }}
+        {{- if ne .Parent.RelPermalink $last }}
+    <li class="nav-sub" aria-hidden="true">{{ partial "section-title.html" .Parent }}</li>
+          {{- $last = .Parent.RelPermalink -}}
+        {{- end }}
+      {{- end }}
+    <li><a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $cur.RelPermalink }} class="is-current" aria-current="page"{{ end }}>{{ .Title }}</a></li>
+    {{- end }}
+  </ul>
+</details>
+{{- end }}

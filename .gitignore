@@ -3,3 +3,11 @@
 .wakatime-project
 .DS_Store
 Thumbs.db
+
+# Hugo site build output (site/)
+/site/public/
+/site/resources/_gen/
+/site/.build/
+/site/.hugo_build.lock
+/site/node_modules/
+__pycache__/

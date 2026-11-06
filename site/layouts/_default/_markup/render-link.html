@@ -1,0 +1,36 @@
+{{- /*
+  Links between sheets are written as plain relative file links on GitHub
+  (e.g. [Sed](sed.md), [PDF](assets/awk.cheat.sheet.pdf)). With pretty URLs the
+  page /linux/awk/ no longer sits in the folder of awk.md, so resolve them here.
+*/ -}}
+{{- $dest := .Destination -}}
+{{- $external := or (findRE `^[a-zA-Z][a-zA-Z0-9+.-]*:` $dest) (hasPrefix $dest "//") -}}
+{{- if $external -}}
+  <a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if findRE `^https?:|^//` $dest }} rel="noopener" class="external"{{ end }}>{{ .Text | safeHTML }}</a>
+{{- else if or (not $dest) (hasPrefix $dest "#") -}}
+  <a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+{{- else -}}
+  {{- $path := $dest -}}
+  {{- $frag := "" -}}
+  {{- with findRE `#.*$` $dest 1 -}}
+    {{- $frag = index . 0 -}}
+    {{- $path = strings.TrimSuffix $frag $dest -}}
+  {{- end -}}
+  {{- $path = $path | replaceRE `\?.*$` "" -}}
+  {{- $full := "" -}}
+  {{- if hasPrefix $path "/" -}}
+    {{- $full = strings.TrimPrefix "/" $path | path.Clean -}}
+  {{- else -}}
+    {{- $full = path.Join .Page.File.Dir $path -}}
+  {{- end -}}
+  {{- if strings.HasSuffix $full ".md" -}}
+    {{- with site.GetPage $full -}}
+      <a href="{{ .RelPermalink }}{{ $frag | safeURL }}"{{ with $.Title }} title="{{ . }}"{{ end }}>{{ $.Text | safeHTML }}</a>
+    {{- else -}}
+      {{- warnf "broken link %q in %s" $dest $.Page.File.Path -}}
+      <span class="wikilink-missing" title="Unresolved link: {{ $dest }}">{{ $.Text | safeHTML }}</span>
+    {{- end -}}
+  {{- else -}}
+    <a href="{{ $full | relURL }}{{ $frag | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+  {{- end -}}
+{{- end -}}

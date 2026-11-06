@@ -1,0 +1,42 @@
+{{ define "main" }}
+{{- $pages := partial "section-pages.html" .FirstSection -}}
+{{- $prev := "" -}}{{- $next := "" -}}
+{{- range $i, $p := $pages -}}
+  {{- if eq $p.RelPermalink $.RelPermalink -}}
+    {{- if gt $i 0 }}{{ $prev = index $pages (sub $i 1) }}{{ end -}}
+    {{- if lt (add $i 1) (len $pages) }}{{ $next = index $pages (add $i 1) }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+<div class="doc">
+  <div class="doc-main">
+    {{ partial "breadcrumbs.html" . }}
+    <article class="prose" data-pagefind-body data-pagefind-meta="section:{{ partial "section-title.html" .FirstSection }}">
+      {{- if not (findRE `<h1[ >]` .Content 1) }}<h1>{{ .Title }}</h1>{{ end }}
+      {{ .Content }}
+    </article>
+    <p class="edit-link">
+      <a href="https://github.com/{{ site.Params.repo }}/edit/{{ site.Params.branch }}/{{ .File.Path }}" rel="noopener">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        Edit this page on GitHub</a>
+    </p>
+    {{- if or $prev $next }}
+    <nav class="pager" aria-label="Previous and next sheet in {{ partial "section-title.html" .FirstSection }}">
+      {{- with $prev }}
+      <a class="pager-prev" rel="prev" href="{{ .RelPermalink }}"><span class="pager-dir">← Previous</span><span class="pager-title">{{ .Title }}</span></a>
+      {{- else }}<span></span>{{ end }}
+      {{- with $next }}
+      <a class="pager-next" rel="next" href="{{ .RelPermalink }}"><span class="pager-dir">Next →</span><span class="pager-title">{{ .Title }}</span></a>
+      {{- end }}
+    </nav>
+    {{- end }}
+  </div>
+  {{- if .TableOfContents | and (gt (len (findRE `<li>` .TableOfContents)) 1) }}
+  <aside class="toc" aria-label="On this page" data-pagefind-ignore>
+    <details class="toc-box" open>
+      <summary>On this page</summary>
+      {{ .TableOfContents }}
+    </details>
+  </aside>
+  {{- end }}
+</div>
+{{ end }}

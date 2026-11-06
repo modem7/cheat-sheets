@@ -1,0 +1,15 @@
+{{- /* GitHub-style alerts: > [!NOTE], > [!attention], > [!INFO] Optional title */ -}}
+{{- if eq .Type "alert" -}}
+  {{- $t := .AlertType | lower -}}
+  {{- $known := dict "note" "Note" "tip" "Tip" "important" "Important" "warning" "Warning" "caution" "Caution" "info" "Info" "attention" "Attention" "danger" "Danger" "success" "Success" "question" "Question" -}}
+  {{- $cls := $t -}}
+  {{- if not (isset $known $t) }}{{ $cls = "note" }}{{ end -}}
+  {{- $title := .AlertTitle | plainify | strings.TrimSpace -}}
+  {{- if not $title }}{{ $title = or (index $known $t) (title $t) }}{{ end -}}
+  <div class="callout callout-{{ $cls }}" role="note">
+    <p class="callout-title"><span class="callout-icon" aria-hidden="true"></span>{{ $title }}</p>
+    <div class="callout-body">{{ .Text | safeHTML }}</div>
+  </div>
+{{- else -}}
+  <blockquote>{{ .Text | safeHTML }}</blockquote>
+{{- end -}}

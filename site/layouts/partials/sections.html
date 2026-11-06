@@ -1,0 +1,6 @@
+{{- /* Top-level sections (one per repo folder), alphabetical by display name. */ -}}
+{{- $items := slice -}}
+{{- range site.Home.Sections -}}
+  {{- $items = $items | append (dict "name" (partial "section-title.html" .) "page" .) -}}
+{{- end -}}
+{{- return (sort $items "name") -}}
