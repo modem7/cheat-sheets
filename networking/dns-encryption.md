@@ -5,9 +5,9 @@ Unencrypted DNS uses port 53, normally over UDP (and TCP for large answers).
 
 Encrypting DNS makes it much harder for snoopers to look into your DNS messages, or to corrupt them in transit.
 
-Two standardized mechanisms exist to secure the DNS transport between you and the resolver, DNS over TLS ([[dns-over-tls]]), and DNS queries over HTTPS ([[dns-over-https]]).
+Two standardized mechanisms exist to secure the DNS transport between you and the resolver, DNS over TLS ([DNS over TLS (DoT)](dns-over-tls.md)), and DNS queries over HTTPS ([DNS over HTTPS (DoH)](dns-over-https.md)).
 
-Both are based on Transport Layer Security ([[tls]]) which is also used to secure communication between you and a website using HTTPS.
+Both are based on Transport Layer Security ([TLS (Transport Layer Security)](tls.md)) which is also used to secure communication between you and a website using HTTPS.
 
 DoT and DoH are now widely supported by browsers, operating systems and public resolvers, but many networks and home routers still use plain DNS by default.
 
@@ -60,4 +60,4 @@ Like DoT, DoH ensures that attackers can't forge or alter DNS traffic. DoH traff
   url/dns-request?dns-...
 ```
 
-Test with `kdig -d @1.1.1.1 +tls-host=cloudflare-dns.com example.com` (DoT, needs knot-dnsutils) or `curl -H 'accept: application/dns-json' 'https://cloudflare-dns.com/dns-query?name=example.com&type=A'` (DoH). See [[dns-record-types]].
+Test with `kdig -d @1.1.1.1 +tls-host=cloudflare-dns.com example.com` (DoT, needs knot-dnsutils) or `curl -H 'accept: application/dns-json' 'https://cloudflare-dns.com/dns-query?name=example.com&type=A'` (DoH). See [DNS Record Types](dns-record-types.md).

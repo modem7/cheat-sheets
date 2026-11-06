@@ -1,5 +1,5 @@
 # Windows Networking
-Inspecting and configuring networking on Windows from the command line: classic tools (`ipconfig`, `netsh`, `route`, `netstat`) and the newer PowerShell cmdlets (`Get-NetIPConfiguration`, `Test-NetConnection`, `Resolve-DnsName`, `New-NetFirewallRule`). Run elevated for changes. Commands run in PowerShell ([[powershell]]) unless noted. See also [[windows-dns-server]], [[windows-troubleshooting]], [[wsl]] and Linux equivalents in [[linuxbasics]].
+Inspecting and configuring networking on Windows from the command line: classic tools (`ipconfig`, `netsh`, `route`, `netstat`) and the newer PowerShell cmdlets (`Get-NetIPConfiguration`, `Test-NetConnection`, `Resolve-DnsName`, `New-NetFirewallRule`). Run elevated for changes. Commands run in PowerShell ([PowerShell Cheat-Sheet](powershell.md)) unless noted. See also [Windows DNS Server](windows-dns-server.md), [Windows Troubleshooting](windows-troubleshooting.md), [WSL Cheat-Sheet](../tools/wsl.md) and Linux equivalents in [Linux Basics](../linux/linuxbasics.md).
 
 Documentation: [NetTCPIP module](https://learn.microsoft.com/en-us/powershell/module/nettcpip/), [NetSecurity module](https://learn.microsoft.com/en-us/powershell/module/netsecurity/)
 
@@ -36,11 +36,11 @@ COMMAND | DESCRIPTION
 `Test-NetConnection <HOST> -Port 3389 -InformationLevel Quiet` | Just `True` or `False`
 `Test-NetConnection <HOST> -TraceRoute` | Traceroute
 `Test-NetConnection -ComputerName <HOST> -CommonTCPPort SMB` | Check a common service (`HTTP`, `RDP`, `WINRM`, `SMB`)
-`1..1024 \| ForEach-Object { if ((Test-NetConnection <HOST> -Port $_ -WarningAction SilentlyContinue).TcpTestSucceeded) { $_ } }` | Slow port scan (use [[nmap]] for real scans)
+`1..1024 \| ForEach-Object { if ((Test-NetConnection <HOST> -Port $_ -WarningAction SilentlyContinue).TcpTestSucceeded) { $_ } }` | Slow port scan (use [NMap](../tools/nmap.md) for real scans)
 `tracert <HOST>` | Classic traceroute (`-d` skips name lookups)
 `pathping <HOST>` | Traceroute with per-hop loss statistics (takes about 5 minutes)
-`curl.exe -I https://<HOST>` | HTTP header check with the bundled curl ([[curl]])
-`Test-WSMan <HOST>` | Check WinRM ([[powershell-remote]])
+`curl.exe -I https://<HOST>` | HTTP header check with the bundled [curl](../tools/curl.md)
+`Test-WSMan <HOST>` | Check WinRM ([PowerShell Remote Access](powershell-remote.md))
 
 Add `-WarningAction SilentlyContinue` to `Test-NetConnection` to hide warnings when ICMP is blocked.
 
@@ -51,7 +51,7 @@ COMMAND | DESCRIPTION
 `Resolve-DnsName <HOST> -Type MX` | Record type (`A`, `AAAA`, `CNAME`, `TXT`, `NS`, `SRV`, `PTR`)
 `Resolve-DnsName <HOST> -Server <DNS-IP>` | Ask a specific DNS server
 `Resolve-DnsName <HOST> -DnsOnly` | Skip hosts file, LLMNR and NetBIOS
-`Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.<DOMAIN>` | Find domain controllers via DNS ([[active-directory]])
+`Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.<DOMAIN>` | Find domain controllers via DNS ([Active Directory](active-directory.md))
 `Resolve-DnsName <IP>` | Reverse lookup (PTR)
 `nslookup <HOST> <DNS-IP>` | Classic lookup (`set type=MX` interactive)
 `Get-DnsClientServerAddress` | DNS servers per interface
@@ -61,7 +61,7 @@ COMMAND | DESCRIPTION
 `Add-DnsClientNrptRule -Namespace ".lab.local" -NameServers <DNS-IP>` | Send one domain to a specific DNS server
 `Get-Content C:\Windows\System32\drivers\etc\hosts` | Hosts file (edit as admin)
 
-A short checklist for "can't resolve a name": `ipconfig /all` (which DNS server), `Resolve-DnsName <HOST> -Server <DNS-IP>`, `Clear-DnsClientCache`, hosts file, VPN/NRPT rules. See [[dns-record-types]] for record types.
+A short checklist for "can't resolve a name": `ipconfig /all` (which DNS server), `Resolve-DnsName <HOST> -Server <DNS-IP>`, `Clear-DnsClientCache`, hosts file, VPN/NRPT rules. See [DNS Record Types](../networking/dns-record-types.md) for record types.
 
 ## Ports and Connections
 COMMAND | DESCRIPTION
@@ -120,7 +120,7 @@ COMMAND | DESCRIPTION
 `netsh advfirewall reset` | Reset to defaults (**removes custom rules**)
 `netsh advfirewall set allprofiles logging droppedconnections enable` | Log dropped packets (default log `%systemroot%\system32\LogFiles\Firewall\pfirewall.log`)
 
-Rule priority: explicit **Block** rules override **Allow** rules. The active profile follows the network category (see `Get-NetConnectionProfile`). Domain GPOs ([[group-policy]]) can override local rules. For `ufw` on Linux see [[ufw]].
+Rule priority: explicit **Block** rules override **Allow** rules. The active profile follows the network category (see `Get-NetConnectionProfile`). Domain GPOs ([Group Policy](group-policy.md)) can override local rules. For `ufw` on Linux see [UFW (uncomplicated firewall)](../linux/ufw.md).
 
 ## netsh
 COMMAND | DESCRIPTION
@@ -129,7 +129,7 @@ COMMAND | DESCRIPTION
 `netsh interface ip set address "Ethernet" static <IP> <MASK> <GW>` | Set static IP
 `netsh interface ip set address "Ethernet" dhcp` | Use DHCP
 `netsh interface ip set dns "Ethernet" static <DNS>` | Set DNS
-`netsh interface portproxy add v4tov4 listenport=<PORT> connectport=<PORT> connectaddress=<IP>` | Port forward (see [[wsl]])
+`netsh interface portproxy add v4tov4 listenport=<PORT> connectport=<PORT> connectaddress=<IP>` | Port forward (see [WSL Cheat-Sheet](../tools/wsl.md))
 `netsh interface portproxy show all` | List port proxies
 `netsh winsock reset` | Reset Winsock (reboot after)
 `netsh int ip reset` | Reset the TCP/IP stack (reboot after)

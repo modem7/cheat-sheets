@@ -1,5 +1,5 @@
 # Make
-`make` runs recipes from a `Makefile` and rebuilds only what is out of date. Outside of compiling C it is a handy task runner for homelab and repo chores (`make up`, `make lint`, `make deploy`). Scripts that a Makefile calls are covered in [[bash]]; linting in [[shellcheck-shfmt]].
+`make` runs recipes from a `Makefile` and rebuilds only what is out of date. Outside of compiling C it is a handy task runner for homelab and repo chores (`make up`, `make lint`, `make deploy`). Scripts that a Makefile calls are covered in [Bash](bash.md); linting in [ShellCheck and shfmt](shellcheck-shfmt.md).
 
 Documentation: [GNU Make Manual](https://www.gnu.org/software/make/manual/make.html)
 
@@ -147,7 +147,7 @@ down: ## Stop the stack
 lint: ## Run all linters
 	pre-commit run --all-files
 ```
-`make` then prints a coloured, aligned list of targets. The `awk` program is explained in [[awk]]; note the doubled `$$` so make passes `$1` and `$2` through to awk.
+`make` then prints a coloured, aligned list of targets. The `awk` program is explained in [AWK](../linux/awk.md); note the doubled `$$` so make passes `$1` and `$2` through to awk.
 
 ## Example: Project Task Runner
 ```make

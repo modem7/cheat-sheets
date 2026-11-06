@@ -1,5 +1,5 @@
 # Cert-Manager
-Cert-manager adds certificates and certificate issuers as resource types in **Kubernetes ([[kubernetes]])** clusters, and simplifies the process of obtaining, renewing and using those certificates.
+Cert-manager adds certificates and certificate issuers as resource types in **[Kubernetes](../kubernetes/kubernetes.md)** clusters, and simplifies the process of obtaining, renewing and using those certificates.
 
 Documentation & Project Homepage: [Cert-Manager Docs](https://cert-manager.io/docs/)
 
@@ -12,7 +12,7 @@ helm install cert-manager jetstack/cert-manager \
   --namespace cert-manager --create-namespace \
   --set crds.enabled=true
 ```
-See [[helm]]. Older chart versions use `--set installCRDs=true` instead of `crds.enabled`. Without Helm, apply the release manifest `cert-manager.yaml` from the GitHub releases page with [[kubectl]].
+See [Helm Cheat-Sheet](../tools/helm.md). Older chart versions use `--set installCRDs=true` instead of `crds.enabled`. Without Helm, apply the release manifest `cert-manager.yaml` from the GitHub releases page with [Kubectl](../kubernetes/kubectl.md).
 
 ```bash
 kubectl -n cert-manager get pods
@@ -39,7 +39,7 @@ spec:
           ingress:
             ingressClassName: traefik
 ```
-Use `ingressClassName: nginx` for ingress-nginx. Port 80 must be reachable from the internet. See [[traefik]] and [[nginx]].
+Use `ingressClassName: nginx` for ingress-nginx. Port 80 must be reachable from the internet. See [Traefik](traefik.md) and [Nginx](nginx.md).
 
 ### DNS-01 (Cloudflare Example)
 Needed for wildcard certificates and for hosts that are not reachable from the internet.
@@ -105,7 +105,7 @@ spec:
 
 ## Self-Signed Certificates
 
-1. Create a self-signed CA ([[ssl-certs]]) creating a ca.key (private key) and ca.crt (certificate)
+1. Create a self-signed CA ([SSL Certificates Cheat-Sheet](../misc/ssl-certs.md)) creating a ca.key (private key) and ca.crt (certificate)
 
 (ca.key)
 ```bash

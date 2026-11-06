@@ -1,5 +1,5 @@
 # GitHub Actions
-GitHub Actions runs workflows defined in `.github/workflows/*.yml` on GitHub-hosted or self-hosted runners. A workflow has triggers (`on`), jobs, and steps that run shell commands or reusable actions. Manage runs from the terminal with `gh run` (see also [[github-cli]]). General CI concepts are in [[cicd]], image builds in [[ci-docker-builds]], ready-made pipelines in [[ci-recipes]], and automated version bumps in [[renovate]].
+GitHub Actions runs workflows defined in `.github/workflows/*.yml` on GitHub-hosted or self-hosted runners. A workflow has triggers (`on`), jobs, and steps that run shell commands or reusable actions. Manage runs from the terminal with `gh run` (see also [GitHub and the gh CLI](../tools/github-cli.md)). General CI concepts are in [CI/CD Overview](cicd.md), image builds in [CI Docker Builds](ci-docker-builds.md), ready-made pipelines in [CI Recipes](ci-recipes.md), and automated version bumps in [Renovate](renovate.md).
 
 Documentation: [Workflow syntax](https://docs.github.com/actions/reference/workflow-syntax-for-github-actions), [Events](https://docs.github.com/actions/reference/events-that-trigger-workflows), [Security hardening](https://docs.github.com/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions)
 
@@ -251,7 +251,7 @@ steps:
       workload_identity_provider: projects/<NUM>/locations/global/workloadIdentityPools/<POOL>/providers/<PROVIDER>
       service_account: <SA>@<PROJECT>.iam.gserviceaccount.com
 ```
-See [[aws-cli]], [[azure-cli]], [[gcloud]] and [[terraform]] for what to run once authenticated.
+See [AWS CLI](../tools/aws-cli.md), [Azure CLI (az)](../tools/azure-cli.md), [gcloud (Google Cloud CLI)](../tools/gcloud.md) and [Terraform](../tools/terraform.md) for what to run once authenticated.
 
 ## Concurrency
 ```yaml
@@ -268,7 +268,7 @@ Major tag | `actions/checkout@v7` | Easy, but the tag can move
 Exact tag | `actions/checkout@v7.0.1` | Readable; tags can still be re-pointed
 Commit SHA | `actions/checkout@<FULL_SHA> # v7.0.1` | Immutable; recommended for third-party actions
 
-Let [[renovate]] keep pins current: the preset `helpers:pinGitHubActionDigests` rewrites tags to digests and keeps the `# vX.Y.Z` comment updated. Pin every third-party action, and treat first-party `actions/*` and `github/*` as lower risk.
+Let [Renovate](renovate.md) keep pins current: the preset `helpers:pinGitHubActionDigests` rewrites tags to digests and keeps the `# vX.Y.Z` comment updated. Pin every third-party action, and treat first-party `actions/*` and `github/*` as lower risk.
 
 ## Service Containers and Conditions
 ```yaml
@@ -333,7 +333,7 @@ PITFALL | FIX
 `pull_request_target` plus checking out the PR head and running it | Never run untrusted PR code with secrets or a write token; use `pull_request`, or split into an unprivileged build and a privileged `workflow_run` that only consumes inert artifacts
 Script injection: `run: echo "${{ github.event.pull_request.title }}"` | Pass untrusted values through `env:` and use `"$VAR"` in the script
 Over-broad `GITHUB_TOKEN` | Declare `permissions:` explicitly
-Unpinned third-party actions | Pin to a full SHA, let [[renovate]] update them
+Unpinned third-party actions | Pin to a full SHA, let [Renovate](renovate.md) update them
 `secrets: inherit` into untrusted callee | Pass only the secrets needed
 Long-lived cloud keys in secrets | Use OIDC
 `workflow_run` triggered by a fork | It runs with default-branch secrets; treat the triggering artifacts as untrusted

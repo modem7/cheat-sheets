@@ -1,5 +1,5 @@
 # yt-dlp
-`yt-dlp` is a feature-rich command-line downloader for video and audio from YouTube and a large list of other sites (a maintained fork of youtube-dl). It needs [[ffmpeg]] to merge separate video and audio streams, convert audio and embed metadata. Only download content you have the right to.
+`yt-dlp` is a feature-rich command-line downloader for video and audio from YouTube and a large list of other sites (a maintained fork of youtube-dl). It needs [ffmpeg](ffmpeg.md) to merge separate video and audio streams, convert audio and embed metadata. Only download content you have the right to.
 
 Documentation: [yt-dlp README](https://github.com/yt-dlp/yt-dlp#readme), [supported sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
 
@@ -7,8 +7,8 @@ Documentation: [yt-dlp README](https://github.com/yt-dlp/yt-dlp#readme), [suppor
 COMMAND | DESCRIPTION
 ---|---
 `pipx install yt-dlp` | Install with pipx (or `uv tool install yt-dlp`)
-`brew install yt-dlp` | macOS / Linux ([[homebrew]])
-`winget install yt-dlp.yt-dlp` | Windows ([[winget]])
+`brew install yt-dlp` | macOS / Linux ([Homebrew](../macos/homebrew.md))
+`winget install yt-dlp.yt-dlp` | Windows ([winget](../windows/winget.md))
 `yt-dlp -U` | Self-update (release binary installs only)
 `pipx upgrade yt-dlp` | Update a pipx install
 `yt-dlp --version` | Show version
@@ -62,7 +62,7 @@ COMMAND | DESCRIPTION
 `yt-dlp --dateafter 20250101 <CHANNEL_URL>` | Only videos uploaded on or after a date (`--datebefore` too)
 `yt-dlp --max-downloads 10 <CHANNEL_URL>` | Stop after 10 downloads
 `yt-dlp --flat-playlist --print url <PLAYLIST_URL>` | List video URLs without downloading
-`yt-dlp --flat-playlist -J <PLAYLIST_URL> \| jq '.entries[].title'` | Playlist metadata as JSON ([[jq]])
+`yt-dlp --flat-playlist -J <PLAYLIST_URL> \| jq '.entries[].title'` | Playlist metadata as JSON ([jq](jq.md))
 `yt-dlp --match-filters "duration>60 & !is_live" <URL>` | Skip short videos and livestreams
 `yt-dlp -o "%(playlist)s/%(playlist_index)03d - %(title)s.%(ext)s" <PLAYLIST_URL>` | Folder per playlist, numbered files
 `yt-dlp --ignore-errors <PLAYLIST_URL>` | Carry on past unavailable videos (`-i`)
@@ -138,7 +138,7 @@ Ignore config files for one run with `--ignore-config`. Check which options are 
 # crontab -e: check a channel nightly, archive prevents duplicates
 30 2 * * * /usr/local/bin/yt-dlp --download-archive /data/archive.txt -P /data/videos "<CHANNEL_URL>" >> /var/log/yt-dlp.log 2>&1
 ```
-Docker users can run the same job in a container; see [[docker]].
+Docker users can run the same job in a container; see [Docker](../docker/docker.md).
 
 ## Troubleshooting
 SYMPTOM | FIX

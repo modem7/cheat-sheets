@@ -1,11 +1,11 @@
 # nftables
-`nftables` is the modern Linux packet filter and the successor to `iptables`, `ip6tables`, `arptables` and `ebtables`. One tool (`nft`) and one syntax cover IPv4, IPv6, ARP and bridge traffic, with sets and maps for fast matching. Debian 10+, Ubuntu 20.10+ and RHEL 8+ use it as the kernel backend; the `iptables` command there is often `iptables-nft`, a translation layer ([[iptables]]). [[ufw]] and `firewalld` can also sit on top.
+`nftables` is the modern Linux packet filter and the successor to `iptables`, `ip6tables`, `arptables` and `ebtables`. One tool (`nft`) and one syntax cover IPv4, IPv6, ARP and bridge traffic, with sets and maps for fast matching. Debian 10+, Ubuntu 20.10+ and RHEL 8+ use it as the kernel backend; the `iptables` command there is often `iptables-nft`, a translation layer ([IPTables](iptables.md)). [UFW (uncomplicated firewall)](ufw.md) and `firewalld` can also sit on top.
 
 Documentation: [nftables wiki](https://wiki.nftables.org/wiki-nftables/index.php/Main_Page) · [Quick reference](https://wiki.nftables.org/wiki-nftables/index.php/Quick_reference-nftables_in_10_minutes) · `man nft`
 
 > **Verification:** syntax follows the nftables wiki and `man nft`. No command was executed. A bad ruleset applied over SSH can lock you out: keep a second session open or use the timed rollback below.
 
-See also: [[iptables]] · [[ufw]] · [[docker-networking]] · [[linux]] · [[systemd]]
+See also: [IPTables](iptables.md) · [UFW (uncomplicated firewall)](ufw.md) · [Docker Networking](../docker/docker-networking.md) · [Linux](linux.md) · [systemd](systemd.md)
 
 ---
 ## Concepts
@@ -78,7 +78,7 @@ sudo nft -c -f /etc/nftables.conf        # check syntax only
 sudo nft -f /etc/nftables.conf           # load
 sudo systemctl enable --now nftables     # load at boot (Debian/Ubuntu/RHEL)
 ```
-Careful: `flush ruleset` also removes the chains that Docker and libvirt create. Restart Docker after loading or limit the flush to your own table (`flush table inet filter`). See [[docker-networking]].
+Careful: `flush ruleset` also removes the chains that Docker and libvirt create. Restart Docker after loading or limit the flush to your own table (`flush table inet filter`). See [Docker Networking](../docker/docker-networking.md).
 
 Safe test over SSH:
 ```bash

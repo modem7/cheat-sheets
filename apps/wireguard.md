@@ -1,5 +1,5 @@
 # WireGuard
-WireGuard® is an extremely simple yet fast and modern **VPN ([[vpn]])** that utilizes state-of-the-art cryptography. It aims to be faster, simpler, leaner, and more useful than IPsec, while avoiding the massive headache. It intends to be considerably more performant than OpenVPN. WireGuard is designed as a general purpose VPN for running on embedded interfaces and super computers alike, fit for many different circumstances.
+WireGuard® is an extremely simple yet fast and modern **VPN ([VPN (Virtual Private Network)](../networking/vpn.md))** that utilizes state-of-the-art cryptography. It aims to be faster, simpler, leaner, and more useful than IPsec, while avoiding the massive headache. It intends to be considerably more performant than OpenVPN. WireGuard is designed as a general purpose VPN for running on embedded interfaces and super computers alike, fit for many different circumstances.
 
 Documentation: [wireguard.com](https://www.wireguard.com/quickstart/)
 
@@ -69,6 +69,6 @@ View the output with `sudo dmesg -wH` or `journalctl -k -f`.
 SYMPTOM | CHECK
 ---|---
 No handshake | Port 51820/udp reachable, keys paired correctly, `Endpoint` correct
-Handshake but no traffic | `AllowedIPs` on both ends, IP forwarding, NAT rule, firewall ([[ufw]], [[iptables]])
+Handshake but no traffic | `AllowedIPs` on both ends, IP forwarding, NAT rule, firewall ([UFW (uncomplicated firewall)](../linux/ufw.md), [IPTables](../linux/iptables.md))
 Large transfers stall | Lower `MTU = 1380` in `[Interface]`
 Stops after idle | `PersistentKeepalive = 25` on the client behind NAT

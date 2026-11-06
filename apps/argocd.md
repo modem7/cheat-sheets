@@ -1,18 +1,18 @@
 # Argo CD
-**Argo CD** is a declarative, GitOps continuous delivery tool for **Kubernetes ([[kubernetes]])**. Application definitions, configuration and environments are declarative and version controlled, and deployment and lifecycle management are automated, auditable and easy to understand.
+**Argo CD** is a declarative, GitOps continuous delivery tool for **[Kubernetes](../kubernetes/kubernetes.md)**. Application definitions, configuration and environments are declarative and version controlled, and deployment and lifecycle management are automated, auditable and easy to understand.
 
 Documentation & Project Homepage: [Argo CD Docs](https://argo-cd.readthedocs.io/en/stable/)
 
 ---
 ## Installation
 
-1. Install Argo CD on a **Kubernetes ([[kubernetes]])** cluster, using **kubectl ([[kubectl]])**.
+1. Install Argo CD on a **[Kubernetes](../kubernetes/kubernetes.md)** cluster, using **[kubectl](../kubernetes/kubectl.md)**.
 
 ```bash
 kubectl create namespace argocd
 kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
-`--server-side` avoids the "annotation too long" error that large CRDs cause with a client-side apply. Pin a release (replace `stable` with a tag such as `v2.14.0`) for repeatable installs. A Helm chart is also available (see [[helm]]).
+`--server-side` avoids the "annotation too long" error that large CRDs cause with a client-side apply. Pin a release (replace `stable` with a tag such as `v2.14.0`) for repeatable installs. A Helm chart is also available (see [Helm Cheat-Sheet](../tools/helm.md)).
 
 2. Install the CLI (macOS: `brew install argocd`, Linux: download from the [releases page](https://github.com/argoproj/argo-cd/releases)).
 
@@ -22,7 +22,7 @@ kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubuse
 kubectl -n argocd port-forward svc/argocd-server 8080:443
 ```
 
-4. Or add a **Traefik IngressRoute ([[traefik]])**.
+4. Or add a **Traefik IngressRoute ([Traefik](traefik.md))**.
 
 ```yaml
 apiVersion: traefik.io/v1alpha1
@@ -100,7 +100,7 @@ COMMAND | DESCRIPTION
 
 1. Create a GitHub token: https://github.com/settings/tokens
 
-2. Add the repository in Argo CD via **kubectl ([[kubectl]])**, the CLI or the GUI
+2. Add the repository in Argo CD via **[kubectl](../kubernetes/kubectl.md)**, the CLI or the GUI
 
 ```yaml
 apiVersion: v1
@@ -199,4 +199,4 @@ OPTION | DESCRIPTION
 
 - Basic tutorial for installation and configuration: [Let loose the squid - Deploy ArgoCD the declarative way](https://thedatabaseme.de/2022/06/05/let-loose-the-squid-deploy-argocd-the-declarative-way/)
 - Writing ArgoCD Plugins: [ArgoCD Custom Plugins](https://dev.to/tylerauerbeck/argocd-custom-plugins-creating-a-custom-plugin-to-process-openshift-templates-4p5m)
-- See also [[kubernetes-automation]] for GitOps in general.
+- See also [Kubernetes Automation](../kubernetes/kubernetes-automation.md) for GitOps in general.

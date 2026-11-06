@@ -1,5 +1,5 @@
 # CI/CD Overview
-Continuous integration (CI) builds and tests every change automatically; continuous delivery/deployment (CD) ships what passed. This sheet covers the concepts shared by every tool (stages, branch flow, secrets, caching) and links to the per-tool sheets: [[github-actions]], [[woodpecker-ci]], [[gitlab-ci]], [[renovate]], [[ci-docker-builds]] and [[ci-recipes]].
+Continuous integration (CI) builds and tests every change automatically; continuous delivery/deployment (CD) ships what passed. This sheet covers the concepts shared by every tool (stages, branch flow, secrets, caching) and links to the per-tool sheets: [GitHub Actions](github-actions.md), [Woodpecker CI](woodpecker-ci.md), [GitLab CI/CD](gitlab-ci.md), [Renovate](renovate.md), [CI Docker Builds](ci-docker-builds.md) and [CI Recipes](ci-recipes.md).
 
 Documentation: [GitHub Actions](https://docs.github.com/actions), [Woodpecker](https://woodpecker-ci.org/docs/intro), [GitLab CI/CD](https://docs.gitlab.com/ci/)
 
@@ -7,11 +7,11 @@ Documentation: [GitHub Actions](https://docs.github.com/actions), [Woodpecker](h
 ## Choosing a Tool
 TOOL | GOOD FOR | NOTES
 ---|---|---
-GitHub Actions | Repos hosted on GitHub | Hosted runners, huge action marketplace, see [[github-actions]]
-Woodpecker CI | Self-hosted, container-native pipelines | Runs on Gitea/Forgejo/GitHub/GitLab, see [[woodpecker-ci]]
-GitLab CI | Repos hosted on GitLab | Built in, see [[gitlab-ci]] and [[gitlab]]
-Gitea/Forgejo Actions | Self-hosted Gitea | GitHub-compatible syntax, see [[gitea]]
-Renovate | Dependency update PRs | Not a CI system, but triggers CI on every PR, see [[renovate]]
+GitHub Actions | Repos hosted on GitHub | Hosted runners, huge action marketplace, see [GitHub Actions](github-actions.md)
+Woodpecker CI | Self-hosted, container-native pipelines | Runs on Gitea/Forgejo/GitHub/GitLab, see [Woodpecker CI](woodpecker-ci.md)
+GitLab CI | Repos hosted on GitLab | Built in, see [GitLab CI/CD](gitlab-ci.md) and [GitLab and the glab CLI](../tools/gitlab.md)
+Gitea/Forgejo Actions | Self-hosted Gitea | GitHub-compatible syntax, see [Gitea (and Forgejo)](../tools/gitea.md)
+Renovate | Dependency update PRs | Not a CI system, but triggers CI on every PR, see [Renovate](renovate.md)
 
 ## Pipeline Stages
 STAGE | PURPOSE | TYPICAL JOBS
@@ -21,7 +21,7 @@ Test | Prove behaviour | unit tests, integration tests with service containers
 Build | Produce the artifact | compile, `docker buildx build`, package
 Scan | Catch known problems | Trivy image scan, dependency audit, secret scan
 Publish | Make the artifact available | push image to a registry, upload release assets
-Deploy | Run it somewhere | `docker compose pull && up -d`, `helm upgrade`, [[ansible-playbook]], [[terraform]] apply
+Deploy | Run it somewhere | `docker compose pull && up -d`, `helm upgrade`, [Ansible-Playbook Cheat-Sheet](../tools/ansible-playbook.md), [Terraform](../tools/terraform.md) apply
 Verify | Check it works | smoke test, health check, notify on failure
 
 Rules of thumb:
@@ -33,8 +33,8 @@ Rules of thumb:
 ## Branch and PR Flow
 STEP | WHAT HAPPENS
 ---|---
-1. Branch | `git switch -c feat/<NAME>` off an up to date default branch ([[git]])
-2. Push and open PR | `gh pr create` ([[github-cli]]), CI runs the lint, test and build stages
+1. Branch | `git switch -c feat/<NAME>` off an up to date default branch ([Git](../tools/git.md))
+2. Push and open PR | `gh pr create` ([GitHub and the gh CLI](../tools/github-cli.md)), CI runs the lint, test and build stages
 3. Review | Required checks must be green, at least one review
 4. Merge | Squash or rebase merge into the default branch
 5. Default branch pipeline | Builds again, publishes `latest` or a version, deploys to staging
@@ -57,7 +57,7 @@ RULE | WHY
 ---|---
 Store secrets in the CI system's secret store, never in the repo | Git history is forever
 Scope secrets to the narrowest level (environment, repo) | A leak affects less
-Prefer short-lived credentials (OIDC to the cloud) over long-lived keys | Nothing to rotate or steal, see [[github-actions]]
+Prefer short-lived credentials (OIDC to the cloud) over long-lived keys | Nothing to rotate or steal, see [GitHub Actions](github-actions.md)
 Never `echo` a secret, never pass it as a command-line argument | Logs and `ps` expose it
 Do not expose secrets to pull requests from forks | An attacker's PR could print them
 Use a dedicated bot account or deploy key with minimum scopes | Limits blast radius
@@ -73,14 +73,14 @@ gitleaks protect --staged                   # scan only what is staged (pre-comm
 TECHNIQUE | HOW
 ---|---
 Dependency cache | Key on the lock file hash (`hashFiles('**/package-lock.json')`)
-Docker layer cache | `cache-from` / `cache-to` with the `gha` or `registry` backend, see [[ci-docker-builds]]
+Docker layer cache | `cache-from` / `cache-to` with the `gha` or `registry` backend, see [CI Docker Builds](ci-docker-builds.md)
 Shallow clone | `fetch-depth: 1` (the default in most tools); use full history only for changelogs and version tools
 Path filters | Skip jobs when only docs changed (`paths:` / `when.path`)
 Cancel superseded runs | `concurrency` with `cancel-in-progress` on PRs
 Pre-built tool images | Run steps in an image that already contains the tools instead of installing them each time
 
 ## Dependency Updates
-Automated update PRs ([[renovate]]) are only as safe as the CI behind them. Keep tests meaningful, pin versions, auto-merge only patch and digest updates that pass CI, and keep majors for human review.
+Automated update PRs ([Renovate](renovate.md)) are only as safe as the CI behind them. Keep tests meaningful, pin versions, auto-merge only patch and digest updates that pass CI, and keep majors for human review.
 
 ## Troubleshooting
 SYMPTOM | CAUSE AND FIX

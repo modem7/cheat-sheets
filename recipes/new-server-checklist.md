@@ -8,7 +8,7 @@ A host with a named sudo user, SSH key login only, a default-deny firewall, auto
 
 ## Prerequisites
 - A fresh Ubuntu 24.04 server with root (or initial sudo) access and a public IP or LAN address (`192.0.2.10` below)
-- An SSH key pair on your workstation (`ssh-keygen -t ed25519`, see [[openssh]])
+- An SSH key pair on your workstation (`ssh-keygen -t ed25519`, see [OpenSSH Cheat-Sheet](../tools/openssh.md))
 - Console access (hypervisor or provider) in case you lock yourself out
 
 > **Keep your first SSH session open** while you change SSH or firewall settings. Test with a second session before closing the first.
@@ -26,7 +26,7 @@ sudo reboot   # only if /var/run/reboot-required exists
 sudo adduser <USER>
 sudo usermod -aG sudo <USER>
 ```
-See [[user]] for more account commands.
+See [User Management](../linux/user.md) for more account commands.
 
 ### 3. Install your SSH key
 From your workstation:
@@ -51,7 +51,7 @@ sudo sshd -T | grep -Ei 'permitrootlogin|passwordauthentication|allowusers'
 On Ubuntu the unit is `ssh` (not `sshd`). If you also change the `Port`, see the note under Verify.
 
 ### 5. Firewall with UFW
-Allow SSH **before** enabling ([[ufw]]):
+Allow SSH **before** enabling ([UFW (uncomplicated firewall)](../linux/ufw.md)):
 ```bash
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
@@ -61,7 +61,7 @@ sudo ufw allow 443/tcp
 sudo ufw enable
 sudo ufw status verbose
 ```
-Only open 80 and 443 if the host will serve web traffic. Docker publishes ports through its own `iptables` rules and **bypasses UFW**. Do not rely on UFW to hide a container port you published with `-p`; bind it to `127.0.0.1` (`-p 127.0.0.1:8080:80`) or keep it off the host ([[docker-networking]], [[iptables]]).
+Only open 80 and 443 if the host will serve web traffic. Docker publishes ports through its own `iptables` rules and **bypasses UFW**. Do not rely on UFW to hide a container port you published with `-p`; bind it to `127.0.0.1` (`-p 127.0.0.1:8080:80`) or keep it off the host ([Docker Networking](../docker/docker-networking.md), [IPTables](../linux/iptables.md)).
 
 ### 6. Automatic security updates
 ```bash
@@ -78,7 +78,7 @@ sudo timedatectl set-timezone Europe/London
 sudo timedatectl set-ntp true
 timedatectl            # "System clock synchronized: yes"
 ```
-Add the hostname to `/etc/hosts` next to `127.0.1.1` so `sudo` does not warn about resolution. A wrong clock breaks TLS ([[tls-troubleshooting]]).
+Add the hostname to `/etc/hosts` next to `127.0.1.1` so `sudo` does not warn about resolution. A wrong clock breaks TLS ([TLS Troubleshooting](tls-troubleshooting.md)).
 
 ### 8. Brute-force protection (optional)
 A log-watching banning tool such as `fail2ban` complements key-only SSH by cutting log noise:
@@ -97,7 +97,7 @@ sudo fail2ban-client status sshd
 Key-only SSH already makes password guessing futile, so treat this as optional.
 
 ### 9. Install Docker Engine
-Use Docker's apt repository, not the distribution `docker.io` package ([[docker]]):
+Use Docker's apt repository, not the distribution `docker.io` package ([Docker](../docker/docker.md)):
 ```bash
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -144,6 +144,7 @@ If you changed the SSH `Port`, Ubuntu 24.04 uses socket activation: edit the por
 - Remove Docker: `sudo apt purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin` (data stays in `/var/lib/docker` until you delete it).
 
 ## Related Sheets
-- [[openssh]] · [[user]] · [[ufw]] · [[iptables]] · [[linux]] · [[linuxbasics]]
-- [[docker]] · [[docker-compose]] · [[docker-networking]]
-- [[docker-service-deploy]] · [[tls-troubleshooting]]
+- [OpenSSH Cheat-Sheet](../tools/openssh.md) · [User Management](../linux/user.md) · [UFW (uncomplicated firewall)](../linux/ufw.md) · [IPTables](../linux/iptables.md) · [Linux](../linux/linux.md) · [Linux Basics](../linux/linuxbasics.md)
+- [Docker](../docker/docker.md) · [Docker-Compose](../docker/docker-compose.md) · [Docker Networking](../docker/docker-networking.md)
+- [Docker Service Deploy](docker-service-deploy.md) · [TLS Troubleshooting](tls-troubleshooting.md)
+- [fail2ban](../security/fail2ban.md) · [Security](../security/security.md) · [Backup Strategy](../backup/backup.md) · [restic](../backup/restic.md) · [Bash](../scripting/bash.md) · [Homelab](../homelab/homelab.md)

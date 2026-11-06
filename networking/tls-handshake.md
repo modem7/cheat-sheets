@@ -60,9 +60,9 @@ Client                                   Server
 ## Inspect a Handshake
 COMMAND | DESCRIPTION
 ---|---
-`openssl s_client -connect host:443 -servername host` | Handshake details, chain and negotiated cipher ([[openssl]])
+`openssl s_client -connect host:443 -servername host` | Handshake details, chain and negotiated cipher ([OpenSSL](../tools/openssl.md))
 `openssl s_client -connect host:443 -tls1_2` | Force TLS 1.2 (`-tls1_3` for 1.3)
-`curl -v https://host` | Show the handshake summary ([[curl]])
-`nmap --script ssl-enum-ciphers -p 443 host` | List supported versions and ciphers ([[nmap]])
+`curl -v https://host` | Show the handshake summary ([curl](../tools/curl.md))
+`nmap --script ssl-enum-ciphers -p 443 host` | List supported versions and ciphers ([NMap](../tools/nmap.md))
 
-See [[tls]], [[ssl-certs]] and [[ssl-security]].
+See [TLS (Transport Layer Security)](tls.md), [SSL Certificates Cheat-Sheet](../misc/ssl-certs.md) and [SSL Security Cheat-Sheet](../misc/ssl-security.md).

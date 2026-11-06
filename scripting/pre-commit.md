@@ -1,5 +1,5 @@
 # pre-commit
-`pre-commit` is a framework that runs linters and formatters on staged files before each `git commit`, using hooks pinned in a `.pre-commit-config.yaml` at the repo root. It catches problems locally, and the same config can run in CI. Hooks here cover shell ([[shellcheck-shfmt]]), Markdown, YAML and secrets. Git basics are in [[git]].
+`pre-commit` is a framework that runs linters and formatters on staged files before each `git commit`, using hooks pinned in a `.pre-commit-config.yaml` at the repo root. It catches problems locally, and the same config can run in CI. Hooks here cover shell ([ShellCheck and shfmt](shellcheck-shfmt.md)), Markdown, YAML and secrets. Git basics are in [Git](../tools/git.md).
 
 Documentation: [pre-commit.com](https://pre-commit.com/), [supported hooks list](https://pre-commit.com/hooks.html)
 
@@ -177,4 +177,4 @@ steps:
 - Use `stages: [manual]` for slow hooks and run them with `pre-commit run --hook-stage manual`.
 - `gitleaks` only finds secrets in what you commit; rotate any secret that has ever been pushed.
 - A hook failing in CI but not locally usually means different hook versions or a missing `pre-commit install`.
-- See also [[bash-recipes]] for the scripts that local hooks often call.
+- See also [Bash Recipes](bash-recipes.md) for the scripts that local hooks often call.

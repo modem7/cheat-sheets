@@ -1,5 +1,5 @@
 # Modern CLI Tools
-Faster, friendlier replacements and add-ons for classic Unix commands. Package names are for Ubuntu 24.04 unless noted. Use [[homebrew]] on macOS (and Linux), or `cargo install` for the Rust ones. See [[linuxbasics]] for classic commands.
+Faster, friendlier replacements and add-ons for classic Unix commands. Package names are for Ubuntu 24.04 unless noted. Use [Homebrew](../macos/homebrew.md) on macOS (and Linux), or `cargo install` for the Rust ones. See [Linux Basics](../linux/linuxbasics.md) for classic commands.
 
 TOOL | REPLACES | INSTALL (APT)
 ---|---|---
@@ -46,11 +46,11 @@ COMMAND | DESCRIPTION
 `rg --files -g '*.yml'` | List files matching a glob
 `rg -z "text" file.gz` | Search inside compressed files
 `rg --stats "text"` | Match and file counts
-`rg --json "text"` | JSON output for scripts ([[jq]])
+`rg --json "text"` | JSON output for scripts ([jq](jq.md))
 `rg -uuu "text"` | Search everything: no ignore rules, hidden and binary files
 `rg -A 2 -B 1 "text"` | Lines after and before
 
-For classic tools see [[grep]], [[sed]] and [[awk]]. Put defaults in a file and point `RIPGREP_CONFIG_PATH` at it (one flag per line, for example `--smart-case`).
+For classic tools see [Grep](../linux/grep.md), [SED Cheat-Sheet](../linux/sed.md) and [AWK](../linux/awk.md). Put defaults in a file and point `RIPGREP_CONFIG_PATH` at it (one flag per line, for example `--smart-case`).
 
 ## fd
 COMMAND | DESCRIPTION
@@ -76,8 +76,8 @@ COMMAND | DESCRIPTION
 `Ctrl`+`R` | Fuzzy search shell history (after the shell integration is enabled)
 `Ctrl`+`T` | Paste a file path
 `Alt`+`C` | `cd` into a directory
-`git branch \| fzf \| xargs git checkout` | Pick a branch ([[git]])
-`kubectl get pods -o name \| fzf` | Pick a resource ([[kubectl]])
+`git branch \| fzf \| xargs git checkout` | Pick a branch ([Git](git.md))
+`kubectl get pods -o name \| fzf` | Pick a resource ([Kubectl](../kubernetes/kubectl.md))
 `fzf --preview 'bat --color=always {}'` | File preview
 `fzf -m` | Multi-select with `Tab`
 `fzf --height 40% --reverse` | Compact inline layout
@@ -97,19 +97,19 @@ export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}'"
 ### fzf Combos
 COMMAND | DESCRIPTION
 ---|---
-`git switch "$(git branch --all \| sed 's/^[* ]*//' \| fzf)"` | Pick and switch branch ([[git]])
+`git switch "$(git branch --all \| sed 's/^[* ]*//' \| fzf)"` | Pick and switch branch ([Git](git.md))
 `git log --oneline \| fzf --preview 'git show --color=always {1}'` | Browse commits with a diff preview
 `git diff --name-only \| fzf -m \| xargs git add` | Stage chosen changed files
-`docker ps -a --format '{{.Names}}' \| fzf \| xargs docker logs -f` | Follow logs of a chosen container ([[docker]])
+`docker ps -a --format '{{.Names}}' \| fzf \| xargs docker logs -f` | Follow logs of a chosen container ([Docker](../docker/docker.md))
 `docker exec -it "$(docker ps --format '{{.Names}}' \| fzf)" sh` | Shell into a chosen container
-`kubectl get pods -o name \| fzf \| xargs kubectl logs -f` | Logs of a chosen pod ([[kubectl]])
+`kubectl get pods -o name \| fzf \| xargs kubectl logs -f` | Logs of a chosen pod ([Kubectl](../kubernetes/kubectl.md))
 `kubectl config get-contexts -o name \| fzf \| xargs kubectl config use-context` | Switch cluster context
 `kill -9 $(ps -ef \| sed 1d \| fzf -m \| awk '{print $2}')` | Pick processes to kill
 `rg --line-number . \| fzf --delimiter : --preview 'bat --color=always --highlight-line {2} {1}'` | Search file contents interactively
 `rg -l "text" \| fzf --preview 'bat --color=always {}'` | Files containing text, with preview
 `fd -t d \| fzf` | Pick a directory
 `cd "$(fd -t d \| fzf)"` | `cd` into a chosen directory
-`ssh "$(grep '^Host ' ~/.ssh/config \| cut -d' ' -f2 \| fzf)"` | Pick an SSH host ([[openssh]])
+`ssh "$(grep '^Host ' ~/.ssh/config \| cut -d' ' -f2 \| fzf)"` | Pick an SSH host ([OpenSSH Cheat-Sheet](openssh.md))
 `systemctl list-units --type=service --no-legend \| fzf` | Browse services
 
 ## bat, eza, zoxide
@@ -145,7 +145,7 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"    # coloured man pages
 `eval "$(zoxide init bash --cmd cd)"` replaces `cd` itself with the zoxide-aware version.
 
 ## delta
-A syntax-highlighting pager for `git diff`, `git log -p` and `git show` ([[git]]). Install with `brew install git-delta`, `winget install dandavison.delta`, or the `.deb` from its releases page. Add to `~/.gitconfig`:
+A syntax-highlighting pager for `git diff`, `git log -p` and `git show` ([Git](git.md)). Install with `brew install git-delta`, `winget install dandavison.delta`, or the `.deb` from its releases page. Add to `~/.gitconfig`:
 ```ini
 [core]
     pager = delta
@@ -183,7 +183,7 @@ COMMAND | DESCRIPTION
 `dust -X .git` | Ignore a directory
 `dust -e '\.log$'` | Only count names matching a regex
 `dust -b` | Do not show percent bars
-`du -sh * \| sort -h` | Classic fallback ([[linuxbasics]])
+`du -sh * \| sort -h` | Classic fallback ([Linux Basics](../linux/linuxbasics.md))
 
 ## btop
 COMMAND | DESCRIPTION
@@ -195,7 +195,7 @@ COMMAND | DESCRIPTION
 `f` | Filter processes
 `t` / `k` | Toggle tree view / kill the selected process
 
-Config lives in `~/.config/btop/btop.conf`. For per-container usage see [[docker]] (`docker stats`).
+Config lives in `~/.config/btop/btop.conf`. For per-container usage see [Docker](../docker/docker.md) (`docker stats`).
 
 ## hyperfine
 Command-line benchmarking: runs a command many times and reports mean, spread and min/max.
@@ -223,14 +223,14 @@ COMMAND | DESCRIPTION
 `fd -H '^\.env$' -X rg -l "PASSWORD"` | Hunt for plaintext secrets in env files
 `rg "ERROR" /var/log -g '*.log' --no-filename -o \| sort \| uniq -c \| sort -rn` | Count error lines by text
 `fd -e md \| fzf -m \| xargs -o vim` | Pick Markdown files to edit
-`dust -d 1 /var/lib/docker` | See what Docker is using ([[docker]])
+`dust -d 1 /var/lib/docker` | See what Docker is using ([Docker](../docker/docker.md))
 
 ## Others Worth Knowing
-- `jq` for JSON ([[jq]]), `yq` for YAML.
-- `tmux` ([[tmux]]) and `starship` prompt ([[starship]]).
-- `curl` ([[curl]]) and `nmap` ([[nmap]]).
+- `jq` for JSON ([jq](jq.md)), `yq` for YAML.
+- `tmux` ([tmux](tmux.md)) and `starship` prompt ([Starship Prompt](starship.md)).
+- `curl` ([curl](curl.md)) and `nmap` ([NMap](nmap.md)).
 - `direnv` loads environment per directory; `just` and `make` run project tasks.
-- `gh`, `glab`, `tea` for Git hosts: [[github-cli]], [[gitlab]], [[gitea]].
+- `gh`, `glab`, `tea` for Git hosts: [GitHub and the gh CLI](github-cli.md), [GitLab and the glab CLI](gitlab.md), [Gitea (and Forgejo)](gitea.md).
 
 ## Not Verified
 Package names and availability vary by distro release and were not checked on a live system.

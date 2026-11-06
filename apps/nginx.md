@@ -116,4 +116,4 @@ limit_req zone=perip burst=20 nodelay;                          # in location {}
 auth_basic "Restricted";
 auth_basic_user_file /etc/nginx/.htpasswd;                      # htpasswd -c /etc/nginx/.htpasswd <USER>
 ```
-TLS settings: see [[ssl-security]]. Alternatives: [[traefik]].
+TLS settings: see [SSL Security Cheat-Sheet](../misc/ssl-security.md). Alternatives: [Traefik](traefik.md).

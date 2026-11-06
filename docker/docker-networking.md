@@ -1,5 +1,5 @@
 # Docker Networking
-How containers talk to each other, the host and the outside world. See also [[docker]] and [[docker-compose]].
+How containers talk to each other, the host and the outside world. See also [Docker](docker.md) and [Docker-Compose](docker-compose.md).
 
 ## Network Drivers
 DRIVER | DESCRIPTION
@@ -37,7 +37,7 @@ COMMAND | DESCRIPTION
 `docker run --dns 1.1.1.1 <IMAGE>` | Custom DNS server
 `docker port <CONTAINER>` | Show port mappings
 
-> Published ports bypass UFW rules because Docker writes its own iptables rules. Bind to `127.0.0.1` for anything that must not be public. See [[ufw]] and [[iptables]].
+> Published ports bypass UFW rules because Docker writes its own iptables rules. Bind to `127.0.0.1` for anything that must not be public. See [UFW (uncomplicated firewall)](../linux/ufw.md) and [IPTables](../linux/iptables.md).
 
 ## Debugging
 COMMAND | DESCRIPTION

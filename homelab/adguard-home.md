@@ -1,11 +1,11 @@
 # AdGuard Home
-AdGuard Home is a network-wide DNS filter and resolver with a built-in web UI, per-client settings, DNS rewrites, optional DHCP, and native encrypted DNS in both directions: it can use DoH/DoT/DoQ **upstreams** and serve DoH/DoT/DoQ to your own clients. It ships as a single Go binary, which makes it a simple alternative to [[pihole]].
+AdGuard Home is a network-wide DNS filter and resolver with a built-in web UI, per-client settings, DNS rewrites, optional DHCP, and native encrypted DNS in both directions: it can use DoH/DoT/DoQ **upstreams** and serve DoH/DoT/DoQ to your own clients. It ships as a single Go binary, which makes it a simple alternative to [Pi-hole](pihole.md).
 
 Documentation: [AdGuard Home on GitHub](https://github.com/AdguardTeam/AdGuardHome) · [Knowledge base](https://adguard-dns.io/kb/adguard-home/getting-started/) · [Configuration wiki (marked outdated)](https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration) · [Docker image](https://hub.docker.com/r/adguard/adguardhome)
 
 > **Verification:** the Docker volumes and ports, CLI flags (`-c`, `-w`, `-s`, `--check-config`, `--web-addr`), the YAML keys `dns.upstream_dns`, `dns.bootstrap_dns`, `filtering.rewrites`, `clients.persistent`, `tls.port_https/port_dns_over_tls/port_dns_over_quic`, and the upstream syntax were checked against the docs. **Not verified:** exact default encrypted-DNS ports for your version (the DoQ default changed from 754 to 853 in v0.108), `AdGuardHome.yaml` key layout in the latest release, and the `/control` API calls. The upstream wiki says its own pages are outdated, so confirm against the Knowledge Base. No command was executed.
 
-See also: [[homelab]] · [[pihole]] · [[unbound]] · [[dnsmasq-dhcp]] · [[reverse-proxy-patterns]] · [[dns-over-https]] · [[dns-over-tls]] · [[dns-encryption]] · [[docker-compose]] · [[docker-networking]]
+See also: [Homelab](homelab.md) · [Pi-hole](pihole.md) · [Unbound](unbound.md) · [dnsmasq DHCP and DNS](dnsmasq-dhcp.md) · [Reverse Proxy Patterns](reverse-proxy-patterns.md) · [DNS over HTTPS (DoH)](../networking/dns-over-https.md) · [DNS over TLS (DoT)](../networking/dns-over-tls.md) · [DNS Encryption](../networking/dns-encryption.md) · [Docker-Compose](../docker/docker-compose.md) · [Docker Networking](../docker/docker-networking.md)
 
 ---
 ## Docker Compose
@@ -67,7 +67,7 @@ SYNTAX | MEANING
 `h3://dns.google/dns-query` | DoH forced over HTTP/3
 `quic://dns.adguard-dns.com` | DNS-over-QUIC
 `sdns://<STAMP>` | DNSCrypt or DoH/DoT stamp
-`192.168.20.3:5335` | Local [[unbound]] on a custom port
+`192.168.20.3:5335` | Local [Unbound](unbound.md) on a custom port
 `[/home.example.com/]192.168.20.1` | Domain-specific upstream (conditional forwarding)
 `[/lab.example.com/]#` | Use the default upstreams for this domain, as an exception
 `[//]192.168.20.1` | Upstream for unqualified names only (no dot)
@@ -76,7 +76,7 @@ Related settings:
 - **Bootstrap DNS** (`dns.bootstrap_dns`): plain IPs used to resolve the hostnames of DoH/DoT upstreams. Needed whenever an upstream is given by name (`tls://...`).
 - **Upstream mode**: load balancing (default), parallel requests (fastest answer), or fastest IP address.
 - **Private reverse DNS** (`dns.local_ptr_upstreams`): where to send PTR lookups for private addresses (your router) so client names show up.
-- **DNSSEC**: enable in DNS settings only if your upstream does not validate; with [[unbound]] you can leave it off here.
+- **DNSSEC**: enable in DNS settings only if your upstream does not validate; with [Unbound](unbound.md) you can leave it off here.
 
 ```yaml
 dns:
@@ -94,7 +94,7 @@ Stop the service before hand-editing the file, then start it again, or it may ov
 
 ---
 ## DNS Rewrites and Filtering
-**Filters -> DNS rewrites** (`filtering.rewrites` in the YAML). Use this for local names and split-horizon DNS ([[reverse-proxy-patterns]]).
+**Filters -> DNS rewrites** (`filtering.rewrites` in the YAML). Use this for local names and split-horizon DNS ([Reverse Proxy Patterns](reverse-proxy-patterns.md)).
 
 DOMAIN | ANSWER | RESULT
 ---|---|---
@@ -126,7 +126,7 @@ Parental / safe search | **Settings -> General settings**, or per client
 
 ---
 ## Encryption: serving DoH, DoT, DoQ
-**Settings -> Encryption settings**. Needs a certificate whose name matches the server name clients use. A wildcard certificate obtained by DNS-01 ([[reverse-proxy-patterns]]) works well.
+**Settings -> Encryption settings**. Needs a certificate whose name matches the server name clients use. A wildcard certificate obtained by DNS-01 ([Reverse Proxy Patterns](reverse-proxy-patterns.md)) works well.
 
 ```yaml
 tls:
@@ -147,7 +147,7 @@ DoQ | UDP 853 | `quic://dns.home.example.com`
 Per-client DoH path | `/dns-query/<CLIENT_ID>` | Identifies the client in logs and rules
 Per-client DoT name | `<CLIENT_ID>.dns.home.example.com` | Same, for DoT/DoQ (needs a wildcard certificate)
 
-Remote use: don't expose 53; expose 853/443 only if you need it, or reach AdGuard through [[tailscale]] or [[wireguard]]. Check `ports` for your version, as defaults changed over time.
+Remote use: don't expose 53; expose 853/443 only if you need it, or reach AdGuard through [Tailscale](../apps/tailscale.md) or [WireGuard](../apps/wireguard.md). Check `ports` for your version, as defaults changed over time.
 
 ---
 ## Clients
@@ -155,7 +155,7 @@ Remote use: don't expose 53; expose 853/443 only if you need it, or reach AdGuar
 
 IDENTIFIER | NOTE
 ---|---
-IP address / CIDR | Simplest; needs stable IPs ([[dnsmasq-dhcp]] static leases)
+IP address / CIDR | Simplest; needs stable IPs ([dnsmasq DHCP and DNS](dnsmasq-dhcp.md) static leases)
 MAC address | Needs AdGuard Home to be the DHCP server, or run on a host that sees the MAC
 ClientID | Works through DoH/DoT/DoQ even behind NAT or changing IPs
 Runtime clients | Detected from the query log and ARP/rDNS; edit to make them persistent
@@ -164,7 +164,7 @@ Clients not behind the same network (a VPN) look like one IP; use ClientIDs. Tag
 
 ---
 ## DHCP
-**Settings -> DHCP settings** (requires the container to see broadcasts: host network). Set gateway, subnet mask, range and lease time, add static leases. Only one DHCP server per network, so turn off the router's. For a feature-rich or relayed DHCP setup see [[dnsmasq-dhcp]] and [[vlans]].
+**Settings -> DHCP settings** (requires the container to see broadcasts: host network). Set gateway, subnet mask, range and lease time, add static leases. Only one DHCP server per network, so turn off the router's. For a feature-rich or relayed DHCP setup see [dnsmasq DHCP and DNS](dnsmasq-dhcp.md) and [VLANs](vlans.md).
 
 ---
 ## API

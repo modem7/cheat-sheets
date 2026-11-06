@@ -1,5 +1,5 @@
 # winget
-The Windows Package Manager (`winget`) is Microsoft's built-in command-line installer for Windows 10 (1809+) and 11. It is delivered with the App Installer package. Run it from PowerShell ([[powershell]]) or [[windows-terminal]]. Use it for per-user and Store-style software; see [[chocolatey]] for the older machine-level manager.
+The Windows Package Manager (`winget`) is Microsoft's built-in command-line installer for Windows 10 (1809+) and 11. It is delivered with the App Installer package. Run it from PowerShell ([PowerShell Cheat-Sheet](powershell.md)) or [Windows Terminal](windows-terminal.md). Use it for per-user and Store-style software; see [Chocolatey](chocolatey.md) for the older machine-level manager.
 
 Documentation: [winget docs](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
 
@@ -90,7 +90,7 @@ The file lives under `%LOCALAPPDATA%\Packages\Microsoft.DesktopAppInstaller_8wek
 Other commands: `winget --info` (version, paths, links), `winget features` (experimental features), `winget validate <MANIFEST>`, `winget hash <FILE>` (SHA-256 for a manifest).
 
 ## winget vs Chocolatey
-TOPIC | winget | Chocolatey ([[chocolatey]])
+TOPIC | winget | [Chocolatey](chocolatey.md)
 ---|---|---
 Ships with Windows | Yes (App Installer) | No, separate install
 Elevation | Per package; many install per user | Usually needs elevated shell

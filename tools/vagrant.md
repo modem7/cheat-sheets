@@ -22,7 +22,7 @@ COMMAND | DESCRIPTION
 `vagrant resume` | Resume a suspended machine (vagrant up works just fine for this as well)
 `vagrant ssh` | Connects to machine via SSH
 `vagrant ssh <BOXNAME>` | If you give your box a name in your Vagrantfile, you can ssh into it with boxname
-`vagrant ssh-config` | SSH settings, useful for `~/.ssh/config` ([[openssh]])
+`vagrant ssh-config` | SSH settings, useful for `~/.ssh/config` ([OpenSSH Cheat-Sheet](openssh.md))
 `vagrant destroy` | Stops and deletes all traces of the vagrant machine
 `vagrant destroy -f` | Same as above, without confirmation
 
@@ -66,11 +66,11 @@ Vagrant.configure("2") do |config|
     vb.cpus = 2
   end
   config.vm.provision "shell", inline: "apt-get update && apt-get install -y nginx"
-  # or: config.vm.provision "ansible", playbook: "site.yml"  (see [[ansible-playbook]])
+  # or: config.vm.provision "ansible", playbook: "site.yml"  (see the Ansible Playbooks sheet)
 end
 ```
 
 ## Vagrant with WSL2
 
-Vagrant is able to run inside your Windows Subsystem for Linux environment ([[wsl]]). A tutorial on how to install
+Vagrant is able to run inside your Windows Subsystem for Linux environment ([WSL Cheat-Sheet](wsl.md)). A tutorial on how to install
 and use it with your Windows installed Virtualbox can be found [here](https://thedatabaseme.de/2022/02/20/vagrant-up-running-vagrant-under-wsl2/).

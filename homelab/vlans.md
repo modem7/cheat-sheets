@@ -5,7 +5,7 @@ Documentation: [Linux VLAN (kernel.org)](https://www.kernel.org/doc/html/latest/
 
 > **Verification:** the commands and config snippets here were written from the upstream documentation and **not executed**. Test on a machine with console access, because a wrong network or switch config can lock you out. OPNsense and UniFi menu paths change between releases, so check the current UI.
 
-See also: [[homelab]] · [[proxmox-networking]] · [[proxmox-firewall]] · [[docker-networking]] · [[ufw]] · [[iptables]] · [[dnsmasq-dhcp]] · [[reverse-proxy-patterns]]
+See also: [Homelab](homelab.md) · [Proxmox Networking](../proxmox/proxmox-networking.md) · [Proxmox Firewall](../proxmox/proxmox-firewall.md) · [Docker Networking](../docker/docker-networking.md) · [UFW (uncomplicated firewall)](../linux/ufw.md) · [IPTables](../linux/iptables.md) · [dnsmasq DHCP and DNS](dnsmasq-dhcp.md) · [Reverse Proxy Patterns](reverse-proxy-patterns.md)
 
 ---
 ## Concepts
@@ -102,7 +102,7 @@ nmcli con up vlan20
 
 ---
 ## Proxmox: VLAN-aware bridge
-Make the bridge VLAN-aware once, then set the VLAN tag on each VM/CT NIC. The physical switch port to the node must be a trunk carrying those VLANs. See [[proxmox-networking]].
+Make the bridge VLAN-aware once, then set the VLAN tag on each VM/CT NIC. The physical switch port to the node must be a trunk carrying those VLANs. See [Proxmox Networking](../proxmox/proxmox-networking.md).
 
 `/etc/network/interfaces`:
 ```
@@ -131,7 +131,7 @@ Put the host management address on a tagged sub-interface (for example `vmbr0.99
 
 ---
 ## Docker: macvlan / ipvlan on a VLAN
-Give containers addresses on a VLAN directly (see [[docker-networking]]):
+Give containers addresses on a VLAN directly (see [Docker Networking](../docker/docker-networking.md)):
 ```bash
 docker network create -d macvlan \
   --subnet=192.168.30.0/24 --gateway=192.168.30.1 \
@@ -145,7 +145,7 @@ STEP | WHERE
 ---|---
 Create VLAN | Interfaces -> Devices -> VLAN: parent interface, tag, description (device name `vlan0.20` or similar)
 Assign | Interfaces -> Assignments: add the VLAN device, then enable it and set a static IPv4 (the gateway address)
-DHCP | Services -> Dnsmasq DNS & DHCP (or ISC/Kea) per interface: range and options; see [[dnsmasq-dhcp]]
+DHCP | Services -> Dnsmasq DNS & DHCP (or ISC/Kea) per interface: range and options; see [dnsmasq DHCP and DNS](dnsmasq-dhcp.md)
 Firewall | Firewall -> Rules -> `<VLAN NAME>`: rules are evaluated on traffic entering that interface, first match wins, default deny
 Aliases | Firewall -> Aliases: group hosts, ports and networks (for example `RFC1918`) to keep rules short
 
@@ -174,8 +174,8 @@ Any | Management | any | block | Allow only from a trusted admin host
 
 Tips:
 - Rules are stateful: allow Trusted -> IoT and the replies come back without an IoT -> Trusted rule.
-- Force clients to use your DNS ([[pihole]], [[adguard-home]]) by allowing UDP/TCP 53 only to it and redirecting or blocking other port-53 traffic. DoH/DoT to public resolvers needs separate blocks (443/853).
-- For host firewalls on Linux use [[ufw]] or [[iptables]]; for the hypervisor layer see [[proxmox-firewall]].
+- Force clients to use your DNS ([Pi-hole](pihole.md), [AdGuard Home](adguard-home.md)) by allowing UDP/TCP 53 only to it and redirecting or blocking other port-53 traffic. DoH/DoT to public resolvers needs separate blocks (443/853).
+- For host firewalls on Linux use [UFW (uncomplicated firewall)](../linux/ufw.md) or [IPTables](../linux/iptables.md); for the hypervisor layer see [Proxmox Firewall](../proxmox/proxmox-firewall.md).
 
 ---
 ## mDNS and Discovery Across VLANs

@@ -1,5 +1,5 @@
 # curl
-`curl` transfers data over HTTP(S), FTP and many other protocols. For TLS debugging also see [[openssl]].
+`curl` transfers data over HTTP(S), FTP and many other protocols. For TLS debugging also see [OpenSSL](openssl.md).
 
 Documentation: [curl Docs](https://curl.se/docs/)
 
@@ -64,7 +64,7 @@ COMMAND | DESCRIPTION
 ```bash
 curl -fsS https://api.github.com/repos/<OWNER>/<REPO>/releases/latest | jq -r .tag_name
 ```
-See [[jq]].
+See [jq](jq.md).
 
 ## Config File
 `~/.curlrc` applies defaults, for example:

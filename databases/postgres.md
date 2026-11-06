@@ -3,7 +3,7 @@ PostgreSQL, also known as Postgres, is a free and open-source relational databas
 
 Documentation: [PostgreSQL Docs](https://www.postgresql.org/docs/current/)
 
-See also: [[postgres-backup-replication]] · [[redis]] · [[mysql]] · [[sqlite]]
+See also: [PostgreSQL Backup and Replication](postgres-backup-replication.md) · [Redis](redis.md) · [MySQL](mysql.md) · [SQLite Cheat-Sheet](sqlite.md)
 
 ## Installation
 ### Install PostgreSQL on Ubuntu / Debian
@@ -24,11 +24,11 @@ docker run -d --name postgres --restart unless-stopped \
   postgres:16
 docker exec -it postgres psql -U myuser -d dbname
 ```
-See [[docker]] and [[docker-compose]]. For major versions 18 and later the image changed its data directory layout, so check the image documentation for the mount path before upgrading.
+See [Docker](../docker/docker.md) and [Docker-Compose](../docker/docker-compose.md). For major versions 18 and later the image changed its data directory layout, so check the image documentation for the mount path before upgrading.
 
 ### Install / deploy Postgres on Kubernetes with Zalando Postgres Operator
 
-Postgres is probably the most common database on cloud platforms and also runs on Kubernetes ([[kubernetes]]). Several "Kubernetes Operators" handle the deployment of Postgres clusters for you. One of them is the [Postgres Operator by Zalando](https://github.com/zalando/postgres-operator).
+Postgres is probably the most common database on cloud platforms and also runs on [Kubernetes](../kubernetes/kubernetes.md). Several "Kubernetes Operators" handle the deployment of Postgres clusters for you. One of them is the [Postgres Operator by Zalando](https://github.com/zalando/postgres-operator).
 
 Tutorials for deploying the operator and working with it:
 
@@ -90,7 +90,7 @@ Connect from another host, for example:
 ```bash
 psql -U postgres -d postgres -h databasehostname
 ```
-Open TCP port 5432 in the firewall only for trusted networks (see [[ufw]]).
+Open TCP port 5432 in the firewall only for trusted networks (see [UFW (uncomplicated firewall)](../linux/ufw.md)).
 
 ## Creation of additional database users
 
@@ -304,11 +304,11 @@ SETTING | STARTING POINT | NOTES
 `wal_buffers` | 16 MB | Default usually fine
 `checkpoint_timeout` / `max_wal_size` | `15min` / `4GB` | Fewer, smoother checkpoints on write-heavy loads
 `random_page_cost` | `1.1` on SSD | Default `4` suits spinning disks
-`effective_io_concurrency` | `200` on SSD / NVMe |
+`effective_io_concurrency` | `200` on SSD / NVMe | |
 `log_min_duration_statement` | `500` | Log slow queries (ms)
 `idle_in_transaction_session_timeout` | `5min` | Kill forgotten transactions
 
-Use [PGTune](https://pgtune.leopard.in.ua/) for a first draft and measure afterwards. Docker: pass settings as `postgres -c shared_buffers=1GB -c max_connections=200` after the image name. Also see [[performance-troubleshooting]] and [[postgres-backup-replication]].
+Use [PGTune](https://pgtune.leopard.in.ua/) for a first draft and measure afterwards. Docker: pass settings as `postgres -c shared_buffers=1GB -c max_connections=200` after the image name. Also see [Linux Performance Troubleshooting](../linux/performance-troubleshooting.md) and [PostgreSQL Backup and Replication](postgres-backup-replication.md).
 
 ## Useful Queries
 ```sql

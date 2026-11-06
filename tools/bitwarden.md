@@ -9,7 +9,7 @@ COMMAND | DESCRIPTION
 `npm install -g @bitwarden/cli` | Install with npm
 `sudo snap install bw` | Install with snap
 `brew install bitwarden-cli` | Install on macOS
-`choco install bitwarden-cli` | Install on Windows, see [[chocolatey]]
+`choco install bitwarden-cli` | Install on Windows, see [Chocolatey](../windows/chocolatey.md)
 
 ## Login and Unlock
 COMMAND | DESCRIPTION
@@ -73,4 +73,4 @@ services:
     ports:
       - "127.0.0.1:8080:80"
 ```
-Put it behind a TLS reverse proxy ([[nginx]] or [[traefik]]). Back up `./vw-data`.
+Put it behind a TLS reverse proxy ([Nginx](../apps/nginx.md) or [Traefik](../apps/traefik.md)). Back up `./vw-data`.

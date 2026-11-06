@@ -5,7 +5,7 @@ Documentation: [Pi-hole docs](https://docs.pi-hole.net/) · [`pihole` command](h
 
 > **Verification:** Docker env var format, `pihole.toml` location, the `pihole` subcommand list, `dns.*` and `webserver.port` keys, listening modes and the Unbound upstream (`127.0.0.1#5335`) were checked against the docs above. **Not verified:** the `pihole-FTL --config` usage and the v5 file locations (from memory), `misc.dnsmasq_lines`, the REST API calls, the cloudflared example, and the DHCP/Docker host-mode notes. No command was executed.
 
-See also: [[homelab]] · [[unbound]] · [[adguard-home]] · [[dnsmasq-dhcp]] · [[reverse-proxy-patterns]] · [[dns-over-tls]] · [[dns-over-https]] · [[dns-encryption]] · [[docker-compose]] · [[docker-networking]] · [[ufw]]
+See also: [Homelab](homelab.md) · [Unbound](unbound.md) · [AdGuard Home](adguard-home.md) · [dnsmasq DHCP and DNS](dnsmasq-dhcp.md) · [Reverse Proxy Patterns](reverse-proxy-patterns.md) · [DNS over TLS (DoT)](../networking/dns-over-tls.md) · [DNS over HTTPS (DoH)](../networking/dns-over-https.md) · [DNS Encryption](../networking/dns-encryption.md) · [Docker-Compose](../docker/docker-compose.md) · [Docker Networking](../docker/docker-networking.md) · [UFW (uncomplicated firewall)](../linux/ufw.md)
 
 ---
 ## Install
@@ -16,7 +16,7 @@ less pihole-install.sh
 sudo bash pihole-install.sh
 sudo pihole setpassword          # set the web UI / API password (v6)
 ```
-Give the host a static IP (or a DHCP reservation, see [[dnsmasq-dhcp]]) and point your router's DHCP DNS option, or each client, at it.
+Give the host a static IP (or a DHCP reservation, see [dnsmasq DHCP and DNS](dnsmasq-dhcp.md)) and point your router's DHCP DNS option, or each client, at it.
 
 ---
 ## Docker Compose
@@ -58,9 +58,9 @@ COMMAND | DESCRIPTION
 Rules for the container:
 - Every setting can be set with `FTLCONF_<section>_<key>`, for example `dns.listeningMode` becomes `FTLCONF_dns_listeningMode`. Variables set this way are **read-only in the web UI**; remove the variable to edit in the UI again.
 - On a bridge network use `listeningMode: ALL` and keep the DNS port exposure inside your LAN. `LOCAL` (the default) answers only requests that arrive from a directly connected subnet, which usually breaks bridge-mode NAT.
-- Port 80/443 conflicts with a reverse proxy: remap as above, or put Pi-hole on a macvlan/host network ([[docker-networking]]).
+- Port 80/443 conflicts with a reverse proxy: remap as above, or put Pi-hole on a macvlan/host network ([Docker Networking](../docker/docker-networking.md)).
 - DHCP needs the broadcast to reach the container: use `network_mode: host` or macvlan, plus `NET_ADMIN`.
-- Running Pi-hole and Unbound in one compose project: see [[unbound]].
+- Running Pi-hole and Unbound in one compose project: see [Unbound](unbound.md).
 
 ---
 ## `pihole` CLI (v6)
@@ -130,7 +130,7 @@ Wildcards are not supported by `dns.hosts`. For a whole domain use a dnsmasq lin
 ```
 address=/home.example.com/192.168.20.10
 ```
-This matches the domain **and all subdomains**. Used for split-horizon DNS in [[reverse-proxy-patterns]].
+This matches the domain **and all subdomains**. Used for split-horizon DNS in [Reverse Proxy Patterns](reverse-proxy-patterns.md).
 
 Test:
 ```bash
@@ -150,10 +150,10 @@ dig +short nas.home.example.com @192.168.20.2
 CHOICE | HOW
 ---|---
 Plain upstream | `dns.upstreams = ["1.1.1.1","1.0.0.1"]`: fast, but queries are unencrypted and visible to your ISP
-Recursive resolver (recommended) | Run [[unbound]] on `127.0.0.1#5335`, set `dns.upstreams = ["127.0.0.1#5335"]`. No third-party resolver sees all your queries, and Unbound does DNSSEC
-Encrypted forwarding | Pi-hole FTL speaks plain DNS to upstreams only. Put Unbound ([[unbound]] "forward over TLS") or cloudflared/dnscrypt-proxy in front and point Pi-hole at it. See [[dns-over-tls]], [[dns-over-https]], [[dns-encryption]]
+Recursive resolver (recommended) | Run [Unbound](unbound.md) on `127.0.0.1#5335`, set `dns.upstreams = ["127.0.0.1#5335"]`. No third-party resolver sees all your queries, and Unbound does DNSSEC
+Encrypted forwarding | Pi-hole FTL speaks plain DNS to upstreams only. Put Unbound ([Unbound](unbound.md) "forward over TLS") or cloudflared/dnscrypt-proxy in front and point Pi-hole at it. See [DNS over TLS (DoT)](../networking/dns-over-tls.md), [DNS over HTTPS (DoH)](../networking/dns-over-https.md), [DNS Encryption](../networking/dns-encryption.md)
 
-cloudflared `proxy-dns` (DoH to a local port) is a common alternative, but check the current cloudflared docs, as the feature's status has been in flux; [[unbound]] or `dnscrypt-proxy` are safer for new setups. Example only:
+cloudflared `proxy-dns` (DoH to a local port) is a common alternative, but check the current cloudflared docs, as the feature's status has been in flux; [Unbound](unbound.md) or `dnscrypt-proxy` are safer for new setups. Example only:
 ```bash
 cloudflared proxy-dns --port 5053 --upstream https://1.1.1.1/dns-query --address 127.0.0.1
 # then: pihole-FTL --config dns.upstreams '["127.0.0.1#5053"]'
@@ -188,7 +188,7 @@ Check the image's own README for its listen port and config path before use.
 
 ---
 ## Built-in DHCP
-Turn on only if your router cannot do per-client DNS options: **Settings -> DHCP**, or `dhcp.active`, `dhcp.start`, `dhcp.end`, `dhcp.router`. Static leases are listed in the same page. Only one DHCP server may run per VLAN. For richer DHCP (options, tags, relay) see [[dnsmasq-dhcp]]. On other VLANs, either run a DHCP relay or hand out Pi-hole's address as DNS from the router ([[vlans]]).
+Turn on only if your router cannot do per-client DNS options: **Settings -> DHCP**, or `dhcp.active`, `dhcp.start`, `dhcp.end`, `dhcp.router`. Static leases are listed in the same page. Only one DHCP server may run per VLAN. For richer DHCP (options, tags, relay) see [dnsmasq DHCP and DNS](dnsmasq-dhcp.md). On other VLANs, either run a DHCP relay or hand out Pi-hole's address as DNS from the router ([VLANs](vlans.md)).
 
 ---
 ## REST API (v6)

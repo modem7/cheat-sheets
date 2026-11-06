@@ -1,5 +1,5 @@
 # K3S Single-Node Installation
-Install a single-server [[k3s]] cluster. For high availability see [[k3s-install-ha-embeddeddb]] or [[k3s-install-ha-externaldb]].
+Install a single-server [K3S](k3s.md) cluster. For high availability see [Install K3S in High Availability Mode with an embedded Database](k3s-install-ha-embeddeddb.md) or [Install K3S in High Availability Mode](k3s-install-ha-externaldb.md).
 
 Documentation: [K3s Quick-Start](https://docs.k3s.io/quick-start)
 

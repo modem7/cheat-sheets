@@ -1,5 +1,5 @@
 # What is Cloud-Computing?
-Cloud computing is on-demand access to computing resources (servers, storage, databases, networking, software) over the internet with pay-as-you-go pricing. Provider comparison: [[cloud-provider-comparison]].
+Cloud computing is on-demand access to computing resources (servers, storage, databases, networking, software) over the internet with pay-as-you-go pricing. Provider comparison: [Cloud-Provider Comparison](provider/cloud-provider-comparison.md).
 
 ## Service Models
 MODEL | YOU MANAGE | PROVIDER MANAGES | EXAMPLES
@@ -31,7 +31,7 @@ Pay-as-you-go | Billed per use, usually per second, hour or GB
 Reserved / Savings plan | Discount for committing 1 to 3 years
 Spot / Preemptible | Cheap spare capacity that can be reclaimed
 Egress | Data leaving the provider, usually the surprise cost
-IaC | Infrastructure as Code, see [[terraform]]
+IaC | Infrastructure as Code, see [Terraform](../tools/terraform.md)
 Serverless | No servers to manage, billed per invocation
 Object storage | Flat, API-accessed storage (S3 style)
 Block storage | Disk volumes attached to VMs
@@ -50,6 +50,6 @@ Elastic scaling | Shared-responsibility mistakes (open buckets, weak IAM)
 - Tag every resource for cost tracking.
 - Set budget alerts on day one.
 - Use least-privilege IAM and MFA on the root account.
-- Define infrastructure in code ([[terraform]]) and keep it in Git.
+- Define infrastructure in code ([Terraform](../tools/terraform.md)) and keep it in Git.
 - Plan for a second AZ for anything important.
 - Delete what you no longer use.

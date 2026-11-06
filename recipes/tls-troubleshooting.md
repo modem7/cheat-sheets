@@ -28,7 +28,7 @@ Certificate "not yet valid" | Client or server clock | Step 8
 dig +short app.example.com
 dig +short app.example.com @1.1.1.1      # compare with a public resolver
 ```
-If the answers differ or are empty, switch to [[dns-troubleshooting]].
+If the answers differ or are empty, switch to [DNS Troubleshooting](dns-troubleshooting.md).
 
 ### 2. Port reachability
 ```bash
@@ -40,19 +40,19 @@ STATE | MEANING
 ---|---
 `open` | Something is listening and nothing blocks you
 `closed` | Host reachable, nothing listening on 443 (service down, wrong port)
-`filtered` / timeout | Firewall or routing drops the packets ([[network-troubleshooting]])
+`filtered` / timeout | Firewall or routing drops the packets ([Network Troubleshooting](network-troubleshooting.md))
 
 ### 3. Certificate chain
 ```bash
 openssl s_client -connect app.example.com:443 -servername app.example.com -showcerts </dev/null
 ```
-Read the end of the output: `Verify return code: 0 (ok)` is a good chain. Check that the server sends the leaf **and** the intermediate(s) (`s:` is the subject, `i:` the issuer). Browsers can fetch a missing intermediate, `curl` and most libraries cannot. Fix by serving the full chain (`fullchain.pem`, not `cert.pem`; for Nginx see [[nginx]]).
+Read the end of the output: `Verify return code: 0 (ok)` is a good chain. Check that the server sends the leaf **and** the intermediate(s) (`s:` is the subject, `i:` the issuer). Browsers can fetch a missing intermediate, `curl` and most libraries cannot. Fix by serving the full chain (`fullchain.pem`, not `cert.pem`; for Nginx see [Nginx](../apps/nginx.md)).
 
 Test a saved chain file:
 ```bash
 openssl verify -CAfile root.pem -untrusted intermediate.pem leaf.pem
 ```
-Behind a corporate proxy or a self-signed CA, point the client at the right trust store: `curl --cacert ca.pem https://app.example.com` ([[ssl-certs]], [[certutil]]).
+Behind a corporate proxy or a self-signed CA, point the client at the right trust store: `curl --cacert ca.pem https://app.example.com` ([SSL Certificates Cheat-Sheet](../misc/ssl-certs.md), [Certutil](../tools/certutil.md)).
 
 ### 4. Names (SAN)
 ```bash
@@ -67,7 +67,7 @@ echo | openssl s_client -connect app.example.com:443 -servername app.example.com
   | openssl x509 -noout -dates -issuer
 openssl x509 -in cert.pem -noout -checkend 2592000 && echo "OK for 30 days" || echo "expires within 30 days"
 ```
-Renewal failed? For Traefik read `docker logs traefik`; for cert-manager use `kubectl describe certificate,certificaterequest,order,challenge` ([[cert-manager]], [[traefik]]).
+Renewal failed? For Traefik read `docker logs traefik`; for cert-manager use `kubectl describe certificate,certificaterequest,order,challenge` ([Cert-Manager](../apps/cert-manager.md), [Traefik](../apps/traefik.md)).
 
 ### 6. SNI
 A server hosting several sites picks the certificate from the name the client sends. Compare:
@@ -87,7 +87,7 @@ nmap --script ssl-enum-ciphers -p 443 app.example.com
 ```
 - A client too old for TLS 1.2, or a server that only offers TLS 1.0/1.1, gives `protocol version` or `handshake failure`.
 - Test a single cipher: `openssl s_client -connect app.example.com:443 -tls1_2 -cipher ECDHE-RSA-AES128-GCM-SHA256`. For TLS 1.3 suites use `-ciphersuites`.
-- Review the server's allowed versions and suites against [[ssl-security]] and [[tls]].
+- Review the server's allowed versions and suites against [SSL Security Cheat-Sheet](../misc/ssl-security.md) and [TLS (Transport Layer Security)](../networking/tls.md).
 
 ### 8. Clock
 ```bash
@@ -95,7 +95,7 @@ date -u
 timedatectl             # "System clock synchronized: yes"
 curl -sI https://example.com | grep -i '^date'    # compare with a server's clock
 ```
-A client clock that is off by more than the certificate's validity window gives "expired" or "not yet valid". Fix NTP on the client and the server ([[new-server-checklist]]).
+A client clock that is off by more than the certificate's validity window gives "expired" or "not yet valid". Fix NTP on the client and the server ([New Server Checklist](new-server-checklist.md)).
 
 ### 9. Timing a slow handshake
 ```bash
@@ -114,7 +114,8 @@ echo | openssl s_client -connect app.example.com:443 -servername app.example.com
 These are read-only checks. If you changed a server certificate or protocol setting, keep the previous certificate and config until the new one is confirmed, and remove any temporary `--cacert` or `-k` workarounds. Never leave `curl -k` in scripts.
 
 ## Related Sheets
-- [[tls]] · [[tls-handshake]] · [[ssl-certs]] · [[ssl-security]]
-- [[openssl]] · [[curl]] · [[nmap]] · [[certutil]]
-- [[traefik]] · [[nginx]] · [[cert-manager]]
-- [[dns-troubleshooting]] · [[network-troubleshooting]]
+- [TLS (Transport Layer Security)](../networking/tls.md) · [TLS Handshake](../networking/tls-handshake.md) · [SSL Certificates Cheat-Sheet](../misc/ssl-certs.md) · [SSL Security Cheat-Sheet](../misc/ssl-security.md)
+- [OpenSSL](../tools/openssl.md) · [curl](../tools/curl.md) · [NMap](../tools/nmap.md) · [Certutil](../tools/certutil.md)
+- [Traefik](../apps/traefik.md) · [Nginx](../apps/nginx.md) · [Cert-Manager](../apps/cert-manager.md)
+- [DNS Troubleshooting](dns-troubleshooting.md) · [Network Troubleshooting](network-troubleshooting.md)
+- [Security](../security/security.md) · [Reverse Proxy Patterns](../homelab/reverse-proxy-patterns.md) · [Vault and OpenBao](../security/vault.md)

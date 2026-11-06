@@ -5,7 +5,7 @@ Documentation: [Redis docs](https://redis.io/docs/latest/) · [Commands](https:/
 
 > **Verification:** the `redis-cli` options (`--bigkeys`, `--memkeys`, `--keystats`, `--scan`, `--latency`) and the Docker image tags were checked against the Redis docs and Docker Hub. **Not verified against the docs:** ACL, replication and persistence settings below (they come from the Redis documentation as known, not re-read). No command was executed. Commands like `FLUSHALL` and `KEYS *` are dangerous on a real instance.
 
-See also: [[docker]] · [[docker-compose]] · [[postgres]] · [[linux]] · [[performance-troubleshooting]]
+See also: [Docker](../docker/docker.md) · [Docker-Compose](../docker/docker-compose.md) · [PostgreSQL Cheat-Sheet](postgres.md) · [Linux](../linux/linux.md) · [Linux Performance Troubleshooting](../linux/performance-troubleshooting.md)
 
 ---
 ## Run in Docker
@@ -37,7 +37,7 @@ services:
 volumes:
   redis-data:
 ```
-Mount `/data` or the data is lost with the container. Do not expose port 6379 to the internet. See [[docker]] and [[docker-compose]]. Prefer `--requirepass` or an ACL file over a password on the command line in production (it shows in `ps`). Pin a major version tag (`redis:7`, `redis:8`).
+Mount `/data` or the data is lost with the container. Do not expose port 6379 to the internet. See [Docker](../docker/docker.md) and [Docker-Compose](../docker/docker-compose.md). Prefer `--requirepass` or an ACL file over a password on the command line in production (it shows in `ps`). Pin a major version tag (`redis:7`, `redis:8`).
 
 ## Install on Ubuntu / Debian
 ```bash

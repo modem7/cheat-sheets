@@ -1,11 +1,11 @@
 # Docker Volume Backup
-Docker named volumes and bind mounts hold the state of your containers. This sheet covers three approaches: a one-off `tar` through a throwaway container, the `offen/docker-volume-backup` sidecar for scheduled archives to local or S3 storage, and feeding bind mounts to [[restic]] or [[borgmatic]]. For general Docker commands see [[docker]] and [[docker-compose]].
+Docker named volumes and bind mounts hold the state of your containers. This sheet covers three approaches: a one-off `tar` through a throwaway container, the `offen/docker-volume-backup` sidecar for scheduled archives to local or S3 storage, and feeding bind mounts to [restic](restic.md) or [borgmatic](borgmatic.md). For general Docker commands see [Docker](../docker/docker.md) and [Docker-Compose](../docker/docker-compose.md).
 
 Documentation: [offen/docker-volume-backup](https://offen.github.io/docker-volume-backup/) · [Configuration reference](https://offen.github.io/docker-volume-backup/reference/) · [Docker: back up, restore or migrate volumes](https://docs.docker.com/engine/storage/volumes/#back-up-restore-or-migrate-data-volumes)
 
 > **Verification:** The `offen/docker-volume-backup` variable and label names (`BACKUP_CRON_EXPRESSION`, `BACKUP_FILENAME`, `BACKUP_RETENTION_DAYS`, `BACKUP_PRUNING_PREFIX`, `AWS_S3_BUCKET_NAME`, `AWS_ENDPOINT`, `GPG_PASSPHRASE`, `BACKUP_STOP_DURING_BACKUP_LABEL`, the `stop-during-backup`, `archive-pre` and `exec-label` labels) were checked against its reference. The deprecated names noted below come from the same page. The plain `tar` recipes are standard but were not executed or re-checked. The latest major version of the image was **not** verified, pin a tag you have tested. No command was executed.
 
-See also: [[backup]] · [[database-dumps]] · [[borgmatic]] · [[restic]] · [[rclone]] · [[linux]]
+See also: [Backup Strategy](backup.md) · [Database Dumps](database-dumps.md) · [borgmatic](borgmatic.md) · [restic](restic.md) · [rclone](rclone.md) · [Linux](../linux/linux.md)
 
 ---
 ## Find What to Back Up
@@ -47,7 +47,7 @@ docker run --rm -v <VOLUME>:/data:ro alpine sh -c 'cd /data && find . -type f | 
 Notes:
 - Run as a container that can preserve ownership (the default root user does). Add `--numeric-ids` for tar if the IDs must survive across hosts: `tar --numeric-owner`.
 - Use `tar --xattrs --acls` flags only if the image's tar supports them (busybox tar in Alpine may not, use `apk add tar` or a Debian image if you need them).
-- A tar of a volume while the app is running is **crash-consistent only**. Stop the container first, or use the dump approach for databases, see [[database-dumps]].
+- A tar of a volume while the app is running is **crash-consistent only**. Stop the container first, or use the dump approach for databases, see [Database Dumps](database-dumps.md).
 
 Stop, back up, start:
 ```bash
@@ -144,8 +144,8 @@ docker compose start app
 ## Using restic or borgmatic Instead
 Prefer deduplicated, encrypted repositories over many full tarballs once the data is large.
 
-- Mount named volumes or bind mounts **read-only** into the backup container and back up that path. See the compose example in [[borgmatic]].
-- With a named volume on the host, back up `/var/lib/docker/volumes/<VOLUME>/_data` directly with [[restic]]. Stop the container first or accept crash-consistency.
+- Mount named volumes or bind mounts **read-only** into the backup container and back up that path. See the compose example in [borgmatic](borgmatic.md).
+- With a named volume on the host, back up `/var/lib/docker/volumes/<VOLUME>/_data` directly with [restic](restic.md). Stop the container first or accept crash-consistency.
 - Hooks in borgmatic can stop labelled containers before the backup and always restart them afterwards (`states: [finish, fail]`).
 
 ---

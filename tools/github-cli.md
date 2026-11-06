@@ -1,5 +1,5 @@
 # GitHub and the gh CLI
-`gh` is GitHub's official command line tool for repositories, pull requests, issues, Actions and the API. For plain Git commands see [[git]]. For other Git hosts see [[gitlab]] and [[gitea]].
+`gh` is GitHub's official command line tool for repositories, pull requests, issues, Actions and the API. For plain Git commands see [Git](git.md). For other Git hosts see [GitLab and the glab CLI](gitlab.md) and [Gitea (and Forgejo)](gitea.md).
 
 Documentation: [GitHub CLI manual](https://cli.github.com/manual/)
 
@@ -8,8 +8,8 @@ Documentation: [GitHub CLI manual](https://cli.github.com/manual/)
 PLATFORM | COMMAND
 ---|---
 Debian / Ubuntu | add the official apt repo from the manual, then `sudo apt install gh`
-macOS | `brew install gh` ([[homebrew]])
-Windows | `choco install gh` ([[chocolatey]]) or `winget install GitHub.cli`
+macOS | `brew install gh` ([Homebrew](../macos/homebrew.md))
+Windows | `choco install gh` ([Chocolatey](../windows/chocolatey.md)) or `winget install GitHub.cli`
 
 COMMAND | DESCRIPTION
 ---|---
@@ -75,7 +75,7 @@ COMMAND | DESCRIPTION
 `gh release list` | List releases
 `gh api repos/OWNER/REPO` | Call the REST API
 `gh api graphql -f query='{ viewer { login } }'` | GraphQL
-`gh api repos/OWNER/REPO/pulls --jq '.[].title'` | Filter output with a jq expression ([[jq]])
+`gh api repos/OWNER/REPO/pulls --jq '.[].title'` | Filter output with a jq expression ([jq](jq.md))
 `gh alias set co 'pr checkout'` | Create an alias
 `gh extension install OWNER/gh-NAME` | Install an extension
 `gh search repos "topic:homelab" --limit 10` | Search
@@ -84,7 +84,7 @@ COMMAND | DESCRIPTION
 - **Actions**: workflows live in `.github/workflows/*.yml`. This repo uses one to auto-assign issues.
 - **Renovate or Dependabot**: automated dependency PRs (`renovate.json` here).
 - **Repository settings as code**: the Probot Settings app reads `.github/settings.yml`.
-- **SSH keys and signing**: add keys at https://github.com/settings/keys. See [[openssh]].
+- **SSH keys and signing**: add keys at https://github.com/settings/keys. See [OpenSSH Cheat-Sheet](openssh.md).
 - **Pages**, **Releases**, **Packages (ghcr.io)** and **Codespaces** are built in.
 
 ## Not Verified

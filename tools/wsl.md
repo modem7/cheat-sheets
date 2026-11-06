@@ -1,5 +1,5 @@
 # WSL Cheat-Sheet
-Windows Subsystem for Linux. Commands run in PowerShell ([[powershell]]) unless noted.
+Windows Subsystem for Linux. Commands run in PowerShell ([PowerShell Cheat-Sheet](../windows/powershell.md)) unless noted.
 
 ## Manage Distros
 COMMAND | DESCRIPTION
@@ -112,11 +112,11 @@ COMMAND | DESCRIPTION
 ---|---
 `systemctl is-system-running` | Check systemd is up (`running` or `degraded`)
 `systemctl list-units --failed` | Failed units (a few failures in WSL are normal)
-`sudo systemctl enable --now docker` | Start Docker or any service at distro start ([[docker]])
+`sudo systemctl enable --now docker` | Start Docker or any service at distro start ([Docker](../docker/docker.md))
 `ps -p 1 -o comm=` | Shows `systemd` when enabled
 `systemctl --user status` | User services
 
-Notes: the distro still stops when its last terminal closes and the idle timer elapses; services only run while the VM runs. Keep it alive with `wsl -d <DISTRO> --exec sleep infinity` in a hidden task, or a scheduled task at logon. Newer Ubuntu images enable systemd by default. See [[linuxbasics]] for systemd commands.
+Notes: the distro still stops when its last terminal closes and the idle timer elapses; services only run while the VM runs. Keep it alive with `wsl -d <DISTRO> --exec sleep infinity` in a hidden task, or a scheduled task at logon. Newer Ubuntu images enable systemd by default. See [Linux Basics](../linux/linuxbasics.md) for systemd commands.
 
 ## Networking Modes
 Set the mode in `.wslconfig` under `[wsl2]` with `networkingMode=`.
@@ -154,7 +154,7 @@ COMMAND | DESCRIPTION
 `Get-NetFirewallHyperVVMSetting -PolicyStore ActiveStore` | Current Hyper-V firewall state for WSL
 `curl.exe http://localhost:8080` | Test a WSL service from Windows
 
-Windows networking commands are in [[windows-networking]]. If DNS breaks, set `generateResolvConf = false` under `[network]` in `/etc/wsl.conf` and write your own `/etc/resolv.conf`, or use `dnsTunneling`. If you see a `/etc/resolv.conf` that points at a stale IP, run `wsl --shutdown`.
+Windows networking commands are in [Windows Networking](../windows/windows-networking.md). If DNS breaks, set `generateResolvConf = false` under `[network]` in `/etc/wsl.conf` and write your own `/etc/resolv.conf`, or use `dnsTunneling`. If you see a `/etc/resolv.conf` that points at a stale IP, run `wsl --shutdown`.
 
 ### Port Forwarding (NAT mode)
 **Find IP Address**
@@ -189,7 +189,7 @@ netsh interface portproxy show v4tov4
 COMMAND | DESCRIPTION
 ---|---
 `explorer.exe .` | Open the current Linux folder in Explorer
-`code .` | Open in VS Code ([[vscode]])
+`code .` | Open in VS Code ([VSCode (Visual Studio Code)](vscode.md))
 `wslpath -w <PATH>` / `wslpath -u 'C:\x'` | Convert between Linux and Windows paths
 `\\wsl$\<DISTRO>\home\<USER>` | Reach Linux files from Windows
 

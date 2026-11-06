@@ -1,5 +1,5 @@
 # CI Docker Builds
-Building, tagging, scanning and publishing container images from CI with Buildx. The examples target GitHub Actions ([[github-actions]]) with Woodpecker ([[woodpecker-ci]]) and GitLab ([[gitlab-ci]]) equivalents. For Dockerfile and CLI basics see [[docker]] and [[docker-file]]; for general pipeline structure see [[cicd]].
+Building, tagging, scanning and publishing container images from CI with Buildx. The examples target [GitHub Actions](github-actions.md) with Woodpecker ([Woodpecker CI](woodpecker-ci.md)) and GitLab ([GitLab CI/CD](gitlab-ci.md)) equivalents. For Dockerfile and CLI basics see [Docker](../docker/docker.md) and [Dockerfile](../docker/docker-file.md); for general pipeline structure see [CI/CD Overview](cicd.md).
 
 Documentation: [Docker GitHub Actions](https://docs.docker.com/build/ci/github-actions/), [Cache backends](https://docs.docker.com/build/cache/backends/), [metadata-action](https://github.com/docker/metadata-action), [Trivy action](https://github.com/aquasecurity/trivy-action)
 
@@ -91,6 +91,7 @@ TAG RULE | OUTPUT
 `type=schedule,pattern=nightly` | `nightly` for scheduled runs
 `type=raw,value=latest,enable={{is_default_branch}}` | `latest` only from the default branch
 `flavor: latest=false` | Stop it adding `latest` automatically on tags
+
 The action also emits OCI labels (`org.opencontainers.image.source`, `.revision`, `.created`, ...), which GHCR uses to link the package to the repo.
 
 ## Multi-Arch
@@ -136,7 +137,7 @@ REGISTRY | LOGIN
 GHCR | username `${{ github.actor }}`, password `GITHUB_TOKEN` (job needs `packages: write`); outside Actions use a PAT with `write:packages`
 Docker Hub | username + an access token (not the password) in secrets `DOCKERHUB_USERNAME` / `DOCKERHUB_TOKEN`
 GitLab registry | `$CI_REGISTRY_USER` / `$CI_REGISTRY_PASSWORD` for `$CI_REGISTRY`
-Gitea/Forgejo | Personal access token with package scope against your host, see [[gitea]]
+Gitea/Forgejo | Personal access token with package scope against your host, see [Gitea (and Forgejo)](../tools/gitea.md)
 
 Push to more than one registry by listing both in `images:` of metadata-action (one per line) and logging in to each.
 
@@ -175,7 +176,7 @@ trivy image --severity CRITICAL,HIGH --ignore-unfixed --exit-code 1 ghcr.io/<OWN
 trivy fs --scanners vuln,secret,misconfig .         # repo files, secrets and IaC
 trivy config .                                      # Dockerfile / Compose / Terraform misconfig
 ```
-Add accepted risks to a `.trivyignore` file with a comment and expiry. Pin the Trivy action to a full commit SHA (it is a security tool that runs with your registry context) and let [[renovate]] bump it.
+Add accepted risks to a `.trivyignore` file with a comment and expiry. Pin the Trivy action to a full commit SHA (it is a security tool that runs with your registry context) and let [Renovate](renovate.md) bump it.
 
 ## Provenance, SBOM and Signing
 FEATURE | HOW
@@ -212,10 +213,10 @@ steps:
 The plugin builds with BuildKit in a container and needs the repo to be **Trusted** (privileged). Check the plugin docs for the current tag-from-git-tag settings (`auto_tag`).
 
 ## GitLab Version
-See the `docker:dind` job in [[gitlab-ci]]; replace `docker build` with `docker buildx build --push` after `docker buildx create --use`, and use `$CI_REGISTRY_IMAGE` as the repo.
+See the `docker:dind` job in [GitLab CI/CD](gitlab-ci.md); replace `docker build` with `docker buildx build --push` after `docker buildx create --use`, and use `$CI_REGISTRY_IMAGE` as the repo.
 
 ## Deploying the Image
-Push the image, then update the host: `docker compose pull && docker compose up -d` ([[docker-compose]]), or run an update job over SSH/[[ansible-playbook]]. Deploy by digest or immutable tag (`sha-...`, `1.2.3`), not `latest`, so a rollback is a one-line change. Let [[renovate]] bump image tags in Compose files.
+Push the image, then update the host: `docker compose pull && docker compose up -d` ([Docker-Compose](../docker/docker-compose.md)), or run an update job over SSH/[Ansible-Playbook Cheat-Sheet](../tools/ansible-playbook.md). Deploy by digest or immutable tag (`sha-...`, `1.2.3`), not `latest`, so a rollback is a one-line change. Let [Renovate](renovate.md) bump image tags in Compose files.
 
 ## Troubleshooting
 SYMPTOM | CAUSE AND FIX

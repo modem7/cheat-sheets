@@ -1,5 +1,5 @@
 # CI Recipes
-Copy-and-adapt pipelines for the jobs most repos need: lint, test, build, release, housekeeping and documentation checks. Examples are GitHub Actions ([[github-actions]]); the ideas port directly to [[woodpecker-ci]] and [[gitlab-ci]]. Image publishing is in [[ci-docker-builds]], dependency PRs in [[renovate]], and concepts in [[cicd]].
+Copy-and-adapt pipelines for the jobs most repos need: lint, test, build, release, housekeeping and documentation checks. Examples are [GitHub Actions](github-actions.md); the ideas port directly to [Woodpecker CI](woodpecker-ci.md) and [GitLab CI/CD](gitlab-ci.md). Image publishing is in [CI Docker Builds](ci-docker-builds.md), dependency PRs in [Renovate](renovate.md), and concepts in [CI/CD Overview](cicd.md).
 
 Documentation: [release-please](https://github.com/googleapis/release-please-action), [semantic-release](https://semantic-release.gitbook.io), [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2), [lychee](https://lychee.cli.rs)
 
@@ -60,9 +60,9 @@ LINTER | WHAT FOR | COMMAND
 `shellcheck` | Shell scripts | `shellcheck scripts/*.sh`
 `hadolint` | Dockerfiles | `hadolint Dockerfile`
 `markdownlint-cli2` | Markdown | `markdownlint-cli2 "**/*.md"`
-`docker compose config -q` | Compose files ([[docker-compose]]) | `docker compose -f compose.yaml config -q`
-`terraform fmt -check` / `terraform validate` | Terraform ([[terraform]]) | in the module directory
-`ansible-lint` | Playbooks ([[ansible]]) | `ansible-lint`
+`docker compose config -q` | Compose files ([Docker-Compose](../docker/docker-compose.md)) | `docker compose -f compose.yaml config -q`
+`terraform fmt -check` / `terraform validate` | [Terraform](../tools/terraform.md) | in the module directory
+`ansible-lint` | Playbooks ([Ansible Cheat-Sheet](../tools/ansible.md)) | `ansible-lint`
 `gitleaks` | Committed secrets | `gitleaks detect --source .`
 `renovate-config-validator` | Renovate config | `npx --yes --package renovate -- renovate-config-validator --strict`
 
@@ -108,7 +108,7 @@ Config files:
   "MD041": false
 }
 ```
-(`.markdownlint-cli2.jsonc` or `.markdownlint.json`; line length and inline HTML rules are usually turned off for cheat sheets.) Wiki-style `[[links]]` are not Markdown links; check them separately:
+(`.markdownlint-cli2.jsonc` or `.markdownlint.json`; line length and inline HTML rules are usually turned off for cheat sheets.) If your notes use Obsidian-style `[[links]]` (this repo does not), they are not Markdown links; check them separately:
 ```bash
 # print every [[name]] that has no matching file basename
 comm -23 \
@@ -220,7 +220,7 @@ jobs:
           files: dist/*
           generate_release_notes: true
 ```
-Or without a third-party action: `gh release create "$GITHUB_REF_NAME" dist/* --generate-notes` with `GH_TOKEN: ${{ github.token }}` ([[github-cli]]).
+Or without a third-party action: `gh release create "$GITHUB_REF_NAME" dist/* --generate-notes` with `GH_TOKEN: ${{ github.token }}` ([GitHub and the gh CLI](../tools/github-cli.md)).
 
 ## Auto-Assign PRs and Issues
 This is the pattern used in this repo: assign new issues and PRs to the maintainer, and sweep Renovate PRs that did not automerge.
@@ -300,7 +300,7 @@ SETTING | RECOMMENDATION
 Branch protection / ruleset on the default branch | Require PRs, require the `ci-ok` summary check, block force pushes
 "Require branches to be up to date" | On for busy repos, off for small ones (it forces rebases)
 Merge method | Squash, so the PR title becomes the Conventional Commit that release-please reads
-Automerge | Renovate patch/digest PRs only, see [[renovate]]
+Automerge | Renovate patch/digest PRs only, see [Renovate](renovate.md)
 CODEOWNERS | Require review for `.github/workflows/` and deploy configuration
 
 ## Troubleshooting

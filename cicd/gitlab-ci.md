@@ -1,5 +1,5 @@
 # GitLab CI/CD
-GitLab CI/CD is configured by a `.gitlab-ci.yml` file at the repo root. Jobs run on runners (shared, group or self-hosted) and are grouped into stages. For the GitLab host itself and the `glab` CLI see [[gitlab]]; for the shared concepts see [[cicd]]; for building images see [[ci-docker-builds]].
+GitLab CI/CD is configured by a `.gitlab-ci.yml` file at the repo root. Jobs run on runners (shared, group or self-hosted) and are grouped into stages. For the GitLab host itself and the `glab` CLI see [GitLab and the glab CLI](../tools/gitlab.md); for the shared concepts see [CI/CD Overview](cicd.md); for building images see [CI Docker Builds](ci-docker-builds.md).
 
 Documentation: [CI/CD YAML reference](https://docs.gitlab.com/ci/yaml/), [Predefined variables](https://docs.gitlab.com/ci/variables/predefined_variables/), [glab ci](https://gitlab.com/gitlab-org/cli/-/tree/main/docs/source/ci)
 
@@ -190,7 +190,7 @@ build-image:
     - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
 ```
-Docker-in-Docker needs a runner with `privileged = true`. Daemonless alternatives are Kaniko-style tools or `buildah`. See [[ci-docker-builds]] for buildx, caching and scanning.
+Docker-in-Docker needs a runner with `privileged = true`. Daemonless alternatives are Kaniko-style tools or `buildah`. See [CI Docker Builds](ci-docker-builds.md) for buildx, caching and scanning.
 
 ## Variables and Secrets
 - Set them under Settings > CI/CD > Variables. Mark them **Masked** (hidden in logs) and **Protected** (only on protected branches/tags).
@@ -213,7 +213,7 @@ COMMAND | DESCRIPTION
 `gitlab-runner run` | Run in the foreground
 `gitlab-runner --version` | Version
 
-Run a runner in Docker ([[docker-compose]]):
+Run a runner in Docker ([Docker-Compose](../docker/docker-compose.md)):
 ```yaml
 services:
   gitlab-runner:

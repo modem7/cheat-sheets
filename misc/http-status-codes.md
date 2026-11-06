@@ -74,4 +74,4 @@ Code | Name | Description
 511|Network Authentication Required|Indicates that the client needs to authenticate to gain network access.
 599|Network Connect Timeout Error|The connection timed out due to a overloaded server, a hardware error or a infrastructure error.
 
-444, 499 and 599 are not in the HTTP standard. 444 and 499 are nginx-specific, and 599 is used by some proxies and clients. Registered codes are in the [IANA registry](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml). Test a response code with `curl -I -s -o /dev/null -w '%{http_code}\n' URL` ([[curl]]).
+444, 499 and 599 are not in the HTTP standard. 444 and 499 are nginx-specific, and 599 is used by some proxies and clients. Registered codes are in the [IANA registry](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml). Test a response code with `curl -I -s -o /dev/null -w '%{http_code}\n' URL` ([curl](../tools/curl.md)).

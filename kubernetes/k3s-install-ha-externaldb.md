@@ -1,8 +1,8 @@
 # Install K3S in High Availability Mode
-HA K3s ([[k3s]]) with an external datastore. For the built-in alternative see [[k3s-install-ha-embeddeddb]].
+HA [K3s](k3s.md) with an external datastore. For the built-in alternative see [Install K3S in High Availability Mode with an embedded Database](k3s-install-ha-embeddeddb.md).
 
 ## Install Database
-Install MariaDB ([[mariadb]]) (or MySQL, PostgreSQL, etcd) on a separate, ideally replicated, host. Create the database first:
+Install MariaDB ([MariaDB Cheat-Sheet](../databases/mariadb.md)) (or MySQL, PostgreSQL, etcd) on a separate, ideally replicated, host. Create the database first:
 ```sql
 CREATE DATABASE k3s;
 CREATE USER 'k3s'@'%' IDENTIFIED BY '<PASSWORD>';

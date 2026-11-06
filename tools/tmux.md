@@ -1,5 +1,5 @@
 # tmux
-tmux is a terminal multiplexer: persistent sessions, split panes and windows that survive SSH disconnects ([[openssh]]).
+tmux is a terminal multiplexer: persistent sessions, split panes and windows that survive SSH disconnects ([OpenSSH Cheat-Sheet](openssh.md)).
 
 Default prefix is `Ctrl+b`. In the tables, "prefix" means press `Ctrl+b`, release, then the key.
 

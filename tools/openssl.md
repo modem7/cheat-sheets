@@ -1,5 +1,5 @@
 # OpenSSL
-OpenSSL is a toolkit for TLS and general-purpose cryptography. See [[tls]], [[tls-handshake]], [[ssl-certs]] and [[certutil]].
+OpenSSL is a toolkit for TLS and general-purpose cryptography. See [TLS (Transport Layer Security)](../networking/tls.md), [TLS Handshake](../networking/tls-handshake.md), [SSL Certificates Cheat-Sheet](../misc/ssl-certs.md) and [Certutil](certutil.md).
 
 ## Private Keys and CSRs
 COMMAND | DESCRIPTION

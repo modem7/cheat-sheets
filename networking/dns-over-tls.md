@@ -1,5 +1,5 @@
 # DNS over TLS (DoT)
-DoT wraps standard DNS queries in a TLS ([[tls]]) session on **TCP port 853**, so queries cannot be read or tampered with on the path. Compare with [[dns-over-https]] and see the overview in [[dns-encryption]].
+DoT wraps standard DNS queries in a TLS ([TLS (Transport Layer Security)](tls.md)) session on **TCP port 853**, so queries cannot be read or tampered with on the path. Compare with [DNS over HTTPS (DoH)](dns-over-https.md) and see the overview in [DNS Encryption](dns-encryption.md).
 
 ## DoT vs DoH
 &nbsp; | DoT | DoH
@@ -51,4 +51,4 @@ forward-zone:
 **Settings > Network > Private DNS** and enter the provider hostname, e.g. `one.one.one.one`.
 
 ## Block Plain DNS Leaks
-Allow outbound `853/tcp` and block outbound `53/tcp,udp` except from your resolver, see [[ufw]] and [[iptables]].
+Allow outbound `853/tcp` and block outbound `53/tcp,udp` except from your resolver, see [UFW (uncomplicated firewall)](../linux/ufw.md) and [IPTables](../linux/iptables.md).

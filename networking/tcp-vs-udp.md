@@ -33,7 +33,7 @@ COMMAND | DESCRIPTION
 ---|---
 `nc -zv <HOST> <PORT>` | Test a TCP port
 `nc -zvu <HOST> <PORT>` | Test a UDP port (unreliable, no reply means open or filtered)
-`nmap -sU -p <PORT> <HOST>` | UDP scan, see [[nmap]]
+`nmap -sU -p <PORT> <HOST>` | UDP scan, see [NMap](../tools/nmap.md)
 `ss -tulpn` | Listening sockets on this host
 `sudo tcpdump -ni any 'tcp[tcpflags] & (tcp-syn) != 0'` | Watch SYN packets
 `iperf3 -s` / `iperf3 -c <HOST>` | TCP throughput test

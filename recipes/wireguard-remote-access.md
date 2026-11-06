@@ -8,8 +8,8 @@ From outside, a client reaches the home LAN (`192.0.2.0/24` in this example) thr
 
 ## Prerequisites
 - A Linux server (Ubuntu 24.04) on the LAN, with a static LAN address, `192.0.2.10`
-- A public IP or a DNS name (`vpn.example.com`) and a router port-forward of `51820/udp` to the server. Behind CGNAT you have no inbound path: use a relay or an overlay network such as [[tailscale]]
-- Server firewall as in [[new-server-checklist]]
+- A public IP or a DNS name (`vpn.example.com`) and a router port-forward of `51820/udp` to the server. Behind CGNAT you have no inbound path: use a relay or an overlay network such as [Tailscale](../apps/tailscale.md)
+- Server firewall as in [New Server Checklist](new-server-checklist.md)
 - Interface name of the LAN NIC (`ip -br link`): `eth0` below
 
 ## Steps
@@ -53,7 +53,7 @@ sudo ufw allow 51820/udp
 sudo ufw route allow in on wg0 out on eth0     # lets forwarded tunnel traffic through UFW
 sudo ufw status verbose
 ```
-UFW's default forward policy is `DROP` (`/etc/default/ufw`), so without the `route` rule traffic through the tunnel dies at the server even with `ip_forward=1`. The `PostUp` `iptables` lines above handle NAT; if you prefer to keep NAT in UFW, put a `*nat` block in `/etc/ufw/before.rules` instead and drop it from `PostUp` ([[ufw]], [[iptables]]).
+UFW's default forward policy is `DROP` (`/etc/default/ufw`), so without the `route` rule traffic through the tunnel dies at the server even with `ip_forward=1`. The `PostUp` `iptables` lines above handle NAT; if you prefer to keep NAT in UFW, put a `*nat` block in `/etc/ufw/before.rules` instead and drop it from `PostUp` ([UFW (uncomplicated firewall)](../linux/ufw.md), [IPTables](../linux/iptables.md)).
 
 ### 5. Start the tunnel
 ```bash
@@ -92,7 +92,7 @@ sudo wg-quick save wg0                  # writes the live state into wg0.conf
 # or after editing wg0.conf:
 sudo wg syncconf wg0 <(sudo wg-quick strip wg0)
 ```
-`wg-quick save` rewrites the file, so back it up first. Details in [[wireguard]].
+`wg-quick save` rewrites the file, so back it up first. Details in [WireGuard](../apps/wireguard.md).
 
 ## Verify
 ```bash
@@ -110,11 +110,11 @@ A `latest handshake` line means the keys match and UDP got through. Transfer cou
 ## Troubleshooting
 SYMPTOM | CHECK
 ---|---
-No handshake at all | `51820/udp` forwarded on the router and allowed in UFW; endpoint name resolves ([[dns-troubleshooting]]); key mix-ups (client holds the server **public** key and vice versa); `sudo tcpdump -ni eth0 udp port 51820` on the server shows whether packets arrive
+No handshake at all | `51820/udp` forwarded on the router and allowed in UFW; endpoint name resolves ([DNS Troubleshooting](dns-troubleshooting.md)); key mix-ups (client holds the server **public** key and vice versa); `sudo tcpdump -ni eth0 udp port 51820` on the server shows whether packets arrive
 Handshake but cannot ping `10.8.0.1` | Peer `AllowedIPs` on the server does not include the client address; client address is outside `10.8.0.0/24`
 Can ping the server, not LAN hosts | `net.ipv4.ip_forward`; UFW `route` rule or `FORWARD` rule; NAT rule uses the right interface name; LAN host firewall
-Some sites hang, others work | MTU: lower it with `MTU = 1380` in the client `[Interface]` ([[network-troubleshooting]])
-Names do not resolve over the tunnel | Set `DNS` in the client config and make sure that resolver is reachable from `10.8.0.0/24` ([[dns-troubleshooting]])
+Some sites hang, others work | MTU: lower it with `MTU = 1380` in the client `[Interface]` ([Network Troubleshooting](network-troubleshooting.md))
+Names do not resolve over the tunnel | Set `DNS` in the client config and make sure that resolver is reachable from `10.8.0.0/24` ([DNS Troubleshooting](dns-troubleshooting.md))
 Kernel-level debug | `echo 'module wireguard +p' \| sudo tee /sys/kernel/debug/dynamic_debug/control` then `sudo dmesg -w`; switch off with `-p`
 
 ## Rollback / Cleanup
@@ -127,6 +127,7 @@ sudo rm /etc/sysctl.d/99-wireguard.conf && sudo sysctl --system
 Remove the router port-forward. To revoke one client, delete its `[Peer]` and run `sudo wg set wg0 peer <PUBLIC-KEY> remove`.
 
 ## Related Sheets
-- [[wireguard]] · [[vpn]] · [[tailscale]]
-- [[ufw]] · [[iptables]] · [[linux]] · [[openssh]]
-- [[new-server-checklist]] · [[network-troubleshooting]] · [[dns-troubleshooting]]
+- [WireGuard](../apps/wireguard.md) · [VPN (Virtual Private Network)](../networking/vpn.md) · [Tailscale](../apps/tailscale.md)
+- [UFW (uncomplicated firewall)](../linux/ufw.md) · [IPTables](../linux/iptables.md) · [Linux](../linux/linux.md) · [OpenSSH Cheat-Sheet](../tools/openssh.md)
+- [New Server Checklist](new-server-checklist.md) · [Network Troubleshooting](network-troubleshooting.md) · [DNS Troubleshooting](dns-troubleshooting.md)
+- [Security](../security/security.md) · [fail2ban](../security/fail2ban.md) · [Homelab](../homelab/homelab.md) · [VLANs](../homelab/vlans.md) · [Wake-on-LAN](../homelab/wake-on-lan.md)

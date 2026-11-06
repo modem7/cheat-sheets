@@ -5,7 +5,7 @@ Documentation: [Cloud-Init Support](https://pve.proxmox.com/pve-docs/chapter-qm.
 
 > **Verification:** `qm disk import` (alias `qm importdisk`), `import-from=`, `ciuser`, `cipassword`, `sshkeys`, `ipconfig0` and `qm cloudinit dump` were checked against the qm docs. No command was executed. The docs example spells the key option `--sshkey` in prose, the property is `sshkeys` (a file path works with `--sshkeys`). Image URLs change, check the distro site.
 
-See also: [[proxmox-qm-pct]] · [[proxmox-storage]] · [[terraform]] · [[ansible]]
+See also: [Proxmox qm and pct](proxmox-qm-pct.md) · [Proxmox Storage](proxmox-storage.md) · [Terraform](../tools/terraform.md) · [Ansible Cheat-Sheet](../tools/ansible.md)
 
 ---
 ## Build a Template
@@ -62,6 +62,6 @@ Custom user-data replaces the generated user part, so include users and keys in 
 
 ---
 ## Automation
-- [[terraform]] with a Proxmox provider can clone this template and fill cloud-init fields.
-- [[ansible]] can configure the VM after boot.
-- Packer can build the template itself, see [[proxmox-overview]] for links.
+- [Terraform](../tools/terraform.md) with a Proxmox provider can clone this template and fill cloud-init fields.
+- [Ansible Cheat-Sheet](../tools/ansible.md) can configure the VM after boot.
+- Packer can build the template itself, see [Proxmox VE Overview and Install](proxmox-overview.md) for links.

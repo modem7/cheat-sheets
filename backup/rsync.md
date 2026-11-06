@@ -5,7 +5,7 @@ Documentation: [rsync man page](https://download.samba.org/pub/rsync/rsync.1) ·
 
 > **Verification:** Flags and behaviour below are standard rsync usage written from knowledge and were **not** re-checked against the manual this session. `--mkpath` needs rsync 3.2.3 or newer. No command was executed. Dry-run everything with `-n` first.
 
-See also: [[backup]] · [[rclone]] · [[restic]] · [[borg]] · [[openssh]] · [[linux]] · [[nfs]]
+See also: [Backup Strategy](backup.md) · [rclone](rclone.md) · [restic](restic.md) · [BorgBackup](borg.md) · [OpenSSH Cheat-Sheet](../tools/openssh.md) · [Linux](../linux/linux.md) · [NFS](../linux/nfs.md)
 
 ---
 ## Core Flags
@@ -82,7 +82,7 @@ COMMAND | DESCRIPTION
 `rsync -aHAX --rsync-path='sudo rsync' <USER>@<HOST>:/etc/ /backup/etc/` | Run the remote rsync with sudo (needs passwordless sudo for rsync)
 `rsync -aHAX -e 'ssh -o BatchMode=yes' ...` | Fail instead of prompting, for cron
 
-Use a dedicated key and restrict it in `authorized_keys` on the target, see [[openssh]]. Example forced command, for a pull-only backup account using `rrsync` (shipped with rsync, path may differ):
+Use a dedicated key and restrict it in `authorized_keys` on the target, see [OpenSSH Cheat-Sheet](../tools/openssh.md). Example forced command, for a pull-only backup account using `rrsync` (shipped with rsync, path may differ):
 ```
 command="/usr/bin/rrsync -ro /srv",restrict ssh-ed25519 AAAA... backup@<HOST>
 ```
@@ -134,12 +134,12 @@ Cron:
 ```bash
 30 2 * * * /usr/local/bin/rsync-snapshot.sh >> /var/log/rsync-snapshot.log 2>&1
 ```
-For systemd timers (with `Persistent=true` to catch missed runs) see the unit examples in [[restic]] or [[rclone]].
+For systemd timers (with `Persistent=true` to catch missed runs) see the unit examples in [restic](restic.md) or [rclone](rclone.md).
 
 Exit codes worth handling: `0` success, `23` partial transfer due to an error, `24` source files vanished during the transfer (normal on a live system, often safe to treat as success).
 
 ---
 ## Gotchas
-- rsync mirrors **file contents**, not consistency. A live database directory copy is unusable, dump first, see [[database-dumps]].
+- rsync mirrors **file contents**, not consistency. A live database directory copy is unusable, dump first, see [Database Dumps](database-dumps.md).
 - Without encryption or history, a mirror propagates ransomware and accidental deletes on the next run. Keep `--backup-dir` or snapshots.
-- NFS or SMB destinations can drop ownership and permissions. Prefer SSH to a real filesystem for faithful backups, see [[nfs]].
+- NFS or SMB destinations can drop ownership and permissions. Prefer SSH to a real filesystem for faithful backups, see [NFS](../linux/nfs.md).

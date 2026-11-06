@@ -7,7 +7,7 @@ Documentation: [Proxmox Cloud-Init Support](https://pve.proxmox.com/pve-docs/cha
 `qm clone` produces a running Ubuntu VM with your user, SSH key, hostname and IP set automatically, ready for an Ansible run.
 
 ## Prerequisites
-- A Proxmox VE node with a storage that holds VM disks (`local-lvm` below) and a bridge (`vmbr0`) ([[proxmox-overview]], [[proxmox-storage]])
+- A Proxmox VE node with a storage that holds VM disks (`local-lvm` below) and a bridge (`vmbr0`) ([Proxmox VE Overview and Install](../proxmox/proxmox-overview.md), [Proxmox Storage](../proxmox/proxmox-storage.md))
 - Shell access on the node (`root`), and an SSH key on your workstation
 - Free VMIDs: `9000` for the template, `120` for the first clone
 - For the guest agent: `libguestfs-tools` on the node (`apt install libguestfs-tools`) if you customise the image
@@ -19,7 +19,7 @@ cd /var/lib/vz/template
 wget https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
 sudo virt-customize -a noble-server-cloudimg-amd64.img --install qemu-guest-agent
 ```
-Skip `virt-customize` if you install the agent through cloud-init user-data instead ([[proxmox-cloud-init]]).
+Skip `virt-customize` if you install the agent through cloud-init user-data instead ([Proxmox Cloud-Init Templates](../proxmox/proxmox-cloud-init.md)).
 
 ### 2. Create the template VM
 ```bash
@@ -31,7 +31,7 @@ qm set 9000 --boot order=scsi0
 qm set 9000 --serial0 socket --vga serial0
 qm set 9000 --agent enabled=1
 ```
-`--scsi0 <STORAGE>:0,import-from=` imports the image in one step on current Proxmox VE. On older releases use `qm importdisk` and attach the resulting disk ([[proxmox-qm-pct]]).
+`--scsi0 <STORAGE>:0,import-from=` imports the image in one step on current Proxmox VE. On older releases use `qm importdisk` and attach the resulting disk ([Proxmox qm and pct](../proxmox/proxmox-qm-pct.md)).
 
 ### 3. Set the cloud-init defaults and convert to a template
 ```bash
@@ -76,10 +76,10 @@ ansible -i inventory.ini web -m ping
 ansible-playbook -i inventory.ini site.yml --check --diff
 ansible-playbook -i inventory.ini site.yml
 ```
-Apply the hardening steps from [[new-server-checklist]] as a role, so every clone ends up identical ([[ansible]], [[ansible-playbook]]).
+Apply the hardening steps from [New Server Checklist](new-server-checklist.md) as a role, so every clone ends up identical ([Ansible Cheat-Sheet](../tools/ansible.md), [Ansible-Playbook Cheat-Sheet](../tools/ansible-playbook.md)).
 
 ### 8. Optional: back up and protect
-Add the VM to a backup job (`vzdump`) and start it on boot: `qm set 120 --onboot 1` ([[proxmox-backup]]). Allow only the needed ports in [[proxmox-firewall]].
+Add the VM to a backup job (`vzdump`) and start it on boot: `qm set 120 --onboot 1` ([Proxmox Backup and Restore](../proxmox/proxmox-backup.md)). Allow only the needed ports in [Proxmox Firewall](../proxmox/proxmox-firewall.md).
 
 ## Verify
 ```bash
@@ -96,7 +96,8 @@ ssh <USER>@192.0.2.120 'hostname; lsblk; cloud-init status'
 - Clones that all share one template SSH key and machine-id behave oddly if you boot the template itself before converting it. Never start the template before `qm template`.
 
 ## Related Sheets
-- [[proxmox-cloud-init]] · [[proxmox-qm-pct]] · [[proxmox-storage]] · [[proxmox-networking]]
-- [[proxmox-backup]] · [[proxmox-firewall]] · [[proxmox-troubleshooting]] · [[proxmox-overview]]
-- [[ansible]] · [[ansible-playbook]] · [[terraform]] · [[openssh]]
-- [[new-server-checklist]] · [[k3s-cluster-from-scratch]]
+- [Proxmox Cloud-Init Templates](../proxmox/proxmox-cloud-init.md) · [Proxmox qm and pct](../proxmox/proxmox-qm-pct.md) · [Proxmox Storage](../proxmox/proxmox-storage.md) · [Proxmox Networking](../proxmox/proxmox-networking.md)
+- [Proxmox Backup and Restore](../proxmox/proxmox-backup.md) · [Proxmox Firewall](../proxmox/proxmox-firewall.md) · [Proxmox Troubleshooting and One-Liners](../proxmox/proxmox-troubleshooting.md) · [Proxmox VE Overview and Install](../proxmox/proxmox-overview.md)
+- [Ansible Cheat-Sheet](../tools/ansible.md) · [Ansible-Playbook Cheat-Sheet](../tools/ansible-playbook.md) · [Terraform](../tools/terraform.md) · [OpenSSH Cheat-Sheet](../tools/openssh.md)
+- [New Server Checklist](new-server-checklist.md) · [K3s Cluster from Scratch](k3s-cluster-from-scratch.md)
+- [Backup Strategy](../backup/backup.md) · [VLANs](../homelab/vlans.md) · [Bash](../scripting/bash.md) · [CI/CD Overview](../cicd/cicd.md)

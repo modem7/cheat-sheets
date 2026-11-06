@@ -5,7 +5,7 @@ Documentation: [Docker Hub usage and pull limits](https://docs.docker.com/docker
 
 > **Verification:** Docker Hub limits, the rate-limit check, the `docker login ghcr.io` command and PAT scopes, the `proxy.remoteurl` mirror setting and `registry-mirrors` were checked against the official docs. **Not verified against the docs:** `registry:2` storage and htpasswd examples, `skopeo` and `crane` flags, and the tagging advice (common practice). No command was executed. Docker Hub limits change over time, so re-check the link above.
 
-See also: [[docker]] · [[docker-troubleshooting]] · [[docker-cleanup]] · [[docker-compose]] · [[github-cli]] · [[ssl-certs]]
+See also: [Docker](docker.md) · [Docker Troubleshooting](docker-troubleshooting.md) · [Docker Cleanup](docker-cleanup.md) · [Docker-Compose](docker-compose.md) · [GitHub and the gh CLI](../tools/github-cli.md) · [SSL Certificates Cheat-Sheet](../misc/ssl-certs.md)
 
 ---
 ## Docker Hub
@@ -36,7 +36,7 @@ Check what is left (HEAD requests do not count as a pull):
 TOKEN=$(curl -s "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
 curl -sI -H "Authorization: Bearer $TOKEN" https://registry-1.docker.io/v2/ratelimitpreview/test/manifests/latest | grep -i ratelimit
 ```
-`ratelimit-limit: 100;w=21600` is the limit and window in seconds. `ratelimit-remaining` is what is left. Add `-u USER:TOKEN` to the token request to check the authenticated limit. See [[jq]].
+`ratelimit-limit: 100;w=21600` is the limit and window in seconds. `ratelimit-remaining` is what is left. Add `-u USER:TOKEN` to the token request to check the authenticated limit. See [jq](../tools/jq.md).
 
 Ways to cut Hub pulls:
 - Log in on every build host and CI runner.
@@ -60,7 +60,7 @@ docker push ghcr.io/<OWNER>/myapp:1.2.3
 docker pull ghcr.io/<OWNER>/myapp:1.2.3
 ```
 - New packages are **private** by default. Change visibility on the package page. Link the package to its repository with the label `org.opencontainers.image.source=https://github.com/<OWNER>/<REPO>` in the Dockerfile.
-- A CI example, see [[github-cli]] for the `gh` tool:
+- A CI example, see [GitHub and the gh CLI](../tools/github-cli.md) for the `gh` tool:
 ```yaml
 - uses: docker/login-action@v3
   with:
@@ -68,7 +68,7 @@ docker pull ghcr.io/<OWNER>/myapp:1.2.3
     username: ${{ github.actor }}
     password: ${{ secrets.GITHUB_TOKEN }}
 ```
-- Other registries follow the same pattern: `docker login REGISTRY`. Examples: `registry.gitlab.com`, `quay.io`, `<ACCOUNT>.dkr.ecr.<REGION>.amazonaws.com` (use `aws ecr get-login-password`, see [[aws-cli]]).
+- Other registries follow the same pattern: `docker login REGISTRY`. Examples: `registry.gitlab.com`, `quay.io`, `<ACCOUNT>.dkr.ecr.<REGION>.amazonaws.com` (use `aws ecr get-login-password`, see [AWS CLI](../tools/aws-cli.md)).
 
 Credentials end up in `~/.docker/config.json`. Install a credential helper (`docker-credential-pass`, `docker-credential-secretservice`) on workstations so they are not stored as base64.
 
@@ -104,7 +104,7 @@ docker run -d --name registry --restart unless-stopped -p 443:5000 \
   -e REGISTRY_STORAGE_DELETE_ENABLED=true \
   registry:2
 ```
-Alternatively put it behind a reverse proxy that does TLS (Caddy, Traefik, Nginx) and run the registry on an internal network. If you proxy it, allow large uploads (`client_max_body_size 0` in Nginx). For certificates see [[ssl-certs]].
+Alternatively put it behind a reverse proxy that does TLS (Caddy, Traefik, Nginx) and run the registry on an internal network. If you proxy it, allow large uploads (`client_max_body_size 0` in Nginx). For certificates see [SSL Certificates Cheat-Sheet](../misc/ssl-certs.md).
 
 Clients with a private CA: put the CA file in `/etc/docker/certs.d/registry.lan:5000/ca.crt`.
 
@@ -122,7 +122,7 @@ services:
 volumes:
   registry-data:
 ```
-See [[docker-compose]].
+See [Docker-Compose](docker-compose.md).
 
 ### Manage and Clean Up
 COMMAND | DESCRIPTION
@@ -221,8 +221,8 @@ Do not reuse a version tag after release | Moving tags break caches and rollback
 Deploy by **digest** where it matters: `image: app@sha256:...` | Cannot change underneath you. Combine with a readable tag: `app:1.4.2@sha256:...` (Renovate can update both)
 Add environment tags only as pointers (`staging`, `prod`) promoted with `crane tag` | Promotes the exact tested image
 Set OCI labels: `org.opencontainers.image.source`, `.revision`, `.version`, `.created` | Traceability and GHCR repo linking
-Build multi-arch (`--platform linux/amd64,linux/arm64`) under one tag | One name works on x86 and Arm hosts, see [[docker]]
-Clean old tags with a retention rule (keep last N and all releases) | Registries grow forever otherwise, see [[docker-cleanup]]
+Build multi-arch (`--platform linux/amd64,linux/arm64`) under one tag | One name works on x86 and Arm hosts, see [Docker](docker.md)
+Clean old tags with a retention rule (keep last N and all releases) | Registries grow forever otherwise, see [Docker Cleanup](docker-cleanup.md)
 
 Example release tagging with Buildx:
 ```bash

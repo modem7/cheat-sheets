@@ -5,7 +5,7 @@ Documentation: [Storage](https://pve.proxmox.com/pve-docs/chapter-pvesm.html) ·
 
 > **Verification:** `pvesm add dir`, `add nfs`, `add pbs`, `scan nfs`, `set`, `remove` and the default storage layout were checked against the docs. The `zfspool`, `lvmthin`, `cifs` and `zfs`/`lvs` examples, the ARC limit and the Ceph notes were **not** verified against the docs. No command was executed.
 
-See also: [[proxmox-overview]] · [[proxmox-backup]] · [[proxmox-qm-pct]] · [[nfs]] · [[truenas-scale]] (ZFS and NFS server side)
+See also: [Proxmox VE Overview and Install](proxmox-overview.md) · [Proxmox Backup and Restore](proxmox-backup.md) · [Proxmox qm and pct](proxmox-qm-pct.md) · [NFS](../linux/nfs.md) · [TrueNAS Scale](../infra/truenas-scale.md) (ZFS and NFS server side)
 
 ---
 ## pvesm
@@ -32,7 +32,7 @@ COMMAND | DESCRIPTION
 `pvesm add cifs <STORAGE> --server <SERVER> --share <SHARE> --username <USER> --password <PASS> --content backup` | SMB/CIFS share
 `pvesm add zfspool <STORAGE> --pool <POOL>/<DATASET> --content images,rootdir --sparse 1` | ZFS pool or dataset
 `pvesm add lvmthin <STORAGE> --vgname <VG> --thinpool <POOL> --content images,rootdir` | LVM-thin
-`pvesm add pbs <STORAGE> --server <PBS-HOST> --datastore <DATASTORE> --username <USER>@pbs --fingerprint <SHA256> --password <PASS>` | Proxmox Backup Server ([[proxmox-backup]])
+`pvesm add pbs <STORAGE> --server <PBS-HOST> --datastore <DATASTORE> --username <USER>@pbs --fingerprint <SHA256> --password <PASS>` | Proxmox Backup Server ([Proxmox Backup and Restore](proxmox-backup.md))
 
 For a directory on a separate disk: partition, `mkfs.ext4`, mount via `/etc/fstab` (use the UUID), then add as `dir`. Add `is_mountpoint 1` on the storage to stop Proxmox writing into the empty mount point if the disk is missing.
 
@@ -42,8 +42,8 @@ TYPE | SNAPSHOTS | SHARED | NOTES
 ---|---|---|---
 Directory (qcow2) | yes | no | Simple, any filesystem
 LVM-thin | yes | no | Default `local-lvm`, fast, thin provisioned
-ZFS | yes | no | Checksums, compression, replication ([[proxmox-cluster-ha]])
-NFS | yes (qcow2) | yes | Easy shared storage, see [[nfs]]
+ZFS | yes | no | Checksums, compression, replication ([Proxmox Clustering and HA](proxmox-cluster-ha.md))
+NFS | yes (qcow2) | yes | Easy shared storage, see [NFS](../linux/nfs.md)
 CIFS | yes (qcow2) | yes | Mainly for backups and ISOs
 Ceph RBD | yes | yes | Hyper-converged, needs 3+ nodes
 PBS | n/a | yes | Backups only
@@ -77,7 +77,7 @@ Limit ARC (default can use up to about half of RAM) in `/etc/modprobe.d/zfs.conf
 ```
 options zfs zfs_arc_max=8589934592
 ```
-Then run `update-initramfs -u -k all` and reboot. More ZFS commands in [[truenas-scale]].
+Then run `update-initramfs -u -k all` and reboot. More ZFS commands in [TrueNAS Scale](../infra/truenas-scale.md).
 
 ---
 ## Ceph (overview)
