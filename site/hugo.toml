@@ -56,12 +56,11 @@ disableKinds = ["taxonomy", "term", "RSS"]
   priority = 0.5
 
 # --- Content mounting ---------------------------------------------------
-# Hugo cannot parse Obsidian [[wikilinks]], so scripts/prepare-content.py
-# (run before hugo, in CI and locally) walks the repo, discovers every
-# top-level folder automatically, and writes transformed copies into
-# site/.build/content: wikilinks resolved, title/description front matter
-# added. The sheets themselves are never modified. Hugo mounts that dir as
-# its content tree, so every folder becomes a section with no config change.
+# scripts/prepare-content.py (run before hugo, in CI and locally) walks the
+# repo, discovers every top-level folder automatically, and writes copies
+# into site/.build/content with title/description front matter added. The
+# sheets themselves are never modified. Hugo mounts that dir as its content
+# tree, so every folder becomes a section with no config change.
 [module]
   [[module.mounts]]
     source = ".build/content"

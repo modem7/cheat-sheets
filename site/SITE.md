@@ -32,8 +32,8 @@ python3 -m http.server --directory site/public 8000
 
 ## How content is mounted
 
-Hugo cannot parse Obsidian `[[wikilinks]]` and sheets have no front matter, so a small script
-sits in front of it:
+Sheets have no front matter (and Hugo needs a content directory of its own), so a small script
+sits in front of Hugo:
 
 1. `site/scripts/prepare-content.py` walks the repo, discovers **every folder containing `.md` files**
    (no folder list anywhere), and writes transformed copies to `site/.build/content/` (git-ignored).
@@ -52,21 +52,14 @@ Each top-level folder becomes a **section**: it gets a sidebar group, a page cou
 section page and prev/next navigation. Subfolders (e.g. `cloud/provider/`) are shown under their top-level
 section.
 
-## Wikilinks
+## Links
 
-Supported forms: `[[name]]`, `[[name|alias]]`, `[[name#heading]]`, `[[name#heading|alias]]`, `[[#heading]]`.
-The escaped pipe `[[name\|alias]]` used in table cells works too.
-
-- Resolution is by **file name** (case-insensitive, without `.md`), across the whole repo, exactly like
-  Obsidian. `[[docker]]` finds `docker/docker.md`. If two sheets share a file name the one in the same folder
-  wins, then the first by path, and a warning is printed.
-- They are rewritten to ordinary relative Markdown links, which `layouts/_default/_markup/render-link.html`
-  then turns into correct page URLs for the Pages sub-path.
-- Wikilinks inside fenced code blocks, inline code and HTML comments are left untouched.
-- An **unresolved** link renders as dotted red text with a warning mark, and the build log gets a
-  `WARN <file>:<line>: unresolved wikilink [[x]]` line (plus a GitHub Actions annotation in CI). Add
-  `--strict` to `prepare-content.py` to make that fail the build.
-- Plain relative links (`[Sed](sed.md)`) are resolved the same way; broken ones produce a Hugo warning.
+Sheets link to each other with ordinary relative Markdown links, e.g. `[Sed](sed.md)` or
+`[Docker](../docker/docker.md#build-images)`. `layouts/_default/_markup/render-link.html` resolves them
+to the published page URL (correct for the Pages sub-path), keeps `#anchors`, and serves non-Markdown
+files such as PDFs from their repo path. A link to a missing sheet renders as dotted red text with a
+warning mark and prints `WARN broken link "x" in <file>` in the Hugo build log. `scripts/check-links.py`
+checks the same links in CI.
 
 GitHub-style callouts (`> [!NOTE]`, `> [!attention]`, `> [!INFO] Custom title`) are rendered as coloured
 callout boxes by `render-blockquote.html`. Unknown types fall back to the "note" style.
@@ -84,7 +77,7 @@ example `cicd = "CI/CD"`.
 | Path | Purpose |
 | --- | --- |
 | `hugo.toml` | Config: base URL, markup, mounts, section display names |
-| `scripts/prepare-content.py` | Wikilink and front-matter preprocessing (stdlib only) |
+| `scripts/prepare-content.py` | Front-matter preprocessing (stdlib only) |
 | `scripts/dev.sh` | Local preview helper |
 | `layouts/` | Templates: base, home, section, sheet, 404, render hooks (links, code blocks, tables, callouts, headings) |
 | `assets/css`, `assets/js` | Hand-written CSS and vanilla JS, minified and fingerprinted by Hugo |

@@ -45,9 +45,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Prepare content (wikilinks, front matter)
-        # Unresolved wikilinks are reported as warnings in the log and as
-        # annotations; add --strict to make them fail the build.
+      - name: Prepare content (front matter)
         run: python3 site/scripts/prepare-content.py
 
       - name: Compute baseURL

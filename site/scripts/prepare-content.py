@@ -1,38 +1,29 @@
 #!/usr/bin/env python3
 """Prepare the cheat sheets for Hugo.
 
-The sheets are plain Markdown with Obsidian-style [[wikilinks]] and no front
-matter. Hugo cannot parse wikilinks, so this script writes transformed copies
-of every sheet into a build directory that Hugo mounts as its content dir.
-
-For each sheet it:
-  * adds YAML front matter (title, description, and weight 1 for a section's
-    lead sheet such as docker/docker.md) unless the file already has some;
-  * turns [[wikilinks]] into normal relative Markdown links, leaving code
-    fences, inline code, HTML comments and ![[embeds]] alone;
-  * marks unresolved links with <span class="wikilink-missing"> and reports
-    them.
+The sheets are plain Markdown with no front matter. This script writes a copy
+of every sheet into a build directory that Hugo mounts as its content dir,
+adding YAML front matter (title, description, and weight 1 for a section's
+lead sheet such as docker/docker.md) unless the file already has some. The
+body is copied unchanged.
 
 Usage:
-  prepare-content.py [--src DIR] [--out DIR] [--strict] [--watch]
+  prepare-content.py [--src DIR] [--out DIR] [--watch]
 
   --src     Repository root to read sheets from (default: parent of site/).
   --out     Output content dir (default: site/.build/content). Must be
             inside site/.build/ because it is wiped on every run.
-  --strict  Exit 1 if any link is unresolved or any basename is duplicated.
-            Ignored in watch mode.
   --watch   After the first build, poll the sources every second and
             rebuild on change. Ctrl-C to stop.
 
 Sources are every *.md under --src, except root-level files (README.md),
 anything under a dot folder, the top-level site/ dir and node_modules/.
-Python 3.9+, standard library only.
+Symlinked files are skipped. Python 3.9+, standard library only.
 """
 
 from __future__ import annotations
 
 import argparse
-import html
 import json
 import os
 import posixpath
@@ -42,10 +33,8 @@ import signal
 import sys
 import tempfile
 import time
-import urllib.parse
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterator, List, Optional, Tuple
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SITE_DIR = SCRIPT_DIR.parent
@@ -61,9 +50,6 @@ POLL_SECONDS = 1.0
 FENCE_PREFIX = r"^((?:[ \t]*>)*[ \t]*(?:(?:[-*+]|\d{1,9}[.)])[ \t]+)?)"
 FENCE_OPEN_RE = re.compile(FENCE_PREFIX + r"(`{3,}|~{3,})(.*)$")
 QUOTE_PREFIX_RE = re.compile(r"^(?:[ \t]*>)*[ \t]*")
-WIKILINK_RE = re.compile(r"(?<!!)\[\[([^\[\]\n]+?)\]\]")
-ALIAS_SPLIT_RE = re.compile(r"\\?\|")
-INLINE_TOKEN_RE = re.compile(r"`+|<!--")
 H1_RE = re.compile(r"^ {0,3}#[ \t]+(.+?)(?:[ \t]+#+)?[ \t]*$")
 HEADING_RE = re.compile(r"^ {0,3}#{1,6}(?:[ \t]|$)")
 LIST_RE = re.compile(r"^\s*(?:[-*+]|\d{1,9}[.)])(?:\s|$)")
@@ -75,7 +61,6 @@ MD_LINK_RE = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
 STRONG_RE = re.compile(r"(\*\*|__)(.+?)\1")
 EM_RE = re.compile(r"(?<![\w*])([*_])(?!\s)(.+?)(?<!\s)\1(?![\w*])")
 TAG_RE = re.compile(r"<[^>]+>")
-SLUG_STRIP_RE = re.compile(r"[^\w\- ]", re.UNICODE)
 
 
 # --- Data ------------------------------------------------------------------
@@ -89,7 +74,6 @@ class Sheet:
     path: Path
     front_matter: str = ""  # original front matter block, if any
     body: str = ""
-    body_offset: int = 0  # source lines before the body
     title: str = ""
     description: str = ""
 
@@ -102,23 +86,12 @@ class Sheet:
         return posixpath.dirname(self.rel)
 
 
-@dataclass
-class Stats:
-    """Counters for the summary line."""
-
-    sheets: int = 0
-    converted: int = 0
-    unresolved: int = 0
-    duplicates: int = 0
-    warnings: List[str] = field(default_factory=list)
-
-
 # --- Discovery -------------------------------------------------------------
 
 
-def discover(src: Path) -> List[Path]:
+def discover(src: Path) -> list[Path]:
     """Return every source sheet under src, sorted by relative path."""
-    found: List[Path] = []
+    found: list[Path] = []
     for dirpath, dirnames, filenames in os.walk(src):
         rel_dir = Path(dirpath).relative_to(src)
         at_root = rel_dir == Path(".")
@@ -140,9 +113,9 @@ def discover(src: Path) -> List[Path]:
     return sorted(found, key=lambda p: p.relative_to(src).as_posix())
 
 
-def snapshot(src: Path) -> Dict[str, Tuple[int, int]]:
+def snapshot(src: Path) -> dict[str, tuple[int, int]]:
     """Map each source's relative path to (mtime_ns, size)."""
-    snap: Dict[str, Tuple[int, int]] = {}
+    snap: dict[str, tuple[int, int]] = {}
     for p in discover(src):
         try:
             st = p.stat()
@@ -152,146 +125,40 @@ def snapshot(src: Path) -> Dict[str, Tuple[int, int]]:
     return snap
 
 
-# --- Markdown scanning -----------------------------------------------------
+# --- Fence tracking --------------------------------------------------------
 
 
 @dataclass
-class ScanState:
-    """Block state carried from line to line."""
+class FenceState:
+    """Open code fence carried from line to line."""
 
-    fence_char: str = ""
-    fence_len: int = 0
-    in_comment: bool = False
-
-    @property
-    def in_fence(self) -> bool:
-        return self.fence_len > 0
+    char: str = ""
+    length: int = 0
 
 
-def fence_step(line: str, state: ScanState) -> Optional[bool]:
-    """Update fence state for one line.
-
-    Returns True if the line is a fence line or inside a fence (code),
-    None if the line is ordinary text.
-    """
-    if state.in_fence:
+def in_fence(line: str, state: FenceState) -> bool:
+    """Update fence state for one line. True if the line is fence or code."""
+    if state.length:
         rest = line[QUOTE_PREFIX_RE.match(line).end():]
         m = re.match(r"(`+|~+)\s*$", rest)
-        if m and m.group(1)[0] == state.fence_char and len(m.group(1)) >= state.fence_len:
-            state.fence_char, state.fence_len = "", 0
+        if m and m.group(1)[0] == state.char and len(m.group(1)) >= state.length:
+            state.char, state.length = "", 0
         return True
-    if state.in_comment:
-        return None
     m = FENCE_OPEN_RE.match(line)
     if m:
         run, info = m.group(2), m.group(3)
         if run[0] == "`" and "`" in info:
-            return None  # inline code, not a fence
-        state.fence_char, state.fence_len = run[0], len(run)
+            return False  # inline code, not a fence
+        state.char, state.length = run[0], len(run)
         return True
-    return None
-
-
-def split_inline(line: str, state: ScanState) -> List[Tuple[str, bool]]:
-    """Split a non-fence line into (text, transformable) pieces.
-
-    Inline code spans and HTML comments are not transformable. Comment
-    state carries across lines.
-    """
-    pieces: List[Tuple[str, bool]] = []
-    i, n = 0, len(line)
-    while i < n:
-        if state.in_comment:
-            j = line.find("-->", i)
-            if j < 0:
-                pieces.append((line[i:], False))
-                return pieces
-            pieces.append((line[i:j + 3], False))
-            state.in_comment = False
-            i = j + 3
-            continue
-        m = INLINE_TOKEN_RE.search(line, i)
-        if not m:
-            pieces.append((line[i:], True))
-            break
-        start = m.start()
-        # An escaped backtick is literal.
-        if m.group(0)[0] == "`" and _escaped(line, start):
-            pieces.append((line[i:start + 1], True))
-            i = start + 1
-            continue
-        if start > i:
-            pieces.append((line[i:start], True))
-        token = m.group(0)
-        if token == "<!--":
-            state.in_comment = True
-            pieces.append((token, False))
-            i = m.end()
-            continue
-        closer = re.compile(r"(?<!`)`{%d}(?!`)" % len(token)).search(line, m.end())
-        if closer:
-            pieces.append((line[start:closer.end()], False))
-            i = closer.end()
-        else:
-            pieces.append((token, False))  # unmatched run is literal
-            i = m.end()
-    return pieces
-
-
-def _escaped(text: str, pos: int) -> bool:
-    """True if the char at pos is preceded by an odd number of backslashes."""
-    count = 0
-    pos -= 1
-    while pos >= 0 and text[pos] == "\\":
-        count += 1
-        pos -= 1
-    return count % 2 == 1
-
-
-def scan(lines: List[str]) -> Iterator[Tuple[int, str, Optional[List[Tuple[str, bool]]]]]:
-    """Yield (index, line, pieces); pieces is None for fenced code lines."""
-    state = ScanState()
-    for idx, line in enumerate(lines):
-        if fence_step(line, state):
-            yield idx, line, None
-        else:
-            yield idx, line, split_inline(line, state)
+    return False
 
 
 # --- Text helpers ----------------------------------------------------------
 
 
-def parse_wikilink(inner: str) -> Optional[Tuple[str, str, Optional[str]]]:
-    """Split wikilink text into (target, heading, alias).
-
-    Returns None when the text should be left alone (empty, or padded with
-    whitespace like bash's [[ -f x ]]).
-    """
-    if not inner or inner != inner.strip():
-        return None
-    parts = ALIAS_SPLIT_RE.split(inner, maxsplit=1)
-    ref = parts[0].strip()
-    alias = parts[1].strip() if len(parts) > 1 else None
-    if alias == "":
-        alias = None
-    target, _, heading = ref.partition("#")
-    target, heading = target.strip(), heading.strip()
-    if not target and not heading:
-        return None
-    return target, heading, alias
-
-
 def plain_text(text: str) -> str:
     """Reduce inline Markdown to plain text."""
-
-    def wl(m: "re.Match[str]") -> str:
-        parsed = parse_wikilink(m.group(1))
-        if not parsed:
-            return m.group(0)
-        target, heading, alias = parsed
-        return alias or target or heading
-
-    text = WIKILINK_RE.sub(wl, text)
     text = MD_LINK_RE.sub(r"\1", text)
     text = text.replace("`", "")
     text = STRONG_RE.sub(r"\2", text)
@@ -306,12 +173,6 @@ def humanise(stem: str) -> str:
     return " ".join(w[:1].upper() + w[1:] for w in re.split(r"[-_\s]+", stem) if w)
 
 
-def slugify(heading: str) -> str:
-    """GitHub-style heading anchor."""
-    s = SLUG_STRIP_RE.sub("", heading.strip().lower())
-    return s.replace(" ", "-")
-
-
 def truncate(text: str, limit: int = DESC_MAX) -> str:
     """Cut text on a word boundary, adding an ellipsis if shortened."""
     if len(text) <= limit:
@@ -319,34 +180,22 @@ def truncate(text: str, limit: int = DESC_MAX) -> str:
     cut = text[:limit]
     if " " in cut:
         cut = cut.rsplit(" ", 1)[0]
-    return cut.rstrip(" ,;:.-") + "\u2026"
-
-
-def escape_label(label: str) -> str:
-    """Escape characters that would break a Markdown link label."""
-    for ch in ("\\", "[", "]", "|"):
-        label = label.replace(ch, "\\" + ch)
-    return label
-
-
-def quote_path(path: str) -> str:
-    """Percent-encode a relative link path."""
-    return urllib.parse.quote(path, safe="/._-~")
+    return cut.rstrip(" ,;:.-") + "…"
 
 
 # --- Parsing ---------------------------------------------------------------
 
 
-def split_front_matter(text: str) -> Tuple[str, str, int]:
-    """Return (front_matter, body, body_line_offset)."""
+def split_front_matter(text: str) -> tuple[str, str]:
+    """Return (front_matter, body)."""
     if not text.startswith("---\n"):
-        return "", text, 0
+        return "", text
     lines = text.split("\n")
     for i in range(1, len(lines)):
         if lines[i].rstrip() in ("---", "..."):
             fm = "\n".join(lines[: i + 1]) + "\n"
-            return fm, "\n".join(lines[i + 1:]), i + 1
-    return "", text, 0
+            return fm, "\n".join(lines[i + 1:])
+    return "", text
 
 
 def front_matter_title(fm: str) -> str:
@@ -365,11 +214,11 @@ def front_matter_title(fm: str) -> str:
     return value
 
 
-def find_title(lines: List[str]) -> Tuple[Optional[str], int]:
+def find_title(lines: list[str]) -> tuple[str | None, int]:
     """Return (H1 text, line index) for the first H1 before any fence."""
-    state = ScanState()
+    state = FenceState()
     for idx, line in enumerate(lines):
-        if fence_step(line, state):
+        if in_fence(line, state):
             break
         m = H1_RE.match(line)
         if m:
@@ -377,21 +226,20 @@ def find_title(lines: List[str]) -> Tuple[Optional[str], int]:
     return None, -1
 
 
-def find_description(lines: List[str], start: int) -> Optional[str]:
+def find_description(lines: list[str], start: int) -> str | None:
     """Return the first prose paragraph from lines[start:]."""
-    state = ScanState()
-    block: List[str] = []
+    state = FenceState()
+    block: list[str] = []
 
-    def usable(b: List[str]) -> bool:
+    def usable(b: list[str]) -> bool:
         if not b:
             return False
+        # A Markdown table is not a description.
         joined = "\n".join(b)
-        if "|" in joined and any(TABLE_DELIM_RE.match(x) for x in b):
-            return False
-        return True
+        return not ("|" in joined and any(TABLE_DELIM_RE.match(x) for x in b))
 
     for line in lines[start:]:
-        if fence_step(line, state):
+        if in_fence(line, state):
             if usable(block):
                 break
             block = []
@@ -420,15 +268,9 @@ def find_description(lines: List[str], start: int) -> Optional[str]:
 def load_sheet(src: Path, path: Path) -> Sheet:
     """Read and parse one sheet."""
     raw = path.read_text(encoding="utf-8")
-    raw = raw.lstrip("\ufeff").replace("\r\n", "\n").replace("\r", "\n")
-    fm, body, offset = split_front_matter(raw)
-    sheet = Sheet(
-        rel=path.relative_to(src).as_posix(),
-        path=path,
-        front_matter=fm,
-        body=body,
-        body_offset=offset,
-    )
+    raw = raw.lstrip("﻿").replace("\r\n", "\n").replace("\r", "\n")
+    fm, body = split_front_matter(raw)
+    sheet = Sheet(rel=path.relative_to(src).as_posix(), path=path, front_matter=fm, body=body)
     lines = body.split("\n")
     h1, h1_idx = find_title(lines)
     sheet.title = (
@@ -439,121 +281,7 @@ def load_sheet(src: Path, path: Path) -> Sheet:
     return sheet
 
 
-# --- Link resolution -------------------------------------------------------
-
-
-class Resolver:
-    """Resolve wikilink targets to sheets."""
-
-    def __init__(self, sheets: List[Sheet], stats: Stats) -> None:
-        self.sheets = sheets
-        self.by_stem: Dict[str, List[Sheet]] = {}
-        for s in sheets:
-            self.by_stem.setdefault(s.stem.lower(), []).append(s)
-        for name, group in sorted(self.by_stem.items()):
-            if len(group) > 1:
-                stats.duplicates += 1
-                paths = ", ".join(g.rel for g in group)
-                warn(stats, f"WARN duplicate sheet name '{name}': {paths}")
-
-    def resolve(self, target: str, origin: Sheet) -> Optional[Sheet]:
-        key = target.strip().lower()
-        if key.endswith(".md"):
-            key = key[:-3]
-        key = key.strip("/")
-        if not key:
-            return None
-        if "/" in key:
-            cands = [
-                s for s in self.sheets
-                if s.rel.lower()[:-3] == key or s.rel.lower()[:-3].endswith("/" + key)
-            ]
-        else:
-            cands = self.by_stem.get(key, [])
-        if not cands:
-            return None
-        for c in cands:
-            if c.folder == origin.folder:
-                return c
-        return cands[0]
-
-
-# --- Transform -------------------------------------------------------------
-
-
-def warn(stats: Stats, message: str) -> None:
-    """Print a warning to stderr and keep it."""
-    stats.warnings.append(message)
-    print(message, file=sys.stderr)
-
-
-def gh_escape(value: str, prop: bool = False) -> str:
-    """Escape a GitHub Actions workflow command value."""
-    value = value.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
-    if prop:
-        value = value.replace(":", "%3A").replace(",", "%2C")
-    return value
-
-
-def report_unresolved(stats: Stats, rel: str, line: int, inner: str) -> None:
-    """Report one unresolved wikilink."""
-    stats.unresolved += 1
-    msg = f"unresolved wikilink [[{inner}]]"
-    warn(stats, f"WARN {rel}:{line}: {msg}")
-    if os.environ.get("GITHUB_ACTIONS") == "true":
-        print(
-            f"::warning file={gh_escape(rel, True)},line={line}::{gh_escape(msg)}",
-            flush=True,
-        )
-
-
-def render_link(
-    m: "re.Match[str]", sheet: Sheet, resolver: Resolver, stats: Stats, lineno: int
-) -> str:
-    """Return the replacement for one wikilink match."""
-    inner = m.group(1)
-    parsed = parse_wikilink(inner)
-    if parsed is None:
-        return m.group(0)
-    target, heading, alias = parsed
-    if not target:  # [[#heading]] on the same page
-        stats.converted += 1
-        label = alias or heading
-        return f"[{escape_label(label)}](#{slugify(heading)})"
-    dest = resolver.resolve(target, sheet)
-    if dest is None:
-        shown = inner.replace("\\|", "|")
-        report_unresolved(stats, sheet.rel, lineno, shown)
-        label = alias or target
-        title = html.escape(f"Unresolved link: [[{shown}]]").replace("|", "&#124;")
-        text = html.escape(label).replace("|", "&#124;")
-        return f'<span class="wikilink-missing" title="{title}">{text}</span>'
-    stats.converted += 1
-    href = quote_path(posixpath.relpath(dest.rel, sheet.folder or "."))
-    if heading:
-        href += "#" + slugify(heading)
-    label = alias or (f"{dest.title} \u203a {heading}" if heading else dest.title)
-    return f"[{escape_label(label)}]({href})"
-
-
-def transform_body(sheet: Sheet, resolver: Resolver, stats: Stats) -> str:
-    """Convert wikilinks in the body, skipping code and comments."""
-    lines = sheet.body.split("\n")
-    out: List[str] = []
-    for idx, line, pieces in scan(lines):
-        if pieces is None:
-            out.append(line)
-            continue
-        lineno = sheet.body_offset + idx + 1
-        buf = []
-        for text, live in pieces:
-            if live and "[[" in text:
-                text = WIKILINK_RE.sub(
-                    lambda m, ln=lineno: render_link(m, sheet, resolver, stats, ln), text
-                )
-            buf.append(text)
-        out.append("".join(buf))
-    return "\n".join(out)
+# --- Render ----------------------------------------------------------------
 
 
 def front_matter_for(sheet: Sheet) -> str:
@@ -569,24 +297,19 @@ def front_matter_for(sheet: Sheet) -> str:
     return "\n".join(lines) + "\n\n"
 
 
-def render_sheet(sheet: Sheet, resolver: Resolver, stats: Stats) -> str:
+def render_sheet(sheet: Sheet) -> str:
     """Return the full output text for one sheet."""
-    body = transform_body(sheet, resolver, stats)
     if sheet.front_matter:
-        text = sheet.front_matter + body
+        text = sheet.front_matter + sheet.body
     else:
-        text = front_matter_for(sheet) + body.lstrip("\n")
+        text = front_matter_for(sheet) + sheet.body.lstrip("\n")
     return text.rstrip("\n") + "\n"
 
 
-def build(src: Path) -> Tuple[Dict[str, str], Stats]:
-    """Render every sheet. Returns ({rel: content}, stats)."""
-    stats = Stats()
+def build(src: Path) -> dict[str, str]:
+    """Render every sheet. Returns {rel: content}."""
     sheets = [load_sheet(src, p) for p in discover(src)]
-    stats.sheets = len(sheets)
-    resolver = Resolver(sheets, stats)
-    outputs = {s.rel: render_sheet(s, resolver, stats) for s in sheets}
-    return outputs, stats
+    return {s.rel: render_sheet(s) for s in sheets}
 
 
 # --- Output ----------------------------------------------------------------
@@ -635,7 +358,7 @@ def write_if_changed(path: Path, content: str) -> bool:
     return True
 
 
-def sync_outputs(out: Path, outputs: Dict[str, str]) -> int:
+def sync_outputs(out: Path, outputs: dict[str, str]) -> int:
     """Write changed outputs, delete stale ones. Returns files written."""
     written = sum(write_if_changed(out / rel, text) for rel, text in outputs.items())
     wanted = {(out / rel) for rel in outputs}
@@ -650,11 +373,8 @@ def sync_outputs(out: Path, outputs: Dict[str, str]) -> int:
     return written
 
 
-def summary(stats: Stats) -> str:
-    return (
-        f"prepare-content: {stats.sheets} sheets, {stats.converted} wikilinks "
-        f"converted, {stats.unresolved} unresolved, {stats.duplicates} duplicate names"
-    )
+def summary(outputs: dict[str, str]) -> str:
+    return f"prepare-content: {len(outputs)} sheets"
 
 
 # --- Main ------------------------------------------------------------------
@@ -671,10 +391,10 @@ def watch(src: Path, out: Path) -> None:
             continue
         last = current
         try:
-            outputs, stats = build(src)
+            outputs = build(src)
             written = sync_outputs(out, outputs)
-            print(f"{summary(stats)} ({written} written)", flush=True)
-        except Exception as exc:  # keep watching after a bad read
+            print(f"{summary(outputs)} ({written} written)", flush=True)
+        except Exception as exc:  # noqa: BLE001 - keep watching after a bad read
             print(f"prepare-content: rebuild failed: {exc}", file=sys.stderr, flush=True)
 
 
@@ -683,42 +403,36 @@ def _raise_interrupt(_signum: int, _frame: object) -> None:
     raise KeyboardInterrupt
 
 
-def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p = argparse.ArgumentParser(
         description="Copy cheat sheets into Hugo's content dir, "
-        "converting [[wikilinks]] and adding front matter."
+        "adding front matter. The body is copied unchanged."
     )
     p.add_argument("--src", type=Path, default=REPO_ROOT, help="repo root (default: %(default)s)")
     p.add_argument(
         "--out", type=Path, default=BUILD_DIR / "content", help="output dir (default: %(default)s)"
     )
-    p.add_argument(
-        "--strict", action="store_true", help="exit 1 on unresolved links or duplicate names"
-    )
     p.add_argument("--watch", action="store_true", help="rebuild on change")
     return p.parse_args(argv)
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     src = args.src.resolve()
     if not src.is_dir():
         print(f"prepare-content: --src {args.src} is not a directory", file=sys.stderr)
         return 2
     out = check_out_dir(args.out)
-    outputs, stats = build(src)
+    outputs = build(src)
     clear_dir(out)
     sync_outputs(out, outputs)
-    print(summary(stats), flush=True)
+    print(summary(outputs), flush=True)
     if args.watch:
         signal.signal(signal.SIGTERM, _raise_interrupt)
         try:
             watch(src, out)
         except KeyboardInterrupt:
             print("prepare-content: stopped", flush=True)
-        return 0
-    if args.strict and (stats.unresolved or stats.duplicates):
-        return 1
     return 0
 
 
