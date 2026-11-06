@@ -9,14 +9,14 @@
 ## Complete List
 Code | Name | Description
 ---|---|---
-100|Continue|Everything so far is OK and that the client should continue with the request or ignore it if it is already finished.
+100|Continue|Everything so far is OK and the client should continue with the request or ignore it if it is already finished.
 101|Switching Protocols|The client has asked the server to change protocols and the server has agreed to do so.
-102|Processing|The server has received and is processing the request, but that it does not have a final response yet.
+102|Processing|The server has received and is processing the request, but does not have a final response yet.
 103|Early Hints|Used to return some response headers before final HTTP message.
 200|OK|Successful request.
 201|Created|The server acknowledged the created resource.
 202|Accepted|The client's request has been received but the server is still processing it.
-203|Non-Authoritative Information|The response that the server sent to the client is not the same as it was when the server sent it.
+203|Non-Authoritative Information|The response was modified by a transforming proxy and differs from the origin server's 200.
 204|No Content|There is no content to send for this request
 205|Reset Content|Tells the user agent to reset the document which sent this request.
 206|Partial Content|This response code is used when the range-header is sent from the client to request only part of a resource.
@@ -32,32 +32,32 @@ Code | Name | Description
 307|Temporary Redirect|The server sends this response to direct the client to get the requested resource at another URI with same method that was used in the prior request.
 308|Permanent Redirect|This means that the resource is now permanently located at another URI, specified by the Location: HTTP Response header.
 400|Bad Request|The server could not understand the request
-401|Unauthorized|The client didn't authenticate himself. 
+401|Unauthorized|The client hasn't authenticated (the status name is historical, it means unauthenticated). 
 402|Payment Required|This response code is reserved for future use. The initial aim for creating this code was using it for digital payment systems, however this status code is used very rarely and no standard convention exists.
 403|Forbidden|The client does not have access rights to the content
 404|Not Found|The server can not find the requested resource
 405|Method Not Allowed|The request method is known by the server but is not supported by the target resource
-406|Not Acceptable|The reponse doens't conforms to the creteria given by the client
+406|Not Acceptable|The server cannot produce a response matching the Accept headers sent by the client
 407|Proxy Authentication Required|This is similar to 401 Unauthorized but authentication is needed to be done by a proxy.
 408|Request Timeout|This response is sent on an idle connection by some servers, even without any previous request by the client.
 409|Conflict|This response is sent when a request conflicts with the current state of the server.
 410|Gone|This response is sent when the requested content has been permanently deleted from server, with no forwarding address.
 411|Length Required|Server rejected the request because the Content-Length header field is not defined and the server requires it.
-412|Precondition Failed|Access to the target resource has been denied.
-413|Payload Too Large|Request entity is larger than limits defined by server.
-414|Request-URI Too Long|The URI requested by the client is longer than the server is willing to interpret.
+412|Precondition Failed|A condition in the request headers (such as `If-Match`) evaluated to false.
+413|Content Too Large (Payload Too Large)|Request entity is larger than limits defined by server.
+414|URI Too Long|The URI requested by the client is longer than the server is willing to interpret.
 415|Unsupported Media Type|The media format is not supported by the server.
-416|Requested Range Not Satisfiable|The range specified by the Range header field in the request cannot be fulfilled.
-417|Expectation Failed|the expectation indicated by the Expect request header field cannot be met by the server.
-418|I'm a teapot|The server refuses the attempt to brew coffee with a teapot.
+416|Range Not Satisfiable|The range specified by the Range header field in the request cannot be fulfilled.
+417|Expectation Failed|The expectation indicated by the Expect request header field cannot be met by the server.
+418|I'm a teapot|The server refuses to brew coffee because it is a teapot (an April Fools' RFC 2324 joke, sometimes used as an Easter egg).
 421|Misdirected Request|The request was directed at a server that is not able to produce a response.
-422|Unprocessable Entity|The request was well-formed but was unable to be followed due to semantic errors.
+422|Unprocessable Content|The request was well-formed but was unable to be followed due to semantic errors.
 423|Locked|The resource that is being accessed is locked.
 424|Failed Dependency|The request failed due to failure of a previous request.
 426|Upgrade Required|The server refuses to perform the request using the current protocol but might be willing to do so after the client upgrades to a different protocol.
-428|Precondition Required|his response is intended to prevent the 'lost update' problem, where a client GETs a resource's state, modifies it and PUTs it back to the server, when meanwhile a third party has modified the state on the server, leading to a conflict.
+428|Precondition Required|This response is intended to prevent the 'lost update' problem, where a client GETs a resource's state, modifies it and PUTs it back to the server, when meanwhile a third party has modified the state on the server, leading to a conflict.
 429|Too Many Requests|The user has sent too many requests in a given amount of time
-431|Request Header Fields Too Large|The server is can't process the request because its header fields are too large.
+431|Request Header Fields Too Large|The server can't process the request because its header fields are too large.
 444|Connection Closed Without Response|The connection opened, but no data was written.
 451|Unavailable For Legal Reasons|The user agent requested a resource that cannot legally be provided (such as a web page censored by a government)
 499|Client Closed Request|The client closed the connection, despite the server was processing the request already.
@@ -73,3 +73,5 @@ Code | Name | Description
 510|Not Extended|Further extensions to the request are required for the server to fulfill it.
 511|Network Authentication Required|Indicates that the client needs to authenticate to gain network access.
 599|Network Connect Timeout Error|The connection timed out due to a overloaded server, a hardware error or a infrastructure error.
+
+444, 499 and 599 are not in the HTTP standard. 444 and 499 are nginx-specific, and 599 is used by some proxies and clients. Registered codes are in the [IANA registry](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml). Test a response code with `curl -I -s -o /dev/null -w '%{http_code}\n' URL` ([[curl]]).

@@ -7,7 +7,7 @@ As the title states, a UTP cable has no shielding. This is the most used and mos
 
 ### Shielded Twisted Pair (STP)
 
-STP cables are similar to UTP cables, where the wires are twisted together and then wrapped with a shielding or screening material which consits of foil wrapping or a copper braid jacket.
+STP cables are similar to UTP cables, where the wires are twisted together and then wrapped with a shielding or screening material which consists of foil wrapping or a copper braid jacket.
 
 ### Foil Twisted Pair (FTP)
 
@@ -46,13 +46,26 @@ PIN | COLOR | COLOR-TEXT
 
 CATEGORY | MHz | Speed
 ---|---|---
-CAT 3 UTP | 16MHz | 10Mps up to 100m
-CAT 4 UTP | 20MHz | 16Mps up to 100m
+CAT 3 UTP | 16MHz | 10Mbps up to 100m
+CAT 4 UTP | 20MHz | 16Mbps up to 100m
 CAT 5 UTP | 100MHz | 100Mbps up to 100m
 CAT 5e UTP | 100MHz | 1000Mbps up to 100m
 CAT 5e STP | 100MHz | 1000Mbps up to 100m
-CAT 6 UTP | 250MHz | 10Gbps over to 33-55m
+CAT 6 UTP | 250MHz | 10Gbps up to 55m (37m in noisy conditions)
 CAT 6a STP | 500MHz | 10Gbps over 100m
 CAT 7 STP | 600MHz | 10Gbps over 100m
 CAT 7a STP | 1000MHz | 10Gbps over 100m
-CAT 8 STP | 2000MHz | 25/40Gps up to 30m
+CAT 8 STP | 2000MHz | 25/40Gbps up to 30m
+
+CAT 6a is rated for 10 Gbps over the full 100 m, and Cat 7 and 7a are ISO/IEC standards that use GG45 or TERA connectors and are not recognised by TIA (in practice you will meet Cat 6a or Cat 8 with RJ45). Gigabit works on Cat 5e, and 2.5 and 5 Gbps (multi-gig) usually run on existing Cat 5e or Cat 6.
+
+## Straight-Through and Crossover
+- **Straight-through**: the same standard on both ends (both T568B is the most common). Used for PC to switch or router.
+- **Crossover**: T568A on one end and T568B on the other. Rarely needed today, since modern ports use Auto-MDIX.
+- Gigabit and faster use all four pairs. 10/100 uses only pins 1, 2, 3 and 6.
+
+## Practical Notes
+- Maximum run is 100 m (90 m permanent link plus patch leads).
+- Use solid copper (not CCA, copper-clad aluminium) for PoE and long runs.
+- Test with a cable tester and, for patch panel work, a certifier.
+- PoE (802.3af/at/bt) delivers 15 to 90 W, and thicker cable heats less.
