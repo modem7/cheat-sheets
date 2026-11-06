@@ -1,2 +1,5 @@
-.obsidian
-.vscode
+.obsidian/
+.vscode/
+.wakatime-project
+.DS_Store
+Thumbs.db

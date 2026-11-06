@@ -49,7 +49,6 @@
 *.scm             text
 *.scss            text diff=css
 *.sh              text diff=bash
-*.sh              text diff=bash
 *.sql             text
 *.styl            text
 *.tag             text
@@ -75,7 +74,6 @@ Dockerfile        text
 *.mdtxt           text
 *.mdtext          text
 *.txt             text
-*.wakatime-project text
 AUTHORS           text
 CHANGELOG         text
 CHANGES           text
@@ -125,10 +123,8 @@ yarn.lock         text eol=lf -diff
 .gitattributes    text
 .gitconfig        text
 .htaccess         text
-*.lock            text -diff
 package.json      text eol=lf
 .prettierrc       text
-yarn.lock         text -diff
 *.toml            text
 *.yaml            text
 *.yml             text
@@ -154,10 +150,8 @@ Procfile          text
 *.jpg             binary diff=exif
 *.jpx             binary
 *.jxr             binary
-*.pdf             binary
 *.png             binary diff=exif
 *.psb             binary
-*.psd             binary
 *.psd             binary diff=exif
 *.svg             text
 *.svgz            binary
@@ -205,7 +199,7 @@ Procfile          text
 *.tar             binary
 *.tgz             binary
 *.war             binary
-*.zip             binary diff=exif
+*.zip            binary
 
 # Fonts
 *.ttf             binary
@@ -270,11 +264,6 @@ Procfile          text
 # Scripts
 *.fish            text eol=lf
 *.zsh             text eol=lf
-
-# Serialisation
-*.tar      binary
-*.tgz      binary
-*.zip      binary
 
 # Text files where line endings should be preserved
 *.patch    -text

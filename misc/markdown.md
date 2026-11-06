@@ -1,9 +1,10 @@
 # Markdown
 
-Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).
+Markdown is a plain text format that converts to HTML. You write in an easy-to-read, easy-to-write syntax and tools render it. Most platforms (GitHub, GitLab, [[obsidian]], [[joplin]]) use CommonMark with extensions, often called GitHub Flavored Markdown (GFM).
 
 Documentation: [Markdown Docs](https://daringfireball.net/projects/markdown/)
-RFC: [RFC 7763](https://www.rfc-editor.org/rfc/rfc7763)
+Spec: [CommonMark](https://commonmark.org/) and [GFM](https://github.github.com/gfm/)
+RFC: [RFC 7763](https://www.rfc-editor.org/rfc/rfc7763) (media type)
 GitHub Documentation: [Writing Markdown on GitHub](https://docs.github.com/en/get-started/writing-on-github)
 
 ---
@@ -19,7 +20,7 @@ GitHub Documentation: [Writing Markdown on GitHub](https://docs.github.com/en/ge
 ###### Heading 6
 ```
 
-Here is a heading: `# Heading`, **don't do this:** `#Heading` 
+Write `# Heading` with a space after the `#`. `#Heading` is not a heading in most renderers.
 
 ### Emphasis
 ```markdown
@@ -32,10 +33,13 @@ Combined emphasis with **asterisks and _underscores_**.
 Strikethrough uses two tildes. ~~Scratch this.~~
 ```
 
-### Line Breaks
+### Line Breaks and Paragraphs
 ```markdown
-First line with two spaces after.  
-And the next line.
+A blank line starts a new paragraph.
+
+End a line with two spaces  
+or a backslash\
+to force a line break inside a paragraph.
 ```
 
 ### Lists
@@ -51,69 +55,114 @@ And the next line.
 ```markdown
 - First item
 - Second item
+  - Nested item (indent two or four spaces)
 - Third item
 ```
 
 ### Links
 ```markdown
-Link with text: [link-text](https://www.google.com)
+Link with text: [link-text](https://www.example.com)
+Link with title: [link-text](https://www.example.com "Title")
+Reference link: [link-text][id]
+Bare URL: <https://www.example.com>
+
+[id]: https://www.example.com
 ```
 
 ### Images
 ```markdown
-Image with alt text: ![alt-text](https://camo.githubusercontent.com/4d89cd791580bfb19080f8b0844ba7e1235aa4becc3f43dfd708a769e257d8de/68747470733a2f2f636e642d70726f642d312e73332e75732d776573742d3030342e6261636b626c617a6562322e636f6d2f6e65772d62616e6e6572342d7363616c65642d666f722d6769746875622e6a7067)
-
-Image without alt text: ![](https://camo.githubusercontent.com/4d89cd791580bfb19080f8b0844ba7e1235aa4becc3f43dfd708a769e257d8de/68747470733a2f2f636e642d70726f642d312e73332e75732d776573742d3030342e6261636b626c617a6562322e636f6d2f6e65772d62616e6e6572342d7363616c65642d666f722d6769746875622e6a7067)
+Image with alt text: ![alt-text](path/or/url/image.png)
+Image without alt text: ![](path/or/url/image.png)
+Image that links: [![alt-text](image.png)](https://www.example.com)
 ```
+Always give an alt text for accessibility.
 
-### Code Blocks
+### Blockquotes and Rules
+```markdown
+> A quote
+> over two lines
 
-#### Inline Code Block
+---
+```
+GitHub also supports alerts: `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]` as the first line of a quote.
+
+### Code
+
+#### Inline Code
 ```markdown
 Inline `code` has `back-ticks around` it.
 ```
 
 #### Blocks of Code
-<pre>
+Fence with three backticks (or `~~~`) and name the language for highlighting:
+
+````markdown
 ```javascript
 var s = "JavaScript syntax highlighting";
 alert(s);
 ```
- 
+
 ```python
 s = "Python syntax highlighting"
-print s
+print(s)
 ```
- 
+
 ```
-No language indicated, so no syntax highlighting. 
-But let's throw in a <b>tag</b>.
+No language indicated, so no syntax highlighting.
 ```
-</pre>
+````
+To show a fence inside a fence, use four backticks on the outside (as above).
 
 ### Tables
 
-There must be at least 3 dashes separating each header cell.
-The outer pipes (|) are optional, and you don't need to make the raw Markdown line up prettily.
+Separate the header from the body with at least three dashes per column. Outer pipes are optional and the raw text does not need to line up. Use `:---`, `:---:` and `---:` for left, centre and right alignment. Escape a literal pipe in a cell as `\|`.
 
 ```markdown
 | Heading 1 | Heading 2 | Heading 3 |
-|---|---|---|
+|---|:---:|---:|
 | col1 | col2 | col3 |
-| col1 | col2 | col3 |
+| col1 | col2 | col3 |
 ```
 
-### Task list
+### Task List
 
-To create a taksk lsit start line with square brackets with an empty space.
-Ex: [ <space> ] and add text for task.
-To check the task replace the space between the bracket with "x".
+Start a list item with `[ ]` for open or `[x]` for done:
 
 ```markdown
-[x] Write the post
-[ ] Update the website
-[ ] Contact the user
+- [x] Write the post
+- [ ] Update the website
+- [ ] Contact the user
 ```
+
+### Footnotes, Escaping and HTML
+```markdown
+A claim with a footnote.[^1]
+
+[^1]: The footnote text.
+
+Escape special characters with a backslash: \* \_ \# \`
+<details><summary>Click to expand</summary>
+
+Hidden content (leave blank lines around Markdown inside HTML).
+
+</details>
+```
+Footnotes are supported by GitHub and most editors, but not by every renderer.
+
+### Diagrams and Math (GitHub)
+````markdown
+```mermaid
+graph LR
+  A --> B
+```
+````
+Inline math is `$a^2 + b^2$` and block math uses `$$ ... $$`.
+
+## Tips
+- Keep one top-level `#` heading per file.
+- Lint with `markdownlint` (VS Code extension or `npx markdownlint-cli2 "**/*.md"`). See [[vscode]].
+- Convert with `pandoc file.md -o file.html` (or `.pdf`, `.docx`).
+- Wikilinks like `[[page]]` are an Obsidian and wiki convention, not standard Markdown. On GitHub use normal links.
 
 ## Reference
 

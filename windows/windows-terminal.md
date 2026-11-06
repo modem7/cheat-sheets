@@ -1,41 +1,66 @@
-## Windows Terminal.
-### Install Windows Terminal
-Windows Store: [Windows Terminal](https://aka.ms/terminal)
-### Keyboard Shortcuts
+# Windows Terminal
+Modern tabbed terminal for Windows hosting PowerShell ([[powershell]]), Command Prompt and WSL ([[wsl]]).
 
-1. Applic­ation commands
-    - ALT - F4: Close window
-    - CTRL - S­HIFT - F: Find
-    - CTRL - S­HIF­T - SPACE: Open dropdown
-    - CTRL - ,: Open settings file
-    - ALT - ENTER - F11: Toggle full screen
+## Install Windows Terminal
+Windows Store: [Windows Terminal](https://aka.ms/terminal), or `winget install Microsoft.WindowsTerminal`
 
-2. Tab commands
-    - CTRL - S­HIFT - D: Duplicate tab
-    - CTRL - S­HIFT - T: New tab
-    - CTRL - S­HIFT - P: New tab from profile p=1..9
-    - CTRL - TAB: Switch to next tab
-    - CTRL - S­HIF­T - TAB: Switch to prev tab
-    - CTRL - ALT - N: Switch to tab n=0..9
+## Keyboard Shortcuts
 
-3. Pane commands
-    - ALT - SH­IFT - D: Split pane optimally. Active profile
-    - ALT - SH­IFT -  -: Split pane horizontally. Default profile
-    - ALT - SH­IFT - +: Split pane vertically. Default profile
-    - ALT - SHIFT - ARROWS: Resize pane
-    - ALT - ARROWS: Move pane focus
-    - CTRL - S­HIFT - W: Close innermost pane, tab, or window
+### Application commands
+SHORTCUT | ACTION
+---|---
+`Alt+F4` | Close window
+`Ctrl+Shift+F` | Find
+`Ctrl+Shift+Space` | Open dropdown
+`Ctrl+,` | Open settings
+`Ctrl+Shift+,` | Open settings.json
+`Ctrl+Shift+P` | Command palette
+`Alt+Enter` / `F11` | Toggle full screen
 
-4. Clipboard commands
-    - CTRL - C: Copy
-    - CTRL - V: Paste
+### Tab commands
+SHORTCUT | ACTION
+---|---
+`Ctrl+Shift+D` | Duplicate tab
+`Ctrl+Shift+T` | New tab
+`Ctrl+Shift+1..9` | New tab from profile 1 to 9
+`Ctrl+Tab` | Switch to next tab
+`Ctrl+Shift+Tab` | Switch to previous tab
+`Ctrl+Alt+1..9` | Switch to tab 1 to 9
 
-5. Scrollback commands
-    - CTRL - S­HIFT - UP: Scroll up
-    - CTRL - S­HIF­T - DOWN: Scroll down
-    - CTRL - S­HIF­T - PGUP: Scroll page up
-    - CTRL - S­HIF­T - PGDN: Scroll page down
-6. Visual adjustment commands
-    - CTRL - =: Increase font size
-    - CTRL -  -: Decrease font size
-    - CTRL - 0: Reset font size
+### Pane commands
+SHORTCUT | ACTION
+---|---
+`Alt+Shift+D` | Split pane automatically, same profile
+`Alt+Shift+-` | Split pane horizontally
+`Alt+Shift++` | Split pane vertically
+`Alt+Shift+Arrows` | Resize pane
+`Alt+Arrows` | Move pane focus
+`Ctrl+Shift+W` | Close innermost pane, tab or window
+
+### Clipboard, scrollback and zoom
+SHORTCUT | ACTION
+---|---
+`Ctrl+Shift+C` / `Ctrl+Shift+V` | Copy / paste (plain `Ctrl+C` copies only when text is selected)
+`Ctrl+Shift+Up` / `Down` | Scroll one line
+`Ctrl+Shift+PgUp` / `PgDn` | Scroll one page
+`Ctrl+=` / `Ctrl+-` / `Ctrl+0` | Increase / decrease / reset font size
+
+## Command Line
+```powershell
+wt                                      # open Windows Terminal
+wt -d C:\src                            # start in a folder
+wt -p "Ubuntu"                          # open a profile
+wt new-tab -p "PowerShell" ; split-pane -p "Ubuntu"   # tab with a split pane
+```
+
+## settings.json Tips
+```json
+{
+  "defaultProfile": "{guid}",
+  "profiles": {
+    "defaults": { "font": { "face": "CaskaydiaCove Nerd Font", "size": 11 } }
+  },
+  "copyOnSelect": true
+}
+```
+A Nerd Font is needed for Starship icons ([[starship]]).

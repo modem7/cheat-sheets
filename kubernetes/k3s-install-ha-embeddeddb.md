@@ -18,8 +18,15 @@ curl -sfL https://get.k3s.io | sh -s - server \
 --server https://IP-OF-THE-FIRST-SERVER:6443
 ```
 
+## Verify
+```bash
+sudo k3s kubectl get nodes
+sudo cat /var/lib/rancher/k3s/server/node-token   # join token (if you did not set --token)
+```
+Copy `/etc/rancher/k3s/k3s.yaml` to your workstation as a kubeconfig and replace `127.0.0.1` with your load balancer name or IP ([[kubectl]]). Use a long random secret for `--token` and keep it safe. See [[k3s]] for general options.
+
 ## ETCD Fault Tolerance
-The `--cluster-init` initializes an HA Cluster with an embedded etcd database. The fault tolerance requires an odd number, minimum three, nodes to function.
+The `--cluster-init` initializes an HA Cluster with an embedded etcd database. The fault tolerance requires an odd number, minimum three, server nodes to function.
 
 Total Number of nodes | Failed Node Tolerance
 ---|---
@@ -39,7 +46,7 @@ You can do this by creating a Load-Balance NAT Rule on the Sophos XG Firewall.
 2. Add all IP addresses from the Server nodes
 3. Add an additional IP Address to your incoming interface
 4. Create a new NAT Rule to MASQ (SNAT) the incoming traffic on the additional IP Address to the `IP Host` object. Once you do this you can specify the Load-Balancing Method in the Advanced Settings
-5. Set a Load Balancing Method like Round-robing f.e. and enable Health Checks to failover in case of a node outage
+5. Set a Load Balancing Method like Round-robin, for example, and enable Health Checks to failover in case of a node outage
 
 ## Install Agents
 You can still add additional nodes without a server function to this cluster.

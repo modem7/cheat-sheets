@@ -4,7 +4,7 @@
 repository:
   #name: NewRepo
   description: This is my personal knowledge-base. Here you'll find code-snippets, technical documentation, and command reference for various tools, and technologies.
-  topics: cheatsheet, technology, IT, Docker, tools
+  topics: cheatsheet, technology, it, docker, tools
 
   private: false
   has_issues: true
@@ -17,10 +17,10 @@ repository:
   allow_squash_merge: true
   allow_rebase_merge: true
   allow_merge_commit: false
-  
+
   enable_automated_security_fixes: true
   enable_vulnerability_alerts: true
-  
+
 labels:
   - name: "bug"
     color: "d73a4a"
@@ -50,5 +50,5 @@ labels:
     color: "d876e3"
     description: "Further information is requested"
   - name: "wontfix"
-    color: "#ffffff"
+    color: "ffffff"
     description: "This will not be worked on"

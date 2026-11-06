@@ -1,7 +1,28 @@
 # Datree
-Datree can be used on the command line to run policies against Kubernetes manifests YAML files or Helm charts. It prevents Kubernetes misconfigurations from reaching production.
+> [!warning] Discontinued
+> Datree is no longer maintained: the company wound down its service in 2023 and the open source repositories are archived (not re-verified here). The commands below only work against old releases and the hosted dashboard no longer exists. Prefer the maintained alternatives in the next section for new work.
 
-As your organization's infrastructure owner, the product’s stability is your primary concern. Toolchain engineering and architecture gets pushed to the wayside because you must constantly put out fires configured in the development stage.
+## Alternatives
+TOOL | USE
+---|---
+`kubeconform` | Fast schema validation of manifests (replaces kubeval)
+`kube-linter` | Best-practice checks for manifests and Helm charts
+`kubescape` | Security and compliance scanning (NSA, CIS frameworks)
+`conftest` | Write your own policies in Rego (OPA)
+`trivy config .` | Misconfiguration scan for Kubernetes, Terraform and Dockerfiles
+`kubectl apply --dry-run=server -f file.yaml` | Let the API server validate ([[kubectl]])
+Kyverno / OPA Gatekeeper | Admission-time policy in the cluster
+
+```bash
+kubeconform -strict -summary manifests/
+kube-linter lint manifests/
+helm template ./chart | kubeconform -strict -summary
+```
+See [[helm]] and [[kubernetes]].
+
+---
+## Datree (Legacy)
+Datree can be used on the command line to run policies against Kubernetes manifests YAML files or Helm charts. It prevents Kubernetes misconfigurations from reaching production.
 
 ## Installation
 
@@ -43,7 +64,7 @@ A Helm plugin to validate charts against the Datree policy.
 **Installation Linux** (Bash)
 ```bash
 helm plugin install https://github.com/datreeio/helm-datree
-
+```
 
 ### Usage
 Trigger datree policy check via the helm CLI
