@@ -1,5 +1,5 @@
 # SED Cheat-Sheet
-**sed** ("stream editor") is a **[Linux](linux)** and Unix utility that parses and transforms text using a compact programming language. See also **[Grep](grep)** and **[Awk](awk)**.
+**sed** ("stream editor") is a **[Linux](linux.md)** and Unix utility that parses and transforms text using a compact programming language. See also **[Grep](grep.md)** and **[Awk](awk.md)**.
 
 > On macOS (BSD sed) use `sed -i ''` instead of `sed -i`.
 
