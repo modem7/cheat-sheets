@@ -1,9 +1,9 @@
 # MacOS keyboard shortcuts
 
-# Table of contents
-- [MacOS keyboard shortcuts](#macos-keyboard-shortcuts)
-- [Table of contents](#table-of-contents)
-  - [Mac Keyboard Modifier keys](#mac-keyboard-modifier-keys)
+Keyboard shortcuts for macOS: modifier keys, common editing and system shortcuts, sleep/log out/shut down, Finder and display shortcuts, and text/document editing. Based on Apple's published "Mac keyboard shortcuts" list. Shortcuts were not tested on a Mac for this sheet; entries marked "version-dependent" differ between macOS releases or could not be verified. Letters in key combinations are lowercase, so `⌘ + c` is Command + C.
+
+## Table of contents
+- [Mac Keyboard Modifier keys](#mac-keyboard-modifier-keys)
   - [Cut, copy, paste, and other common shortcuts](#cut-copy-paste-and-other-common-shortcuts)
   - [Sleep, log out, and shut down shortcuts](#sleep-log-out-and-shut-down-shortcuts)
   - [Finder and system shortcuts](#finder-and-system-shortcuts)
@@ -12,14 +12,14 @@
 ## Mac Keyboard Modifier keys
 | key  | description    |
 | :--- | :------------- |
-| ⌘    | ⌘ +  / Cmd     |
-| ⌃    | Control / Ctrl |
-| ⌥    | ⌥ + s / Alt    |
+| ⌘    | Command (Cmd)  |
+| ⌃    | Control (Ctrl) |
+| ⌥    | Option (Alt)   |
 | ⇧    | Shift          |
 | ⇪    | Caps Lock      |
 | Fn   | Function key   |
 
-_- On Windows keyboards use the Alt key instead of ⌥ + , and the Windows logo key instead of ⌘ + ._
+_- On Windows keyboards use the Alt key instead of ⌥ and the Windows logo key instead of ⌘._
 
 
 
@@ -27,15 +27,17 @@ _- On Windows keyboards use the Alt key instead of ⌥ + , and the Windows logo 
 
 | keys          | description                                                                                                   |
 | :------------ | :------------------------------------------------------------------------------------------------------------ |
+| ⌘ + q         | Quit the front app                                                                                            |
+| ⌘ + \`         | Switch between the windows of the front app (the key above Tab on a US keyboard; varies by layout)            |
 | ⌘ + x         | Cut the selected item and copy it to the Clipboard                                                            |
 | ⌘ + c         | Copy the selected item to the Clipboard. This also works for files in the Finder                              |
 | ⌘ + v         | Paste the contents of the Clipboard into the current document or app. This also works for files in the Finder |
-| ⌘ + z         | Undo the previous comamnd                                                                                     |
+| ⌘ + z         | Undo the previous command                                                                                     |
 | ⇧ + ⌘ + z     | Redo, reversing the undo command                                                                              |
 | ⌘ + a         | Select All items                                                                                              |
 | ⌘ + f         | Find items in a document or open a Find window                                                                |
 | ⌘ + g         | Find Again: Find the next occurrence of the item previously found                                             |
-| ⇧ + ⌘ + G     | Find the previous occurrence                                                                                  |
+| ⇧ + ⌘ + g     | Find the previous occurrence                                                                                  |
 | ⌘ + h         | Hide the windows of the front app                                                                             |
 | ⌥ + ⌘ + h     | View the front app but hide all other apps                                                                    |
 | ⌘ + m         | Minimize the front window to the Dock                                                                         |
@@ -53,11 +55,11 @@ _- On Windows keyboards use the Alt key instead of ⌥ + , and the Windows logo 
 | ⌃ + ⌘ + f     | Use the app in full screen, if supported by the app                                                           |
 | Space         | Use Quick Look to preview the selected item                                                                   |
 | ⌘ + Tab       | Switch to the next most recently used app among your open apps                                                |
-| ⇧ + ⌘ + 5     | In macOS Mojave or later, take a screenshot or make a screen recording                                        |
-| ⇧ + ⌘ + 3     | Take whole display screenshot                                                                                 |
-| ⇧ + ⌘ + 4     | Take custom screenshot                                                                                        |
+| ⇧ + ⌘ + 5     | Open the screenshot and screen recording toolbar (macOS Mojave 10.14 or later)                                |
+| ⇧ + ⌘ + 3     | Take a screenshot of the whole screen                                                                         |
+| ⇧ + ⌘ + 4     | Take a screenshot of a selected area (press Space to capture a window instead)                                |
 | ⇧ + ⌘ + n     | Create a new folder in the Finder                                                                             |
-| ⌘ + ,         | Open preferences for the front app                                                                            |
+| ⌘ + ,         | Open Settings (called Preferences before macOS Ventura 13) for the front app                                  |
 
 
 ## Sleep, log out, and shut down shortcuts
@@ -66,7 +68,7 @@ _* You might need to press and hold some of these shortcuts for slightly longer 
 | keys              | description                                                                         |
 | :---------------- | :---------------------------------------------------------------------------------- |
 | Power button      | Press to turn on your Mac or wake it from sleep                                     |
-| Power button      | Press and hold for 1.5 seconds to put your Mac to sleep                             |
+| Power button      | Press and hold for 1.5 seconds to put your Mac to sleep (older macOS; newer versions and Apple silicon Macs differ, not verified) |
 | Power button      | Press and continue holding to force your Mac to turn off                            |
 | ⌥ + ⌘ + Power     | Put your Mac to sleep                                                               |
 | ⌥ + ⌘ + Eject     | Put your Mac to sleep                                                               |
@@ -77,7 +79,7 @@ _* You might need to press and hold some of these shortcuts for slightly longer 
 | ⌃ + ⌘ + Power     | Force your Mac to restart, without prompting to save any open and unsaved documents |
 | ⌃ + ⌘ + Eject     | Quit all apps, then restart your Mac                                                |
 | ⌃ + ⌥ + ⌘ + Power | Quit all apps, then shut down your Mac                                              |
-| ⌃ ⌥ + ⌘ + Eject   | Quit all apps, then shut down your Mac                                              |
+| ⌃ + ⌥ + ⌘ + Eject | Quit all apps, then shut down your Mac                                              |
 | ⌃ + ⌘ + q         | Immediately lock your screen                                                        |
 | ⇧ + ⌘ + q         | Log out of your macOS user account. You will be asked to confirm                    |
 | ⌥ + ⇧ + ⌘ + q     | Log out immediately without confirming                                              |
@@ -122,7 +124,7 @@ _* You might need to press and hold some of these shortcuts for slightly longer 
 | ⌥ + ⌘ + t                       | Show or hide the toolbar when a single tab is open in the current Finder window            |
 | ⌥ + ⌘ + v                       | Move the files in the Clipboard from their original location to the current location       |
 | ⌘ + y                           | Use Quick Look to preview the selected files                                               |
-| ⌥ + ⌘ + v                       | View a Quick Look slideshow of the selected files                                          |
+| ⌥ + ⌘ + y                       | View a Quick Look slideshow of the selected files                                          |
 | ⌘ + 1                           | View the items in the Finder window as icons                                               |
 | ⌘ + 2                           | View the items in a Finder window as a list                                                |
 | ⌘ + 3                           | View the items in a Finder window in columns                                               |
@@ -142,18 +144,18 @@ _* You might need to press and hold some of these shortcuts for slightly longer 
 | ⌃ + Brightness Up/Down          | Adjust brightness of your external display, if supported by your display                   |
 | ⌥ + ⇧ + Brightness Up/Down      | Adjust display brightness in smaller steps                                                 |
 | ⌃ + ⌥ + ⇧ + Brightness Up/Down  | Adjust external display brightness in smaller steps, if supported by display               |
-| ⌥ + Mission Control             | Open Mission Control preferences                                                           |
-| ⌃ + Mission Control             | Show the desktop                                                                           |
+| ⌥ + Mission Control             | Open Mission Control preferences (version-dependent; not verified)                         |
+| ⌃ + Mission Control             | Show the desktop (version-dependent; not verified)                                         |
 | ⌃ + ↓                           | Show all windows of the front app                                                          |
 | ⌥ + Volume Up                   | Open Sound preferences. This works with any of the volume keys                             |
 | ⌥ + ⇧ + Volume up/Down          | Adjust the sound volume in smaller steps                                                   |
-| ⌥ + Brightness Up               | Open Keyboard preferences. This works with either Keyboard Brightness key                  |
-| ⌥ + ⇧ + Brightness Up/Down      | Adjust the keyboard brightness in smaller steps                                            |
+| ⌥ + Keyboard Brightness Up      | Open Keyboard preferences. This works with either Keyboard Brightness key                  |
+| ⌥ + ⇧ + Keyboard Brightness Up/Down | Adjust the keyboard brightness in smaller steps                                            |
 | ⌥ + double-clicking             | Open the item in a separate window, then close the original window                         |
 | ⌘ + double-clicking             | Open a folder in a separate tab or window                                                  |
 | ⌘ + dragging to another volume  | Move the dragged item to the other volume, instead of copying it                           |
 | ⌥ + dragging                    | Copy the dragged item. The pointer changes while you drag the item                         |
-| ⌥ + ⌘ + while dragging          | Make an alias of the dragged item. The pointer changes while you drag the item             |
+| ⌥ + ⌘ + dragging                | Make an alias of the dragged item. The pointer changes while you drag the item             |
 | ⌥ + click a disclosure triangle | Open all folders within the selected folder. This works only when in list view             |
 | ⌘ + click a window title        | See the folders that contain the current folder                                            |
 
@@ -221,5 +223,5 @@ _*The behavior of these shortcuts may vary with the app you're using_
 | ⇧ + ⌘ + s     | Display the Save As dialog, or duplicate the current document                                                                      |
 | ⇧ + ⌘ + (-)   | Decrease the size of the selected item                                                                                             |
 | ⇧ + ⌘ + (+)   | Increase the size of the selected item                                                                                             |
-| ⌘ + =         | performs the same function                                                                                                         |
+| ⌘ + =         | Same as ⇧ + ⌘ + (+): increase the size of the selected item                                                                        |
 | ⇧ + ⌘ + ?     | Open the Help menu                                                                                                                 |
