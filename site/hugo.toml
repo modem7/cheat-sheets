@@ -1,5 +1,5 @@
 # Hugo configuration for the cheat-sheets site.
-# Preview:  cd site && hugo server      (see site/README.md)
+# Preview:  cd site && hugo server      (see site/SITE.md)
 
 baseURL = "https://modem7.github.io/cheat-sheets/"
 locale = "en-GB"

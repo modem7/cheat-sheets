@@ -133,8 +133,10 @@ def discover(src: Path) -> List[Path]:
         if at_root:
             continue  # root-level *.md (README etc) are not sheets
         for name in filenames:
-            if name.endswith(".md") and not name.startswith("."):
-                found.append(Path(dirpath) / name)
+            path = Path(dirpath) / name
+            # Skip symlinks so a link cannot pull files from outside the repo.
+            if name.endswith(".md") and not name.startswith(".") and not path.is_symlink():
+                found.append(path)
     return sorted(found, key=lambda p: p.relative_to(src).as_posix())
 
 
