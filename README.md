@@ -2,7 +2,7 @@
 
 This Repository **Cheat-Sheets** is my personal knowledge-base. Here you'll find code-snippets, technical documentation, and command reference for various tools, and technologies.
 
-Browse it online: https://modem7.github.io/cheat-sheets/
+**Browse it online: [modem7.github.io/cheat-sheets](https://modem7.github.io/cheat-sheets/)**
 
 This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
