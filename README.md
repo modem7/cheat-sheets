@@ -36,7 +36,7 @@ K3s: [K3s](kubernetes/k3s.md) · [Single node](kubernetes/k3s-install-single.md)
 [MariaDB](databases/mariadb.md) · [MySQL](databases/mysql.md) · [PostgreSQL](databases/postgres.md) · [SQLite](databases/sqlite.md)
 
 ### Infrastructure and Cloud
-[Proxmox](infra/proxmox.md) · [TrueNAS SCALE](infra/truenas-scale.md) · [What is Cloud Computing?](cloud/what-is-cloud-computing.md) · [Cloud Provider Comparison](cloud/provider/cloud-provider-comparison.md) · [Civo](cloud/provider/civo.md)
+[Proxmox Overview and Install](proxmox/proxmox-overview.md) · [qm and pct](proxmox/proxmox-qm-pct.md) · [Storage](proxmox/proxmox-storage.md) · [Networking](proxmox/proxmox-networking.md) · [Backup and Restore](proxmox/proxmox-backup.md) · [Clustering and HA](proxmox/proxmox-cluster-ha.md) · [Cloud-Init](proxmox/proxmox-cloud-init.md) · [PCIe Passthrough](proxmox/proxmox-passthrough.md) · [Users, API and pvesh](proxmox/proxmox-access-api.md) · [Firewall](proxmox/proxmox-firewall.md) · [Troubleshooting](proxmox/proxmox-troubleshooting.md) · [TrueNAS SCALE](infra/truenas-scale.md) · [What is Cloud Computing?](cloud/what-is-cloud-computing.md) · [Cloud Provider Comparison](cloud/provider/cloud-provider-comparison.md) · [Civo](cloud/provider/civo.md)
 
 ### Windows
 [PowerShell](windows/powershell.md) · [PowerShell Remoting](windows/powershell-remote.md) · [Chocolatey](windows/chocolatey.md) · [Windows Terminal](windows/windows-terminal.md) · [Environment Variables](windows/environment-variables.md) · [Windows DNS Server](windows/windows-dns-server.md) · [Windows Updates](windows/windows-updates.md)
