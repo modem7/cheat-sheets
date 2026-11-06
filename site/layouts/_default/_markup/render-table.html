@@ -1,0 +1,24 @@
+{{- $cols := 0 -}}
+{{- range .THead }}{{ $cols = len . }}{{ end -}}
+<div class="table-wrap{{ if ge $cols 4 }} table-sticky{{ end }}" role="region" tabindex="0" aria-label="Table (scrolls horizontally on small screens)">
+  <table>
+    <thead>
+      {{- range .THead }}
+      <tr>
+        {{- range . }}
+        <th{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</th>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </thead>
+    <tbody>
+      {{- range .TBody }}
+      <tr>
+        {{- range . }}
+        <td{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</td>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </tbody>
+  </table>
+</div>

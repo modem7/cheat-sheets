@@ -1,0 +1,18 @@
+{{ define "main" }}
+{{- $pages := partial "section-pages.html" . -}}
+{{ partial "breadcrumbs.html" . }}
+<header class="list-head">
+  <h1>{{ partial "section-title.html" . }}</h1>
+  <p class="muted">{{ len $pages }} {{ cond (eq (len $pages) 1) "sheet" "sheets" }}</p>
+</header>
+<ul class="card-list">
+  {{- range $pages }}
+  <li>
+    <a class="card" href="{{ .RelPermalink }}">
+      <span class="card-title">{{ .Title }}</span>
+      {{- with .Description }}<span class="card-desc">{{ . }}</span>{{ end }}
+    </a>
+  </li>
+  {{- end }}
+</ul>
+{{ end }}

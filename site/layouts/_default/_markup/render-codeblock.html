@@ -1,0 +1,6 @@
+{{- $lang := .Type -}}
+{{- $r := transform.HighlightCodeBlock . -}}
+<div class="codeblock">
+  <div class="codeblock-bar" data-pagefind-ignore><span class="codeblock-lang">{{ $lang }}</span><button class="copy-btn" type="button" hidden aria-label="Copy code to clipboard">Copy</button></div>
+  {{ $r.Wrapped }}
+</div>

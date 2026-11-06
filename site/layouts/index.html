@@ -1,0 +1,27 @@
+{{ define "main" }}
+{{- $secs := partialCached "sections.html" . -}}
+<section class="hero">
+  <p class="hero-kicker"><span aria-hidden="true">$ </span>man homelab</p>
+  <h1>Cheat Sheets</h1>
+  <p class="hero-lead">Commands, snippets and how-tos for the homelab and DevOps tooling I actually use. Each sheet is a single page of tables you can scan quickly.</p>
+  <p class="hero-stats">
+    <span><strong>{{ len site.RegularPages }}</strong> sheets</span>
+    <span><strong>{{ len $secs }}</strong> sections</span>
+    <button class="hero-search" type="button" data-search-open>Search <kbd aria-hidden="true">/</kbd></button>
+  </p>
+</section>
+
+<div class="index-grid">
+  {{- range $secs }}
+  {{- $pages := partial "section-pages.html" .page }}
+  <section class="index-sec" aria-labelledby="sec-{{ .page.Path | anchorize }}">
+    <h2 id="sec-{{ .page.Path | anchorize }}"><a href="{{ .page.RelPermalink }}">{{ .name }}</a><span class="count" aria-label="{{ len $pages }} sheets">{{ len $pages }}</span></h2>
+    <ul>
+      {{- range $pages }}
+      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+</div>
+{{ end }}

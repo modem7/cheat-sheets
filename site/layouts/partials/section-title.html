@@ -1,0 +1,9 @@
+{{- /*
+  Display name of a section page. Looks up params.sectionTitles by folder name,
+  otherwise humanises it (my-folder -> My folder).
+*/ -}}
+{{- $key := path.Base .Path | lower -}}
+{{- $names := site.Params.sectionTitles | default dict -}}
+{{- $t := index $names $key -}}
+{{- if not $t }}{{ $t = $key | humanize | strings.FirstUpper }}{{ end -}}
+{{- return $t -}}

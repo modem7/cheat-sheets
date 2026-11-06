@@ -1,0 +1,99 @@
+# Hugo configuration for the cheat-sheets site.
+# Preview:  cd site && hugo server      (see site/README.md)
+
+baseURL = "https://modem7.github.io/cheat-sheets/"
+locale = "en-GB"
+title = "Cheat Sheets"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "RSS"]
+
+[params]
+  description = "Personal homelab and DevOps cheat sheets: commands, snippets and how-tos."
+  repo = "modem7/cheat-sheets"
+  branch = "master"
+  # Optional display names for top-level folders. Folders not listed here
+  # are title-cased automatically (my-folder -> My folder).
+  # Add an entry only when the automatic name is not what you want.
+  [params.sectionTitles]
+    cicd = "CI/CD"
+    macos = "macOS"
+    infra = "Infrastructure"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      # Sheets embed the occasional HTML snippet; allow it.
+      unsafe = true
+    [markup.goldmark.extensions]
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+    [markup.goldmark.parser]
+      autoHeadingID = true
+      autoHeadingIDType = "github"
+  [markup.highlight]
+    # Chroma emits CSS classes so the palette can follow the light/dark toggle
+    # (assets/css/syntax.css).
+    noClasses = false
+    codeFences = true
+    guessSyntax = false
+    lineNos = false
+    tabWidth = 4
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+    ordered = false
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML"]
+  page = ["HTML"]
+
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.5
+
+# --- Content mounting ---------------------------------------------------
+# Hugo cannot parse Obsidian [[wikilinks]], so scripts/prepare-content.py
+# (run before hugo, in CI and locally) walks the repo, discovers every
+# top-level folder automatically, and writes transformed copies into
+# site/.build/content: wikilinks resolved, title/description front matter
+# added. The sheets themselves are never modified. Hugo mounts that dir as
+# its content tree, so every folder becomes a section with no config change.
+[module]
+  [[module.mounts]]
+    source = ".build/content"
+    target = "content"
+  # Binary assets that sheets link to (e.g. linux/assets/awk.cheat.sheet.pdf)
+  # are served from the same relative path. Exclusions ("!") must come before
+  # the include globs: Hugo uses the first glob that matches.
+  [[module.mounts]]
+    source = ".."
+    target = "static"
+    files = [
+      "! .*/**",
+      "! site/**",
+      "! node_modules/**",
+      "**/assets/**",
+      "**/*.pdf",
+      "**/*.png",
+      "**/*.jpg",
+      "**/*.jpeg",
+      "**/*.gif",
+      "**/*.svg",
+      "**/*.webp",
+    ]
+  [[module.mounts]]
+    source = "layouts"
+    target = "layouts"
+  [[module.mounts]]
+    source = "assets"
+    target = "assets"
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+  [[module.mounts]]
+    source = "archetypes"
+    target = "archetypes"

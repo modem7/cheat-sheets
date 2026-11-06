@@ -1,0 +1,29 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- $title := site.Title -}}
+{{- if .IsHome }}{{ $title = printf "%s: homelab and DevOps reference" site.Title }}
+{{- else if .Title }}{{ $title = printf "%s · %s" .Title site.Title }}{{ end -}}
+{{- $desc := or .Description site.Params.description -}}
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $desc | plainify | truncate 200 }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<meta property="og:title" content="{{ .Title | default site.Title }}">
+<meta property="og:description" content="{{ $desc | plainify | truncate 200 }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0c0f14">
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+<link rel="sitemap" type="application/xml" href="{{ "sitemap.xml" | relURL }}">
+{{- /* Set the theme before first paint: dark by default, regardless of OS preference. */}}
+<script>
+  (function () {
+    var t = "dark";
+    try { var s = localStorage.getItem("theme"); if (s === "light" || s === "dark") t = s; } catch (e) {}
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+{{- $css := resources.Get "css/main.css" | resources.Minify | resources.Fingerprint "sha256" }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- $syn := resources.Get "css/syntax.css" | resources.Minify | resources.Fingerprint "sha256" }}
+<link rel="stylesheet" href="{{ $syn.RelPermalink }}" integrity="{{ $syn.Data.Integrity }}">
