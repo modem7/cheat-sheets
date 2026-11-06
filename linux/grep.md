@@ -1,5 +1,5 @@
 # Grep
-Grep is a command-line utility for searching plain-text data for lines matching a regular expression. Its name comes from the ed command `g/re/p` (globally search for a regular expression and print). It is available on **[Linux](linux)** and all Unix-like systems. See also **[Sed](sed)** and **[Awk](awk)**.
+Grep is a command-line utility for searching plain-text data for lines matching a regular expression. Its name comes from the ed command `g/re/p` (globally search for a regular expression and print). It is available on **[Linux](linux.md)** and all Unix-like systems. See also **[Sed](sed.md)** and **[Awk](awk.md)**.
 
 ## Common Options
 OPTION | DESCRIPTION

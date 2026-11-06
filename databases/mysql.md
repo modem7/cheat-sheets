@@ -3,6 +3,8 @@ MySQL is an open source relational database. MariaDB is a compatible fork, see [
 
 Documentation: [MySQL Reference Manual](https://dev.mysql.com/doc/refman/en/)
 
+See also: [[mysql-replication]] · [[mariadb]] · [[postgres]]
+
 ## Connect
 COMMAND | DESCRIPTION
 ---|---
@@ -59,6 +61,78 @@ SQL | DESCRIPTION
 `EXPLAIN SELECT ...;` | Query plan
 `SELECT table_schema, ROUND(SUM(data_length+index_length)/1024/1024,1) AS mb FROM information_schema.tables GROUP BY table_schema;` | Database sizes in MB
 `SHOW ENGINE INNODB STATUS\G` | InnoDB internals and last deadlock
+
+## Indexes
+SQL | DESCRIPTION
+---|---
+`CREATE INDEX idx_users_email ON users (email);` | Add an index
+`CREATE UNIQUE INDEX uq_users_email ON users (email);` | Unique index
+`CREATE INDEX idx_orders ON orders (user_id, created_at);` | Composite (leftmost column first)
+`ALTER TABLE users ADD INDEX idx_name (name);` | Same via `ALTER`
+`ALTER TABLE users ADD FULLTEXT INDEX ft_bio (bio);` | Full-text index (`MATCH(bio) AGAINST('word')`)
+`DROP INDEX idx_name ON users;` | Remove
+`SHOW INDEX FROM users;` | List
+`ANALYZE TABLE users;` | Refresh index statistics
+`OPTIMIZE TABLE users;` | Rebuild and reclaim space (InnoDB recreates the table)
+`SELECT * FROM sys.schema_unused_indexes;` | Indexes never used since start (MySQL `sys` schema)
+`SELECT * FROM sys.schema_redundant_indexes;` | Overlapping indexes
+
+Index the columns you filter, join and sort on. Every index slows writes and uses disk. Keep the primary key short in InnoDB: all secondary indexes carry it.
+
+## EXPLAIN
+SQL | DESCRIPTION
+---|---
+`EXPLAIN SELECT * FROM orders WHERE user_id = 5;` | Plan
+`EXPLAIN FORMAT=TREE SELECT ...;` | Readable tree (MySQL 8)
+`EXPLAIN ANALYZE SELECT ...;` | Runs the query, shows actual times (MySQL 8.0.18+; `ANALYZE SELECT` on MariaDB)
+`EXPLAIN FORMAT=JSON SELECT ...;` | Detailed JSON
+
+Read the `type` column: `const`, `eq_ref`, `ref`, `range` are good, `index` scans the whole index, `ALL` is a full table scan. Check `key` (the index used, `NULL` is none), `rows` (estimate), and `Extra` (`Using filesort`, `Using temporary` are slow on big sets, `Using index` means a covering index).
+
+Slow query log:
+```sql
+SET GLOBAL slow_query_log = 1;
+SET GLOBAL long_query_time = 1;
+SET GLOBAL log_queries_not_using_indexes = 0;
+SHOW VARIABLES LIKE 'slow_query_log_file';
+```
+Summarise it with `mysqldumpslow -s t /var/log/mysql/mysql-slow.log | head` or `pt-query-digest` (Percona Toolkit). Make settings permanent in the config file.
+
+## Maintenance
+COMMAND | DESCRIPTION
+---|---
+`mysqlcheck -u root -p --all-databases` | Check tables
+`mysqlcheck -u root -p --optimize --all-databases` | Optimise tables
+`mysqlcheck -u root -p --analyze --all-databases` | Update statistics
+`mysql_upgrade` | After a major upgrade on older servers (8.0.16+ upgrades automatically at start)
+`SHOW TABLE STATUS FROM app\G` | Rows, size, engine per table
+`SELECT table_name, ROUND((data_length+index_length)/1024/1024,1) AS mb FROM information_schema.tables WHERE table_schema='app' ORDER BY mb DESC;` | Biggest tables
+`SELECT * FROM sys.statement_analysis LIMIT 10;` | Slowest statement digests (`sys` schema, MySQL 5.7+)
+`SHOW GLOBAL STATUS LIKE 'Innodb_buffer_pool_read%';` | Buffer pool misses (`reads` vs `read_requests`)
+
+## Tuning Basics
+In `/etc/mysql/mysql.conf.d/mysqld.cnf` under `[mysqld]`, then restart. Check with `SHOW VARIABLES LIKE '...';`.
+
+SETTING | STARTING POINT
+---|---
+`innodb_buffer_pool_size` | 50-70% of RAM on a dedicated database host. The most important setting
+`innodb_log_file_size` | Larger for write-heavy loads (MySQL 8.0.30+ uses `innodb_redo_log_capacity`, for example `2G`)
+`innodb_flush_log_at_trx_commit` | `1` safe (default). `2` is faster and can lose about 1 s on an OS crash
+`innodb_flush_method` | `O_DIRECT` on Linux
+`max_connections` | 150-300. Each connection uses memory
+`tmp_table_size` / `max_heap_table_size` | 64 MB - 256 MB
+`slow_query_log` / `long_query_time` | On, `1`
+`character-set-server` / `collation-server` | `utf8mb4` / `utf8mb4_0900_ai_ci` (MySQL 8) or `utf8mb4_unicode_ci`
+
+MySQL 8.0 removed the query cache (MariaDB still has one, off by default). Use [MySQLTuner](https://github.com/major/MySQLTuner-perl) for advice from a running server. Replication is in [[mysql-replication]].
+
+## Users: Good Practice
+- One user per application, limited to its own database and the hosts it connects from (`'app'@'192.168.1.%'`).
+- Use `caching_sha2_password` (default in MySQL 8) and make sure client libraries support it.
+- `CREATE ROLE reader; GRANT SELECT ON app.* TO reader; GRANT reader TO 'alice'@'%'; SET DEFAULT ROLE reader TO 'alice'@'%';` uses roles (MySQL 8 and MariaDB 10.0.5+).
+- `ALTER USER 'app'@'%' PASSWORD EXPIRE INTERVAL 180 DAY;` password expiry.
+- `ALTER USER 'app'@'%' WITH MAX_USER_CONNECTIONS 20;` per-user connection cap.
+- `SHOW GRANTS;` for the current user. `SELECT user, host, plugin FROM mysql.user;` lists authentication plugins.
 
 ## Run with Docker
 ```bash

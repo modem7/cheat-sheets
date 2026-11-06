@@ -56,7 +56,51 @@ COMMAND | DESCRIPTION
 `sudo iptables-save > /etc/iptables/rules.v4` | Save manually
 `sudo iptables-restore < /etc/iptables/rules.v4` | Restore
 
+## Matching and Targets
+COMMAND | DESCRIPTION
+---|---
+`sudo iptables -A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT` | Several ports in one rule
+`sudo iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --set` | Record new SSH connections
+`sudo iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 4 -j DROP` | Drop an IP after 4 new SSH connections in 60 s (place before the ACCEPT)
+`sudo iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 5/s -j ACCEPT` | Rate-limit ping
+`sudo iptables -A INPUT -m state --state INVALID -j DROP` | Drop invalid packets
+`sudo iptables -A INPUT -i eth0 -m mac --mac-source <MAC> -j ACCEPT` | Match a MAC address
+`sudo iptables -A OUTPUT -m owner --uid-owner <USER> -j DROP` | Block a local user's outgoing traffic
+`sudo iptables -N <CHAIN>` | Create a custom chain
+`sudo iptables -A INPUT -j <CHAIN>` | Jump into it
+`sudo iptables -X <CHAIN>` | Delete an empty custom chain
+
+## ipset for Large Blocklists
+COMMAND | DESCRIPTION
+---|---
+`sudo ipset create blocklist hash:net` | Create a set
+`sudo ipset add blocklist 203.0.113.0/24` | Add an entry
+`sudo ipset create temp hash:ip timeout 3600` | Entries expire after an hour
+`sudo iptables -I INPUT -m set --match-set blocklist src -j DROP` | One rule for the whole set
+`sudo ipset save > /etc/ipset.conf` | Save (restore with `ipset restore < /etc/ipset.conf`)
+
+On nftables, native sets replace ipset, see [[nftables]].
+
+## IPv6
+`ip6tables` has the same syntax and its own rule set. A host with IPv6 and only `iptables` rules is open on IPv6. Mirror the rules, and allow ICMPv6 or neighbour discovery breaks:
+```bash
+sudo ip6tables -A INPUT -p ipv6-icmp -j ACCEPT
+sudo ip6tables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+```
+Persist with `ip6tables-save > /etc/iptables/rules.v6`.
+
+## Docker and the DOCKER-USER Chain
+Docker inserts rules in the `FORWARD` chain and evaluates `DOCKER-USER` first. Restrict published ports there:
+```bash
+# Only 192.168.1.0/24 may reach containers on eth0
+sudo iptables -I DOCKER-USER -i eth0 ! -s 192.168.1.0/24 -j DROP
+# Allow established return traffic first
+sudo iptables -I DOCKER-USER -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+```
+`-I` inserts at the top, so the second command ends up first, which is the intended order. Docker's rules match the destination port after DNAT, so use `-m conntrack --ctorigdstport <PORT>` to match the published port. These rules are not persisted by Docker: save them with `netfilter-persistent` or a systemd unit. See [[docker-networking]] and [[nftables]].
+
 ## Notes
+- Check which backend is active: `iptables --version` shows `(nf_tables)` or `(legacy)`.
 - Test remotely with a safety net: `sudo iptables-apply` or schedule `at now + 5 minutes` a flush.
 - Docker manages its own chains (`DOCKER`, `DOCKER-USER`). Put your own rules in `DOCKER-USER`, see [[docker-networking]].
 - Log dropped packets: `sudo iptables -A INPUT -j LOG --log-prefix "DROP: " --log-level 4` (put it before the final drop).

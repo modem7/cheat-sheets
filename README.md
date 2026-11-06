@@ -11,6 +11,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 - Placeholders are written in capitals, e.g. `<HOST>` or `CONTAINER`. Replace them before running.
 - `[[name]]` links are Obsidian-style wikilinks to another sheet. On GitHub, use the index below.
 - Search all sheets: `grep -ril "keyword" .` or `rg "keyword"`.
+- Adding or changing a sheet? See [CONTRIBUTING](docs/CONTRIBUTING.md).
 
 ## Index
 

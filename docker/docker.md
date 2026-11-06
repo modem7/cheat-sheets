@@ -74,9 +74,9 @@ COMMAND | DESCRIPTION
 `docker start $(docker ps -a -q)` | To start all the stopped and running containers
 `docker rm -vf $(docker ps -a -q)` | To delete all containers including its volumes use
 `docker rmi -f $(docker images -a -q)` | To delete all the images
-`docker system prune` | To delete all dangling and unused images, containers, cache and volumes
-`docker system prune -a` | To delete all used and unused images
-`docker system prune --volumes` | To delete all docker volumes
+`docker system prune` | Delete stopped containers, unused networks, dangling images and dangling build cache (not volumes)
+`docker system prune -a` | Also delete all images not used by a container
+`docker system prune --volumes` | Also delete anonymous volumes not used by any container (see [[docker-cleanup]])
 
 **Inspect Containers:**
 
@@ -158,7 +158,170 @@ COMMAND | DESCRIPTION
 `docker network connect NETWORK CONTAINER` | Attach a container
 `docker network inspect NAME` | Show details
 
-## Troubleshooting
-### Networking
+## Useful `docker run` Options
+OPTION | DESCRIPTION
+---|---
+`-d` | Run in the background
+`--rm` | Remove the container when it exits
+`-it` | Interactive with a terminal
+`-e KEY=value` / `--env-file FILE` | Set environment variables
+`-v HOSTPATH:CONTAINERPATH[:ro]` | Bind mount (add `:ro` for read-only)
+`-v VOLUME:CONTAINERPATH` | Named volume
+`--mount type=bind,src=HOSTPATH,dst=CONTAINERPATH` | Explicit mount syntax (errors if the host path is missing)
+`--network NAME` | Join a network
+`-p 127.0.0.1:8080:80` | Publish on localhost only
+`--user 1000:1000` | Run as a UID and GID
+`--read-only --tmpfs /tmp` | Read-only root file system with a writable `/tmp`
+`--cap-drop ALL --cap-add NET_BIND_SERVICE` | Reduce capabilities
+`--security-opt no-new-privileges` | Block privilege escalation
+`--init` | Add a tiny init as PID 1 (reaps zombies, forwards signals)
+`--add-host name:IP` | Add a hosts entry (`host.docker.internal:host-gateway` reaches the host on Linux)
+`--hostname NAME` | Set the hostname
+`--entrypoint CMD` | Override the image entrypoint
+`--health-cmd ... --health-interval 30s` | Add a health check from the command line
+`--pull always` | Pull before run
+
+## Resource Limits
+OPTION | DESCRIPTION
+---|---
+`--memory 512m` | Hard memory limit. The kernel OOM-kills the container above it
+`--memory-swap 1g` | Memory plus swap. Equal to `--memory` disables swap
+`--memory-reservation 256m` | Soft limit
+`--cpus 1.5` | Limit to 1.5 CPUs
+`--cpu-shares 512` | Relative weight under contention (default 1024)
+`--cpuset-cpus 0,1` | Pin to specific CPUs
+`--pids-limit 200` | Cap the number of processes
+`--ulimit nofile=65536:65536` | Set an ulimit
+`--shm-size 256m` | Size of `/dev/shm` (default 64 MB)
+`--device-read-bps /dev/sda:50mb` | Throttle disk reads
+
+Change limits on a running container: `docker update --memory 1g --memory-swap 1g --cpus 2 CONTAINER`. Check use with `docker stats`. See [[docker-troubleshooting]] for OOM kills. In Compose use `deploy.resources.limits` or `mem_limit`, see [[docker-compose]].
+
+## Restart Policies
+POLICY | BEHAVIOUR
+---|---
+`no` | Never restart (default)
+`on-failure[:MAX]` | Restart on non-zero exit, optionally up to MAX times
+`always` | Always restart, including after the daemon starts. A manually stopped container restarts when the daemon restarts
+`unless-stopped` | Like `always`, but stays stopped if you stopped it
+
+```bash
+docker run -d --restart unless-stopped --name web nginx
+docker update --restart unless-stopped web          # change an existing one
+docker inspect -f '{{.HostConfig.RestartPolicy.Name}} {{.RestartCount}}' web
+```
+Containers only come back after a reboot if the Docker service is enabled: `sudo systemctl enable docker containerd`. `--restart` and `--rm` cannot be combined.
+
+## Output Formatting and Filters
+`--format` takes a Go template. Use `json` to dump a field as JSON and `table` for headings.
+
+COMMAND | DESCRIPTION
+---|---
+`docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'` | Custom table of running containers
+`docker ps -a --format '{{.Names}}: {{.Status}}'` | One line per container
+`docker ps --filter status=exited --filter "name=web"` | Filter by state and name
+`docker ps --filter health=unhealthy` | Unhealthy containers
+`docker images --format '{{.Repository}}:{{.Tag}} {{.Size}}'` | Images and sizes
+`docker images --filter dangling=true` | Untagged images
+`docker inspect -f '{{.State.Status}}' CONTAINER` | One field
+`docker inspect -f '{{.State.ExitCode}} {{.State.OOMKilled}}' CONTAINER` | Exit code and OOM flag
+`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' CONTAINER` | Container IP addresses
+`docker inspect -f '{{json .Mounts}}' CONTAINER \| jq` | Mounts as JSON (see [[jq]])
+`docker inspect -f '{{.HostConfig.LogConfig.Type}}' CONTAINER` | Logging driver in use
+`docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}'` | One snapshot of resource use
+`docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' NAME` | Containers on a network
+
+Persist a default in `~/.docker/config.json`: `{"psFormat": "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"}`.
+
+## System and Disk Usage
+COMMAND | DESCRIPTION
+---|---
+`docker info` | Daemon info: storage driver, cgroup version, root dir, registries
+`docker version` | Client and server versions
+`docker system df` | Disk use of images, containers, volumes and build cache
+`docker system df -v` | Per-item breakdown
+`docker system events` | Live event stream (also `docker events`)
+`docker stats` | Live CPU, memory, network and block I/O
+`du -sh /var/lib/docker/*` | Raw size on disk of the Docker root
+
+Cleaning up is covered in [[docker-cleanup]].
+
+## Logging
+`docker logs` works for the `json-file`, `local` and `journald` drivers.
+
+COMMAND | DESCRIPTION
+---|---
+`docker logs --tail 100 -f CONTAINER` | Last 100 lines and follow
+`docker logs --since 10m CONTAINER` | Last 10 minutes
+`docker logs -t CONTAINER` | Show timestamps
+`docker inspect -f '{{.LogPath}}' CONTAINER` | Where the json-file log lives
+
+Default driver is `json-file` with **no rotation**. Set limits globally in `/etc/docker/daemon.json` (applies to containers created after a daemon restart):
+```json
+{
+  "log-driver": "local",
+  "log-opts": { "max-size": "10m", "max-file": "3" }
+}
+```
+Or per container: `docker run --log-driver json-file --log-opt max-size=10m --log-opt max-file=3 IMAGE`. The `local` driver compresses and defaults to 20 MB x 5 files. Other drivers: `journald`, `syslog`, `gelf`, `fluentd`, `awslogs`, `none`. In Compose set `logging:` per service, see [[docker-compose]].
+
+## Contexts (remote Docker hosts)
+COMMAND | DESCRIPTION
+---|---
+`docker context ls` | List contexts (`*` marks the active one)
+`docker context create remote --docker "host=ssh://USER@HOST"` | Add a remote host over SSH
+`docker context use remote` | Switch the default
+`docker --context remote ps` | One command against another host
+`docker context inspect remote` | Show settings
+`docker context rm remote` | Remove
+`DOCKER_HOST=ssh://USER@HOST docker ps` | Same without a context
+
+SSH access needs key-based login and the user in the `docker` group on the remote host. See [[openssh]].
+
+## Buildx and Multi-Platform Builds
+COMMAND | DESCRIPTION
+---|---
+`docker buildx ls` | Builders and platforms
+`docker buildx create --name multi --driver docker-container --use` | Create a builder that can do multi-platform and cache export
+`docker buildx inspect --bootstrap` | Start the builder and list platforms
+`docker buildx build --platform linux/amd64,linux/arm64 -t REPO:TAG --push .` | Multi-arch build and push
+`docker buildx build --load -t NAME .` | Build for the local platform into the local image store
+`docker buildx build --cache-to type=registry,ref=REPO:buildcache,mode=max --cache-from type=registry,ref=REPO:buildcache .` | Remote build cache (useful in CI)
+`docker buildx build --secret id=npmrc,src=$HOME/.npmrc .` | Pass a build secret (use `RUN --mount=type=secret,id=npmrc` in the Dockerfile)
+`docker buildx imagetools inspect REPO:TAG` | Show the manifest list and platforms
+`docker buildx prune` | Clear the builder cache
+`docker run --privileged --rm tonistiigi/binfmt --install all` | Install QEMU emulators to build non-native platforms
+
+`--load` only works for one platform at a time. See [[docker-file]] for Dockerfile practices.
+
+## Rootless Mode
+Run the daemon and containers without root. Limits: no ports below 1024 by default, some network and storage drivers differ.
+```bash
+sudo apt install -y uidmap dbus-user-session
+grep "$USER" /etc/subuid /etc/subgid        # needs at least 65536 IDs each
+dockerd-rootless-setuptool.sh install
+systemctl --user enable --now docker
+sudo loginctl enable-linger "$USER"          # keep it running after logout
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
+```
+Allow low ports if needed: `echo 'net.ipv4.ip_unprivileged_port_start=80' | sudo tee /etc/sysctl.d/99-rootless.conf && sudo sysctl --system`. Docs: [Rootless mode](https://docs.docker.com/engine/security/rootless/).
+
+## Docker Init and Scout
+COMMAND | DESCRIPTION
+---|---
+`docker init` | Interactive: generates `Dockerfile`, `compose.yaml`, `.dockerignore` and `README.Docker.md` for a project
+`docker scout quickview IMAGE` | Vulnerability summary for an image
+`docker scout cves IMAGE` | List CVEs (`--only-severity critical,high`)
+`docker scout recommendations IMAGE` | Suggested base image updates
+`docker scout compare --to IMAGE:old IMAGE:new` | Diff two images
+
+Scout needs a Docker login and some features need a Docker subscription. Free alternatives: Trivy (`trivy image IMAGE`) and Grype.
+
+## Debugging
+`docker debug CONTAINER` opens a shell with extra tools inside a container, even a distroless one (needs Docker Desktop or a recent Docker CLI and a Docker login; check your plan). Other recipes, such as netshoot, `docker events` and exit codes, are in [[docker-troubleshooting]].
+
 `docker run --name netshoot --rm -it nicolaka/netshoot /bin/bash`
+
+## See Also
+[[docker-compose]] · [[docker-file]] · [[docker-networking]] · [[docker-troubleshooting]] · [[docker-cleanup]] · [[docker-registry]] · [[docker-desktop]] · [[ufw]]
 
