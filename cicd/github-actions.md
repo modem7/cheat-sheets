@@ -225,7 +225,7 @@ runs:
     - run: npm ci
       shell: bash
 ```
-Use a reusable workflow for whole jobs, a composite action for a few steps. Reusable workflows nest at most 4 levels deep.
+Use a reusable workflow for whole jobs, a composite action for a few steps. Reusable workflows can call other reusable workflows, but nesting depth is limited (check the current limit in the docs).
 
 ## OIDC to Clouds (No Stored Keys)
 The job requests a short-lived OIDC token and exchanges it for cloud credentials; trust is configured on the cloud side (restrict by repo, branch and environment).
@@ -259,7 +259,7 @@ concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: false      # queue deploys instead of killing a running one
 ```
-Use `cancel-in-progress: true` for CI on PRs (a newer push makes the old run pointless) and `false` for deployments. Only one run per group is pending; additional pending runs are cancelled.
+Use `cancel-in-progress: true` for CI on PRs (a newer push makes the old run pointless) and `false` for deployments. With `cancel-in-progress: false` a newer pending run replaces an older pending one, so only the latest queued run survives.
 
 ## Pinning Actions
 FORM | EXAMPLE | TRADE-OFF

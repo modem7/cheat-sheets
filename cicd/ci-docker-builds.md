@@ -193,7 +193,7 @@ Attestations add extra manifests to the index; some old tools and registries sho
 ```yaml
 # .woodpecker/docker.yaml
 when:
-  - event: [push, tag]
+  - event: push
     branch: main
   - event: tag
 

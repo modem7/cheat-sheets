@@ -206,9 +206,8 @@ A GitHub/GitLab issue titled "Dependency Dashboard" lists every pending, open, r
 ```bash
 npx --yes --package renovate -- renovate-config-validator            # checks the default config files
 npx --yes --package renovate -- renovate-config-validator --strict   # also fails if the config needs migration
-npx --yes --package renovate -- renovate-config-validator renovate.json
 ```
-Passing a filename makes the validator treat it as global self-hosted config, so for a normal repo `renovate.json` run it with no filename. Run it in CI on PRs that touch the config, and as a pre-commit hook.
+Run it with no filename for a normal repo: passing a filename makes the validator treat that file as global self-hosted config (use that form only for a self-hosted `config.js`). Run it in CI on PRs that touch the config, and as a pre-commit hook.
 
 ## Self-Hosted vs the Mend Renovate App
 | | MEND RENOVATE APP (GitHub) | SELF-HOSTED |

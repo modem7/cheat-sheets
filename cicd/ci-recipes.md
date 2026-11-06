@@ -161,7 +161,7 @@ jobs:
 ```json
 { ".": "0.0.0" }
 ```
-(first is `release-please-config.json`, second is `.release-please-manifest.json`.) Release types include `simple`, `node`, `python`, `go`, `rust`, `helm`. Releases and tags created with the default `GITHUB_TOKEN` do not trigger other workflows, so either run the publish job in the same workflow (as above) or give the action a PAT or GitHub App token via `token:`. The repo setting "Allow GitHub Actions to create and approve pull requests" must be on. The action README currently shows `@v4` in its examples; check the release notes when moving between majors.
+(first is `release-please-config.json`, second is `.release-please-manifest.json`.) Release types include `simple`, `node`, `python`, `go`, `rust`, `helm`. Releases and tags created with the default `GITHUB_TOKEN` do not trigger other workflows, so either run the publish job in the same workflow (as above) or give the action a PAT or GitHub App token via `token:`. The repo setting "Allow GitHub Actions to create and approve pull requests" must be on. v5 only changed the runtime to Node 24; the inputs are the same as v4.
 
 Commit prefixes drive the version: `fix:` patch, `feat:` minor, `feat!:` or a `BREAKING CHANGE:` footer major; `chore:`, `docs:` do not release.
 

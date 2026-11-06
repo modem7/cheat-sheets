@@ -69,7 +69,7 @@ steps:
       - event: tag
         ref: refs/tags/v*
       - event: manual
-      - evaluate: 'CI_COMMIT_MESSAGE not contains "[skip deploy]"'
+      - evaluate: 'not (CI_COMMIT_MESSAGE contains "[skip deploy]")'
         event: push
   - name: notify-failure
     image: alpine
@@ -174,7 +174,7 @@ VARIABLE | MEANING
 ## Cron and Manual Runs
 - Cron: in the repo settings add a cron job (name + schedule), then give the steps `event: cron` (and optionally `cron: <NAME>`).
 - Manual: use the "Run pipeline" button or `woodpecker-cli pipeline create`; steps need `event: manual` to run. Variables passed with `--var` are available as environment variables.
-- Deployments: `woodpecker-cli pipeline deploy <REPO> <PIPELINE> <TARGET>` creates a `deployment` event with `CI_PIPELINE_DEPLOY_TARGET`.
+- Deployments: `woodpecker-cli pipeline deploy <REPO> <PIPELINE> <ENVIRONMENT>` creates a `deployment` event with `CI_PIPELINE_DEPLOY_TARGET`.
 
 ## woodpecker-cli
 Point the CLI at the server and authenticate with your personal token (User settings > Personal access token):
@@ -202,14 +202,14 @@ COMMAND | DESCRIPTION
 `woodpecker-cli pipeline approve <REPO> <NUMBER>` | Approve a pipeline held for approval
 `woodpecker-cli pipeline decline <REPO> <NUMBER>` | Decline it
 `woodpecker-cli pipeline queue` | Pending and running pipelines
-`woodpecker-cli repo secret add --repository <REPO> --name <NAME> --value <VALUE>` | Add a secret (`--event push --event tag` limits events)
-`woodpecker-cli repo secret list <REPO>` | List secrets (values hidden)
+`woodpecker-cli repo secret add --name <NAME> --value <VALUE> <REPO>` | Add a secret (`--event push --event tag` limits events, `--image` limits plugins)
+`woodpecker-cli repo secret ls <REPO>` | List secrets (values hidden)
 `woodpecker-cli lint .woodpecker/` | Lint workflow files offline
 `woodpecker-cli exec .woodpecker/test.yaml` | Run a workflow locally (needs Docker)
 `woodpecker-cli exec --backend-engine docker --pipeline-event push --commit-branch main <FILE>` | Local run with metadata overrides
 `woodpecker-cli setup` | Interactive login/config
 
-Flag names for the secret commands moved between releases; run `woodpecker-cli repo secret add --help` to confirm on your version.
+Run `woodpecker-cli <COMMAND> --help` to confirm flags on your version.
 
 ## Server and Agent (Docker Compose)
 The server serves the UI/API and talks to the forge; one or more agents execute the workflows. See [[docker-compose]].
