@@ -1,5 +1,5 @@
 # Dockerfile
-A Dockerfile is a text file of instructions Docker reads to build an image. See also [[docker]], [[docker-compose]] and [[docker-networking]].
+A Dockerfile is a text file of instructions Docker reads to build an image. See also [Docker](docker.md), [Docker-Compose](docker-compose.md) and [Docker Networking](docker-networking.md).
 
 ## Instructions
 INSTRUCTION | DESCRIPTION

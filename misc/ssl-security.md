@@ -1,5 +1,5 @@
 # SSL Security Cheat-Sheet
-Checking and hardening TLS ([[tls]]). Commands in [[openssl]], handshake details in [[tls-handshake]], certificates in [[ssl-certs]].
+Checking and hardening TLS ([TLS (Transport Layer Security)](../networking/tls.md)). Commands in [OpenSSL](../tools/openssl.md), handshake details in [TLS Handshake](../networking/tls-handshake.md), certificates in [SSL Certificates Cheat-Sheet](ssl-certs.md).
 
 ## TLS Version and Ciphers
 Scanning for TLS Version and supported Ciphers: `nmap --script ssl-enum-ciphers <target>`
@@ -24,7 +24,7 @@ Hardenize | https://www.hardenize.com | TLS, DNS, email checks together
 ## Recommended Settings
 Use Mozilla's "Intermediate" profile as a baseline, which is TLS 1.2 and 1.3 only with ECDHE and AEAD ciphers.
 
-Nginx ([[nginx]]):
+[Nginx](../apps/nginx.md):
 ```nginx
 ssl_protocols TLSv1.2 TLSv1.3;
 ssl_prefer_server_ciphers off;

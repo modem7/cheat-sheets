@@ -7,7 +7,7 @@ Documentation: [Traefik Docker provider](https://doc.traefik.io/traefik/provider
 `https://app.example.com` serves your application over TLS through Traefik, the stack restarts on failure, secrets are not in git, and you know how to update, inspect and roll it back.
 
 ## Prerequisites
-- A host with Docker and the Compose plugin ([[new-server-checklist]])
+- A host with Docker and the Compose plugin ([New Server Checklist](new-server-checklist.md))
 - A DNS `A` record for `app.example.com` pointing at the host (`203.0.113.10`), and ports 80 and 443 reachable from the internet (needed for the HTTP-01 challenge)
 - A directory per stack, for example `/opt/stacks/app`
 
@@ -21,7 +21,7 @@ touch /opt/stacks/traefik/acme.json && chmod 600 /opt/stacks/traefik/acme.json
 Traefik refuses to use an `acme.json` that is group or world readable.
 
 ### 2. Traefik static configuration
-`/opt/stacks/traefik/traefik.yml` ([[traefik]]):
+`/opt/stacks/traefik/traefik.yml` ([Traefik](../apps/traefik.md)):
 ```yaml
 entryPoints:
   web:
@@ -82,7 +82,7 @@ printf 'APP_HOST=app.example.com\nTZ=Europe/London\n' > .env
 Commit a `.env.example` with the same keys and no values. Variables in `.env` are used for `${VAR}` substitution in the Compose file; use `env_file:` to pass a file into a container.
 
 ### 5. The application stack
-`/opt/stacks/app/compose.yaml` ([[docker-compose]]):
+`/opt/stacks/app/compose.yaml` ([Docker-Compose](../docker/docker-compose.md)):
 ```yaml
 services:
   app:
@@ -167,7 +167,7 @@ echo | openssl s_client -connect app.example.com:443 -servername app.example.com
   | openssl x509 -noout -issuer -dates
 docker compose ps
 ```
-If the certificate is the self-signed "TRAEFIK DEFAULT CERT", the challenge has not completed: read `docker logs traefik`, and see [[tls-troubleshooting]] and [[dns-troubleshooting]].
+If the certificate is the self-signed "TRAEFIK DEFAULT CERT", the challenge has not completed: read `docker logs traefik`, and see [TLS Troubleshooting](tls-troubleshooting.md) and [DNS Troubleshooting](dns-troubleshooting.md).
 
 ## Rollback / Cleanup
 - Roll back an update: set the previous image tag in `compose.yaml`, then `docker compose up -d`. Restore the database from the dump if a migration ran.
@@ -175,7 +175,8 @@ If the certificate is the self-signed "TRAEFIK DEFAULT CERT", the challenge has 
 - Remove the shared network once nothing uses it: `docker network rm proxy`.
 
 ## Related Sheets
-- [[docker]] · [[docker-compose]] · [[docker-networking]] · [[docker-file]]
-- [[traefik]] · [[nginx]] · [[portainer]] · [[dockhand]]
-- [[postgres]] · [[curl]] · [[openssl]]
-- [[new-server-checklist]] · [[tls-troubleshooting]]
+- [Docker](../docker/docker.md) · [Docker-Compose](../docker/docker-compose.md) · [Docker Networking](../docker/docker-networking.md) · [Dockerfile](../docker/docker-file.md)
+- [Traefik](../apps/traefik.md) · [Nginx](../apps/nginx.md) · [Portainer](../apps/portainer.md) · [Dockhand](../apps/dockhand.md)
+- [PostgreSQL Cheat-Sheet](../databases/postgres.md) · [curl](../tools/curl.md) · [OpenSSL](../tools/openssl.md)
+- [New Server Checklist](new-server-checklist.md) · [TLS Troubleshooting](tls-troubleshooting.md)
+- [Reverse Proxy Patterns](../homelab/reverse-proxy-patterns.md) · [Container Scanning](../security/container-scanning.md) · [SOPS and age](../security/sops-age.md) · [Docker Volume Backup](../backup/docker-volume-backup.md) · [CI Docker Builds](../cicd/ci-docker-builds.md) · [Renovate](../cicd/renovate.md)

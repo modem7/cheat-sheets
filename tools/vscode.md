@@ -3,7 +3,7 @@ Free, extensible code editor from Microsoft.
 
 Documentation: [VS Code Docs](https://code.visualstudio.com/docs)
 
-macOS shortcuts: [[vscode-macos-shortcuts]]
+macOS shortcuts: [VSCode shortcuts (macOS)](../macos/vscode-macos-shortcuts.md)
 
 ## Shortcuts (Windows / Linux)
 SHORTCUT | ACTION

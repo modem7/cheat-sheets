@@ -5,7 +5,7 @@ Documentation: [Network Configuration](https://pve.proxmox.com/pve-docs/chapter-
 
 > **Verification:** `ifreload -a` and the `/etc/network/interfaces.new` pending-change flow were checked against the docs. The VLAN-aware bridge, bond, and SDN snippets, and the hostname/IP change notes, were **not** verified against the docs, and no command was executed. Compare with the docs example before use. Test on a node with console or IPMI access, because a wrong network config locks you out.
 
-See also: [[proxmox-firewall]] · [[proxmox-cluster-ha]] · [[proxmox-troubleshooting]] · [[linux]] · [[iptables]] · [[wireguard]]
+See also: [Proxmox Firewall](proxmox-firewall.md) · [Proxmox Clustering and HA](proxmox-cluster-ha.md) · [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md) · [Linux](../linux/linux.md) · [IPTables](../linux/iptables.md) · [WireGuard](../apps/wireguard.md)
 
 ---
 ## Commands
@@ -40,7 +40,7 @@ iface vmbr0 inet static
     bridge-stp off
     bridge-fd 0
 ```
-Guests use `--net0 virtio,bridge=vmbr0` ([[proxmox-qm-pct]]).
+Guests use `--net0 virtio,bridge=vmbr0` ([Proxmox qm and pct](proxmox-qm-pct.md)).
 
 ---
 ## VLAN-aware Bridge
@@ -86,7 +86,7 @@ iface vmbr0 inet static
 
 ---
 ## Separate Management, Storage and Cluster Networks
-Use dedicated NICs or VLANs where possible: one for the web UI/SSH, one for corosync (cluster traffic is latency sensitive, [[proxmox-cluster-ha]]), one for storage such as [[nfs]] or Ceph ([[proxmox-storage]]), and one for guests.
+Use dedicated NICs or VLANs where possible: one for the web UI/SSH, one for corosync (cluster traffic is latency sensitive, [Proxmox Clustering and HA](proxmox-cluster-ha.md)), one for storage such as [NFS](../linux/nfs.md) or Ceph ([Proxmox Storage](proxmox-storage.md)), and one for guests.
 
 ---
 ## SDN (overview)

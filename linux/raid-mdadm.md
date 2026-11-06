@@ -5,7 +5,7 @@ Documentation: [Linux RAID wiki](https://raid.wiki.kernel.org/) · `man mdadm`, 
 
 > **Verification:** commands follow the mdadm man page and the Linux RAID wiki. No command was executed. Most of these commands change or destroy disks. Run them on spare disks first and double check device names with `lsblk`.
 
-See also: [[lvm]] · [[storage-and-filesystems]] · [[mount]] · [[linux]]
+See also: [LVM](lvm.md) · [Storage and Filesystems](storage-and-filesystems.md) · [Mount](mount.md) · [Linux](linux.md)
 
 ---
 ## RAID Levels
@@ -75,7 +75,7 @@ COMMAND | DESCRIPTION
 `echo check \| sudo tee /sys/block/md0/md/sync_action` | Start a scrub (read and compare)
 `echo repair \| sudo tee /sys/block/md0/md/sync_action` | Scrub and fix mismatches
 
-Debian runs a monthly scrub (`/usr/share/mdadm/checkarray`). Also watch the disks with SMART, see [[storage-and-filesystems]].
+Debian runs a monthly scrub (`/usr/share/mdadm/checkarray`). Also watch the disks with SMART, see [Storage and Filesystems](storage-and-filesystems.md).
 
 ---
 ## Replace a Failed Disk
@@ -119,7 +119,7 @@ COMMAND | DESCRIPTION
 `sudo mdadm --zero-superblock /dev/sdb1` | Wipe RAID metadata from a former member
 `sudo mdadm --readonly /dev/md0` | Mark read-only
 
-After `--grow`, grow the file system too (`resize2fs /dev/md0` or `xfs_growfs`). With LVM on top, `pvresize /dev/md0` first ([[lvm]]).
+After `--grow`, grow the file system too (`resize2fs /dev/md0` or `xfs_growfs`). With LVM on top, `pvresize /dev/md0` first ([LVM](lvm.md)).
 
 ## Delete an Array
 ```bash

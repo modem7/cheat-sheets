@@ -5,7 +5,7 @@ Documentation: [Docker troubleshooting](https://docs.docker.com/engine/daemon/tr
 
 > **Verification:** `docker debug` syntax and the Docker Hub pull-limit headers were checked against the Docker docs. Everything else comes from the CLI reference and common practice. No command was executed. `docker debug` pricing and availability was not confirmed in the official docs; check your plan.
 
-See also: [[docker]] · [[docker-compose]] · [[docker-networking]] · [[docker-cleanup]] · [[docker-registry]] · [[performance-troubleshooting]] · [[systemd]]
+See also: [Docker](docker.md) · [Docker-Compose](docker-compose.md) · [Docker Networking](docker-networking.md) · [Docker Cleanup](docker-cleanup.md) · [Docker Registry](docker-registry.md) · [Linux Performance Troubleshooting](../linux/performance-troubleshooting.md) · [systemd](../linux/systemd.md)
 
 ---
 ## Quick Triage
@@ -18,7 +18,7 @@ COMMAND | DESCRIPTION
 `docker stats --no-stream` | CPU and memory right now
 `docker system df` | Disk use
 `docker compose ps` / `docker compose logs --tail 100 SERVICE` | Same for a Compose project
-`journalctl -u docker -b --no-pager \| tail -50` | Daemon logs ([[systemd]])
+`journalctl -u docker -b --no-pager \| tail -50` | Daemon logs ([systemd](../linux/systemd.md))
 `docker info \| grep -i -e warning -e 'storage driver' -e cgroup` | Daemon warnings
 
 ---
@@ -79,12 +79,12 @@ COMMAND | DESCRIPTION
 `curl -v http://127.0.0.1:PORT` | Test from the host
 `docker exec CONTAINER ss -tulpn` | Is the app listening **inside**, and on `0.0.0.0`, not `127.0.0.1`
 `docker network inspect NAME` | Is the container on the network you think
-`sudo iptables -t nat -L DOCKER -n` | Docker's port-forward rules ([[iptables]])
+`sudo iptables -t nat -L DOCKER -n` | Docker's port-forward rules ([IPTables](../linux/iptables.md))
 
-An app bound to `127.0.0.1` inside the container is unreachable through a published port. Bind to `0.0.0.0`. A port published as `127.0.0.1:8080:80` is only reachable on the host itself. UFW does not block published ports ([[ufw]]).
+An app bound to `127.0.0.1` inside the container is unreachable through a published port. Bind to `0.0.0.0`. A port published as `127.0.0.1:8080:80` is only reachable on the host itself. UFW does not block published ports ([UFW (uncomplicated firewall)](../linux/ufw.md)).
 
 ### Containers can't reach each other
-- On the **default** bridge there is no name resolution. Use a user-defined network (`docker network create app`) or Compose ([[docker-networking]]).
+- On the **default** bridge there is no name resolution. Use a user-defined network (`docker network create app`) or Compose ([Docker Networking](docker-networking.md)).
 - Use the **service/container name** and the **container port**, not the published port.
 - Containers must share a network: `docker network inspect NAME -f '{{range .Containers}}{{.Name}} {{end}}'`.
 - `localhost` inside a container is the container itself. To reach the host: `--add-host host.docker.internal:host-gateway` and use `host.docker.internal`.
@@ -98,7 +98,7 @@ docker exec CONTAINER cat /etc/resolv.conf
 - Host uses `127.0.0.53` (systemd-resolved): Docker substitutes the real upstream resolvers. If the host's DNS is only reachable locally, set `"dns": ["192.168.1.1"]` in `/etc/docker/daemon.json` and restart Docker.
 - VPN, corporate DNS or split DNS: set `dns` and `dns-search` explicitly.
 - Bridge subnet clashes with your LAN or VPN (default `172.17.0.0/16`, networks created later use `172.18+`): set `"default-address-pools": [{"base": "10.200.0.0/16", "size": 24}]` in `daemon.json`, or give a network a `--subnet`.
-- No internet from containers but the host works: check `net.ipv4.ip_forward=1`, and that no firewall change (firewalld, a flushed iptables, `nft flush ruleset`) removed Docker's rules. Restart Docker to rebuild them ([[nftables]]).
+- No internet from containers but the host works: check `net.ipv4.ip_forward=1`, and that no firewall change (firewalld, a flushed iptables, `nft flush ruleset`) removed Docker's rules. Restart Docker to rebuild them ([nftables](../linux/nftables.md)).
 - `docker compose` containers resolve each other through the embedded DNS at `127.0.0.11`.
 
 ### Netshoot
@@ -139,9 +139,9 @@ COMMAND | DESCRIPTION
 `docker volume inspect VOLUME -f '{{.Mountpoint}}'` | Named volume location on the host (`/var/lib/docker/volumes/`)
 
 - Named volumes are initialised from the image's directory content and ownership the first time. Bind mounts are not.
-- **SELinux** hosts: add `:z` or `:Z` to the mount (`-v /srv/app:/data:Z`), see [[selinux-apparmor]].
+- **SELinux** hosts: add `:z` or `:Z` to the mount (`-v /srv/app:/data:Z`), see [SELinux and AppArmor](../linux/selinux-apparmor.md).
 - Read-only root (`--read-only`) or `:ro` mounts give `Read-only file system`. Add a `--tmpfs` or a writable volume.
-- **NFS/CIFS** bind mounts: root squash and server-side ownership decide. Check export options in [[nfs]].
+- **NFS/CIFS** bind mounts: root squash and server-side ownership decide. Check export options in [NFS](../linux/nfs.md).
 - **Rootless Docker or user namespaces** (`userns-remap`): container UID 0 maps to a high host UID, so the host path must be owned by the mapped UID (see `/etc/subuid`), not by 0 or 1000.
 - Windows/WSL: keep project files inside the Linux file system, not `/mnt/c`.
 
@@ -153,14 +153,14 @@ docker system df
 sudo du -xh --max-depth=1 /var/lib/docker | sort -h
 sudo du -sh /var/lib/docker/containers/*/*-json.log | sort -h | tail
 ```
-Typical culprits: unrotated `json-file` logs, build cache, unused images, dangling volumes, a container writing into its own layer (`docker diff`, `docker ps -s`). Fixes, safe prune order and log rotation are in [[docker-cleanup]]. `no space left on device` while `df -h` shows space can be inodes (`df -i`).
+Typical culprits: unrotated `json-file` logs, build cache, unused images, dangling volumes, a container writing into its own layer (`docker diff`, `docker ps -s`). Fixes, safe prune order and log rotation are in [Docker Cleanup](docker-cleanup.md). `no space left on device` while `df -h` shows space can be inodes (`df -i`).
 
 ---
 ## Healthcheck Issues
 COMMAND | DESCRIPTION
 ---|---
 `docker ps --filter health=unhealthy` | Unhealthy containers
-`docker inspect -f '{{json .State.Health}}' CONTAINER \| jq` | Status, failing streak and the last 5 probe outputs ([[jq]])
+`docker inspect -f '{{json .State.Health}}' CONTAINER \| jq` | Status, failing streak and the last 5 probe outputs ([jq](../tools/jq.md))
 `docker inspect -f '{{.Config.Healthcheck}}' CONTAINER` | The configured check
 `docker exec CONTAINER sh -c 'curl -fsS http://localhost:8080/health; echo $?'` | Run the check by hand
 
@@ -198,7 +198,7 @@ Set `"live-restore": true` in `daemon.json` to keep containers running while the
 ## Pull Problems
 ERROR | LIKELY CAUSE
 ---|---
-`toomanyrequests` | Docker Hub rate limit, log in or use a mirror ([[docker-registry]])
+`toomanyrequests` | Docker Hub rate limit, log in or use a mirror ([Docker Registry](docker-registry.md))
 `unauthorized` / `denied` | Wrong or missing login, wrong image name, private repo
 `manifest unknown` | Tag does not exist or no manifest for your platform
 `no matching manifest for linux/arm64` | Image lacks your architecture. Use `--platform linux/amd64` (emulated)

@@ -1,5 +1,5 @@
 # Joplin
-Joplin is an open-source note-taking and to-do app with desktop, mobile and terminal clients. Notes are written in Markdown, organised in notebooks and tagged, and can be synced with end-to-end encryption. Compare with [[obsidian]] (linked notes in plain files) and [[logseq]] (outliner).
+Joplin is an open-source note-taking and to-do app with desktop, mobile and terminal clients. Notes are written in Markdown, organised in notebooks and tagged, and can be synced with end-to-end encryption. Compare with [Obsidian](obsidian.md) (linked notes in plain files) and [Logseq](logseq.md) (outliner).
 
 Homepage: [Joplin](https://joplinapp.org)
 Docs: [Joplin Documentation](https://joplinapp.org/help/)
@@ -9,8 +9,8 @@ Source: [laurent22/joplin](https://github.com/laurent22/joplin)
 ## Install
 PLATFORM | COMMAND
 ---|---
-Windows | `choco install joplin` ([[chocolatey]]) or the installer
-macOS | `brew install --cask joplin` ([[homebrew]])
+Windows | `choco install joplin` ([Chocolatey](../windows/chocolatey.md)) or the installer
+macOS | `brew install --cask joplin` ([Homebrew](../macos/homebrew.md))
 Linux | the official install script from the Joplin site, or AppImage
 Terminal app | `npm install -g joplin` (needs Node.js)
 
@@ -51,7 +51,7 @@ services:
 volumes:
   joplin_db:
 ```
-See [[docker-compose]] and [[postgres]]. Put it behind a reverse proxy with TLS ([[traefik]], [[nginx]]). Joplin Server's first admin account is documented upstream with a default login; **change that default password immediately**.
+See [Docker-Compose](../docker/docker-compose.md) and [PostgreSQL Cheat-Sheet](../databases/postgres.md). Put it behind a reverse proxy with TLS ([Traefik](../apps/traefik.md), [Nginx](../apps/nginx.md)). Joplin Server's first admin account is documented upstream with a default login; **change that default password immediately**.
 
 ## Terminal Client
 Start with `joplin`. Commands start with `:` in the app, or run from the shell as `joplin <command>`.
@@ -70,7 +70,7 @@ COMMAND | DESCRIPTION
 `help` | List commands
 
 ## Markdown Tips
-- Full Markdown plus checklists (`- [ ]`), tables, math (`$...$`), Mermaid and footnotes. See [[markdown]].
+- Full Markdown plus checklists (`- [ ]`), tables, math (`$...$`), Mermaid and footnotes. See [Markdown](../misc/markdown.md).
 - Internal links use note IDs (`[Title](:/noteid)`); right-click a note > Copy Markdown link.
 - The **Web Clipper** browser extension saves pages as Markdown notes.
 - Export and import as Markdown, JEX or raw files (File > Export all).

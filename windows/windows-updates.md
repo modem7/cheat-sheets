@@ -1,5 +1,5 @@
 # Windows Updates
-Manage Windows Update from the command line with the `PSWindowsUpdate` module ([[powershell]]). Run in an elevated session.
+Manage Windows Update from the command line with the `PSWindowsUpdate` module ([PowerShell Cheat-Sheet](powershell.md)). Run in an elevated session.
 
 ---
 ## PowerShell
@@ -22,7 +22,7 @@ COMMAND | DESCRIPTION
 `Get-WUHistory` | Update history
 `Get-WURebootStatus` | Is a reboot pending?
 `Hide-WindowsUpdate -KBArticleID KB5000000` | Hide an update
-`Get-WindowsUpdate -ComputerName <SERVER> -AcceptAll -Install` | Update a remote machine (see [[powershell-remote]])
+`Get-WindowsUpdate -ComputerName <SERVER> -AcceptAll -Install` | Update a remote machine (see [PowerShell Remote Access](powershell-remote.md))
 `Get-WUInstall` | Older alias of the install command
 
 ## Built-in Tools

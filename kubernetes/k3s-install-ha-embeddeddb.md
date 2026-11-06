@@ -23,7 +23,7 @@ curl -sfL https://get.k3s.io | sh -s - server \
 sudo k3s kubectl get nodes
 sudo cat /var/lib/rancher/k3s/server/node-token   # join token (if you did not set --token)
 ```
-Copy `/etc/rancher/k3s/k3s.yaml` to your workstation as a kubeconfig and replace `127.0.0.1` with your load balancer name or IP ([[kubectl]]). Use a long random secret for `--token` and keep it safe. See [[k3s]] for general options.
+Copy `/etc/rancher/k3s/k3s.yaml` to your workstation as a kubeconfig and replace `127.0.0.1` with your load balancer name or IP ([Kubectl](kubectl.md)). Use a long random secret for `--token` and keep it safe. See [K3S](k3s.md) for general options.
 
 ## ETCD Fault Tolerance
 The `--cluster-init` initializes an HA Cluster with an embedded etcd database. The fault tolerance requires an odd number, minimum three, server nodes to function.

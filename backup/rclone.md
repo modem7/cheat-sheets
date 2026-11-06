@@ -1,11 +1,11 @@
 # rclone
-rclone is "rsync for cloud storage": it copies, syncs, mounts and encrypts across 70+ providers (S3, B2, Google Drive, OneDrive, SFTP, WebDAV, local disk). It is a file mirroring tool, not a versioned backup tool, so use `--backup-dir` or a real backup program ([[restic]], [[borg]]) when you need history.
+rclone is "rsync for cloud storage": it copies, syncs, mounts and encrypts across 70+ providers (S3, B2, Google Drive, OneDrive, SFTP, WebDAV, local disk). It is a file mirroring tool, not a versioned backup tool, so use `--backup-dir` or a real backup program ([restic](restic.md), [BorgBackup](borg.md)) when you need history.
 
 Documentation: [rclone docs](https://rclone.org/docs/) · [Commands](https://rclone.org/commands/) · [Filtering](https://rclone.org/filtering/) · [Crypt](https://rclone.org/crypt/) · [Bisync](https://rclone.org/bisync/)
 
 > **Verification:** Only the bisync status (no longer labelled beta, `--resync` required on the first run) was checked against rclone.org. All other commands and flags are standard rclone usage written from knowledge and were **not** re-checked this session. No command was executed. Always dry-run `sync` first.
 
-See also: [[backup]] · [[restic]] · [[rsync]] · [[docker-volume-backup]] · [[openssh]] · [[linux]] · [[mount]]
+See also: [Backup Strategy](backup.md) · [restic](restic.md) · [rsync](rsync.md) · [Docker Volume Backup](docker-volume-backup.md) · [OpenSSH Cheat-Sheet](../tools/openssh.md) · [Linux](../linux/linux.md) · [Mount](../linux/mount.md)
 
 ---
 ## Remotes and Config
@@ -24,7 +24,7 @@ COMMAND | DESCRIPTION
 `rclone obscure <PASSWORD>` | Obscure a password for the config file (not encryption)
 `rclone version` | Version
 
-The config file holds credentials: `chmod 600`, back it up with the other secrets (see [[backup]]). It can be encrypted with `rclone config` -> "Set configuration password", then supply `RCLONE_CONFIG_PASS` or `--password-command`.
+The config file holds credentials: `chmod 600`, back it up with the other secrets (see [Backup Strategy](backup.md)). It can be encrypted with `rclone config` -> "Set configuration password", then supply `RCLONE_CONFIG_PASS` or `--password-command`.
 
 Remotes without a config file, from the environment:
 ```bash
@@ -164,7 +164,7 @@ COMMAND | DESCRIPTION
 `fusermount3 -u /mnt/<NAME>` | Unmount (or `umount`)
 `rclone serve sftp <REMOTE>:<PATH> --addr :2022` | Expose a remote over SFTP
 `rclone serve webdav <REMOTE>:<PATH> --addr :8080` | Expose over WebDAV
-`rclone serve restic <REMOTE>:<PATH>` | restic REST backend, see [[restic]]
+`rclone serve restic <REMOTE>:<PATH>` | restic REST backend, see [restic](restic.md)
 `rclone ncdu <REMOTE>:` | Interactive disk usage
 
 Mount flags that matter: `--vfs-cache-mode full`, `--vfs-cache-max-size 20G`, `--dir-cache-time 72h`, `--allow-other` (needs `user_allow_other` in `/etc/fuse.conf`). Mounts are fine for browsing and light access. Do not put a database directory on one.
@@ -201,8 +201,8 @@ sudo systemctl daemon-reload && sudo systemctl enable --now rclone-backup.timer
 
 ---
 ## Gotchas
-- `sync` direction and trailing slashes: rclone treats `src` and `src/` the same (unlike [[rsync]]); it always syncs the **contents** of the source into the destination.
+- `sync` direction and trailing slashes: rclone treats `src` and `src/` the same (unlike [rsync](rsync.md)); it always syncs the **contents** of the source into the destination.
 - A `sync` from an **empty or unmounted** source deletes everything at the destination. Guard with `--max-delete`, or check the source mount first (`findmnt /mnt/data || exit 1`).
 - Provider rate limits (Google Drive, OneDrive) may need `--tpslimit` and fewer `--transfers`, and for Drive your own client ID.
 - `rclone mount` and `copy` run as the user whose `rclone.conf` they read. Under systemd, set `RCLONE_CONFIG` explicitly.
-- Copying a live database file gives an inconsistent copy. Dump first, see [[database-dumps]].
+- Copying a live database file gives an inconsistent copy. Dump first, see [Database Dumps](database-dumps.md).

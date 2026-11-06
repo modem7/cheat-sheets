@@ -1,5 +1,5 @@
 # GPG
-GnuPG implements OpenPGP: public-key encryption, signatures and symmetric encryption for files, email, Git commits and package repositories. For SSH keys see [[openssh]]; for X.509 certificates see [[openssl]]. For encrypting secrets in a repo, [[sops-age]] is usually simpler.
+GnuPG implements OpenPGP: public-key encryption, signatures and symmetric encryption for files, email, Git commits and package repositories. For SSH keys see [OpenSSH Cheat-Sheet](../tools/openssh.md); for X.509 certificates see [OpenSSL](../tools/openssl.md). For encrypting secrets in a repo, [SOPS and age](sops-age.md) is usually simpler.
 
 Documentation: [GnuPG Manual](https://www.gnupg.org/documentation/manuals/gnupg/)
 
@@ -56,7 +56,7 @@ COMMAND | DESCRIPTION
 `gpg --gen-revoke -a -o revoke.asc <FPR>` | Pre-generate a revocation certificate
 `gpg --import revoke.asc` | Apply a revocation certificate
 
-Generate the revocation certificate straight after creating the key and store it with the backup. Keep exported secret keys on encrypted offline media (and a copy in [[bitwarden]]); delete them from the machine afterwards.
+Generate the revocation certificate straight after creating the key and store it with the backup. Keep exported secret keys on encrypted offline media (and a copy in [Bitwarden Cheat-Sheet](../tools/bitwarden.md)); delete them from the machine afterwards.
 
 Moving subkeys to a daily-use machine while the primary stays offline:
 ```bash
@@ -73,7 +73,7 @@ git config --global commit.gpgsign true
 git config --global tag.gpgsign true
 gpg --armor --export <KEYID>     # paste into GitHub > Settings > SSH and GPG keys
 ```
-Git can also sign with an SSH key (`gpg.format ssh`); see [[git]].
+Git can also sign with an SSH key (`gpg.format ssh`); see [Git](../tools/git.md).
 
 ## Agent and Passphrase
 COMMAND | DESCRIPTION

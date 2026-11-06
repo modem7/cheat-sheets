@@ -1,5 +1,5 @@
 # CrowdSec
-CrowdSec is a modern, collaborative intrusion-prevention system. The **Security Engine** reads logs and detects attacks using scenarios; **bouncers** (firewall, reverse-proxy, Traefik, nginx...) enforce the resulting decisions; and a shared community blocklist pre-emptively blocks known bad IPs. It does what [[fail2ban]] does with a decoupled design, so one engine can protect many hosts and proxies.
+CrowdSec is a modern, collaborative intrusion-prevention system. The **Security Engine** reads logs and detects attacks using scenarios; **bouncers** (firewall, reverse-proxy, Traefik, nginx...) enforce the resulting decisions; and a shared community blocklist pre-emptively blocks known bad IPs. It does what [fail2ban](fail2ban.md) does with a decoupled design, so one engine can protect many hosts and proxies.
 
 Documentation: [CrowdSec Docs](https://docs.crowdsec.net/) · [Hub (collections)](https://app.crowdsec.net/hub)
 
@@ -10,7 +10,7 @@ sudo apt install crowdsec
 sudo apt install crowdsec-firewall-bouncer-nftables      # or ...-iptables
 sudo systemctl status crowdsec crowdsec-firewall-bouncer
 ```
-The firewall bouncer registers itself with the local API on install. Firewall background: [[iptables]], [[ufw]].
+The firewall bouncer registers itself with the local API on install. Firewall background: [IPTables](../linux/iptables.md), [UFW (uncomplicated firewall)](../linux/ufw.md).
 
 ## cscli
 COMMAND | DESCRIPTION
@@ -96,7 +96,7 @@ networks:
   proxy:
     external: true
 ```
-Generate the key with `openssl rand -hex 32` and keep it in `.env` (see [[sops-age]]). Mounting the Docker socket exposes the host, so use a socket proxy if you can. Wire the bouncer into [[traefik]] through a forwardAuth middleware or the Traefik bouncer plugin, or into [[nginx]] with the nginx bouncer; details are in the bouncer's docs. Run `docker exec crowdsec cscli ...` for commands.
+Generate the key with `openssl rand -hex 32` and keep it in `.env` (see [SOPS and age](sops-age.md)). Mounting the Docker socket exposes the host, so use a socket proxy if you can. Wire the bouncer into [Traefik](../apps/traefik.md) through a forwardAuth middleware or the Traefik bouncer plugin, or into [Nginx](../apps/nginx.md) with the nginx bouncer; details are in the bouncer's docs. Run `docker exec crowdsec cscli ...` for commands.
 
 ## Allowlist Your Own IPs
 ```bash

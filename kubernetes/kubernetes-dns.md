@@ -1,5 +1,5 @@
 # Kubernetes DNS
-Cluster DNS is served by CoreDNS in the `kube-system` namespace ([[kubernetes]], [[k3s]]).
+Cluster DNS is served by CoreDNS in the `kube-system` namespace ([Kubernetes](kubernetes.md), [K3S](k3s.md)).
 
 ## Names Inside the Cluster
 NAME | RESOLVES TO

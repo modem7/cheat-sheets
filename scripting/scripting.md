@@ -1,24 +1,24 @@
 # Scripting
-Overview of the scripting and automation cheat sheets: shell, build tooling, Python and the checks that keep scripts correct. Start with [[bash]], keep [[bash-recipes]] open while writing, and lint everything before it ships.
+Overview of the scripting and automation cheat sheets: shell, build tooling, Python and the checks that keep scripts correct. Start with [Bash](bash.md), keep [Bash Recipes](bash-recipes.md) open while writing, and lint everything before it ships.
 
 SHEET | DESCRIPTION
 ---|---
-[[bash]] | Strict mode, variables, quoting, arrays, parameter expansion, tests, loops, functions, `trap`, `getopts`, here-docs, redirection
-[[bash-recipes]] | Argument parsing, logging, `flock` lockfiles, retry with backoff, safe temp files, idempotent checks, `xargs -P`
-[[shellcheck-shfmt]] | Static analysis and formatting for shell, common SC codes, CI usage
-[[make]] | Makefile syntax, phony targets, variables, pattern rules, self-documenting `help`
-[[python-uv]] | `uv` projects, venvs, tools, inline script metadata, `pyproject.toml`
-[[pre-commit]] | Run linters and secret scanning before every commit and in CI
+[Bash](bash.md) | Strict mode, variables, quoting, arrays, parameter expansion, tests, loops, functions, `trap`, `getopts`, here-docs, redirection
+[Bash Recipes](bash-recipes.md) | Argument parsing, logging, `flock` lockfiles, retry with backoff, safe temp files, idempotent checks, `xargs -P`
+[ShellCheck and shfmt](shellcheck-shfmt.md) | Static analysis and formatting for shell, common SC codes, CI usage
+[Make](make.md) | Makefile syntax, phony targets, variables, pattern rules, self-documenting `help`
+[Python and uv](python-uv.md) | `uv` projects, venvs, tools, inline script metadata, `pyproject.toml`
+[pre-commit](pre-commit.md) | Run linters and secret scanning before every commit and in CI
 
 ## Related Sheets
 SHEET | USE FOR
 ---|---
-[[grep]] | Searching text
-[[sed]] | Stream edits and substitution
-[[awk]] | Column and field processing
-[[jq]] | JSON in pipelines
-[[curl]] | HTTP requests and API calls
-[[linux]] | Everyday administration commands to script
+[Grep](../linux/grep.md) | Searching text
+[SED Cheat-Sheet](../linux/sed.md) | Stream edits and substitution
+[AWK](../linux/awk.md) | Column and field processing
+[jq](../tools/jq.md) | JSON in pipelines
+[curl](../tools/curl.md) | HTTP requests and API calls
+[Linux](../linux/linux.md) | Everyday administration commands to script
 
 ## Choosing a Language
 SITUATION | USE
@@ -34,4 +34,4 @@ Must run on minimal images (Alpine, BusyBox) | POSIX `sh`, lint with `shellcheck
 - Clean up with `trap ... EXIT`; use `mktemp` for temporary files.
 - Make scripts safe to run twice (idempotent).
 - Print errors to stderr and exit non-zero on failure.
-- Run [[shellcheck-shfmt]] locally and via [[pre-commit]].
+- Run [ShellCheck and shfmt](shellcheck-shfmt.md) locally and via [pre-commit](pre-commit.md).

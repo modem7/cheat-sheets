@@ -1,7 +1,7 @@
 # NFS
-Network File System (NFS) is a distributed file system protocol originally developed by Sun Microsystems (Sun), available in **Linux ([[linux]])**, allowing a user on a client computer to access files over a computer network much like local storage is accessed. NFS, like many other protocols, builds on the Open Network Computing Remote Procedure Call (ONC RPC) system. NFS is an open IETF standard defined in a Request for Comments (RFC), allowing anyone to implement the protocol.
+Network File System (NFS) is a distributed file system protocol originally developed by Sun Microsystems (Sun), available in **[Linux](linux.md)**, allowing a user on a client computer to access files over a computer network much like local storage is accessed. NFS, like many other protocols, builds on the Open Network Computing Remote Procedure Call (ONC RPC) system. NFS is an open IETF standard defined in a Request for Comments (RFC), allowing anyone to implement the protocol.
 
-NFSv4 uses a single TCP port (2049). NFSv3 also needs rpcbind (111) and extra ports. See also [[mount]].
+NFSv4 uses a single TCP port (2049). NFSv3 also needs rpcbind (111) and extra ports. See also [Mount](mount.md).
 
 ---
 ## Install NFS
@@ -66,7 +66,7 @@ COMMAND | DESCRIPTION
 `sudo exportfs -ra` | Re-read `/etc/exports`
 `sudo exportfs -u <CLIENT>:<PATH>` | Unexport
 `sudo ss -tlnp \| grep 2049` | Check NFS is listening
-`sudo ufw allow from 192.168.1.0/24 to any port nfs` | Open the firewall to the LAN only ([[ufw]])
+`sudo ufw allow from 192.168.1.0/24 to any port nfs` | Open the firewall to the LAN only ([UFW (uncomplicated firewall)](ufw.md))
 `nfsstat -s` | Server statistics
 
 ## Troubleshooting
@@ -74,4 +74,4 @@ COMMAND | DESCRIPTION
 - `Stale file handle`: the export was recreated. Unmount (`umount -f` / `-l`) and mount again.
 - Permission denied on write: UID/GID mismatch or `root_squash`. Use matching IDs or `all_squash` with `anonuid`.
 - Hangs on boot: add `_netdev,nofail` and consider `soft` only for non-critical data.
-- Kubernetes: use the NFS CSI driver or `nfs` volumes ([[kubernetes]]).
+- Kubernetes: use the NFS CSI driver or `nfs` volumes ([Kubernetes](../kubernetes/kubernetes.md)).

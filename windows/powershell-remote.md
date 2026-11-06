@@ -1,5 +1,5 @@
 # PowerShell Remote Access
-PowerShell Remoting ([[powershell]]) runs commands on other machines over WinRM (HTTP 5985, HTTPS 5986) or SSH (PowerShell 7+, see [[openssh]]).
+PowerShell Remoting ([PowerShell Cheat-Sheet](powershell.md)) runs commands on other machines over WinRM (HTTP 5985, HTTPS 5986) or SSH (PowerShell 7+, see [OpenSSH Cheat-Sheet](../tools/openssh.md)).
 
 ---
 ## Enable Remoting on the Target

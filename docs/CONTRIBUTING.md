@@ -10,8 +10,8 @@ How to add or change a cheat sheet. Start from [`_template.md`](_template.md) an
 - **Tables.** Commands go in `COMMAND | DESCRIPTION` tables (or `OPTION`, `FILTER`, `FIELD` as the first header where it fits). Put the command or option in backticks. Escape a literal pipe inside a cell as `\|`.
 - **Code blocks.** Multi-line commands and config go in fenced blocks with a language tag (`bash`, `yaml`, `json`, `ini`, `powershell`, `text`).
 - **Placeholders.** Write anything the reader must replace in ALL CAPS or `<ANGLE_BRACKETS>`, e.g. `<HOST>`, `CONTAINER`, `API_TOKEN`.
-- **Wikilinks.** Cross-link sheets with `[[basename]]`, where the basename is the file name without `.md` (e.g. `[[docker-compose]]`). `[[name|alias]]` and `[[name#heading]]` are fine. Wikilinks resolve by basename anywhere in the repo, so basenames must be unique. Inside code spans and fences they are ignored.
-- **Plain Markdown links** (`[text](path.md)`) must use relative paths that exist.
+- **Links between sheets.** Use standard relative Markdown links with the `.md` extension, e.g. `[Docker Compose](docker-compose.md)` in the same folder or `[Docker](../docker/docker.md)` from another folder. Use the target's H1 as the link text. Link to a heading with a GitHub-style anchor, e.g. `[Compose files](docker-compose.md#compose-files)`. Do not use `[[wikilinks]]`: the checker rejects them outside code spans and fences, and they do not work on GitHub or the Hugo site.
+- **Links must resolve.** Relative paths must exist, and `#anchor` fragments on `.md` links must match a heading in the target.
 - **No empty stubs.** Do not commit a file that is empty or only a title. Add the sheet when it has content.
 - **File names.** Lower-case kebab-case, ending in `.md`, e.g. `docker-compose.md`. The only exceptions are `README.md`, `CONTRIBUTING.md` and `AGENTS.md`.
 - **Language.** British English, plain and terse. Prefer a table row over a paragraph.
@@ -20,9 +20,12 @@ How to add or change a cheat sheet. Start from [`_template.md`](_template.md) an
 FOLDER | WHAT GOES THERE
 ---|---
 `apps/` | Self-hosted applications and services (Traefik, Grafana, Tailscale)
+`backup/` | Backup tools and strategies
+`cicd/` | CI/CD systems and pipelines
 `cloud/` | Cloud concepts and provider comparisons
 `databases/` | Database engines and their CLIs
 `docker/` | Docker, Dockerfile, Compose, container networking
+`homelab/` | Homelab design, services and operations
 `infra/` | Infrastructure platforms and appliances
 `kubernetes/` | Kubernetes, K3s, kubectl and cluster tooling
 `linux/` | Linux commands, shell utilities, firewall, storage
@@ -30,6 +33,9 @@ FOLDER | WHAT GOES THERE
 `misc/` | Reference material that fits nowhere else (status codes, colour codes, Markdown)
 `networking/` | Protocols, DNS, TLS, VPN, mail records
 `proxmox/` | Proxmox VE
+`recipes/` | End-to-end task pages that combine several sheets
+`scripting/` | Shell, Python and other scripting references
+`security/` | Hardening, scanning, secrets and identity tooling
 `tools/` | General command-line tools, Git hosts, IaC, editors and desktop apps
 `windows/` | Windows and PowerShell
 
@@ -45,17 +51,20 @@ Add a new top-level folder only when you have several sheets for a theme that no
 ## Adding a Sheet
 1. Create a branch off an up-to-date `master`.
 2. Copy `docs/_template.md` to the right folder with a kebab-case name and fill it in.
-3. Add the sheet to the index in `README.md`.
-4. Add wikilinks to and from related sheets.
+3. Regenerate the `README.md` index: `python3 scripts/gen-index.py`.
+4. Add relative links to and from related sheets.
 5. Run the checks below.
 6. Open a pull request. Do not push to `master`.
 
 ## Checks
-CI runs the same two checks on every pull request and on pushes to `master` (`.github/workflows/lint.yml`). Run them locally first.
+CI runs these checks on every pull request and on pushes to `master` (`.github/workflows/lint.yml`). Run them locally first.
 
 ```bash
-# Wikilinks, relative links, empty files and duplicate basenames (Python 3, no dependencies)
+# Relative links and anchors, leftover wikilinks and empty files (Python 3, no dependencies)
 python3 scripts/check-links.py
+
+# README index is up to date (use without --check to regenerate it)
+python3 scripts/gen-index.py --check
 
 # Markdown style (needs Node.js)
 npx markdownlint-cli2 "**/*.md"
@@ -69,6 +78,6 @@ Configuration lives in `.markdownlint-cli2.yaml`. Fix the content rather than lo
 - [ ] Commands in `COMMAND | DESCRIPTION` tables, code blocks have a language
 - [ ] Placeholders in ALL CAPS, no secrets, real IPs or personal domains
 - [ ] Commands and flags verified against official docs; unverified items marked
-- [ ] Wikilinks resolve and related sheets link back
-- [ ] `README.md` index updated for new sheets
-- [ ] `python3 scripts/check-links.py` and `npx markdownlint-cli2 "**/*.md"` pass
+- [ ] Relative links resolve and related sheets link back; no `[[wikilinks]]`
+- [ ] `README.md` index regenerated for new sheets
+- [ ] `python3 scripts/check-links.py`, `python3 scripts/gen-index.py --check` and `npx markdownlint-cli2 "**/*.md"` pass

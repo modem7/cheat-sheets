@@ -1,5 +1,5 @@
 # Robocopy
-`robocopy` (Robust File Copy) is the built-in Windows tool for copying and mirroring folder trees, with retries, logging, multithreading and permission handling. Run it from `cmd` or PowerShell ([[powershell]]). On Linux the equivalent is `rsync`; see [[linuxbasics]].
+`robocopy` (Robust File Copy) is the built-in Windows tool for copying and mirroring folder trees, with retries, logging, multithreading and permission handling. Run it from `cmd` or PowerShell ([PowerShell Cheat-Sheet](powershell.md)). On Linux the equivalent is `rsync`; see [Linux Basics](../linux/linuxbasics.md).
 
 Syntax: `robocopy <SOURCE> <DEST> [FILES] [OPTIONS]`. It copies the **contents** of the source folder into the destination folder.
 
@@ -126,7 +126,7 @@ $action  = New-ScheduledTaskAction -Execute "robocopy.exe" -Argument $roboArgs
 $trigger = New-ScheduledTaskTrigger -Daily -At 2am
 Register-ScheduledTask -TaskName "NightlyRobocopy" -Action $action -Trigger $trigger -User "SYSTEM" -RunLevel Highest
 ```
-Scheduled tasks are covered in [[powershell]].
+Scheduled tasks are covered in [PowerShell Cheat-Sheet](powershell.md).
 
 ## Troubleshooting
 SYMPTOM | FIX
@@ -144,7 +144,7 @@ TOOL | USE
 ---|---
 `xcopy` | Legacy, fewer options, no mirror
 `Copy-Item -Recurse` | Simple PowerShell copies, no retries or mirror
-`rsync` (via [[wsl]]) | Delta transfers over SSH ([[openssh]])
+`rsync` (via [WSL Cheat-Sheet](../tools/wsl.md)) | Delta transfers over SSH ([OpenSSH Cheat-Sheet](../tools/openssh.md))
 `robocopy` | Large trees, permissions, mirrors, resumable network copies
 
 ## Not Verified

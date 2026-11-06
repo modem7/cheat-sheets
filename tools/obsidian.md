@@ -1,5 +1,5 @@
 # Obsidian
-Obsidian is a local-first note-taking and knowledge-base app. Notes are plain Markdown files in a folder (a **vault**), linked together with `[[wikilinks]]`. This very repository is written in that style: the `[[name]]` links in these sheets are Obsidian wikilinks, and the repo `.gitignore` excludes the `.obsidian` settings folder.
+Obsidian is a local-first note-taking and knowledge-base app. Notes are plain Markdown files in a folder (a **vault**), linked together with `[[wikilinks]]`. This repository uses standard relative Markdown links instead, so it also works on GitHub and outside Obsidian (Obsidian can be set to use Markdown links under Settings, Files and links).
 
 Homepage: [Obsidian](https://obsidian.md)
 Help: [Obsidian Help](https://help.obsidian.md)
@@ -10,10 +10,10 @@ Help: [Obsidian Help](https://help.obsidian.md)
 2. Wikilinks between sheets resolve by file name, so `[[docker]]` opens `docker/docker.md`.
 3. The vault settings live in `.obsidian/` inside the folder and are git-ignored here.
 
-See [[git]] for the version control side.
+See [Git](git.md) for the version control side.
 
 ## Vault and Files
-- A vault is just a folder. Everything is plain `.md`, so any editor, `grep` or [[git]] works on it.
+- A vault is just a folder. Everything is plain `.md`, so any editor, `grep` or [Git](git.md) works on it.
 - `.obsidian/` holds settings, themes and plugins for that vault. Commit it only if you want to share your setup.
 - Attachments (images, PDFs) sit in the vault; the default folder is set under Settings > Files and links.
 
@@ -42,10 +42,10 @@ aliases: [Linux Basics]
 created: 2026-11-06
 ---
 ```
-For standard Markdown see [[markdown]].
+For standard Markdown see [Markdown](../misc/markdown.md).
 
 ## Shortcuts
-The shortcuts below use Windows/Linux keys; on macOS use `Cmd` for `Ctrl` (see [[macos-shortcuts]]). They can be rebound under Settings > Hotkeys.
+The shortcuts below use Windows/Linux keys; on macOS use `Cmd` for `Ctrl` (see [MacOS keyboard shortcuts](../macos/macos-shortcuts.md)). They can be rebound under Settings > Hotkeys.
 
 SHORTCUT | DESCRIPTION
 ---|---
@@ -87,12 +87,12 @@ Core plugins (built in) include Daily notes, Templates, Backlinks, Outgoing link
 
 ## Sync and Backup
 - **Obsidian Sync** (paid) is the official end-to-end encrypted sync.
-- **Git**: the Obsidian Git plugin, or a normal [[git]] repository with a scheduled commit.
+- **Git**: the Obsidian Git plugin, or a normal [Git](git.md) repository with a scheduled commit.
 - **File sync tools**: Syncthing, Nextcloud, iCloud or Dropbox on the vault folder. Do not run two sync tools on the same folder.
 - Back up the whole vault folder, including `.obsidian/` if you want your setup kept.
 
 ## Obsidian vs Similar Tools
-| | Obsidian | [[logseq]] | [[joplin]] |
+| | Obsidian | [Logseq](logseq.md) | [Joplin](joplin.md) |
 |---|---|---|---|
 | Style | Documents with links | Outliner (every line is a block) | Notebooks and notes |
 | Storage | Markdown files in a folder | Markdown or Org files in a folder | Database, exportable to Markdown |
@@ -101,7 +101,7 @@ Core plugins (built in) include Daily notes, Templates, Backlinks, Outgoing link
 | Plugins | Very large community | Large | Moderate |
 | Best for | Linked knowledge base, docs | Daily journaling, outlines | Plain notes, web clipper, self-hosted sync |
 
-Other tools in the same space: Foam and Dendron (VS Code, see [[vscode]]), Notable, Standard Notes, Trilium, SiYuan and AFFiNE.
+Other tools in the same space: Foam and Dendron (VS Code, see [VSCode (Visual Studio Code)](vscode.md)), Notable, Standard Notes, Trilium, SiYuan and AFFiNE.
 
 ## Not Verified
 Commands, shortcuts and plugin names were written from knowledge of the current app and not checked against a fresh install. Licensing terms and pricing change, so check the Obsidian site.

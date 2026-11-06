@@ -1,5 +1,5 @@
 # SOPS and age
-SOPS encrypts the *values* of YAML, JSON, ENV and INI files while leaving keys readable, so secrets can live in Git and still produce sensible diffs. `age` is the small, modern file-encryption tool SOPS uses for keys (simpler than [[gpg]]). Typical homelab use: encrypted `.env` files for [[docker-compose]] and encrypted Kubernetes Secrets for Flux or Argo CD ([[kubernetes]], [[argocd]]).
+SOPS encrypts the *values* of YAML, JSON, ENV and INI files while leaving keys readable, so secrets can live in Git and still produce sensible diffs. `age` is the small, modern file-encryption tool SOPS uses for keys (simpler than [GPG](gpg.md)). Typical homelab use: encrypted `.env` files for [Docker-Compose](../docker/docker-compose.md) and encrypted Kubernetes Secrets for Flux or Argo CD ([Kubernetes](../kubernetes/kubernetes.md), [Argo CD](../apps/argocd.md)).
 
 Documentation: [SOPS](https://getsops.io/docs/) · [age](https://github.com/FiloSottile/age)
 
@@ -26,7 +26,7 @@ mkdir -p ~/.config/sops/age
 age-keygen -o ~/.config/sops/age/keys.txt
 chmod 600 ~/.config/sops/age/keys.txt
 ```
-Back the private key up in a password manager ([[bitwarden]]). If it is lost, every file encrypted only to it is unrecoverable.
+Back the private key up in a password manager ([Bitwarden Cheat-Sheet](../tools/bitwarden.md)). If it is lost, every file encrypted only to it is unrecoverable.
 
 ## Environment Variables
 VARIABLE | DESCRIPTION
@@ -112,7 +112,7 @@ Argo CD has no native SOPS support; use a plugin such as KSOPS or helm-secrets.
 git config diff.sops.textconv "sops decrypt"
 echo '*.sops.yaml diff=sops' >> .gitattributes
 ```
-Pair with [[secret-scanning]] so an accidentally committed plaintext copy is caught.
+Pair with [Secret Scanning](secret-scanning.md) so an accidentally committed plaintext copy is caught.
 
 ## Troubleshooting
 SYMPTOM | FIX

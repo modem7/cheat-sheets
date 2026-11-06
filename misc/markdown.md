@@ -1,6 +1,6 @@
 # Markdown
 
-Markdown is a plain text format that converts to HTML. You write in an easy-to-read, easy-to-write syntax and tools render it. Most platforms (GitHub, GitLab, [[obsidian]], [[joplin]]) use CommonMark with extensions, often called GitHub Flavored Markdown (GFM).
+Markdown is a plain text format that converts to HTML. You write in an easy-to-read, easy-to-write syntax and tools render it. Most platforms (GitHub, GitLab, [Obsidian](../tools/obsidian.md), [Joplin](../tools/joplin.md)) use CommonMark with extensions, often called GitHub Flavored Markdown (GFM).
 
 Documentation: [Markdown Docs](https://daringfireball.net/projects/markdown/)
 Spec: [CommonMark](https://commonmark.org/) and [GFM](https://github.github.com/gfm/)
@@ -160,7 +160,7 @@ Inline math is `$a^2 + b^2$` and block math uses `$$ ... $$`.
 
 ## Tips
 - Keep one top-level `#` heading per file.
-- Lint with `markdownlint` (VS Code extension or `npx markdownlint-cli2 "**/*.md"`). See [[vscode]].
+- Lint with `markdownlint` (VS Code extension or `npx markdownlint-cli2 "**/*.md"`). See [VSCode (Visual Studio Code)](../tools/vscode.md).
 - Convert with `pandoc file.md -o file.html` (or `.pdf`, `.docx`).
 - Wikilinks like `[[page]]` are an Obsidian and wiki convention, not standard Markdown. On GitHub use normal links.
 

@@ -1,5 +1,5 @@
 # Longhorn
-Longhorn is a lightweight, reliable and easy-to-use distributed block storage system for **Kubernetes ([[kubernetes]])**.
+Longhorn is a lightweight, reliable and easy-to-use distributed block storage system for **[Kubernetes](../kubernetes/kubernetes.md)**.
 
 Project Homepage: [Longhorn Homepage](https://longhorn.io)
 Documentation: [Longhorn Docs](https://longhorn.io/docs/)
@@ -17,7 +17,7 @@ curl -sSfL https://raw.githubusercontent.com/longhorn/longhorn/v1.7.2/scripts/en
 ```
 (Replace the version with the one you are installing.)
 
-## Install with Helm ([[helm]])
+## Install with Helm ([Helm Cheat-Sheet](../tools/helm.md))
 ```bash
 helm repo add longhorn https://charts.longhorn.io
 helm repo update
@@ -36,7 +36,7 @@ COMMAND | DESCRIPTION
 ---|---
 `kubectl get storageclass` | `longhorn` is installed and can be the default
 `kubectl patch storageclass longhorn -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'` | Make it the default
-`kubectl patch storageclass local-path -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'` | Unset the K3s default ([[k3s]])
+`kubectl patch storageclass local-path -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'` | Unset the K3s default ([K3S](../kubernetes/k3s.md))
 
 Example claim:
 ```yaml

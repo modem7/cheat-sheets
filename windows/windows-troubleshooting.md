@@ -1,5 +1,5 @@
 # Windows Troubleshooting
-A toolbox for diagnosing and repairing Windows: system file and image repair (`sfc`, `DISM`), disk checks, event log queries, services, performance counters and boot repair. Use an **elevated** PowerShell or Command Prompt ([[powershell]]). Related: [[windows-updates]], [[windows-networking]], [[group-policy]], [[active-directory]].
+A toolbox for diagnosing and repairing Windows: system file and image repair (`sfc`, `DISM`), disk checks, event log queries, services, performance counters and boot repair. Use an **elevated** PowerShell or Command Prompt ([PowerShell Cheat-Sheet](powershell.md)). Related: [Windows Updates](windows-updates.md), [Windows Networking](windows-networking.md), [Group Policy](group-policy.md), [Active Directory](active-directory.md).
 
 Documentation: [Windows commands](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands), [Repair a Windows image](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/repair-a-windows-image)
 
@@ -21,7 +21,7 @@ COMMAND | DESCRIPTION
 `Repair-WindowsImage -Online -RestoreHealth` | PowerShell equivalent of DISM RestoreHealth
 `Get-WindowsImage -ImagePath D:\sources\install.wim` | List editions and indexes in an ISO
 
-If `sfc` reports corruption it cannot fix, run `DISM /RestoreHealth` and then `sfc /scannow` again. Logs: `C:\Windows\Logs\CBS\CBS.log` and `C:\Windows\Logs\DISM\dism.log`. Reset stuck updates in [[windows-updates]].
+If `sfc` reports corruption it cannot fix, run `DISM /RestoreHealth` and then `sfc /scannow` again. Logs: `C:\Windows\Logs\CBS\CBS.log` and `C:\Windows\Logs\DISM\dism.log`. Reset stuck updates in [Windows Updates](windows-updates.md).
 
 ## Disk Checks
 COMMAND | DESCRIPTION
@@ -130,7 +130,7 @@ COMMAND | DESCRIPTION
 `msinfo32` | System information viewer
 `dxdiag` | Display and sound diagnostics
 `systeminfo` | OS, hotfixes, boot time and hardware summary
-`Get-HotFix \| Sort InstalledOn -Desc \| Select -First 10` | Recent updates (see [[windows-updates]])
+`Get-HotFix \| Sort InstalledOn -Desc \| Select -First 10` | Recent updates (see [Windows Updates](windows-updates.md))
 
 Analyse dumps with WinDbg or WhoCrashed. For a bluescreen code lookup, note the stop code and the faulting driver from the dump.
 
@@ -173,7 +173,7 @@ Other recovery: `systemreset`, **Reset this PC**, System Restore (`rstrui.exe`),
 3. `Get-Volume` for free space (a full system drive breaks many things).
 4. `DISM /Online /Cleanup-Image /RestoreHealth` then `sfc /scannow`.
 5. `Get-Counter` for CPU, memory and disk pressure; `Get-Process` for the culprit.
-6. [[windows-networking]] for connectivity and DNS; [[windows-updates]] for update problems.
+6. [Windows Networking](windows-networking.md) for connectivity and DNS; [Windows Updates](windows-updates.md) for update problems.
 7. Check the Reliability Monitor (`perfmon /rel`) for a timeline of crashes and installs.
 
 ## Not Verified

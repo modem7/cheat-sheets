@@ -1,5 +1,5 @@
 # ffmpeg
-`ffmpeg` converts, trims, scales and re-encodes audio and video; `ffprobe` inspects media files. Syntax is `ffmpeg [input options] -i INPUT [output options] OUTPUT`, and options apply to the next file named after them. Pair it with [[yt-dlp]] for downloading media.
+`ffmpeg` converts, trims, scales and re-encodes audio and video; `ffprobe` inspects media files. Syntax is `ffmpeg [input options] -i INPUT [output options] OUTPUT`, and options apply to the next file named after them. Pair it with [yt-dlp](yt-dlp.md) for downloading media.
 
 Documentation: [ffmpeg docs](https://ffmpeg.org/ffmpeg.html), [H.264 guide](https://trac.ffmpeg.org/wiki/Encode/H.264), [H.265 guide](https://trac.ffmpeg.org/wiki/Encode/H.265)
 
@@ -7,8 +7,8 @@ Documentation: [ffmpeg docs](https://ffmpeg.org/ffmpeg.html), [H.264 guide](http
 COMMAND | DESCRIPTION
 ---|---
 `sudo apt install ffmpeg` | Ubuntu / Debian
-`brew install ffmpeg` | macOS ([[homebrew]])
-`winget install Gyan.FFmpeg` | Windows ([[winget]])
+`brew install ffmpeg` | macOS ([Homebrew](../macos/homebrew.md))
+`winget install Gyan.FFmpeg` | Windows ([winget](../windows/winget.md))
 `ffmpeg -version` | Show version and build flags
 `ffmpeg -encoders \| grep -i x26` | List available encoders (also `-decoders`, `-formats`, `-hwaccels`)
 
@@ -74,7 +74,7 @@ VA-API (Intel/AMD, Linux) | `ffmpeg -vaapi_device /dev/dri/renderD128 -i in.mkv 
 AMD AMF (Windows) | `ffmpeg -i in.mkv -c:v h264_amf -quality balanced out.mp4`
 Apple VideoToolbox | `ffmpeg -i in.mkv -c:v hevc_videotoolbox -q:v 60 out.mp4`
 
-Codec names follow `h264_`, `hevc_` or `av1_` plus the API. List support with `ffmpeg -hwaccels` and `ffmpeg -encoders | grep -E 'nvenc|qsv|vaapi'`. For containers, pass `/dev/dri` through (see [[docker-compose]]).
+Codec names follow `h264_`, `hevc_` or `av1_` plus the API. List support with `ffmpeg -hwaccels` and `ffmpeg -encoders | grep -E 'nvenc|qsv|vaapi'`. For containers, pass `/dev/dri` through (see [Docker-Compose](../docker/docker-compose.md)).
 
 ## Concatenate
 Same codecs and parameters in every file: use the concat demuxer.
@@ -116,7 +116,7 @@ COMMAND | DESCRIPTION
 ---|---
 `ffprobe in.mp4` | Human-readable summary of streams
 `ffprobe -v error -show_format -show_streams in.mp4` | Full detail
-`ffprobe -v error -print_format json -show_format -show_streams in.mp4` | JSON output, pipe to [[jq]]
+`ffprobe -v error -print_format json -show_format -show_streams in.mp4` | JSON output, pipe to [jq](jq.md)
 `ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,width,height,r_frame_rate -of csv=p=0 in.mp4` | Video codec, size and frame rate
 `ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 in.mp4` | Duration in seconds
 `ffprobe -v error -select_streams a -show_entries stream=index,codec_name:stream_tags=language -of csv=p=0 in.mkv` | Audio tracks and languages

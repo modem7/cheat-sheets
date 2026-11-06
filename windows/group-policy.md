@@ -1,5 +1,5 @@
 # Group Policy
-Group Policy applies settings to domain users and computers from Group Policy Objects (GPOs) linked to sites, domains and OUs. This sheet covers refreshing and reporting on policy, the GroupPolicy PowerShell module, the ADMX central store and troubleshooting. See [[active-directory]] for the directory itself, [[windows-networking]] for DNS and connectivity problems that break policy, and [[windows-updates]] for update policy.
+Group Policy applies settings to domain users and computers from Group Policy Objects (GPOs) linked to sites, domains and OUs. This sheet covers refreshing and reporting on policy, the GroupPolicy PowerShell module, the ADMX central store and troubleshooting. See [Active Directory](active-directory.md) for the directory itself, [Windows Networking](windows-networking.md) for DNS and connectivity problems that break policy, and [Windows Updates](windows-updates.md) for update policy.
 
 Documentation: [Group Policy overview](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh831791(v=ws.11)), [GroupPolicy module](https://learn.microsoft.com/en-us/powershell/module/grouppolicy/)
 
@@ -87,7 +87,7 @@ Copy-Item "C:\Windows\PolicyDefinitions\*" -Destination $store -Recurse -Force
 - Keep the `PolicyDefinitions` folder and the `en-US` (or your language) subfolder together.
 - Download templates for third parties (Microsoft Edge, Office, Chrome, LAPS in the OS) and drop their `.admx` and `.adml` files in.
 - Update the store whenever you introduce a newer Windows version.
-- Check SYSVOL replication is healthy first (`dcdiag /test:netlogons`, `repadmin /replsummary`; see [[active-directory]]).
+- Check SYSVOL replication is healthy first (`dcdiag /test:netlogons`, `repadmin /replsummary`; see [Active Directory](active-directory.md)).
 
 ## Troubleshooting
 SYMPTOM | CHECK
@@ -109,7 +109,7 @@ Get-WinEvent -LogName "Microsoft-Windows-GroupPolicy/Operational" -MaxEvents 30 
   Select TimeCreated, Id, LevelDisplayName, Message
 gpresult /h "$env:TEMP\gp.html" /f; Start-Process "$env:TEMP\gp.html"
 ```
-The Operational event log and `gpresult` are usually enough. See [[windows-troubleshooting]] for more event log queries, and [[windows-dns-server]] for DNS records that machines need to find a DC.
+The Operational event log and `gpresult` are usually enough. See [Windows Troubleshooting](windows-troubleshooting.md) for more event log queries, and [Windows DNS Server](windows-dns-server.md) for DNS records that machines need to find a DC.
 
 ## Good Practice
 - One purpose per GPO and descriptive names; avoid editing the **Default Domain Policy** except for password, lockout and Kerberos settings.

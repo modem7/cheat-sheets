@@ -1,5 +1,5 @@
 # Prometheus
-Open source monitoring and alerting toolkit that scrapes and stores metrics as time series. Pairs with [[grafana]].
+Open source monitoring and alerting toolkit that scrapes and stores metrics as time series. Pairs with [Grafana](grafana.md).
 
 Project Homepage: [Prometheus](https://prometheus.io)
 Documentation: [Prometheus Docs](https://prometheus.io/docs/)

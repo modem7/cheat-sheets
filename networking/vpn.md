@@ -1,7 +1,7 @@
 # VPN (Virtual Private Network)
 A VPN creates an encrypted tunnel between devices or networks so traffic can cross an untrusted network safely.
 
-Related: [[wireguard]], [[tailscale]], [[tls]], [[openssh]]
+Related: [WireGuard](../apps/wireguard.md), [Tailscale](../apps/tailscale.md), [TLS (Transport Layer Security)](tls.md), [OpenSSH Cheat-Sheet](../tools/openssh.md)
 
 ## Common Uses
 USE | DESCRIPTION
@@ -14,7 +14,7 @@ Mesh | Every device talks directly to every other device (Tailscale, Nebula)
 ## Protocols Compared
 PROTOCOL | TRANSPORT | NOTES
 ---|---|---
-WireGuard | UDP (default 51820) | Tiny codebase, fast, modern crypto, static config. See [[wireguard]]
+WireGuard | UDP (default 51820) | Tiny codebase, fast, modern crypto, static config. See [WireGuard](../apps/wireguard.md)
 OpenVPN | UDP or TCP 1194 | Mature, flexible, TLS based, runs over TCP 443 to pass strict firewalls
 IPsec / IKEv2 | UDP 500, 4500, ESP | Built into most OSes, standard for site-to-site
 L2TP/IPsec | UDP 1701 + IPsec | Legacy, avoid for new setups
@@ -35,8 +35,8 @@ Keepalive | Periodic packet that holds NAT mappings open (`PersistentKeepalive =
 COMMAND | DESCRIPTION
 ---|---
 `echo 'net.ipv4.ip_forward=1' \| sudo tee /etc/sysctl.d/99-vpn.conf && sudo sysctl --system` | Enable IP forwarding
-`sudo iptables -t nat -A POSTROUTING -s <VPN-SUBNET> -o <WAN-IF> -j MASQUERADE` | NAT VPN clients to the internet, see [[iptables]]
-`sudo ufw allow 51820/udp` | Open the WireGuard port, see [[ufw]]
+`sudo iptables -t nat -A POSTROUTING -s <VPN-SUBNET> -o <WAN-IF> -j MASQUERADE` | NAT VPN clients to the internet, see [IPTables](../linux/iptables.md)
+`sudo ufw allow 51820/udp` | Open the WireGuard port, see [UFW (uncomplicated firewall)](../linux/ufw.md)
 
 ## Troubleshooting
 SYMPTOM | CHECK

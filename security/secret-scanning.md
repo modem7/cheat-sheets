@@ -1,5 +1,5 @@
 # Secret Scanning
-Secret scanners find API keys, passwords and private keys in source code and Git history before an attacker does. This sheet covers gitleaks and TruffleHog (local and CI), pre-commit hooks, and GitHub's built-in secret scanning with push protection. Related: [[git]], [[github-cli]], [[sops-age]] for storing secrets safely, [[container-scanning]] for images.
+Secret scanners find API keys, passwords and private keys in source code and Git history before an attacker does. This sheet covers gitleaks and TruffleHog (local and CI), pre-commit hooks, and GitHub's built-in secret scanning with push protection. Related: [Git](../tools/git.md), [GitHub and the gh CLI](../tools/github-cli.md), [SOPS and age](sops-age.md) for storing secrets safely, [Container Scanning](container-scanning.md) for images.
 
 Documentation: [gitleaks](https://github.com/gitleaks/gitleaks) · [TruffleHog](https://github.com/trufflesecurity/trufflehog) · [GitHub secret scanning](https://docs.github.com/en/code-security/secret-scanning)
 

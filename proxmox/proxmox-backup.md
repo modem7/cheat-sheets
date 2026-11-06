@@ -5,7 +5,7 @@ Documentation: [Backup and Restore](https://pve.proxmox.com/pve-docs/chapter-vzd
 
 > **Verification:** `vzdump` modes and options, `--prune-backups`, `/etc/vzdump.conf`, the `proxmox-backup-client` syntax, and the PBS garbage collection command were checked against the docs. The `proxmox-backup-manager` commands for datastore, prune-job and verify-job creation were **not** verified, nor were `datastore list`, `garbage-collection status`, `versions`, `vzdump --exclude`, `--mailto`, `qmrestore --unique`, or restoring from a PBS volume ID in the form shown. No command was executed. Always test a restore.
 
-See also: [[proxmox-storage]] · [[proxmox-qm-pct]] · [[proxmox-cluster-ha]] · [[proxmox-troubleshooting]] · [[truenas-scale]] (offsite replication target)
+See also: [Proxmox Storage](proxmox-storage.md) · [Proxmox qm and pct](proxmox-qm-pct.md) · [Proxmox Clustering and HA](proxmox-cluster-ha.md) · [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md) · [TrueNAS Scale](../infra/truenas-scale.md) (offsite replication target)
 
 ---
 ## vzdump
@@ -92,11 +92,11 @@ COMMAND | DESCRIPTION
 `proxmox-backup-client prune host/<NAME> --keep-daily 7 --keep-weekly 4` | Prune a group
 `proxmox-backup-client key create` | Create an encryption key
 
-The password comes from `PBS_PASSWORD` or a prompt. General host tooling: [[linux]].
+The password comes from `PBS_PASSWORD` or a prompt. General host tooling: [Linux](../linux/linux.md).
 
 ---
 ## Tips
-- Back up before major changes and upgrades ([[proxmox-overview]]).
+- Back up before major changes and upgrades ([Proxmox VE Overview and Install](proxmox-overview.md)).
 - Snapshot-mode backups of VMs get consistent filesystems only with the guest agent enabled.
 - Exclude disks you do not need with `backup=0` on that disk (`qm set <VMID> --scsi1 <STORAGE>:vm-<VMID>-disk-1,backup=0`).
-- Automate guest updates with snapshots using [[ansible]].
+- Automate guest updates with snapshots using [Ansible Cheat-Sheet](../tools/ansible.md).

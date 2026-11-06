@@ -1,5 +1,5 @@
 # Windows Terminal
-Modern tabbed terminal for Windows hosting PowerShell ([[powershell]]), Command Prompt and WSL ([[wsl]]).
+Modern tabbed terminal for Windows hosting PowerShell ([PowerShell Cheat-Sheet](powershell.md)), Command Prompt and WSL ([WSL Cheat-Sheet](../tools/wsl.md)).
 
 ## Install Windows Terminal
 Windows Store: [Windows Terminal](https://aka.ms/terminal), or `winget install Microsoft.WindowsTerminal`
@@ -63,4 +63,4 @@ wt new-tab -p "PowerShell" ; split-pane -p "Ubuntu"   # tab with a split pane
   "copyOnSelect": true
 }
 ```
-A Nerd Font is needed for Starship icons ([[starship]]).
+A Nerd Font is needed for Starship icons ([Starship Prompt](../tools/starship.md)).

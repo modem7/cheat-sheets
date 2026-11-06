@@ -2,7 +2,7 @@
 
 SQLite is a relational database contained in a C library. In contrast to many other databases, SQLite is not a client-server database engine. Rather, it's embedded into an end program.
 
-SQLite generally follows the PostgreSQL ([[postgres]]) syntax but does not enforce type checking (columns use type affinity; `STRICT` tables are available since 3.37).
+SQLite generally follows the PostgreSQL ([PostgreSQL Cheat-Sheet](postgres.md)) syntax but does not enforce type checking (columns use type affinity; `STRICT` tables are available since 3.37).
 
 You can open a SQLite Database with `sqlite3 <filename>` directly.
 
@@ -122,7 +122,7 @@ PRAGMA cache_size = -64000;       -- negative = KiB, here 64 MB
 PRAGMA temp_store = MEMORY;
 PRAGMA mmap_size = 268435456;
 ```
-Group many writes in one transaction (`BEGIN; ... COMMIT;`), it is the largest single speed-up. One writer at a time: use WAL and a busy timeout for concurrent readers. Do not put SQLite database files on NFS or other network file systems ([[nfs]]), file locking is unreliable.
+Group many writes in one transaction (`BEGIN; ... COMMIT;`), it is the largest single speed-up. One writer at a time: use WAL and a busy timeout for concurrent readers. Do not put SQLite database files on NFS or other network file systems ([NFS](../linux/nfs.md)), file locking is unreliable.
 
 ## Extensions and Features
 FEATURE | USE
@@ -131,7 +131,7 @@ FEATURE | USE
 `JSON1` | `json_extract(col, '$.key')`, `col ->> '$.key'`, `json_each()` (built in from 3.38)
 `R*Tree` | Spatial indexes
 `STRICT` tables | `CREATE TABLE t (...) STRICT;` enforces column types (3.37+)
-`generated columns` | `full_name TEXT GENERATED ALWAYS AS (first || ' ' || last) VIRTUAL`
+`generated columns` | `full_name TEXT GENERATED ALWAYS AS (first \|\| ' ' \|\| last) VIRTUAL`
 `.load ./ext` | Load a loadable extension (for example `sqlite-vec`, `spellfix1`)
 `UPSERT` | `INSERT ... ON CONFLICT(id) DO UPDATE SET name = excluded.name;`
 `RETURNING` | `INSERT ... RETURNING id;` (3.35+)

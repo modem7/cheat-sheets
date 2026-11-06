@@ -1,5 +1,5 @@
 # VSCode shortcuts (macOS)
-Default key bindings for Visual Studio Code on macOS. On Windows and Linux replace `⌘` with `Ctrl` and `⌥` with `Alt`. See [[vscode]] for settings and extensions, and [[macos-shortcuts]] for system keys.
+Default key bindings for Visual Studio Code on macOS. On Windows and Linux replace `⌘` with `Ctrl` and `⌥` with `Alt`. See [VSCode (Visual Studio Code)](../tools/vscode.md) for settings and extensions, and [MacOS keyboard shortcuts](macos-shortcuts.md) for system keys.
 
 - [macOS keyboard shortcuts PDF](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
 - [Key bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings)

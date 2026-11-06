@@ -34,10 +34,10 @@ COMMAND | DESCRIPTION
 `awk 'BEGIN {printf "%-10s %5s\n", "NAME", "SIZE"} {printf "%-10s %5d\n", $1, $2}' file` | Formatted report
 `ps aux \| awk '$3 > 50 {print $2, $11}'` | Processes above 50% CPU
 `df -h \| awk 'NR>1 {print $5, $6}'` | Usage per mount point
-`docker ps -a \| awk 'NR>1 {print $1}'` | Container IDs (see [[docker]])
+`docker ps -a \| awk 'NR>1 {print $1}'` | Container IDs (see [Docker](../docker/docker.md))
 `awk '{print > $1".txt"}' file` | Split a file into one file per first field
 
-For regex-only filtering see [[grep]], and for substitution see [[sed]].
+For regex-only filtering see [Grep](grep.md), and for substitution see [SED Cheat-Sheet](sed.md).
 
 ## Awk Cheat Sheet
 

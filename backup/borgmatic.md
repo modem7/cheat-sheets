@@ -1,11 +1,11 @@
 # borgmatic
-borgmatic wraps [[borg]] with a YAML config file: one command runs create, prune, compact and check, takes care of database dumps, runs hooks and pings monitoring services. This sheet is for **borgmatic 2.x** (flat config, `commands:` hooks, `repo-create`/`repo-list`) on top of **Borg 1.4**. That is what the `modem7/borgmatic-docker` image ships (borgmatic 2.2.0, Borg 1.4.5 at the time of writing).
+borgmatic wraps [BorgBackup](borg.md) with a YAML config file: one command runs create, prune, compact and check, takes care of database dumps, runs hooks and pings monitoring services. This sheet is for **borgmatic 2.x** (flat config, `commands:` hooks, `repo-create`/`repo-list`) on top of **Borg 1.4**. That is what the `modem7/borgmatic-docker` image ships (borgmatic 2.2.0, Borg 1.4.5 at the time of writing).
 
 Documentation: [borgmatic docs](https://torsion.org/borgmatic/) · [Configuration reference](https://torsion.org/borgmatic/reference/configuration/) · [Command-line actions](https://torsion.org/borgmatic/reference/command-line/actions/) · [Docker image](https://github.com/modem7/docker-borgmatic)
 
 > **Verification:** Action names, the `*_databases` keys, `name: all`, `restore --archive latest --database` and the Healthchecks/Apprise options were checked against the borgmatic docs or the docker-borgmatic repository's own example configs. `check --repair` and the exact 1.x to 2.x migration details were **not** verified. No command was executed. Always run `borgmatic config validate` and a dry run first.
 
-See also: [[backup]] · [[borg]] · [[restic]] · [[database-dumps]] · [[docker-volume-backup]] · [[docker]] · [[docker-compose]]
+See also: [Backup Strategy](backup.md) · [BorgBackup](borg.md) · [restic](restic.md) · [Database Dumps](database-dumps.md) · [Docker Volume Backup](docker-volume-backup.md) · [Docker](../docker/docker.md) · [Docker-Compose](../docker/docker-compose.md)
 
 ---
 ## Commands
@@ -141,7 +141,7 @@ Old (1.x) to new (2.x) at a glance:
 
 ---
 ## Native database backups
-borgmatic can stream database dumps into the archive, so there is no temp file and no separate cron job. Restore with `borgmatic restore`. See [[database-dumps]] for standalone dumps.
+borgmatic can stream database dumps into the archive, so there is no temp file and no separate cron job. Restore with `borgmatic restore`. See [Database Dumps](database-dumps.md) for standalone dumps.
 
 ```yaml
 postgresql_databases:

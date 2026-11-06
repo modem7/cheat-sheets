@@ -1,5 +1,5 @@
 # Docker on macOS Silicon
-Docker on Apple Silicon (M-series, `arm64`) runs Linux containers in a lightweight VM. See [[docker]].
+Docker on Apple Silicon (M-series, `arm64`) runs Linux containers in a lightweight VM. See [Docker](../docker/docker.md).
 
 ## Installation
 Docker Desktop: `brew install --cask docker`
@@ -22,7 +22,7 @@ COMMAND | DESCRIPTION
 `docker manifest inspect <IMAGE>` | Platforms an image supports
 `export DOCKER_DEFAULT_PLATFORM=linux/amd64` | Make amd64 the default for the shell
 
-In Compose, set `platform: linux/amd64` on a service ([[docker-compose]]).
+In Compose, set `platform: linux/amd64` on a service ([Docker-Compose](../docker/docker-compose.md)).
 
 ## Shared volumes
 Shared volumes can be configured in the Docker Desktop Settings `Docker -> Preferences... -> Resources -> File Sharing`

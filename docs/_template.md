@@ -1,5 +1,5 @@
 # TOPIC NAME
-One or two sentences: what the tool or topic is and when to use it. Link related sheets with wikilinks by file basename, e.g. `[[docker]]` and `[[docker-compose]]`.
+One or two sentences: what the tool or topic is and when to use it. Link related sheets with relative Markdown links, e.g. [Docker](../docker/docker.md) and [Docker Compose](../docker/docker-compose.md).
 
 Project: [PROJECT NAME](https://example.com/)
 Documentation: [DOCS NAME](https://example.com/docs/)
@@ -34,4 +34,4 @@ SYMPTOM | FIX
 Short description of the error | What to check or run
 
 ## See Also
-- [[docker]] (replace with a real sheet; every wikilink must resolve)
+- [Docker](../docker/docker.md) (replace with a real sheet; every link must resolve)

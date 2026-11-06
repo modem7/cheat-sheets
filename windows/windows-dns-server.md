@@ -1,6 +1,6 @@
 # Windows DNS Server
 
-In Windows Server, DNS is a server role that you can install by using Server Manager or Windows PowerShell commands. If you are installing a new Active Directory forest and domain, DNS is automatically installed with Active Directory as the Global Catalogue server for the forest and domain. For record types see [[dns-record-types]], and for PowerShell basics see [[powershell]].
+In Windows Server, DNS is a server role that you can install by using Server Manager or Windows PowerShell commands. If you are installing a new Active Directory forest and domain, DNS is automatically installed with Active Directory as the Global Catalogue server for the forest and domain. For record types see [DNS Record Types](../networking/dns-record-types.md), and for PowerShell basics see [PowerShell Cheat-Sheet](powershell.md).
 
 ---
 ## Install Windows DNS Server role
@@ -57,7 +57,7 @@ Add-DnsServerResourceRecordPtr -Name <last-octet> -ZoneName 1.168.192.in-addr.ar
 Add-DnsServerResourceRecordMX -Name "." -ZoneName <your-dns-zone> -MailExchange <mail.your-dns-zone> -Preference 10
 Add-DnsServerResourceRecord -Txt -Name "." -ZoneName <your-dns-zone> -DescriptiveText "v=spf1 mx -all"
 ```
-`-TimeToLive` takes a time span (`hh:mm:ss`), not seconds. See [[dns-record-mailserver]] for mail records.
+`-TimeToLive` takes a time span (`hh:mm:ss`), not seconds. See [Mail Server DNS Records Cheat-Sheet](../networking/dns-record-mailserver.md) for mail records.
 
 ### Forwarders, Cache and Testing
 COMMAND | DESCRIPTION
@@ -71,4 +71,4 @@ COMMAND | DESCRIPTION
 `dnscmd /info` | Legacy command line tool
 `Get-DnsServerStatistics` | Query counters
 
-See [[dns-over-tls]] and [[dns-over-https]] for encrypted DNS in general. Whether the Windows Server DNS role itself supports it depends on the Windows Server version, which was not checked here.
+See [DNS over TLS (DoT)](../networking/dns-over-tls.md) and [DNS over HTTPS (DoH)](../networking/dns-over-https.md) for encrypted DNS in general. Whether the Windows Server DNS role itself supports it depends on the Windows Server version, which was not checked here.

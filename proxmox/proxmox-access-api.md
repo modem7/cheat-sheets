@@ -5,7 +5,7 @@ Documentation: [User Management](https://pve.proxmox.com/pve-docs/chapter-pveum.
 
 > **Verification:** ACL syntax, `pveum role add --privs`, token creation, the `PVEAPIToken` header, realm sync and TFA unlock were checked against the docs. The docs show single-dash forms (`-user`, `-role`), double-dash forms also work. **Not verified:** `pveum user list`, `pveum acl list` output formats, `pvesh` examples beyond the API viewer paths. No command was executed.
 
-See also: [[proxmox-overview]] · [[proxmox-firewall]] · [[proxmox-troubleshooting]] · [[curl]] · [[jq]] · [[terraform]] · [[ansible]]
+See also: [Proxmox VE Overview and Install](proxmox-overview.md) · [Proxmox Firewall](proxmox-firewall.md) · [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md) · [curl](../tools/curl.md) · [jq](../tools/jq.md) · [Terraform](../tools/terraform.md) · [Ansible Cheat-Sheet](../tools/ansible.md)
 
 ---
 ## Users and Realms
@@ -53,13 +53,13 @@ COMMAND | DESCRIPTION
 `pveum user token remove <USER>@pve <TOKENID>` | Delete
 `pveum acl modify /vms --tokens '<USER>@pve!<TOKENID>' --roles PVEAuditor` | Grant a privilege-separated token a role
 
-Use it with [[curl]]:
+Use it with [curl](../tools/curl.md):
 ```bash
 curl -s -k \
   -H 'Authorization: PVEAPIToken=<USER>@<REALM>!<TOKENID>=<SECRET>' \
   https://<NODE>:8006/api2/json/nodes | jq .
 ```
-Use `-k` only for self-signed certificates, prefer a trusted certificate ([[proxmox-overview]]). Tools such as [[terraform]] providers and [[ansible]] collections take the same user, token ID and secret.
+Use `-k` only for self-signed certificates, prefer a trusted certificate ([Proxmox VE Overview and Install](proxmox-overview.md)). Tools such as [Terraform](../tools/terraform.md) providers and [Ansible Cheat-Sheet](../tools/ansible.md) collections take the same user, token ID and secret.
 
 ---
 ## pvesh
@@ -79,10 +79,10 @@ COMMAND | DESCRIPTION
 `pvesh get /nodes/<NODE>/hardware/pci --pci-class-blacklist ""` | PCI devices
 `pvesh usage /nodes/<NODE>/qemu/<VMID>/config -v` | Show parameters of an endpoint
 
-The [API Viewer](https://pve.proxmox.com/pve-docs/api-viewer/) lists every path and parameter. API paths mirror the CLI, so `qm` and `pct` options map directly ([[proxmox-qm-pct]]).
+The [API Viewer](https://pve.proxmox.com/pve-docs/api-viewer/) lists every path and parameter. API paths mirror the CLI, so `qm` and `pct` options map directly ([Proxmox qm and pct](proxmox-qm-pct.md)).
 
 ---
 ## Security Notes
 - Do not use `root@pam` for automation, make a dedicated user and token with the least privileges.
 - Enable TFA for admin users (Datacenter -> Permissions -> Two Factor).
-- Restrict port 8006 with the firewall ([[proxmox-firewall]]) or put the UI behind [[wireguard]].
+- Restrict port 8006 with the firewall ([Proxmox Firewall](proxmox-firewall.md)) or put the UI behind [WireGuard](../apps/wireguard.md).

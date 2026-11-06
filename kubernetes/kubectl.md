@@ -1,5 +1,5 @@
 # Kubectl
-Kubectl is a command line tool for communicating with a Kubernetes ([[kubernetes]]) cluster's control plane, using the Kubernetes API.
+Kubectl is a command line tool for communicating with a [Kubernetes](kubernetes.md) cluster's control plane, using the Kubernetes API.
 
 Documentation: [Kubectl Reference](https://kubernetes.io/docs/reference/kubectl/)
 
@@ -7,14 +7,14 @@ Documentation: [Kubectl Reference](https://kubernetes.io/docs/reference/kubectl/
 ## Installation
 
 ### On Windows (PowerShell)
-Install Kubectl with **Chocolatey** ([[chocolatey]]):
+Install Kubectl with **Chocolatey** ([Chocolatey](../windows/chocolatey.md)):
 ```powershell
 choco install kubernetes-cli
 ```
 
 ### On Linux
 > [!INFO] Installing on WSL2
-> On WSL2 you can install Docker Desktop ([[docker-desktop]]) on Windows and enable its WSL integration, which provides kubectl inside the distro. See [[wsl]].
+> On WSL2 you can install [Docker Desktop](../tools/docker-desktop.md) on Windows and enable its WSL integration, which provides kubectl inside the distro. See [WSL Cheat-Sheet](../tools/wsl.md).
 
 1. Download the latest release
 ```bash
@@ -28,7 +28,7 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 Use `linux/arm64` in the URL on ARM machines. kubectl is supported within one minor version of the cluster's API server.
 
 ### On macOS
-Install Kubectl with **Homebrew ([[homebrew]])**:
+Install Kubectl with **[Homebrew](../macos/homebrew.md)**:
 ```zsh
 brew install kubernetes-cli
 ```
@@ -69,14 +69,14 @@ COMMAND | DESCRIPTION
 `kubectl config set-context --current --namespace=<NS>` | Set the default namespace for this context
 `kubectl config view --minify` | Show only the active context's config
 
-[kubectx and kubens](https://github.com/ahmetb/kubectx) make switching faster. See also [[k9s]].
+[kubectx and kubens](https://github.com/ahmetb/kubectx) make switching faster. See also [K9s](k9s.md).
 
 ---
 ## Commands
 
 ### Networking
 
-Connect to services using the Kubernetes internal DNS name (see [[kubernetes-dns]]):
+Connect to services using the Kubernetes internal DNS name (see [Kubernetes DNS](kubernetes-dns.md)):
 `<service-name>.<namespace>.svc.cluster.local`
 
 COMMAND | DESCRIPTION
@@ -200,13 +200,13 @@ COMMAND | DESCRIPTION
 ```bash
 kubectl run -it --rm --image=mysql:8 --restart=Never mysql-client -- mysql -u USERNAME -h HOSTNAME -p
 ```
-See [[mariadb]].
+See [MariaDB Cheat-Sheet](../databases/mariadb.md).
 
 ### PostgreSQL Client
 ```bash
 kubectl run -it --rm --image=postgres:16 --restart=Never psql-client -- psql -U USERNAME -h HOSTNAME -d DBNAME
 ```
-See [[postgres]].
+See [PostgreSQL Cheat-Sheet](../databases/postgres.md).
 
 ### Networking
 ```bash

@@ -1,5 +1,5 @@
 # K9s
-K9s is a terminal UI that makes managing Kubernetes ([[kubernetes]]) clusters easier.
+K9s is a terminal UI that makes managing [Kubernetes](kubernetes.md) clusters easier.
 
 Core features of k9s include:
 - Editing of resource manifests
@@ -20,7 +20,7 @@ More information and current releases are on the [GitHub repository](https://git
 
 ### On Linux
 
-Using Homebrew on Linux ([[homebrew]]), snap or a release archive.
+Using Homebrew on Linux ([Homebrew](../macos/homebrew.md)), snap or a release archive.
 
 ```bash
 brew install k9s
@@ -44,7 +44,7 @@ brew install k9s
 ```powershell
 choco install k9s
 ```
-See [[chocolatey]].
+See [Chocolatey](../windows/chocolatey.md).
 
 ### Run
 ```bash
@@ -53,7 +53,7 @@ k9s -n kube-system           # start in a namespace
 k9s --context <CONTEXT>      # use another context
 k9s --readonly               # disable all write actions
 ```
-k9s uses your kubeconfig and `KUBECONFIG` variable, like [[kubectl]].
+k9s uses your kubeconfig and `KUBECONFIG` variable, like [Kubectl](kubectl.md).
 
 ---
 ## Commands

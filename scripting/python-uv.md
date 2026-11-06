@@ -1,5 +1,5 @@
 # Python and uv
-`uv` is a fast Python package and project manager (written in Rust) that replaces `pip`, `venv`, `pip-tools`, `pipx` and most of `pyenv` with one tool. This sheet covers uv first, then the plain `venv` and `pip` basics it builds on. Use Python for scripts that outgrow [[bash]], especially anything that parses JSON ([[jq]] covers the shell side) or calls HTTP APIs ([[curl]] for quick tests).
+`uv` is a fast Python package and project manager (written in Rust) that replaces `pip`, `venv`, `pip-tools`, `pipx` and most of `pyenv` with one tool. This sheet covers uv first, then the plain `venv` and `pip` basics it builds on. Use Python for scripts that outgrow [Bash](bash.md), especially anything that parses JSON ([jq](../tools/jq.md) covers the shell side) or calls HTTP APIs ([curl](../tools/curl.md) for quick tests).
 
 Documentation: [uv docs](https://docs.astral.sh/uv/), [Python venv](https://docs.python.org/3/library/venv.html), [PEP 723 inline script metadata](https://packaging.python.org/en/latest/specifications/inline-script-metadata/)
 

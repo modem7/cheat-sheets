@@ -1,5 +1,5 @@
 # Go and Rust Toolchains
-Everyday commands for building, testing and installing programs with the Go toolchain and with Rust's `rustup` and `cargo`. Both compile to single static-ish binaries, which makes them popular for homelab CLIs (several tools in [[modern-cli-tools]] install with `cargo install` or `go install`).
+Everyday commands for building, testing and installing programs with the Go toolchain and with Rust's `rustup` and `cargo`. Both compile to single static-ish binaries, which makes them popular for homelab CLIs (several tools in [Modern CLI Tools](modern-cli-tools.md) install with `cargo install` or `go install`).
 
 Documentation: [Go docs](https://go.dev/doc/), [Go command](https://pkg.go.dev/cmd/go), [Rust book](https://doc.rust-lang.org/book/), [Cargo book](https://doc.rust-lang.org/cargo/)
 
@@ -13,7 +13,7 @@ COMMAND | DESCRIPTION
 `go install golang.org/dl/go1.23.0@latest && go1.23.0 download` | Install an extra Go version side by side
 `export PATH="$PATH:$(go env GOPATH)/bin"` | Put `go install` binaries on `PATH`
 
-Download from [go.dev/dl](https://go.dev/dl/) or use `brew install go` ([[homebrew]]) or `winget install GoLang.Go` ([[winget]]). The apt package is often old. Since Go 1.21 the `go` line in `go.mod` can trigger an automatic toolchain download (`GOTOOLCHAIN`).
+Download from [go.dev/dl](https://go.dev/dl/) or use `brew install go` ([Homebrew](../macos/homebrew.md)) or `winget install GoLang.Go` ([winget](../windows/winget.md)). The apt package is often old. Since Go 1.21 the `go` line in `go.mod` can trigger an automatic toolchain download (`GOTOOLCHAIN`).
 
 ## Go: Modules
 COMMAND | DESCRIPTION
@@ -71,20 +71,20 @@ PowerShell sets variables differently:
 $env:GOOS = "linux"; $env:GOARCH = "amd64"; go build -o app .
 Remove-Item Env:GOOS, Env:GOARCH
 ```
-A minimal container build pairs well with a multi-stage [[docker-file]].
+A minimal container build pairs well with a multi-stage [Dockerfile](../docker/docker-file.md).
 
 ## Rust: rustup
 COMMAND | DESCRIPTION
 ---|---
 `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` | Install rustup (review the script first)
-`winget install Rustlang.Rustup` | Windows ([[winget]])
+`winget install Rustlang.Rustup` | Windows ([winget](../windows/winget.md))
 `rustup update` | Update all toolchains
 `rustup show` | Active toolchain and targets
 `rustup toolchain install stable` | Install a channel (`beta`, `nightly`, or `1.80.0`)
 `rustup default stable` | Set the default toolchain
 `rustup override set nightly` | Use a toolchain only in the current directory
 `rustup component add clippy rustfmt` | Add the linter and formatter
-`rustup component add rust-src rust-analyzer` | Sources and language server for editors ([[vscode]])
+`rustup component add rust-src rust-analyzer` | Sources and language server for editors ([VSCode (Visual Studio Code)](vscode.md))
 `rustup target list --installed` | Installed compile targets
 `rustup target add <TARGET>` | Add a cross-compile target
 `rustup self uninstall` | Remove rustup and Rust
@@ -152,7 +152,7 @@ COMMAND | DESCRIPTION
 `cargo build --release --target x86_64-unknown-linux-musl` | Build for it (output in `target/<TARGET>/release`)
 `rustup target add aarch64-unknown-linux-gnu` | ARM64 Linux (needs `gcc-aarch64-linux-gnu` and a linker setting)
 `rustup target add x86_64-pc-windows-gnu` | Windows from Linux (needs `mingw-w64`)
-`cargo install cross` | `cross build --target <TARGET>` uses Docker containers with the right toolchain ([[docker]])
+`cargo install cross` | `cross build --target <TARGET>` uses Docker containers with the right toolchain ([Docker](../docker/docker.md))
 `cargo zigbuild --target <TARGET>` | Use Zig as the linker (needs `cargo-zigbuild`)
 
 Set a linker for a target in `.cargo/config.toml`:

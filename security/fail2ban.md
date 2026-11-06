@@ -1,5 +1,5 @@
 # fail2ban
-fail2ban watches log files (or the systemd journal) for repeated failures such as bad SSH logins and bans the offending IP by adding firewall rules for a set time. It is host-based and simple; for community blocklists and a modern bouncer architecture see [[crowdsec]]. Firewall back-ends are covered in [[ufw]] and [[iptables]].
+fail2ban watches log files (or the systemd journal) for repeated failures such as bad SSH logins and bans the offending IP by adding firewall rules for a set time. It is host-based and simple; for community blocklists and a modern bouncer architecture see [CrowdSec](crowdsec.md). Firewall back-ends are covered in [UFW (uncomplicated firewall)](../linux/ufw.md) and [IPTables](../linux/iptables.md).
 
 Documentation: [fail2ban on GitHub](https://github.com/fail2ban/fail2ban) · [Wiki](https://github.com/fail2ban/fail2ban/wiki)
 
@@ -57,13 +57,13 @@ SETTING | MEANING
 `maxretry` | Failures within `findtime` that trigger a ban
 `findtime` | Window in which failures are counted
 `bantime` | Ban length; `-1` is permanent
-`ignoreip` | IPs/CIDRs that are never banned (include your LAN and VPN, see [[tailscale]])
+`ignoreip` | IPs/CIDRs that are never banned (include your LAN and VPN, see [Tailscale](../apps/tailscale.md))
 `backend` | `auto`, `systemd` (journal) or `polling`; use `systemd` on modern distros without `/var/log/auth.log`
 `banaction` | Firewall action: `iptables-multiport`, `nftables`, `ufw`, ...
 `logpath` | Log file to watch (not needed with `backend = systemd`)
 
 ## Custom Jail and Filter
-Ban IPs that hammer a web app login (example for an [[nginx]] access log).
+Ban IPs that hammer a web app login (example for an [Nginx](../apps/nginx.md) access log).
 
 `/etc/fail2ban/filter.d/myapp-auth.conf`:
 ```ini
@@ -95,7 +95,7 @@ Published container ports bypass the INPUT chain, so the default ban rules do no
 [myapp-auth]
 chain = DOCKER-USER
 ```
-Behind a reverse proxy ([[traefik]], [[nginx]]) the log shows the proxy's IP unless real-client-IP headers are configured; fix that first or you will ban the proxy. See [[docker-networking]].
+Behind a reverse proxy ([Traefik](../apps/traefik.md), [Nginx](../apps/nginx.md)) the log shows the proxy's IP unless real-client-IP headers are configured; fix that first or you will ban the proxy. See [Docker Networking](../docker/docker-networking.md).
 
 ## Troubleshooting
 SYMPTOM | FIX

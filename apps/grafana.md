@@ -1,5 +1,5 @@
 # Grafana
-Operational dashboards for your data here, there, or anywhere. Commonly paired with [[prometheus]].
+Operational dashboards for your data here, there, or anywhere. Commonly paired with [Prometheus](prometheus.md).
 
 Project Homepage: [Grafana Homepage](https://grafana.com)
 Documentation: [Grafana Docs](https://grafana.com/docs/)

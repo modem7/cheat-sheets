@@ -1,5 +1,5 @@
 # Packer
-HashiCorp Packer builds identical machine images (VM templates, cloud images, container images) from one HCL template. Typical homelab use is building a Proxmox VM template from an ISO and then cloning it with [[terraform]] or [[proxmox-qm-pct]]. Provisioning inside the image is often done with [[ansible]].
+HashiCorp Packer builds identical machine images (VM templates, cloud images, container images) from one HCL template. Typical homelab use is building a Proxmox VM template from an ISO and then cloning it with [Terraform](terraform.md) or [Proxmox qm and pct](../proxmox/proxmox-qm-pct.md). Provisioning inside the image is often done with [Ansible Cheat-Sheet](ansible.md).
 
 Documentation: [Packer docs](https://developer.hashicorp.com/packer/docs), [Proxmox plugin](https://developer.hashicorp.com/packer/integrations/hashicorp/proxmox)
 
@@ -24,7 +24,7 @@ COMMAND | DESCRIPTION
 `packer plugins install github.com/hashicorp/proxmox` | Install a plugin without a template
 `packer version` | Show version
 
-Install: [[homebrew]] (`brew install hashicorp/tap/packer`), [[winget]] (`winget install Hashicorp.Packer`), or the HashiCorp apt repository.
+Install: [Homebrew](../macos/homebrew.md) (`brew install hashicorp/tap/packer`), [winget](../windows/winget.md) (`winget install Hashicorp.Packer`), or the HashiCorp apt repository.
 
 ## File Layout
 Packer reads every `*.pkr.hcl` and `*.pkrvars.hcl` file in the directory given to it (use `.`, not a single file, so the whole template loads).
@@ -170,14 +170,14 @@ Auto-loaded file | `*.auto.pkrvars.hcl` in the template directory
 Environment | `export PKR_VAR_proxmox_token_secret='<TOKEN>'`
 Local value | `locals { image_name = "ubuntu-${formatdate("YYYYMMDD", timestamp())}" }`
 
-Mark secrets `sensitive = true` so they are masked in output, and supply them from environment variables or a file excluded by `.gitignore`. Never commit tokens or passwords. Read from [[bitwarden]] at run time if you keep secrets there.
+Mark secrets `sensitive = true` so they are masked in output, and supply them from environment variables or a file excluded by `.gitignore`. Never commit tokens or passwords. Read from [Bitwarden Cheat-Sheet](bitwarden.md) at run time if you keep secrets there.
 
 ## Provisioners
 PROVISIONER | USE
 ---|---
 `shell` | Run inline commands or scripts (`script = "scripts/base.sh"`)
 `file` | Copy a file or directory into the image
-`ansible` | Run a playbook over SSH (needs Ansible on the build host; see [[ansible-playbook]])
+`ansible` | Run a playbook over SSH (needs Ansible on the build host; see [Ansible-Playbook Cheat-Sheet](ansible-playbook.md))
 `ansible-local` | Run Ansible inside the machine
 `powershell` | Windows images
 `windows-restart` | Reboot a Windows guest and wait
@@ -197,8 +197,8 @@ POST-PROCESSOR | USE
 `shell-local` | Run a command on the build host, for example to tag or notify
 `checksum` | Write checksums of the artifact
 `compress` | Compress file artifacts
-`docker-tag`, `docker-push` | Tag and push Docker images (see [[docker]])
-`vagrant` | Build a Vagrant box ([[vagrant]])
+`docker-tag`, `docker-push` | Tag and push Docker images (see [Docker](../docker/docker.md))
+`vagrant` | Build a Vagrant box ([Vagrant Cheat-Sheet](vagrant.md))
 
 Chain steps with `post-processors { ... }` (plural) to feed one output into the next.
 
@@ -213,8 +213,8 @@ BUILDER | PLUGIN SOURCE
 `azure-arm` | `github.com/hashicorp/azure`
 
 ## Tips
-- Set the Proxmox API user to an API token with only the roles it needs (VM allocate, datastore allocate, audit) rather than `root@pam`; see [[proxmox-access-api]].
-- The VM must reach the build host's HTTP server (`{{ .HTTPIP }}`): check firewall rules on the build machine ([[proxmox-firewall]], [[ufw]]).
+- Set the Proxmox API user to an API token with only the roles it needs (VM allocate, datastore allocate, audit) rather than `root@pam`; see [Proxmox Users, Permissions, API Tokens and pvesh](../proxmox/proxmox-access-api.md).
+- The VM must reach the build host's HTTP server (`{{ .HTTPIP }}`): check firewall rules on the build machine ([Proxmox Firewall](../proxmox/proxmox-firewall.md), [UFW (uncomplicated firewall)](../linux/ufw.md)).
 - Enable `qemu_agent = true` and install `qemu-guest-agent` in the image so Packer can read the IP.
 - If a build hangs at boot, run `packer build -debug .` or watch the VM console in the Proxmox UI.
 - Clean `machine-id`, SSH host keys and cloud-init state before templating so clones get unique identities.

@@ -5,7 +5,7 @@ Documentation: [PCI(e) Passthrough](https://pve.proxmox.com/wiki/PCI_Passthrough
 
 > **Verification:** the `hostpci` syntax, `vfio` module list, `update-initramfs`, `pvesh get /nodes/<NODE>/hardware/pci` and `pvesh create /cluster/mapping/pci` were checked against the docs. **Not verified:** `proxmox-boot-tool refresh` versus `update-grub` for your boot setup, vendor specific quirks and reset bug workarounds. No command was executed. Hardware behaviour varies a lot, expect trial and error.
 
-See also: [[proxmox-qm-pct]] · [[proxmox-troubleshooting]] · [[linux]] · [[docker]] (GPU in containers is a different route)
+See also: [Proxmox qm and pct](proxmox-qm-pct.md) · [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md) · [Linux](../linux/linux.md) · [Docker](../docker/docker.md) (GPU in containers is a different route)
 
 ---
 ## Requirements
@@ -68,6 +68,6 @@ Passthrough VMs cannot be live migrated, and guest memory is pinned. Install the
 - Black screen or reset bug (some AMD cards): unbind the card in the guest, reboot the host, or use a vendor-reset module.
 - `Kernel driver in use` not `vfio-pci`: IDs wrong or initramfs not rebuilt.
 - Cannot start VM, "group not viable": another device in the group is still in use by the host.
-- Check `journalctl -b -k | grep -i vfio` and see [[proxmox-troubleshooting]].
+- Check `journalctl -b -k | grep -i vfio` and see [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md).
 
 LXC GPU sharing (device nodes and bind mounts) is an alternative that does not take the card away from the host. It is not covered here.

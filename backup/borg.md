@@ -1,11 +1,11 @@
 # BorgBackup
-Borg is a deduplicating, compressing, authenticated-encryption backup program. Repositories hold many archives, and each archive is a point-in-time backup. This sheet uses the **Borg 1.4** syntax (`REPO::ARCHIVE`), which is what most distributions and the [[borgmatic]] Docker image ship. Borg 2 is still beta and changes the syntax (see the end of this sheet). Day-to-day scheduling is easier with [[borgmatic]].
+Borg is a deduplicating, compressing, authenticated-encryption backup program. Repositories hold many archives, and each archive is a point-in-time backup. This sheet uses the **Borg 1.4** syntax (`REPO::ARCHIVE`), which is what most distributions and the [borgmatic](borgmatic.md) Docker image ship. Borg 2 is still beta and changes the syntax (see the end of this sheet). Day-to-day scheduling is easier with [borgmatic](borgmatic.md).
 
 Documentation: [Borg docs](https://borgbackup.readthedocs.io/) · [Quick start](https://borgbackup.readthedocs.io/en/stable/quickstart.html) · [Usage](https://borgbackup.readthedocs.io/en/stable/usage.html)
 
 > **Verification:** The Borg 2 renames and its beta status were checked against the Borg changelog. The Borg 1.4 command syntax below is standard and long-stable but was **not** re-checked against the docs this session, and neither was the `authorized_keys` form. No command was executed.
 
-See also: [[backup]] · [[borgmatic]] · [[restic]] · [[rsync]] · [[openssh]] · [[linux]]
+See also: [Backup Strategy](backup.md) · [borgmatic](borgmatic.md) · [restic](restic.md) · [rsync](rsync.md) · [OpenSSH Cheat-Sheet](../tools/openssh.md) · [Linux](../linux/linux.md)
 
 ---
 ## Environment Variables
@@ -121,7 +121,7 @@ command="borg serve --restrict-to-path /srv/borg/<HOST> --append-only",restrict 
 
 ---
 ## Hook-style Wrapper Script
-For anything beyond a one-off, use [[borgmatic]]. A minimal script if you want plain Borg:
+For anything beyond a one-off, use [borgmatic](borgmatic.md). A minimal script if you want plain Borg:
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail

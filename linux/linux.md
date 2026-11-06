@@ -1,5 +1,5 @@
 # Linux
-Quick reference for everyday Linux administration. Topic-specific sheets: [[linuxbasics]], [[user]], [[grep]], [[sed]], [[awk]], [[mount]], [[nfs]], [[ufw]], [[iptables]], [[nftables]], [[systemd]], [[lvm]], [[raid-mdadm]], [[storage-and-filesystems]], [[selinux-apparmor]], [[performance-troubleshooting]].
+Quick reference for everyday Linux administration. Topic-specific sheets: [Linux Basics](linuxbasics.md), [User Management](user.md), [Grep](grep.md), [SED Cheat-Sheet](sed.md), [AWK](awk.md), [Mount](mount.md), [NFS](nfs.md), [UFW (uncomplicated firewall)](ufw.md), [IPTables](iptables.md), [nftables](nftables.md), [systemd](systemd.md), [LVM](lvm.md), [RAID with mdadm](raid-mdadm.md), [Storage and Filesystems](storage-and-filesystems.md), [SELinux and AppArmor](selinux-apparmor.md), [Linux Performance Troubleshooting](performance-troubleshooting.md).
 
 ## System Information
 COMMAND | DESCRIPTION
@@ -32,7 +32,7 @@ COMMAND | DESCRIPTION
 `jobs`, `fg`, `bg` | Manage shell jobs
 
 ## systemd
-Units, timers, drop-ins and hardening are in [[systemd]].
+Units, timers, drop-ins and hardening are in [systemd](systemd.md).
 
 COMMAND | DESCRIPTION
 ---|---
@@ -112,7 +112,7 @@ COMMAND | DESCRIPTION
 `sudo sysctl -w net.ipv4.ip_forward=1` | Set at runtime (persist in `/etc/sysctl.d/*.conf`, load with `sudo sysctl --system`)
 `ulimit -n` | Open file limit of this shell
 
-Deeper dives: [[performance-troubleshooting]], [[storage-and-filesystems]].
+Deeper dives: [Linux Performance Troubleshooting](performance-troubleshooting.md), [Storage and Filesystems](storage-and-filesystems.md).
 
 ## Scheduling
 COMMAND | DESCRIPTION
@@ -120,7 +120,7 @@ COMMAND | DESCRIPTION
 `crontab -e` | Edit your cron jobs
 `crontab -l` | List them
 `sudo crontab -u <USER> -l` | Another user's jobs
-`systemctl list-timers` | systemd timers, see [[systemd]]
+`systemctl list-timers` | systemd timers, see [systemd](systemd.md)
 `echo "<CMD>" \| at now + 10 minutes` | One-off job (`atq` lists, `atrm <ID>` removes)
 
 Cron fields: `minute hour day-of-month month day-of-week command`. Example: `30 2 * * 1-5 /usr/local/bin/backup.sh >> /var/log/backup.log 2>&1` runs at 02:30 on weekdays. Use full paths in cron: its `PATH` is minimal.
@@ -144,7 +144,7 @@ COMMAND | DESCRIPTION
 `sudo sysctl vm.swappiness=10` | Prefer RAM over swap (persist in `/etc/sysctl.d/`)
 
 ## SSH Quick Reference
-Full detail in [[openssh]].
+Full detail in [OpenSSH Cheat-Sheet](../tools/openssh.md).
 
 COMMAND | DESCRIPTION
 ---|---

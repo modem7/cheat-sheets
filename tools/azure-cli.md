@@ -1,5 +1,5 @@
 # Azure CLI (az)
-The Azure CLI manages Microsoft Azure resources from the terminal. Compare [[aws-cli]] and [[gcloud]]; for provisioning as code see [[terraform]].
+The Azure CLI manages Microsoft Azure resources from the terminal. Compare [AWS CLI](aws-cli.md) and [gcloud (Google Cloud CLI)](gcloud.md); for provisioning as code see [Terraform](terraform.md).
 
 Documentation: [Azure CLI docs](https://learn.microsoft.com/cli/azure/)
 
@@ -8,9 +8,9 @@ Documentation: [Azure CLI docs](https://learn.microsoft.com/cli/azure/)
 PLATFORM | COMMAND
 ---|---
 Debian / Ubuntu | `curl -sL https://aka.ms/InstallAzureCLIDeb \| sudo bash`
-macOS | `brew install azure-cli` ([[homebrew]])
-Windows | `winget install Microsoft.AzureCLI` or `choco install azure-cli` ([[chocolatey]])
-Container | `docker run -it mcr.microsoft.com/azure-cli` ([[docker]])
+macOS | `brew install azure-cli` ([Homebrew](../macos/homebrew.md))
+Windows | `winget install Microsoft.AzureCLI` or `choco install azure-cli` ([Chocolatey](../windows/chocolatey.md))
+Container | `docker run -it mcr.microsoft.com/azure-cli` ([Docker](../docker/docker.md))
 
 `az upgrade` updates the CLI. `az version` shows versions.
 
@@ -48,7 +48,7 @@ COMMAND | DESCRIPTION
 COMMAND | DESCRIPTION
 ---|---
 `az aks create -g myrg -n myaks --node-count 2 --generate-ssh-keys` | Create a cluster
-`az aks get-credentials -g myrg -n myaks` | Add to kubeconfig (see [[kubectl]])
+`az aks get-credentials -g myrg -n myaks` | Add to kubeconfig (see [Kubectl](../kubernetes/kubectl.md))
 `az aks list -o table` | List clusters
 `az aks scale -g myrg -n myaks --node-count 3` | Scale
 `az aks delete -g myrg -n myaks --yes --no-wait` | Delete

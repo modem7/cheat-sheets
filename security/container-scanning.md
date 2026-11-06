@@ -1,5 +1,5 @@
 # Container Scanning
-Vulnerability scanners compare the packages in an image, filesystem or repo against CVE databases, and can also check IaC for misconfiguration and find embedded secrets. This sheet covers Trivy (all-rounder), Grype and Syft (scanner plus SBOM generator). Used with [[docker]], [[docker-file]] and [[kubernetes]]; for secrets in Git see [[secret-scanning]].
+Vulnerability scanners compare the packages in an image, filesystem or repo against CVE databases, and can also check IaC for misconfiguration and find embedded secrets. This sheet covers Trivy (all-rounder), Grype and Syft (scanner plus SBOM generator). Used with [Docker](../docker/docker.md), [Dockerfile](../docker/docker-file.md) and [Kubernetes](../kubernetes/kubernetes.md); for secrets in Git see [Secret Scanning](secret-scanning.md).
 
 Documentation: [Trivy](https://trivy.dev/latest/docs/) · [Grype](https://github.com/anchore/grype) · [Syft](https://github.com/anchore/syft)
 
@@ -74,7 +74,7 @@ ignore:
 ```
 
 ## Reducing Findings
-- Pick small bases (`alpine`, `debian-slim`, distroless) and multi-stage builds ([[docker-file]]).
+- Pick small bases (`alpine`, `debian-slim`, distroless) and multi-stage builds ([Dockerfile](../docker/docker-file.md)).
 - Pin by digest (`image: nginx@sha256:...`) and let Renovate raise update PRs.
 - Run containers as non-root, read-only filesystem, drop capabilities:
 ```yaml
@@ -87,7 +87,7 @@ services:
     security_opt: ["no-new-privileges:true"]
     tmpfs: [/tmp]
 ```
-See [[docker-compose]].
+See [Docker-Compose](../docker/docker-compose.md).
 - Rescan on a schedule, because new CVEs appear against old images.
 
 ## Troubleshooting

@@ -1,5 +1,5 @@
 # Cloud-Provider Comparison
-Equivalent services across major providers. Background: [[what-is-cloud-computing]]. Provider notes: [[civo]].
+Equivalent services across major providers. Background: [What is Cloud-Computing?](../what-is-cloud-computing.md). Provider notes: [Civo](civo.md).
 
 > Product names change. Treat this as a map, then check each provider's current docs and pricing.
 
@@ -22,7 +22,7 @@ CDN | CloudFront | Front Door / CDN | Cloud CDN | n/a
 Identity | IAM | Entra ID + RBAC | Cloud IAM | Teams / API keys
 Secrets | Secrets Manager | Key Vault | Secret Manager | n/a
 Monitoring | CloudWatch | Azure Monitor | Cloud Monitoring | Basic metrics
-IaC (native) | CloudFormation | Bicep / ARM | Deployment Manager | none (use [[terraform]])
+IaC (native) | CloudFormation | Bicep / ARM | Deployment Manager | none (use [Terraform](../../tools/terraform.md))
 CLI | `aws` | `az` | `gcloud` | `civo`
 
 ## When to Pick What

@@ -1,7 +1,7 @@
 # TLS (Transport Layer Security)
 TLS encrypts and authenticates traffic between two parties. It is the successor to SSL, which is deprecated and must not be used. HTTPS is HTTP over TLS.
 
-Related: [[tls-handshake]], [[ssl-certs]], [[ssl-security]], [[openssl]], [[certutil]], [[dns-over-tls]]
+Related: [TLS Handshake](tls-handshake.md), [SSL Certificates Cheat-Sheet](../misc/ssl-certs.md), [SSL Security Cheat-Sheet](../misc/ssl-security.md), [OpenSSL](../tools/openssl.md), [Certutil](../tools/certutil.md), [DNS over TLS (DoT)](dns-over-tls.md)
 
 ## What TLS Provides
 PROPERTY | HOW
@@ -47,7 +47,7 @@ PORT | PROTOCOL
 `587` / `25` | SMTP with STARTTLS
 `993` / `995` | IMAPS / POP3S
 `636` | LDAPS
-`853` | DNS over TLS, see [[dns-over-tls]]
+`853` | DNS over TLS, see [DNS over TLS (DoT)](dns-over-tls.md)
 
 ## Quick Checks
 COMMAND | DESCRIPTION
@@ -57,10 +57,10 @@ COMMAND | DESCRIPTION
 `nmap --script ssl-enum-ciphers -p 443 <HOST>` | List accepted ciphers
 `echo \| openssl s_client -connect <HOST>:443 2>/dev/null \| openssl x509 -noout -dates` | Certificate expiry
 
-More commands in [[openssl]].
+More commands in [OpenSSL](../tools/openssl.md).
 
 ## Automating Certificates
-- **Let's Encrypt** via ACME clients: certbot, acme.sh, Caddy, Traefik ([[traefik]]), cert-manager ([[cert-manager]]) on Kubernetes.
+- **Let's Encrypt** via ACME clients: certbot, acme.sh, Caddy, [Traefik](../apps/traefik.md), [cert-manager](../apps/cert-manager.md) on Kubernetes.
 - Certificates are short-lived (90 days or less). Automate renewal and monitor expiry.
 
 ## Hardening Checklist

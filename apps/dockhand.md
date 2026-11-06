@@ -1,5 +1,5 @@
 # Dockhand
-Self-hosted web UI for managing **Docker ([[docker]])** hosts: containers, images, volumes, networks and Compose stacks ([[docker-compose]]) across one or many hosts. Similar in purpose to [[portainer]], but Docker-only and newer.
+Self-hosted web UI for managing **[Docker](../docker/docker.md)** hosts: containers, images, volumes, networks and Compose stacks ([Docker-Compose](../docker/docker-compose.md)) across one or many hosts. Similar in purpose to [Portainer](portainer.md), but Docker-only and newer.
 
 Project Homepage: [Dockhand](https://dockhand.pro)
 Documentation: [Dockhand Manual](https://dockhand.pro/manual)
@@ -113,10 +113,10 @@ COMMAND | DESCRIPTION
 - **Images**: update tracking, layer inspection, Grype and Trivy vulnerability scans, scheduled prune and auto-update.
 - **Network graph**, **volume browser**, **activity log** (audit trail) and **notifications**.
 - **Auth**: local users and OIDC/SSO are free; RBAC and LDAP/AD are Enterprise features. In the free edition every logged-in user is a full admin.
-- **Metrics**: a Prometheus `/metrics` endpoint (see [[prometheus]]). Keep it private if auth is off or it is made public.
+- **Metrics**: a Prometheus `/metrics` endpoint (see [Prometheus](prometheus.md)). Keep it private if auth is off or it is made public.
 
 ## Security Notes
-- `docker.sock` is root-equivalent on the host. Put Dockhand behind a reverse proxy ([[traefik]], [[nginx]]) with TLS, or on a VPN such as [[tailscale]]; do not publish port 3000 to the internet.
+- `docker.sock` is root-equivalent on the host. Put Dockhand behind a reverse proxy ([Traefik](traefik.md), [Nginx](nginx.md)) with TLS, or on a VPN such as [Tailscale](tailscale.md); do not publish port 3000 to the internet.
 - Turn authentication on before anything else.
 - Prefer Hawser with a token and TLS over exposing the raw Docker TCP API.
 - The manual documents running Dockhand through a Docker socket proxy with restricted API permissions.
@@ -125,7 +125,7 @@ COMMAND | DESCRIPTION
 Business Source License 1.1 (source-available, not open source). Per the project README: free for home labs and personal use, non-profits, education, sole traders, and for dev, test, staging, CI and evaluation by anyone. Running an organisation's live systems on it needs a commercial licence. Each version converts to Apache 2.0 four years after release. Read `LICENSE.txt` upstream for the exact terms.
 
 ## Portainer vs Dockhand
-| | [[portainer]] | Dockhand |
+| | [Portainer](portainer.md) | Dockhand |
 |---|---|---|
 | Scope | Docker, Swarm, Kubernetes, Nomad | Docker only |
 | Maturity | Long established, large ecosystem | Newer, fast-moving |

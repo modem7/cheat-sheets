@@ -1,9 +1,9 @@
 # MySQL
-MySQL is an open source relational database. MariaDB is a compatible fork, see [[mariadb]]. Most commands below work on both.
+MySQL is an open source relational database. MariaDB is a compatible fork, see [MariaDB Cheat-Sheet](mariadb.md). Most commands below work on both.
 
 Documentation: [MySQL Reference Manual](https://dev.mysql.com/doc/refman/en/)
 
-See also: [[mysql-replication]] · [[mariadb]] · [[postgres]]
+See also: [MySQL and MariaDB Replication](mysql-replication.md) · [MariaDB Cheat-Sheet](mariadb.md) · [PostgreSQL Cheat-Sheet](postgres.md)
 
 ## Connect
 COMMAND | DESCRIPTION
@@ -124,7 +124,7 @@ SETTING | STARTING POINT
 `slow_query_log` / `long_query_time` | On, `1`
 `character-set-server` / `collation-server` | `utf8mb4` / `utf8mb4_0900_ai_ci` (MySQL 8) or `utf8mb4_unicode_ci`
 
-MySQL 8.0 removed the query cache (MariaDB still has one, off by default). Use [MySQLTuner](https://github.com/major/MySQLTuner-perl) for advice from a running server. Replication is in [[mysql-replication]].
+MySQL 8.0 removed the query cache (MariaDB still has one, off by default). Use [MySQLTuner](https://github.com/major/MySQLTuner-perl) for advice from a running server. Replication is in [MySQL and MariaDB Replication](mysql-replication.md).
 
 ## Users: Good Practice
 - One user per application, limited to its own database and the hosts it connects from (`'app'@'192.168.1.%'`).

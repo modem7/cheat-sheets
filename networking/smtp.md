@@ -1,5 +1,5 @@
 # SMTP
-Simple Mail Transfer Protocol moves email between servers and from clients to servers. Related: [[dns-record-mailserver]], [[create-dkim-keypair]], [[tls]].
+Simple Mail Transfer Protocol moves email between servers and from clients to servers. Related: [Mail Server DNS Records Cheat-Sheet](dns-record-mailserver.md), [Generate a DKIM Keypair](create-dkim-keypair.md), [TLS (Transport Layer Security)](tls.md).
 
 ## Ports
 PORT | USE

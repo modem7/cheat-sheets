@@ -1,5 +1,5 @@
 # Terraform
-Terraform is an infrastructure as code tool to provision, change, and version resources on any environment. Since 2023 it is source-available (BUSL) rather than open source; **OpenTofu** is the open source fork and a drop-in CLI replacement (`tofu` instead of `terraform`, same commands below). Cloud examples: [[azure-cli]], [[aws-cli]], [[gcloud]], [[civo]].
+Terraform is an infrastructure as code tool to provision, change, and version resources on any environment. Since 2023 it is source-available (BUSL) rather than open source; **OpenTofu** is the open source fork and a drop-in CLI replacement (`tofu` instead of `terraform`, same commands below). Cloud examples: [Azure CLI (az)](azure-cli.md), [AWS CLI](aws-cli.md), [gcloud (Google Cloud CLI)](gcloud.md), [Civo](../cloud/provider/civo.md).
 
 Project Homepage: [Terraform by HashiCorp](https://www.terraform.io/)
 Documentation: [Terraform Docs](https://developer.hashicorp.com/terraform/docs), [OpenTofu](https://opentofu.org)
@@ -100,7 +100,7 @@ output "region" {
 Set sensitive values with environment variables such as `TF_VAR_name` or the provider's own variable, never in committed `.tfvars` files.
 
 ## Good Practice
-- Commit `.terraform.lock.hcl`. Ignore `.terraform/` and `*.tfstate*` in [[git]].
+- Commit `.terraform.lock.hcl`. Ignore `.terraform/` and `*.tfstate*` in [Git](git.md).
 - Use a **remote backend** (S3 with locking, Azure Storage, GCS or Terraform Cloud) for shared state. State can contain secrets.
 - Review `terraform plan` output before every apply; in CI run `fmt -check`, `validate`, `plan`.
 - Use `terraform apply --auto-approve` only in automation.

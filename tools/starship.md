@@ -29,7 +29,7 @@ brew install starship
 ```powershell
 winget install --id Starship.Starship
 ```
-Add to your PowerShell profile (`code $PROFILE`, see [[powershell]]):
+Add to your PowerShell profile (`code $PROFILE`, see [PowerShell Cheat-Sheet](../windows/powershell.md)):
 ```powershell
 Invoke-Expression (&starship init powershell)
 ```
@@ -76,4 +76,4 @@ min_time = 2000
 
 ## Tips
 - Disable modules you do not use, and set `command_timeout` to keep the prompt snappy in large repositories.
-- Modules for [[kubectl]] context, Python venv and cloud accounts are off or lightweight by default. Enable what you need.
+- Modules for [Kubectl](../kubernetes/kubectl.md) context, Python venv and cloud accounts are off or lightweight by default. Enable what you need.

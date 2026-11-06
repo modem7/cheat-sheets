@@ -1,7 +1,7 @@
 # IPTables
-Iptables is a user-space utility program that allows a system administrator to configure the IP packet filter rules of the **Linux ([[linux]])** kernel firewall, implemented as different Netfilter modules. The filters are organized in different tables, which contain chains of rules for how to treat network traffic packets. Different kernel modules and programs are currently used for different protocols; iptables applies to IPv4, ip6tables to IPv6, arptables to ARP, and ebtables to Ethernet frames.
+Iptables is a user-space utility program that allows a system administrator to configure the IP packet filter rules of the **[Linux](linux.md)** kernel firewall, implemented as different Netfilter modules. The filters are organized in different tables, which contain chains of rules for how to treat network traffic packets. Different kernel modules and programs are currently used for different protocols; iptables applies to IPv4, ip6tables to IPv6, arptables to ARP, and ebtables to Ethernet frames.
 
-For a simpler front end see [[ufw]]. Modern distributions use `nftables` underneath (`iptables-nft`), and the commands below still work.
+For a simpler front end see [UFW (uncomplicated firewall)](ufw.md). Modern distributions use `nftables` underneath (`iptables-nft`), and the commands below still work.
 
 ## Concepts
 TERM | MEANING
@@ -79,7 +79,7 @@ COMMAND | DESCRIPTION
 `sudo iptables -I INPUT -m set --match-set blocklist src -j DROP` | One rule for the whole set
 `sudo ipset save > /etc/ipset.conf` | Save (restore with `ipset restore < /etc/ipset.conf`)
 
-On nftables, native sets replace ipset, see [[nftables]].
+On nftables, native sets replace ipset, see [nftables](nftables.md).
 
 ## IPv6
 `ip6tables` has the same syntax and its own rule set. A host with IPv6 and only `iptables` rules is open on IPv6. Mirror the rules, and allow ICMPv6 or neighbour discovery breaks:
@@ -97,10 +97,10 @@ sudo iptables -I DOCKER-USER -i eth0 ! -s 192.168.1.0/24 -j DROP
 # Allow established return traffic first
 sudo iptables -I DOCKER-USER -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 ```
-`-I` inserts at the top, so the second command ends up first, which is the intended order. Docker's rules match the destination port after DNAT, so use `-m conntrack --ctorigdstport <PORT>` to match the published port. These rules are not persisted by Docker: save them with `netfilter-persistent` or a systemd unit. See [[docker-networking]] and [[nftables]].
+`-I` inserts at the top, so the second command ends up first, which is the intended order. Docker's rules match the destination port after DNAT, so use `-m conntrack --ctorigdstport <PORT>` to match the published port. These rules are not persisted by Docker: save them with `netfilter-persistent` or a systemd unit. See [Docker Networking](../docker/docker-networking.md) and [nftables](nftables.md).
 
 ## Notes
 - Check which backend is active: `iptables --version` shows `(nf_tables)` or `(legacy)`.
 - Test remotely with a safety net: `sudo iptables-apply` or schedule `at now + 5 minutes` a flush.
-- Docker manages its own chains (`DOCKER`, `DOCKER-USER`). Put your own rules in `DOCKER-USER`, see [[docker-networking]].
+- Docker manages its own chains (`DOCKER`, `DOCKER-USER`). Put your own rules in `DOCKER-USER`, see [Docker Networking](../docker/docker-networking.md).
 - Log dropped packets: `sudo iptables -A INPUT -j LOG --log-prefix "DROP: " --log-level 4` (put it before the final drop).

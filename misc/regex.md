@@ -1,5 +1,5 @@
 # Regex
-Regular expressions describe text patterns. The core is shared everywhere, but the details (escaping, `\d`, lookaround, backreferences) differ by flavour, so check which engine you are actually talking to. Tools that use them: [[grep]], [[sed]], [[awk]], [[jq]] and every programming language.
+Regular expressions describe text patterns. The core is shared everywhere, but the details (escaping, `\d`, lookaround, backreferences) differ by flavour, so check which engine you are actually talking to. Tools that use them: [Grep](../linux/grep.md), [SED Cheat-Sheet](../linux/sed.md), [AWK](../linux/awk.md), [jq](../tools/jq.md) and every programming language.
 
 Documentation: [regular-expressions.info](https://www.regular-expressions.info/), [PCRE2 syntax](https://www.pcre.org/current/doc/html/pcre2syntax.html), [RE2 syntax](https://github.com/google/re2/wiki/Syntax), [Python `re`](https://docs.python.org/3/library/re.html), [MDN regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions)
 
@@ -135,7 +135,7 @@ Caveats:
 - **IPv4** with dots unescaped (`1.2.3.4`) also matches `1x2y3z4`; always escape `\.`. Regex cannot tell you that `10.0.0.256` is invalid unless you use the strict pattern above.
 - **Dates**: the pattern accepts `2026-02-31`. Validate the calendar in code.
 - **URLs**: strip trailing punctuation (`.`, `)`, `,`) in prose, or use a proper URL parser.
-- **Never parse HTML or nested structures** (JSON, YAML) with a regex. Use [[jq]] or a real parser.
+- **Never parse HTML or nested structures** (JSON, YAML) with a regex. Use [jq](../tools/jq.md) or a real parser.
 
 ## Performance and Safety
 - Nested quantifiers such as `(a+)+$` can backtrack exponentially (ReDoS) in backtracking engines (PCRE, JS, Python). Prefer possessive or atomic groups, anchor patterns, or use a linear engine (RE2/Go/Rust) for untrusted input.

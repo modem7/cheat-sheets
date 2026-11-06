@@ -1,5 +1,5 @@
 # Vault and OpenBao
-HashiCorp Vault stores and brokers secrets: a KV store, dynamic database and cloud credentials, PKI, and an encryption service, all behind policy-controlled tokens. OpenBao is the open source (MPL-2.0) fork maintained under the Linux Foundation; Vault is under the BUSL licence. The CLIs are nearly identical (`vault` vs `bao`), so every command below works with either; swap the binary name. For smaller setups see [[sops-age]] or [[bitwarden]]. Sealed-storage keys can be protected with [[gpg]].
+HashiCorp Vault stores and brokers secrets: a KV store, dynamic database and cloud credentials, PKI, and an encryption service, all behind policy-controlled tokens. OpenBao is the open source (MPL-2.0) fork maintained under the Linux Foundation; Vault is under the BUSL licence. The CLIs are nearly identical (`vault` vs `bao`), so every command below works with either; swap the binary name. For smaller setups see [SOPS and age](sops-age.md) or [Bitwarden Cheat-Sheet](../tools/bitwarden.md). Sealed-storage keys can be protected with [GPG](gpg.md).
 
 Documentation: [Vault Docs](https://developer.hashicorp.com/vault/docs) · [OpenBao Docs](https://openbao.org/docs/)
 
@@ -9,7 +9,7 @@ VARIABLE | DESCRIPTION
 `VAULT_ADDR` / `BAO_ADDR` | Server address, e.g. `https://vault.example.com:8200` (`bao` prefers `BAO_*` and falls back to `VAULT_*`)
 `VAULT_TOKEN` / `BAO_TOKEN` | Token to use (otherwise `~/.vault-token` written by `vault login`)
 `VAULT_NAMESPACE` | Namespace (Vault Enterprise / OpenBao namespaces)
-`VAULT_CACERT` | CA bundle for a private CA, see [[tls]]
+`VAULT_CACERT` | CA bundle for a private CA, see [TLS (Transport Layer Security)](../networking/tls.md)
 `VAULT_FORMAT` | `json`, `yaml` or `table`
 
 ## Dev Server
@@ -20,7 +20,7 @@ export VAULT_ADDR=http://127.0.0.1:8200
 export VAULT_TOKEN=dev-only-token
 vault status
 ```
-Or in Docker ([[docker]]):
+Or in [Docker](../docker/docker.md):
 ```bash
 docker run --rm --cap-add=IPC_LOCK -p 8200:8200 \
   -e VAULT_DEV_ROOT_TOKEN_ID=dev-only-token hashicorp/vault
@@ -77,7 +77,7 @@ services:
 volumes:
   vault-data:
 ```
-Put TLS in front with [[traefik]] or [[nginx]], or enable TLS in the listener.
+Put TLS in front with [Traefik](../apps/traefik.md) or [Nginx](../apps/nginx.md), or enable TLS in the listener.
 
 ## KV Secrets
 COMMAND | DESCRIPTION
@@ -117,7 +117,7 @@ COMMAND | DESCRIPTION
 `vault token capabilities secret/data/myapp/db` | What can this token do on a path?
 
 ## Auth Methods (AppRole example)
-Machines should use AppRole, Kubernetes, OIDC or JWT auth, not long-lived tokens. For OIDC SSO see [[authentik]] or [[keycloak]].
+Machines should use AppRole, Kubernetes, OIDC or JWT auth, not long-lived tokens. For OIDC SSO see [authentik](authentik.md) or [Keycloak](keycloak.md).
 ```bash
 vault auth enable approle
 vault write auth/approle/role/myapp token_policies=app-read token_ttl=1h token_max_ttl=4h
@@ -136,7 +136,7 @@ COMMAND | DESCRIPTION
 ```bash
 curl -s -H "X-Vault-Token: $VAULT_TOKEN" "$VAULT_ADDR/v1/secret/data/myapp/db" | jq '.data.data'
 ```
-See [[curl]] and [[jq]].
+See [curl](../tools/curl.md) and [jq](../tools/jq.md).
 
 ## Troubleshooting
 SYMPTOM | FIX
@@ -144,7 +144,7 @@ SYMPTOM | FIX
 `Vault is sealed` / HTTP 503 | `vault operator unseal` until the threshold is reached; consider auto-unseal
 `permission denied` on KV v2 | Policy path is missing `data/` (reads) or `metadata/` (list); check with `vault token capabilities`
 `http: server gave HTTP response to HTTPS client` | `VAULT_ADDR` scheme doesn't match the listener
-`x509: certificate signed by unknown authority` | Set `VAULT_CACERT` or install the CA ([[openssl]])
+`x509: certificate signed by unknown authority` | Set `VAULT_CACERT` or install the CA ([OpenSSL](../tools/openssl.md))
 `Error initializing: ... already initialized` | Init is one-time; restore from backup or wipe storage on a lab server
 `failed to lock memory` | Add `IPC_LOCK` capability, or `disable_mlock = true` with Raft (understand the trade-off)
 Lost unseal keys | Not recoverable (except via recovery keys with auto-unseal); keep offline copies

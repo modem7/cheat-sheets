@@ -9,7 +9,7 @@ Chrome won't show a "Proceed Anyway" button on some invalid certificate errors (
 1. Click on the error page so it has focus
 2. Type `thisisunsafe` (nothing appears on screen, the page reloads)
 
-The keyword has changed in the past, so if it stops working search for the current phrase. The proper fix is a trusted certificate: see [[ssl-certs]] to trust your own CA, or use Let's Encrypt via [[cert-manager]] or [[traefik]].
+The keyword has changed in the past, so if it stops working search for the current phrase. The proper fix is a trusted certificate: see [SSL Certificates Cheat-Sheet](../misc/ssl-certs.md) to trust your own CA, or use Let's Encrypt via [Cert-Manager](../apps/cert-manager.md) or [Traefik](../apps/traefik.md).
 
 ### Useful Internal Pages
 URL | DESCRIPTION
@@ -37,4 +37,4 @@ SHORTCUT | DESCRIPTION
 `Cmd`+`Shift`+`Delete` | Clear browsing data
 `Cmd`+`Option`+`J` | Open the console
 
-See [[macos-shortcuts]] for general macOS keys.
+See [MacOS keyboard shortcuts](macos-shortcuts.md) for general macOS keys.

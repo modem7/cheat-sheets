@@ -1,5 +1,5 @@
 # Woodpecker CI
-Woodpecker is a lightweight, self-hosted, container-native CI system (a community fork of Drone). Every step runs in a container, workflows live in `.woodpecker/*.yaml` (or a single `.woodpecker.yaml`) in the repo, and it connects to Gitea/Forgejo, GitHub, GitLab or Bitbucket. This sheet targets Woodpecker **v3** (latest release seen: v3.20.1); v2 differences are in the last table. For overall concepts see [[cicd]], for the forge see [[gitea]], and for image builds see [[ci-docker-builds]].
+Woodpecker is a lightweight, self-hosted, container-native CI system (a community fork of Drone). Every step runs in a container, workflows live in `.woodpecker/*.yaml` (or a single `.woodpecker.yaml`) in the repo, and it connects to Gitea/Forgejo, GitHub, GitLab or Bitbucket. This sheet targets Woodpecker **v3** (latest release seen: v3.20.1); v2 differences are in the last table. For overall concepts see [CI/CD Overview](cicd.md), for the forge see [Gitea (and Forgejo)](../tools/gitea.md), and for image builds see [CI Docker Builds](ci-docker-builds.md).
 
 Documentation: [Woodpecker docs](https://woodpecker-ci.org/docs/intro), [Workflow syntax](https://woodpecker-ci.org/docs/usage/workflow-syntax), [CLI](https://woodpecker-ci.org/docs/cli)
 
@@ -212,7 +212,7 @@ COMMAND | DESCRIPTION
 Run `woodpecker-cli <COMMAND> --help` to confirm flags on your version.
 
 ## Server and Agent (Docker Compose)
-The server serves the UI/API and talks to the forge; one or more agents execute the workflows. See [[docker-compose]].
+The server serves the UI/API and talks to the forge; one or more agents execute the workflows. See [Docker-Compose](../docker/docker-compose.md).
 ```yaml
 services:
   woodpecker-server:
@@ -244,7 +244,7 @@ services:
 volumes:
   woodpecker-data:
 ```
-Generate the shared secret with `openssl rand -hex 32` ([[openssl]]) and keep it in an `.env` file out of Git. The server needs a working webhook path from the forge and an OAuth app on the forge.
+Generate the shared secret with `openssl rand -hex 32` ([OpenSSL](../tools/openssl.md)) and keep it in an `.env` file out of Git. The server needs a working webhook path from the forge and an OAuth app on the forge.
 
 ## Docker Backend Notes
 - Each step is a container on a per-workflow Docker network; services are reachable by their `name`.
@@ -252,7 +252,7 @@ Generate the shared secret with `openssl rand -hex 32` ([[openssl]]) and keep it
 - `privileged`, `volumes` and custom networks only work for repositories an admin marks **Trusted** (repo Settings). Docker-in-Docker (`docker:dind` service) needs `privileged: true`.
 - Extra agent settings: `WOODPECKER_BACKEND_DOCKER_NETWORK`, `WOODPECKER_BACKEND_DOCKER_VOLUMES`, `WOODPECKER_MAX_WORKFLOWS`, `WOODPECKER_AGENT_LABELS`.
 - Agent images accumulate; prune on a schedule (`docker image prune -af --filter until=168h`).
-- For image builds use `woodpeckerci/plugin-docker-buildx` (see [[ci-docker-builds]]) or a dind service.
+- For image builds use `woodpeckerci/plugin-docker-buildx` (see [CI Docker Builds](ci-docker-builds.md)) or a dind service.
 
 ## v2 to v3 Differences
 TOPIC | v2 | v3

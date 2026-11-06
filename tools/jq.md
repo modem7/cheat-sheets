@@ -1,5 +1,5 @@
 # jq
-`jq` is a command-line JSON processor. Think of it as `sed` or `awk` for JSON ([[sed]], [[awk]]).
+`jq` is a command-line JSON processor. Think of it as `sed` or `awk` for JSON ([SED Cheat-Sheet](../linux/sed.md), [AWK](../linux/awk.md)).
 
 Documentation: [jq Manual](https://jqlang.github.io/jq/manual/)
 

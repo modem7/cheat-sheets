@@ -1,5 +1,5 @@
 # Git Recipes
-Task-oriented Git recipes: "I did X by mistake, how do I get back?" and "how do I find Y?". Basics (init, add, commit, branches, remotes) live in [[git]], and GitHub from the terminal in [[github-cli]]. Commands here were checked against current Git (2.5x). Lines marked **rewrites history** change commit IDs, so only do them on commits you have not shared, or coordinate and use `--force-with-lease`.
+Task-oriented Git recipes: "I did X by mistake, how do I get back?" and "how do I find Y?". Basics (init, add, commit, branches, remotes) live in [Git](git.md), and GitHub from the terminal in [GitHub and the gh CLI](github-cli.md). Commands here were checked against current Git (2.5x). Lines marked **rewrites history** change commit IDs, so only do them on commits you have not shared, or coordinate and use `--force-with-lease`.
 
 Documentation: [Git reference](https://git-scm.com/docs), [Pro Git book](https://git-scm.com/book), [git-filter-repo](https://github.com/newren/git-filter-repo)
 
@@ -227,7 +227,7 @@ Then:
 - Forks and open pull requests keep the old commits. On GitHub, pull request refs (`refs/pull/*`) and cached commit URLs can stay reachable after a force-push, so for sensitive data contact GitHub Support to remove cached views and run garbage collection. See GitHub's "Removing sensitive data from a repository" guide.
 - Remove it from build caches, CI logs, release artifacts and container images too.
 - Add the file to `.gitignore`, and add a pre-commit scanner such as `gitleaks` or `trufflehog`, and enable GitHub secret scanning and push protection.
-- To keep a secret in the repo safely, encrypt it (git-crypt in [[git]], SOPS, [[bitwarden]]).
+- To keep a secret in the repo safely, encrypt it (git-crypt in [Git](git.md), SOPS, [Bitwarden Cheat-Sheet](bitwarden.md)).
 
 ## Clean Untracked Files
 COMMAND | DESCRIPTION
@@ -264,7 +264,7 @@ COMMAND | DESCRIPTION
 `git describe --tags <COMMIT>` | Nearest tag
 `git branch --contains <COMMIT>` / `git tag --contains <COMMIT>` | Which branches or tags include it
 
-`-S` finds when a string was added or removed, `-G` finds changes to lines that match a pattern (useful when the count is unchanged). See [[regex]] for the pattern syntax.
+`-S` finds when a string was added or removed, `-G` finds changes to lines that match a pattern (useful when the count is unchanged). See [Regex](../misc/regex.md) for the pattern syntax.
 
 ## Compare Branches
 COMMAND | DESCRIPTION
@@ -302,7 +302,7 @@ COMMAND | DESCRIPTION
 `git describe --tags --abbrev=0` | Latest tag reachable from here
 `git fetch --tags --force` | Update tags that moved on the remote
 `git log v1.1.0..v1.2.0 --oneline` | Changelog between two tags
-`gh release create v1.2.0 --generate-notes` | GitHub release with auto notes (see [[github-cli]])
+`gh release create v1.2.0 --generate-notes` | GitHub release with auto notes (see [GitHub and the gh CLI](github-cli.md))
 `gh release create v1.2.0 --notes-file CHANGELOG.md ./dist/*` | Release with notes and assets
 `gh release create v1.2.0 --target <BRANCH>` | Create the tag from a branch if it does not exist yet
 
@@ -367,7 +367,7 @@ Aliases:
 Alias with `!` runs in the shell. Create one on the command line: `git config --global alias.lg "log --oneline --graph --decorate --all"`.
 
 ## Sign Commits with an SSH Key
-Needs Git 2.34 or newer. Reuse your existing SSH key (see [[openssh]]).
+Needs Git 2.34 or newer. Reuse your existing SSH key (see [OpenSSH Cheat-Sheet](openssh.md)).
 ```bash
 git config --global gpg.format ssh
 git config --global user.signingkey ~/.ssh/id_ed25519.pub
@@ -387,7 +387,7 @@ COMMAND | DESCRIPTION
 `git config user.signingkey "key::ssh-ed25519 AAAA..."` | Inline key, or use `ssh-agent` with a key file path
 `git rebase --exec 'git commit --amend --no-edit -n -S' -i <BASE>` | Sign existing commits (**rewrites history**)
 
-For the "Verified" badge on GitHub, add the same public key under **Settings > SSH and GPG keys** with the key type **Signing Key** (authentication and signing are separate entries even for one key). Same on GitLab and Gitea ([[gitlab]], [[gitea]]). The `allowed_signers` file is only for local verification.
+For the "Verified" badge on GitHub, add the same public key under **Settings > SSH and GPG keys** with the key type **Signing Key** (authentication and signing are separate entries even for one key). Same on GitLab and Gitea ([GitLab and the glab CLI](gitlab.md), [Gitea (and Forgejo)](gitea.md)). The `allowed_signers` file is only for local verification.
 
 ## Forks and Upstream
 ```bash
@@ -423,6 +423,6 @@ COMMAND | DESCRIPTION
 `git branch -u upstream/main main` | Track upstream with local `main`
 `git remote rename origin fork` | Rename a remote
 `gh repo set-default <OWNER>/<REPO>` | Pick which repo `gh` commands target
-`gh pr merge <NUMBER> --squash --delete-branch` | Merge from the CLI (see [[github-cli]])
+`gh pr merge <NUMBER> --squash --delete-branch` | Merge from the CLI (see [GitHub and the gh CLI](github-cli.md))
 
 After a squash merge, update your branch base with `git fetch upstream && git rebase --onto upstream/main <OLD_BASE> <BRANCH>` or just delete the branch and start fresh.

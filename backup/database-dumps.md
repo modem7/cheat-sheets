@@ -1,11 +1,11 @@
 # Database Dumps
-Copying a live database's data directory gives an inconsistent backup. Take a **logical dump** (or a snapshot made by the database itself) first, then let your file backup tool ([[restic]], [[borgmatic]], [[rsync]]) pick up the dump. This sheet covers consistent dumps, scheduling, rotation, running dumps in Docker, and restore tests. Day-to-day SQL and client usage live in [[postgres]], [[mysql]], [[mariadb]] and [[sqlite]].
+Copying a live database's data directory gives an inconsistent backup. Take a **logical dump** (or a snapshot made by the database itself) first, then let your file backup tool ([restic](restic.md), [borgmatic](borgmatic.md), [rsync](rsync.md)) pick up the dump. This sheet covers consistent dumps, scheduling, rotation, running dumps in Docker, and restore tests. Day-to-day SQL and client usage live in [PostgreSQL Cheat-Sheet](../databases/postgres.md), [MySQL](../databases/mysql.md), [MariaDB Cheat-Sheet](../databases/mariadb.md) and [SQLite Cheat-Sheet](../databases/sqlite.md).
 
 Documentation: [PostgreSQL: backup and restore](https://www.postgresql.org/docs/current/backup.html) · [MariaDB: mariadb-dump](https://mariadb.com/kb/en/mariadb-dump/) · [MySQL: mysqldump](https://dev.mysql.com/doc/refman/8.4/en/mysqldump.html) · [SQLite: backup API and `.backup`](https://www.sqlite.org/backup.html) · [Redis persistence](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/)
 
 > **Verification:** `sqlite3_rsync` existence and the 3.50.0 change (WAL and page-size requirement removed) were checked against the SQLite docs. Everything else here is standard database tooling written from knowledge and was **not** re-checked against the documentation this session, including `VACUUM INTO`, the Redis multi-part AOF layout, `mariadb-backup` and the MySQL `--source-data` rename. No command was executed. Restore every dump into a scratch instance at least once.
 
-See also: [[backup]] · [[docker-volume-backup]] · [[postgres]] · [[mysql]] · [[mariadb]] · [[sqlite]] · [[docker]] · [[docker-compose]] · [[linux]]
+See also: [Backup Strategy](backup.md) · [Docker Volume Backup](docker-volume-backup.md) · [PostgreSQL Cheat-Sheet](../databases/postgres.md) · [MySQL](../databases/mysql.md) · [MariaDB Cheat-Sheet](../databases/mariadb.md) · [SQLite Cheat-Sheet](../databases/sqlite.md) · [Docker](../docker/docker.md) · [Docker-Compose](../docker/docker-compose.md) · [Linux](../linux/linux.md)
 
 ---
 ## Principles
@@ -121,8 +121,8 @@ docker exec <CONTAINER> redis-cli BGSAVE
 ```
 - Use `docker exec` **without** `-t` when redirecting binary output (a TTY mangles it) for `-Fc` dumps. Use `-i` only when piping input.
 - Restore into a container: `docker exec -i <CONTAINER> pg_restore -U <USER> -d <DB> --clean --if-exists < <DB>.dump`.
-- [[borgmatic]] can dump PostgreSQL, MariaDB, MySQL, MongoDB and SQLite natively into the archive, see its sheet.
-- With the `offen/docker-volume-backup` sidecar, an `archive-pre` label can run the dump first, see [[docker-volume-backup]].
+- [borgmatic](borgmatic.md) can dump PostgreSQL, MariaDB, MySQL, MongoDB and SQLite natively into the archive, see its sheet.
+- With the `offen/docker-volume-backup` sidecar, an `archive-pre` label can run the dump first, see [Docker Volume Backup](docker-volume-backup.md).
 
 ---
 ## Dump Script (bash)
@@ -179,7 +179,7 @@ sudo systemctl enable --now db-dump.timer
 systemctl list-timers db-dump.timer
 journalctl -u db-dump.service -n 30
 ```
-Schedule the dump **before** the file backup, for example dumps at 01:30 and [[restic]] at 02:30.
+Schedule the dump **before** the file backup, for example dumps at 01:30 and [restic](restic.md) at 02:30.
 
 ### cron
 ```bash
@@ -203,4 +203,4 @@ docker rm -f pg-restore-test
 # SQLite
 sqlite3 <DEST>.db "PRAGMA integrity_check;"
 ```
-Compare a row count or a recent record with production and note the restore time against your RTO, see [[backup]].
+Compare a row count or a recent record with production and note the restore time against your RTO, see [Backup Strategy](backup.md).

@@ -59,7 +59,7 @@ dig NS example.com +short
 dig app.example.com @<AUTHORITATIVE-NS> +norecurse
 dig +dnssec app.example.com @1.1.1.1
 ```
-`+trace` queries from the root and shows where the chain breaks. If the authoritative server answers but a recursive one returns `SERVFAIL`, suspect DNSSEC (an expired signature or wrong DS record at the registrar). Check `dig +cd app.example.com @1.1.1.1`, where `+cd` disables DNSSEC validation. A working `+cd` answer confirms a DNSSEC problem. For record types see [[dns-record-types]].
+`+trace` queries from the root and shows where the chain breaks. If the authoritative server answers but a recursive one returns `SERVFAIL`, suspect DNSSEC (an expired signature or wrong DS record at the registrar). Check `dig +cd app.example.com @1.1.1.1`, where `+cd` disables DNSSEC validation. A working `+cd` answer confirms a DNSSEC problem. For record types see [DNS Record Types](../networking/dns-record-types.md).
 
 ### 5. Encrypted DNS (DoT and DoH)
 ```bash
@@ -69,7 +69,7 @@ kdig -d @1.1.1.1 +tls-host=one.one.one.one +tls example.com            # DoT que
 dig +tls @1.1.1.1 example.com                                          # dig 9.18+
 curl -s -H 'accept: application/dns-json' 'https://cloudflare-dns.com/dns-query?name=example.com&type=A'   # DoH
 ```
-If plain DNS works but DoT fails, port 853 may be blocked. With `DNSOverTLS=yes` in `/etc/systemd/resolved.conf` resolution stops entirely in that case, `opportunistic` falls back. See [[dns-over-tls]], [[dns-over-https]] and [[dns-encryption]].
+If plain DNS works but DoT fails, port 853 may be blocked. With `DNSOverTLS=yes` in `/etc/systemd/resolved.conf` resolution stops entirely in that case, `opportunistic` falls back. See [DNS over TLS (DoT)](../networking/dns-over-tls.md), [DNS over HTTPS (DoH)](../networking/dns-over-https.md) and [DNS Encryption](../networking/dns-encryption.md).
 
 ### 6. Slow lookups
 ```bash
@@ -86,10 +86,10 @@ kubectl -n kube-system get svc kube-dns
 kubectl run dns-test --rm -it --image=busybox:1.36 --restart=Never -- nslookup kubernetes.default
 kubectl run dns-test --rm -it --image=busybox:1.36 --restart=Never -- nslookup example.com
 ```
-If `kubernetes.default` fails, CoreDNS or the Service/network path to it is broken. If only external names fail, CoreDNS cannot reach its upstream (check the `forward` line in its ConfigMap and the node's `/etc/resolv.conf`). Pods inherit the cluster `ndots:5` setting, so short external names trigger several search-domain lookups first; use a trailing dot (`example.com.`) to bypass them. Details in [[kubernetes-dns]], [[kubectl]] and [[k9s]].
+If `kubernetes.default` fails, CoreDNS or the Service/network path to it is broken. If only external names fail, CoreDNS cannot reach its upstream (check the `forward` line in its ConfigMap and the node's `/etc/resolv.conf`). Pods inherit the cluster `ndots:5` setting, so short external names trigger several search-domain lookups first; use a trailing dot (`example.com.`) to bypass them. Details in [Kubernetes DNS](../kubernetes/kubernetes-dns.md), [Kubectl](../kubernetes/kubectl.md) and [K9s](../kubernetes/k9s.md).
 
 ### 8. Docker
-Containers on a user-defined network use Docker's embedded resolver at `127.0.0.11`, which forwards to the host's resolvers. Test with `docker exec <CONTAINER> nslookup app.example.com`. If the host uses a `127.0.0.53` stub, Docker substitutes the real upstream servers, so check `resolvectl status` on the host ([[docker-networking]]).
+Containers on a user-defined network use Docker's embedded resolver at `127.0.0.11`, which forwards to the host's resolvers. Test with `docker exec <CONTAINER> nslookup app.example.com`. If the host uses a `127.0.0.53` stub, Docker substitutes the real upstream servers, so check `resolvectl status` on the host ([Docker Networking](../docker/docker-networking.md)).
 
 ## Verify
 ```bash
@@ -103,7 +103,8 @@ From the affected application, repeat the failing lookup and a real connection (
 Lookups are read-only. If you changed resolver settings, keep a copy of the previous `/etc/systemd/resolved.conf` and restart with `sudo systemctl restart systemd-resolved`. Lower a record's TTL **before** a planned change, and wait out the old TTL before you rely on it.
 
 ## Related Sheets
-- [[dns-record-types]] · [[dns-over-tls]] · [[dns-over-https]] · [[dns-encryption]] · [[dns-record-mailserver]]
-- [[kubernetes-dns]] · [[kubectl]] · [[k3s]]
-- [[docker-networking]] · [[windows-dns-server]]
-- [[network-troubleshooting]] · [[tls-troubleshooting]]
+- [DNS Record Types](../networking/dns-record-types.md) · [DNS over TLS (DoT)](../networking/dns-over-tls.md) · [DNS over HTTPS (DoH)](../networking/dns-over-https.md) · [DNS Encryption](../networking/dns-encryption.md) · [Mail Server DNS Records Cheat-Sheet](../networking/dns-record-mailserver.md)
+- [Kubernetes DNS](../kubernetes/kubernetes-dns.md) · [Kubectl](../kubernetes/kubectl.md) · [K3S](../kubernetes/k3s.md)
+- [Docker Networking](../docker/docker-networking.md) · [Windows DNS Server](../windows/windows-dns-server.md)
+- [Network Troubleshooting](network-troubleshooting.md) · [TLS Troubleshooting](tls-troubleshooting.md)
+- [Pi-hole](../homelab/pihole.md) · [AdGuard Home](../homelab/adguard-home.md) · [Unbound](../homelab/unbound.md) · [dnsmasq DHCP and DNS](../homelab/dnsmasq-dhcp.md)

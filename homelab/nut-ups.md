@@ -5,7 +5,7 @@ Documentation: [NUT user manual](https://networkupstools.org/docs/user-manual.ch
 
 > **Verification:** `MONITOR` line syntax, the `primary`/`secondary` roles, `SHUTDOWNCMD`, and `MODE` values (`none`, `standalone`, `netserver`, `netclient`) were checked against the `upsmon.conf` and `nut.conf` man pages. **Not verified:** systemd unit names, `upsd.conf` `LISTEN`, the `usbhid-ups` example, `upsc`/`upscmd`/`upsrw`/`upsdrvctl`/`nut-scanner` usage, the Proxmox shutdown ordering, and permissions on Debian. No command was executed.
 
-See also: [[homelab]] · [[proxmox-overview]] · [[proxmox-cluster-ha]] · [[proxmox-qm-pct]] · [[prometheus]] · [[grafana]] · [[ufw]] · [[wake-on-lan]] · [[docker-compose]]
+See also: [Homelab](homelab.md) · [Proxmox VE Overview and Install](../proxmox/proxmox-overview.md) · [Proxmox Clustering and HA](../proxmox/proxmox-cluster-ha.md) · [Proxmox qm and pct](../proxmox/proxmox-qm-pct.md) · [Prometheus](../apps/prometheus.md) · [Grafana](../apps/grafana.md) · [UFW (uncomplicated firewall)](../linux/ufw.md) · [Wake-on-LAN](wake-on-lan.md) · [Docker-Compose](../docker/docker-compose.md)
 
 ---
 ## Files and Roles
@@ -98,7 +98,7 @@ upsc myups@localhost
 ```
 Unit names vary: on Debian/Ubuntu look at `systemctl list-units 'nut*'` (`nut-server`, `nut-monitor`, `nut-driver@<UPS>` or `nut-driver-enumerator`, `nut-driver.target`).
 
-Open the port to the LAN only: `sudo ufw allow from 192.168.20.0/24 to any port 3493 proto tcp` ([[ufw]]). NUT's own protocol is not encrypted by default; keep it on a trusted VLAN or use TLS support if your build has it.
+Open the port to the LAN only: `sudo ufw allow from 192.168.20.0/24 to any port 3493 proto tcp` ([UFW (uncomplicated firewall)](../linux/ufw.md)). NUT's own protocol is not encrypted by default; keep it on a trusted VLAN or use TLS support if your build has it.
 
 ---
 ## Client Setup
@@ -169,11 +169,11 @@ Not every driver honours `override.*`; check the driver's man page (`man usbhid-
 
 ---
 ## Proxmox and Virtual Machines
-- Install NUT on the **node** that has the USB cable and run `netserver` mode; other nodes and a NAS run `netclient`. See [[proxmox-overview]] and [[proxmox-cluster-ha]].
-- A node shutdown by `shutdown -h now` stops guests following their "Start/Shutdown order" and timeouts; set sensible shutdown timeouts per guest (`qm set <VMID> --startup order=1,down=60`, see [[proxmox-qm-pct]]).
+- Install NUT on the **node** that has the USB cable and run `netserver` mode; other nodes and a NAS run `netclient`. See [Proxmox VE Overview and Install](../proxmox/proxmox-overview.md) and [Proxmox Clustering and HA](../proxmox/proxmox-cluster-ha.md).
+- A node shutdown by `shutdown -h now` stops guests following their "Start/Shutdown order" and timeouts; set sensible shutdown timeouts per guest (`qm set <VMID> --startup order=1,down=60`, see [Proxmox qm and pct](../proxmox/proxmox-qm-pct.md)).
 - Do not pass the USB UPS through to a VM if the node should survive or coordinate; if you must, pass it to a single VM and make that VM the server, and mind that it stops first.
 - In a cluster, losing quorum while nodes shut down one after another is normal; plan which node shuts down last and whether to expect fencing/HA to react.
-- Power-on after the outage: set BIOS "Restore on AC power loss: power on", and use [[wake-on-lan]] for machines that stay off.
+- Power-on after the outage: set BIOS "Restore on AC power loss: power on", and use [Wake-on-LAN](wake-on-lan.md) for machines that stay off.
 
 ---
 ## Docker Compose (NUT server)
@@ -194,7 +194,7 @@ Running NUT on the host is usually simpler and more reliable than in a container
 
 ---
 ## Metrics and Alerts
-- **Prometheus:** use a NUT exporter that talks to port 3493 (see [[prometheus]]), then graph `battery.charge`, `ups.load`, `ups.status` in [[grafana]].
+- **Prometheus:** use a NUT exporter that talks to port 3493 (see [Prometheus](../apps/prometheus.md)), then graph `battery.charge`, `ups.load`, `ups.status` in [Grafana](../apps/grafana.md).
 - **Notifications:** `upsmon` runs `NOTIFYCMD` for events (`ONLINE`, `ONBATT`, `LOWBATT`, `COMMBAD`, `SHUTDOWN`); `upssched` can wait a few minutes before reacting. Example `upssched.conf`:
 ```ini
 CMDSCRIPT /usr/local/bin/ups-event.sh
