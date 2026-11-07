@@ -313,6 +313,8 @@ kbd {
 .hero-kicker { font: 600 .85rem/1 var(--font-mono); color: var(--accent); margin: 0 0 .9rem; }
 .hero h1 { font: 800 clamp(2.2rem, 6vw, 3.6rem)/1.05 var(--font-mono); letter-spacing: -.03em; color: var(--text-strong); margin: 0 0 1rem; }
 .hero-lead { max-width: 42rem; font-size: 1.1rem; color: var(--text); margin: 0 0 1.2rem; }
+.hero-tip { max-width: 42rem; font: .85rem/1.5 var(--font-mono); color: var(--muted); margin: 0 0 1.2rem; }
+.hero-tip > span:first-child { color: var(--accent); }
 .hero-stats { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; margin: 0; font: .9rem/1 var(--font-mono); color: var(--muted); }
 .hero-stats strong { color: var(--text-strong); font-size: 1.15rem; }
 .btn {
