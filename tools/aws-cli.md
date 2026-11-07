@@ -1,5 +1,5 @@
 # AWS CLI
-The AWS CLI (v2) manages Amazon Web Services from the terminal. Compare [Azure CLI (az)](azure-cli.md) and [gcloud (Google Cloud CLI)](gcloud.md); for infrastructure as code see [Terraform](terraform.md).
+The AWS CLI (v2) manages Amazon Web Services from the terminal. Compare [Azure CLI (az)](azure-cli.md) and [gcloud (Google Cloud CLI)](gcloud.md); for infrastructure as code see [Terraform](terraform.md). Provider-level notes (free tier, pitfalls, backups): [Amazon Web Services](../cloud/provider/amazon-web-services.md).
 
 Documentation: [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/)
 

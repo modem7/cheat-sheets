@@ -1,5 +1,5 @@
 # What is Cloud-Computing?
-Cloud computing is on-demand access to computing resources (servers, storage, databases, networking, software) over the internet with pay-as-you-go pricing. Provider comparison: [Cloud-Provider Comparison](provider/cloud-provider-comparison.md).
+Cloud computing is on-demand access to computing resources (servers, storage, databases, networking, software) over the internet with pay-as-you-go pricing. Provider comparison: [Cloud-Provider Comparison](provider/cloud-provider-comparison.md). Provider sheets: [Amazon Web Services](provider/amazon-web-services.md), [Google Cloud](provider/google-cloud.md), [Hetzner Cloud](provider/hetzner-cloud.md), [DigitalOcean](provider/digitalocean.md), [Cloudflare](provider/cloudflare.md), [Oracle Cloud](provider/oracle-cloud.md), [Backblaze B2](provider/backblaze-b2.md), [Civo](provider/civo.md).
 
 ## Service Models
 MODEL | YOU MANAGE | PROVIDER MANAGES | EXAMPLES
