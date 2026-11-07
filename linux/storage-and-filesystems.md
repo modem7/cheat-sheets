@@ -5,7 +5,7 @@ Documentation: [smartmontools](https://www.smartmontools.org/wiki/TocDoc) · [fi
 
 > **Verification:** commands follow the man pages and common practice. No command was executed. `mkfs`, `parted`, `wipefs` and `fio` write tests destroy data on the target. Check the device name with `lsblk` every time.
 
-See also: [LVM](lvm.md) · [RAID with mdadm](raid-mdadm.md) · [Mount](mount.md) · [NFS](nfs.md) · [Linux Performance Troubleshooting](performance-troubleshooting.md) · [Linux](linux.md)
+See also: [XFS](xfs.md) · [LVM](lvm.md) · [RAID with mdadm](raid-mdadm.md) · [Mount](mount.md) · [NFS](nfs.md) · [Linux Performance Troubleshooting](performance-troubleshooting.md) · [Linux](linux.md)
 
 ---
 ## Identify Disks
