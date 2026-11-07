@@ -62,7 +62,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Infrastructure
 
-[TrueNAS Scale](infra/truenas-scale.md)
+[TrueNAS Community Edition](infra/truenas-community-edition.md) · [Unraid](infra/unraid.md)
 
 ### Cloud
 

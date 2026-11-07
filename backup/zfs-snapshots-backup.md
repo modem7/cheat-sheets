@@ -5,7 +5,7 @@ Documentation: [OpenZFS zfs-snapshot](https://openzfs.github.io/openzfs-docs/man
 
 > **Verification:** Sanoid template keys, `process_children_only`, `recursive = yes|zfs`, and the Syncoid options `--no-sync-snap`, `--sendoptions`, `--recvoptions`, `--no-privilege-elevation`, `--sshkey`, `--exclude-datasets` and `--create-bookmark` (needs `--no-sync-snap`) were checked against the Sanoid repository and wiki. The raw `zfs`/`zpool` commands and the sanoid CLI flags were **not** re-checked against the man pages. No command was executed. Use `-n` dry runs and test on a scratch dataset first.
 
-See also: [Backup Strategy](backup.md) · [TrueNAS Scale](../infra/truenas-scale.md) (replication tasks in the UI) · [Proxmox Storage](../proxmox/proxmox-storage.md) · [rsync](rsync.md) · [OpenSSH Cheat-Sheet](../tools/openssh.md) · [Linux](../linux/linux.md)
+See also: [Backup Strategy](backup.md) · [TrueNAS Community Edition](../infra/truenas-community-edition.md) (replication tasks in the UI) · [Proxmox Storage](../proxmox/proxmox-storage.md) · [rsync](rsync.md) · [OpenSSH Cheat-Sheet](../tools/openssh.md) · [Linux](../linux/linux.md)
 
 ---
 ## Snapshots

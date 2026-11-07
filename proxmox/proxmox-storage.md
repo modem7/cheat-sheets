@@ -5,7 +5,7 @@ Documentation: [Storage](https://pve.proxmox.com/pve-docs/chapter-pvesm.html) ·
 
 > **Verification:** `pvesm add dir`, `add nfs`, `add pbs`, `scan nfs`, `set`, `remove` and the default storage layout were checked against the docs. The `zfspool`, `lvmthin`, `cifs` and `zfs`/`lvs` examples, the ARC limit and the Ceph notes were **not** verified against the docs. No command was executed.
 
-See also: [Proxmox VE Overview and Install](proxmox-overview.md) · [Proxmox Backup and Restore](proxmox-backup.md) · [Proxmox qm and pct](proxmox-qm-pct.md) · [NFS](../linux/nfs.md) · [TrueNAS Scale](../infra/truenas-scale.md) (ZFS and NFS server side)
+See also: [Proxmox VE Overview and Install](proxmox-overview.md) · [Proxmox Backup and Restore](proxmox-backup.md) · [Proxmox qm and pct](proxmox-qm-pct.md) · [NFS](../linux/nfs.md) · [TrueNAS Community Edition](../infra/truenas-community-edition.md) (ZFS and NFS server side)
 
 ---
 ## pvesm
@@ -78,7 +78,7 @@ Limit ARC (default can use up to about half of RAM) in `/etc/modprobe.d/zfs.conf
 ```
 options zfs zfs_arc_max=8589934592
 ```
-Then run `update-initramfs -u -k all` and reboot. More ZFS commands in [TrueNAS Scale](../infra/truenas-scale.md).
+Then run `update-initramfs -u -k all` and reboot. More ZFS commands in [TrueNAS Community Edition](../infra/truenas-community-edition.md).
 
 ---
 ## Ceph (overview)
