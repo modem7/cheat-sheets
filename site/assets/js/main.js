@@ -163,7 +163,16 @@
   var toc = $(".toc");
   if (toc) {
     var box = $(".toc-box", toc);
-    if (box && window.matchMedia("(max-width: 1180px)").matches) box.removeAttribute("open");
+    var small = window.matchMedia("(max-width: 1180px)");
+    if (box && small.matches) box.removeAttribute("open");
+    if (box) {
+      /* on small screens the box is a floating sheet: close it on outside click, link click or Escape */
+      doc.addEventListener("click", function (e) { if (small.matches && box.open && !toc.contains(e.target)) box.open = false; });
+      toc.addEventListener("click", function (e) { if (small.matches && e.target.closest && e.target.closest("a")) box.open = false; });
+      doc.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && small.matches && box.open) { box.open = false; var sm = $("summary", box); if (sm) sm.focus(); }
+      });
+    }
     var links = $$("a[href^='#']", toc);
     var map = {};
     links.forEach(function (a) { map[decodeURIComponent(a.getAttribute("href").slice(1))] = a; });
@@ -241,6 +250,20 @@
         }, function () { announce("Could not copy. Select the command and press Ctrl+C."); });
       }, 220);
     });
+  });
+
+  /* ---------- edge shadows on tables that scroll sideways ---------- */
+  $$(".table-scroll").forEach(function (box) {
+    var w = $(".table-wrap", box), tbl = $("table", w);
+    function update() {
+      var max = w.scrollWidth - w.clientWidth;
+      box.classList.toggle("more-left", w.scrollLeft > 2);
+      box.classList.toggle("more-right", w.scrollLeft < max - 2);
+    }
+    w.addEventListener("scroll", update, { passive: true });
+    if ("ResizeObserver" in window) { var ro = new ResizeObserver(update); ro.observe(w); if (tbl) ro.observe(tbl); }
+    window.addEventListener("resize", update);
+    update();
   });
 
   /* ---------- search (Pagefind, loaded on first open) ---------- */
