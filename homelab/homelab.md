@@ -11,6 +11,7 @@ SHEET | USE IT FOR
 [Pi-hole](pihole.md) | Network-wide ad/tracker blocking and local DNS records (v6)
 [AdGuard Home](adguard-home.md) | Alternative DNS filter with built-in DoH/DoT/DoQ and per-client settings
 [Unbound](unbound.md) | Recursive, validating resolver behind Pi-hole or AdGuard; local zones
+[BIND 9](bind9.md) | Authoritative DNS for your own zone: zones, `rndc`, checkers
 [dnsmasq DHCP and DNS](dnsmasq-dhcp.md) | DHCP ranges, static leases, local DNS and DHCP relay
 [Reverse Proxy Patterns](reverse-proxy-patterns.md) | Traefik vs Nginx vs Caddy, wildcard certificates by DNS-01, split-horizon DNS, internal-only services
 [Wake-on-LAN](wake-on-lan.md) | Powering machines on remotely
