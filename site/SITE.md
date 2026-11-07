@@ -45,7 +45,7 @@ sits in front of Hugo:
 
 The script adds front matter to each copy: `title` from the first `# H1`, `description` from the first
 paragraph, `lastmod` (see below), and `weight: 1` for the lead sheet of a folder (the one named after the folder, e.g.
-`docker/docker.md`) so it sorts first. A sheet that already has front matter keeps it. Your source files are
+`docker/docker.md`) so it sorts first; the remaining sheets in a folder are listed alphabetically by title (ignoring case). A sheet that already has front matter keeps it. Your source files are
 never modified.
 
 Each top-level folder becomes a **section**: it gets a sidebar group, a page count on the home page, a
@@ -99,8 +99,28 @@ Pagefind build (see Local preview), and the table marker comes from `layouts/_de
   command (the single `code` element if there is one, otherwise the cell text). Links are left alone, a double
   or triple click or an existing text selection selects instead of copying, and the result is announced through
   the `#live` polite live region. Mouse and touch only: keyboard users have the Copy button on code blocks.
+- **Smooth navigation**: a CSS cross-document view transition (`@view-transition` at the end of `main.css`)
+  keeps the top bar and sidebar fixed while the page content cross-fades, and a `speculationrules` block in
+  `head.html` prefetches same-site links on hover. Both are progressive enhancements: browsers without support
+  (currently Firefox) navigate as before, and `prefers-reduced-motion: reduce` turns the transition off.
 
 Storage access is always wrapped in `try`/`catch`, so blocked storage only means nothing is remembered.
+
+## Accessibility and mobile
+
+- Checked with axe-core (WCAG 2.2 A/AA plus best practices) in dark and light, at 1440px and 390px, on the
+  home page, a section page and several sheets: 0 violations at the time of writing. To repeat it, install
+  `axe-core` somewhere outside the repo, open a built page in Playwright, inject `axe.min.js` and call `axe.run()`.
+  Colour tokens (`--accent-text` in `main.css`, `--t-comment` in `syntax.css`) are chosen to keep 4.5:1 in both themes; keep
+  that in mind when changing the palette. Skip link, `:focus-visible` rings, `scroll-padding-top` for
+  in-page anchors, `forced-colors`, reduced-motion and print rules are unchanged.
+- Each table is a labelled scroll region (`Table N`, N = its position on the page), so landmarks stay unique.
+- Up to 1180px wide, with JS, "On this page" is a floating button (bottom left) that opens a sheet with the
+  contents; it closes on a link click, an outside click or Esc, and is hidden while the navigation drawer is
+  open. The `js` class on `<html>` (set in `head.html`) gates this, so without JS the collapsed in-flow box
+  remains.
+- Tables that scroll sideways show an edge shadow on the side with more content
+  (`.table-scroll` + `more-left`/`more-right`, toggled from `main.js`).
 
 ## Adding a new section
 

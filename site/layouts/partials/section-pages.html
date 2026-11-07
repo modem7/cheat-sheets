@@ -1,11 +1,16 @@
 {{- /*
   Ordered sheets of a top-level section: sheets directly in the folder first
-  (lead sheet, then by title), then each subfolder's sheets. This is the one
-  ordering used by the sidebar, section page and prev/next links.
+  (lead sheet, then alphabetically by title, ignoring case), then each
+  subfolder's sheets in the same order. This is the one ordering used by the
+  sidebar, section page, home page cards and prev/next links.
 */ -}}
 {{- $out := slice -}}
-{{- range .RegularPages }}{{ $out = $out | append . }}{{ end -}}
-{{- range .Sections -}}
-  {{- range .RegularPagesRecursive }}{{ $out = $out | append . }}{{ end -}}
+{{- $lists := slice .RegularPages -}}
+{{- range .Sections }}{{ $lists = $lists | append .RegularPagesRecursive }}{{ end -}}
+{{- range $lists -}}
+  {{- $lead := where . "Weight" 1 -}}
+  {{- $rest := (where . "Weight" "ne" 1).ByTitle -}}
+  {{- range $lead }}{{ $out = $out | append . }}{{ end -}}
+  {{- range $rest }}{{ $out = $out | append . }}{{ end -}}
 {{- end -}}
 {{- return $out -}}

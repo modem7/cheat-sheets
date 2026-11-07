@@ -5,7 +5,7 @@ Documentation: [Backblaze: the 3-2-1 backup strategy](https://www.backblaze.com/
 
 > **Verification:** This sheet is conceptual. The tool commands live in the linked sheets, each of which has its own verification note. No command was executed.
 
-See also: [restic](restic.md) · [BorgBackup](borg.md) · [borgmatic](borgmatic.md) · [rclone](rclone.md) · [rsync](rsync.md) · [ZFS Snapshots and Replication](zfs-snapshots-backup.md) · [Docker Volume Backup](docker-volume-backup.md) · [Database Dumps](database-dumps.md) · [Proxmox Backup and Restore](../proxmox/proxmox-backup.md) · [TrueNAS Scale](../infra/truenas-scale.md) · [Linux](../linux/linux.md) · [Docker](../docker/docker.md)
+See also: [restic](restic.md) · [BorgBackup](borg.md) · [borgmatic](borgmatic.md) · [rclone](rclone.md) · [rsync](rsync.md) · [ZFS Snapshots and Replication](zfs-snapshots-backup.md) · [Docker Volume Backup](docker-volume-backup.md) · [Database Dumps](database-dumps.md) · [Proxmox Backup and Restore](../proxmox/proxmox-backup.md) · [TrueNAS Community Edition](../infra/truenas-community-edition.md) · [Linux](../linux/linux.md) · [Docker](../docker/docker.md)
 
 ---
 ## The 3-2-1 Rule

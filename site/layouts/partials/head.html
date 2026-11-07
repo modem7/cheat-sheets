@@ -21,8 +21,11 @@
     var t = "dark";
     try { var s = localStorage.getItem("theme"); if (s === "light" || s === "dark") t = s; } catch (e) {}
     document.documentElement.setAttribute("data-theme", t);
+    document.documentElement.classList.add("js");
   })();
 </script>
+{{- /* Prefetch same-site pages on hover so navigation feels instant (Chromium; ignored elsewhere). */}}
+<script type="speculationrules">{"prefetch":[{"where":{"href_matches":"{{ "/" | relURL }}*"},"eagerness":"moderate"}]}</script>
 {{- $css := resources.Get "css/main.css" | resources.Minify | resources.Fingerprint "sha256" }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{- $syn := resources.Get "css/syntax.css" | resources.Minify | resources.Fingerprint "sha256" }}
