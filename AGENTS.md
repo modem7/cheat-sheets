@@ -13,6 +13,7 @@ A personal homelab and DevOps knowledge base: Markdown cheat sheets with quick-s
 - `.github/PULL_REQUEST_TEMPLATE.md` and `.github/PULL_REQUEST_TEMPLATE/`: default PR template plus `new-sheet.md` and `update-sheet.md` (select with `?template=`). Fill in the matching one in PR descriptions.
 - `.github/ISSUE_TEMPLATE/`: issue forms (`request-sheet.yml`, `report-error.yml`) and `config.yml` (blank issues disabled). Keep the folder dropdown in `request-sheet.yml` in step with the folders listed in CONTRIBUTING.
 - `.github/workflows/external-links.yml` and `.lychee.toml`: weekly external link check (lychee), opens one "Broken external links" issue. Not run on PRs.
+- `scripts/check-ips.py` and `.ip-allowlist`: flags real-looking public IPv4 addresses. `.github/workflows/secret-scan.yml` runs it plus gitleaks in CI.
 - `.markdownlint-cli2.yaml`, `.github/workflows/lint.yml`: CI checks.
 
 ## House Style
@@ -35,6 +36,7 @@ A personal homelab and DevOps knowledge base: Markdown cheat sheets with quick-s
    - `python3 scripts/check-links.py`
    - `python3 scripts/gen-index.py --check`
    - `npx markdownlint-cli2 "**/*.md"`
+   - `python3 scripts/check-ips.py`
 8. Work on a branch and open a pull request. Never push to `master`. Do not change repository settings or branch protection.
 9. Do not edit `renovate.json` or the shared preset it extends.
 10. Keep temporary files outside the repository.
