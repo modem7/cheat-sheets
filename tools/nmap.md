@@ -58,3 +58,5 @@ COMMAND | DESCRIPTION
 `sudo nmap -sS -p- --min-rate 1000 -T4 <HOST>` | Quick full TCP port sweep
 `sudo nmap -sV -sC -p <PORTS> <HOST>` | Deep scan of ports found open
 `sudo nmap -sn 192.168.1.0/24 -oG - \| awk '/Up$/{print $2}'` | List live IPs on a subnet
+
+See also: [socat and netcat](../networking/socat-and-netcat.md)

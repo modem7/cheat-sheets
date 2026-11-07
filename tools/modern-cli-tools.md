@@ -226,7 +226,7 @@ COMMAND | DESCRIPTION
 `dust -d 1 /var/lib/docker` | See what Docker is using ([Docker](../docker/docker.md))
 
 ## Others Worth Knowing
-- `jq` for JSON ([jq](jq.md)), `yq` for YAML.
+- `jq` for JSON ([jq](jq.md)), `yq` for YAML ([yq](yq.md)).
 - `tmux` ([tmux](tmux.md)) and `starship` prompt ([Starship Prompt](starship.md)).
 - `curl` ([curl](curl.md)) and `nmap` ([NMap](nmap.md)).
 - `direnv` loads environment per directory; `just` and `make` run project tasks.
