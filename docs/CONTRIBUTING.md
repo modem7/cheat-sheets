@@ -68,7 +68,12 @@ python3 scripts/gen-index.py --check
 
 # Markdown style (needs Node.js)
 npx markdownlint-cli2 "**/*.md"
+
+# No real-looking public IPv4 addresses (Python 3, no dependencies)
+python3 scripts/check-ips.py
 ```
+
+A separate workflow (`.github/workflows/secret-scan.yml`) also runs gitleaks over the full history and the IP check. The IP check allows the documentation ranges, loopback, private and CGNAT ranges, netmasks and a few well-known public DNS resolvers. For anything else, use a placeholder. If a match is genuinely not an address (a version string, say), add it to `.ip-allowlist` with a comment, or put `ip-scan: ignore` on that line.
 
 Configuration lives in `.markdownlint-cli2.yaml`. Fix the content rather than loosening a rule; if a rule is genuinely wrong for this repo, change the config in its own PR and explain why.
 

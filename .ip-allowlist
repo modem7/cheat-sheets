@@ -1,0 +1,9 @@
+# Allowlist for scripts/check-ips.py.
+# One entry per line: IP, CIDR, or `IP-or-CIDR path-glob`.
+# Explain each entry. Prefer a path glob over a bare IP.
+
+# s6-overlay version string, not an address.
+3.2.0.2 cicd/renovate.md
+
+# Regex example showing unescaped dots, not an address.
+1.2.3.4 misc/regex.md
