@@ -30,7 +30,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Linux
 
-[Linux](linux/linux.md) · [AWK](linux/awk.md) · [Grep](linux/grep.md) · [IPTables](linux/iptables.md) · [Linux Basics](linux/linuxbasics.md) · [LVM](linux/lvm.md) · [Mount](linux/mount.md) · [NFS](linux/nfs.md) · [nftables](linux/nftables.md) · [Linux Performance Troubleshooting](linux/performance-troubleshooting.md) · [RAID with mdadm](linux/raid-mdadm.md) · [SED Cheat-Sheet](linux/sed.md) · [SELinux and AppArmor](linux/selinux-apparmor.md) · [Storage and Filesystems](linux/storage-and-filesystems.md) · [systemd](linux/systemd.md) · [UFW (uncomplicated firewall)](linux/ufw.md) · [User Management](linux/user.md)
+[Linux](linux/linux.md) · [AWK](linux/awk.md) · [Disk Usage](linux/disk-usage.md) · [ethtool](linux/ethtool.md) · [firewalld](linux/firewalld.md) · [Grep](linux/grep.md) · [Hardware Inspection](linux/hardware-inspection.md) · [ip and ss](linux/ip-and-ss.md) · [IPTables](linux/iptables.md) · [Linux Basics](linux/linuxbasics.md) · [LVM](linux/lvm.md) · [Mount](linux/mount.md) · [Netplan](linux/netplan.md) · [NFS](linux/nfs.md) · [nftables](linux/nftables.md) · [Linux Performance Troubleshooting](linux/performance-troubleshooting.md) · [RAID with mdadm](linux/raid-mdadm.md) · [SED Cheat-Sheet](linux/sed.md) · [SELinux and AppArmor](linux/selinux-apparmor.md) · [Storage and Filesystems](linux/storage-and-filesystems.md) · [systemd](linux/systemd.md) · [UFW (uncomplicated firewall)](linux/ufw.md) · [User Management](linux/user.md) · [ZFS](linux/zfs.md)
 
 ### Windows
 
@@ -58,7 +58,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Homelab
 
-[Homelab](homelab/homelab.md) · [AdGuard Home](homelab/adguard-home.md) · [dnsmasq DHCP and DNS](homelab/dnsmasq-dhcp.md) · [NUT (Network UPS Tools)](homelab/nut-ups.md) · [Pi-hole](homelab/pihole.md) · [Reverse Proxy Patterns](homelab/reverse-proxy-patterns.md) · [Unbound](homelab/unbound.md) · [VLANs](homelab/vlans.md) · [Wake-on-LAN](homelab/wake-on-lan.md)
+[Homelab](homelab/homelab.md) · [AdGuard Home](homelab/adguard-home.md) · [BIND 9](homelab/bind9.md) · [dnsmasq DHCP and DNS](homelab/dnsmasq-dhcp.md) · [NUT (Network UPS Tools)](homelab/nut-ups.md) · [Pi-hole](homelab/pihole.md) · [Reverse Proxy Patterns](homelab/reverse-proxy-patterns.md) · [Unbound](homelab/unbound.md) · [VLANs](homelab/vlans.md) · [Wake-on-LAN](homelab/wake-on-lan.md)
 
 ### Infrastructure
 
@@ -72,7 +72,7 @@ Provider: [Civo](cloud/provider/civo.md) · [Cloud-Provider Comparison](cloud/pr
 
 ### Networking
 
-[Generate a DKIM Keypair](networking/create-dkim-keypair.md) · [DNS Encryption](networking/dns-encryption.md) · [DNS over HTTPS (DoH)](networking/dns-over-https.md) · [DNS over TLS (DoT)](networking/dns-over-tls.md) · [Mail Server DNS Records Cheat-Sheet](networking/dns-record-mailserver.md) · [DNS Record Types](networking/dns-record-types.md) · [Ports and Protocols](networking/ports-and-protocols.md) · [SMTP](networking/smtp.md) · [TCP vs UDP](networking/tcp-vs-udp.md) · [TLS (Transport Layer Security)](networking/tls.md) · [TLS Handshake](networking/tls-handshake.md) · [Twisted Pair Cables Cheat-Sheet](networking/twisted-pair-cables.md) · [VPN (Virtual Private Network)](networking/vpn.md)
+[Generate a DKIM Keypair](networking/create-dkim-keypair.md) · [dig](networking/dig.md) · [DNS Encryption](networking/dns-encryption.md) · [DNS over HTTPS (DoH)](networking/dns-over-https.md) · [DNS over TLS (DoT)](networking/dns-over-tls.md) · [Mail Server DNS Records Cheat-Sheet](networking/dns-record-mailserver.md) · [DNS Record Types](networking/dns-record-types.md) · [Ports and Protocols](networking/ports-and-protocols.md) · [SMTP](networking/smtp.md) · [TCP vs UDP](networking/tcp-vs-udp.md) · [TLS (Transport Layer Security)](networking/tls.md) · [TLS Handshake](networking/tls-handshake.md) · [Twisted Pair Cables Cheat-Sheet](networking/twisted-pair-cables.md) · [VPN (Virtual Private Network)](networking/vpn.md)
 
 ### Security
 
@@ -96,11 +96,11 @@ Provider: [Civo](cloud/provider/civo.md) · [Cloud-Provider Comparison](cloud/pr
 
 ### Apps
 
-[Argo CD](apps/argocd.md) · [Cert-Manager](apps/cert-manager.md) · [Dockhand](apps/dockhand.md) · [Grafana](apps/grafana.md) · [KASM Workspaces](apps/kasm.md) · [Longhorn](apps/longhorn.md) · [Nginx](apps/nginx.md) · [Portainer](apps/portainer.md) · [Prometheus](apps/prometheus.md) · [Rancher](apps/rancher.md) · [Tailscale](apps/tailscale.md) · [Teleport](apps/teleport.md) · [Traefik](apps/traefik.md) · [WireGuard](apps/wireguard.md)
+[Argo CD](apps/argocd.md) · [Cert-Manager](apps/cert-manager.md) · [Dockhand](apps/dockhand.md) · [Grafana](apps/grafana.md) · [KASM Workspaces](apps/kasm.md) · [Longhorn](apps/longhorn.md) · [Nginx](apps/nginx.md) · [Portainer](apps/portainer.md) · [Prometheus](apps/prometheus.md) · [Rancher](apps/rancher.md) · [Samba](apps/samba.md) · [Tailscale](apps/tailscale.md) · [Teleport](apps/teleport.md) · [Traefik](apps/traefik.md) · [WireGuard](apps/wireguard.md)
 
 ### Tools
 
-[Ansible Cheat-Sheet](tools/ansible.md) · [Ansible-Playbook Cheat-Sheet](tools/ansible-playbook.md) · [Aptly](tools/aptly.md) · [AWS CLI](tools/aws-cli.md) · [Azure CLI (az)](tools/azure-cli.md) · [Bitwarden Cheat-Sheet](tools/bitwarden.md) · [Certutil](tools/certutil.md) · [curl](tools/curl.md) · [Datree](tools/datree.md) · [Docker Desktop](tools/docker-desktop.md) · [ffmpeg](tools/ffmpeg.md) · [gcloud (Google Cloud CLI)](tools/gcloud.md) · [Git](tools/git.md) · [Git Recipes](tools/git-recipes.md) · [Gitea (and Forgejo)](tools/gitea.md) · [GitHub and the gh CLI](tools/github-cli.md) · [GitLab and the glab CLI](tools/gitlab.md) · [Go and Rust Toolchains](tools/go-rust-toolchains.md) · [Helm Cheat-Sheet](tools/helm.md) · [iTerm2](tools/iterm2.md) · [Joplin](tools/joplin.md) · [jq](tools/jq.md) · [Logseq](tools/logseq.md) · [Modern CLI Tools](tools/modern-cli-tools.md) · [nano](tools/nano.md) · [NMap](tools/nmap.md) · [Node.js and npm](tools/node-npm.md) · [Obsidian](tools/obsidian.md) · [OpenSSH Cheat-Sheet](tools/openssh.md) · [OpenSSL](tools/openssl.md) · [Packer](tools/packer.md) · [Starship Prompt](tools/starship.md) · [Terraform](tools/terraform.md) · [tmux](tools/tmux.md) · [Vagrant Cheat-Sheet](tools/vagrant.md) · [Vim](tools/vim.md) · [VSCode (Visual Studio Code)](tools/vscode.md) · [WSL Cheat-Sheet](tools/wsl.md) · [yt-dlp](tools/yt-dlp.md)
+[Ansible Cheat-Sheet](tools/ansible.md) · [Ansible-Playbook Cheat-Sheet](tools/ansible-playbook.md) · [Aptly](tools/aptly.md) · [AWS CLI](tools/aws-cli.md) · [Azure CLI (az)](tools/azure-cli.md) · [Bitwarden Cheat-Sheet](tools/bitwarden.md) · [Certutil](tools/certutil.md) · [curl](tools/curl.md) · [Datree](tools/datree.md) · [direnv](tools/direnv.md) · [Docker Desktop](tools/docker-desktop.md) · [ffmpeg](tools/ffmpeg.md) · [gcloud (Google Cloud CLI)](tools/gcloud.md) · [Git](tools/git.md) · [Git Recipes](tools/git-recipes.md) · [Gitea (and Forgejo)](tools/gitea.md) · [GitHub and the gh CLI](tools/github-cli.md) · [GitLab and the glab CLI](tools/gitlab.md) · [Go and Rust Toolchains](tools/go-rust-toolchains.md) · [Helm Cheat-Sheet](tools/helm.md) · [iperf3](tools/iperf3.md) · [iTerm2](tools/iterm2.md) · [Joplin](tools/joplin.md) · [jq](tools/jq.md) · [Logseq](tools/logseq.md) · [Modern CLI Tools](tools/modern-cli-tools.md) · [nano](tools/nano.md) · [NMap](tools/nmap.md) · [Node.js and npm](tools/node-npm.md) · [Obsidian](tools/obsidian.md) · [OpenSSH Cheat-Sheet](tools/openssh.md) · [OpenSSL](tools/openssl.md) · [Packer](tools/packer.md) · [Starship Prompt](tools/starship.md) · [tcpdump](tools/tcpdump.md) · [Terraform](tools/terraform.md) · [tmux](tools/tmux.md) · [Vagrant Cheat-Sheet](tools/vagrant.md) · [Vim](tools/vim.md) · [VSCode (Visual Studio Code)](tools/vscode.md) · [Wireshark and tshark](tools/wireshark-tshark.md) · [WSL Cheat-Sheet](tools/wsl.md) · [yt-dlp](tools/yt-dlp.md)
 
 ### Misc
 
