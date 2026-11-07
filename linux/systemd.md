@@ -5,7 +5,7 @@ Documentation: [systemd.service](https://www.freedesktop.org/software/systemd/ma
 
 > **Verification:** options and commands below come from the systemd man pages and common practice. No command was executed. Check the hardening options against your systemd version (`systemctl --version`) and test with `systemd-analyze security`.
 
-See also: [Linux](linux.md) · [Linux Performance Troubleshooting](performance-troubleshooting.md) · [SELinux and AppArmor](selinux-apparmor.md) · [Docker](../docker/docker.md)
+See also: [Linux](linux.md) · [logrotate](logrotate.md) · [Linux Performance Troubleshooting](performance-troubleshooting.md) · [SELinux and AppArmor](selinux-apparmor.md) · [Docker](../docker/docker.md)
 
 ---
 ## systemctl
