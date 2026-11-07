@@ -1,7 +1,7 @@
 # Woodpecker CI
 Woodpecker is a lightweight, self-hosted, container-native CI system (a community fork of Drone). Every step runs in a container, workflows live in `.woodpecker/*.yaml` (or a single `.woodpecker.yaml`) in the repo, and it connects to Gitea/Forgejo, GitHub, GitLab or Bitbucket. This sheet targets Woodpecker **v3** (latest release seen: v3.20.1); v2 differences are in the last table. For overall concepts see [CI/CD Overview](cicd.md), for the forge see [Gitea (and Forgejo)](../tools/gitea.md), and for image builds see [CI Docker Builds](ci-docker-builds.md).
 
-Documentation: [Woodpecker docs](https://woodpecker-ci.org/docs/intro), [Workflow syntax](https://woodpecker-ci.org/docs/usage/workflow-syntax), [CLI](https://woodpecker-ci.org/docs/cli)
+Documentation: [Woodpecker docs](https://woodpecker-ci.org/docs/intro), [Workflow syntax](https://woodpecker-ci.org/docs/usage/workflow-syntax), [CLI](https://woodpecker-ci.org/docs/cli/reference)
 
 ---
 ## Minimal Workflow

@@ -1,7 +1,7 @@
 # Unbound
 Unbound is a validating, recursive, caching DNS resolver from NLnet Labs. In a homelab it usually sits behind [Pi-hole](pihole.md) or [AdGuard Home](adguard-home.md): it resolves names itself from the root servers (so no single upstream sees your queries), validates DNSSEC, caches, and can also serve local zones. It can instead forward all queries over DNS-over-TLS to a public resolver.
 
-Documentation: [unbound.conf](https://unbound.docs.nlnetlabs.nl/en/latest/manual/unbound/unbound.conf.html) · [unbound-control](https://nlnetlabs.nl/documentation/unbound/unbound-control/) · [Pi-hole + Unbound guide](https://docs.pi-hole.net/guides/dns/unbound/)
+Documentation: [unbound.conf](https://unbound.docs.nlnetlabs.nl/en/latest/manpages/unbound.conf.html) · [unbound-control](https://nlnetlabs.nl/documentation/unbound/unbound-control/) · [Pi-hole + Unbound guide](https://docs.pi-hole.net/guides/dns/unbound/)
 
 > **Verification:** the Pi-hole-style listener (port 5335, `prefetch`, `edns-buffer-size: 1232`, `use-caps-for-id: no`, `private-address` lines) and the `unbound-control` subcommands `flush`, `flush_zone`, `list_local_data`, `local_data`, `dump_cache`, `stats_noreset`, `reload` were checked against the docs. **Not verified:** DoT forwarding options, `access-control`, trust-anchor handling, `unbound-checkconf`/`unbound-anchor`, and the packaging paths (from memory). No command was executed.
 

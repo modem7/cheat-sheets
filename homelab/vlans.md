@@ -1,7 +1,7 @@
 # VLANs
 A VLAN (IEEE 802.1Q) splits one physical switch network into several isolated layer-2 broadcast domains by adding a 4-byte tag with a 12-bit VLAN ID (1-4094) to Ethernet frames. In a homelab it is the standard way to separate trusted devices, servers, IoT and guests, then control traffic between them with a router/firewall. Traffic between VLANs must be routed, so that is where firewall rules apply.
 
-Documentation: [Linux VLAN (kernel.org)](https://www.kernel.org/doc/html/latest/networking/8021q.html) · [Netplan reference](https://netplan.readthedocs.io/en/stable/netplan-yaml/) · [Proxmox network configuration](https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#sysadmin_network_configuration)
+Documentation: [ip-link(8), VLAN type (man7.org)](https://man7.org/linux/man-pages/man8/ip-link.8.html) · [Netplan reference](https://netplan.readthedocs.io/en/stable/netplan-yaml/) · [Proxmox network configuration](https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#sysadmin_network_configuration)
 
 > **Verification:** the commands and config snippets here were written from the upstream documentation and **not executed**. Test on a machine with console access, because a wrong network or switch config can lock you out. OPNsense and UniFi menu paths change between releases, so check the current UI.
 
