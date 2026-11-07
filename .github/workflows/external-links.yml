@@ -1,0 +1,61 @@
+name: External links
+
+# Weekly check that links to official docs and project sites still resolve.
+# Not run on pull requests: external sites are flaky and would block unrelated changes.
+on:
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch: {}
+
+concurrency:
+  group: external-links
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: 'Check external links'
+        id: lychee
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: --config .lychee.toml --no-progress "**/*.md"
+          output: lychee/report.md
+          fail: false
+          jobSummary: true
+
+      - name: 'Open or update the broken-links issue'
+        if: steps.lychee.outputs.exit_code != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title='Broken external links'
+          {
+            echo "The weekly external link check found problems."
+            echo
+            echo "Run: $RUN_URL"
+            echo
+            cat lychee/report.md
+          } > lychee/issue.md
+          existing=$(gh issue list --repo "$REPO" --state open --search "\"$title\" in:title" \
+            --json number,title --jq "[.[] | select(.title == \"$title\")][0].number // empty")
+          if [ -n "$existing" ]; then
+            echo "Updating issue #$existing"
+            gh issue edit "$existing" --repo "$REPO" --body-file lychee/issue.md
+          else
+            echo "Creating issue"
+            gh issue create --repo "$REPO" --title "$title" --label documentation --body-file lychee/issue.md
+          fi

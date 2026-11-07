@@ -75,6 +75,9 @@ Configuration lives in `.markdownlint-cli2.yaml`. Fix the content rather than lo
 ## Issue Forms
 Not ready to write a sheet? Open an issue with one of the forms in `.github/ISSUE_TEMPLATE/`: **Request a sheet** to suggest a tool or topic, or **Report an error** for a wrong command, flag, default or link. Blank issues are disabled.
 
+## External Link Check
+A weekly workflow (`.github/workflows/external-links.yml`, config in `.lychee.toml`) checks every `http(s)` link with [lychee](https://github.com/lycheeverse/lychee). It does not run on pull requests. When it finds broken links it opens or updates one issue titled "Broken external links"; fix the links in a PR. Run it locally with `lychee --config .lychee.toml "**/*.md"` (or the `lycheeverse/lychee` Docker image).
+
 ## PR Templates
 Opening a pull request fills in `.github/PULL_REQUEST_TEMPLATE.md`. For sheet changes, add a query parameter to the PR URL to use a dedicated template (`https://github.com/modem7/cheat-sheets/compare/master...BRANCH?template=new-sheet.md`):
 

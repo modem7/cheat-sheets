@@ -1,0 +1,29 @@
+# lychee configuration for the weekly external link check
+# (.github/workflows/external-links.yml).
+# Relative links and anchors are covered by scripts/check-links.py in CI.
+# Run locally: lychee --config .lychee.toml "**/*.md"
+
+# Only check web links.
+scheme = ["https", "http"]
+
+# Be polite and tolerate flaky sites.
+max_concurrency = 8
+max_retries = 3
+retry_wait_time = 5
+timeout = 30
+# 403 is accepted because dev.mysql.com and docs.redhat.com refuse automated clients.
+accept = ["200..=299", "403", "429"]
+user_agent = "Mozilla/5.0 (compatible; cheat-sheets-link-check; +https://github.com/modem7/cheat-sheets)"
+
+# Placeholder and local addresses used in the sheets.
+exclude_loopback = true
+exclude_private = true
+exclude_link_local = true
+exclude = [
+  '^https?://([a-z0-9-]+\.)*example\.(com|org|net)(/|$)',
+  '^https?://([a-z0-9-]+\.)*(localhost|local|lan|internal|home\.arpa)(:\d+)?(/|$)',
+  '^https?://[^/]*[<>{}$]',
+  '^https?://(HOST|HOSTNAME|DOMAIN|SERVER|IP)(:|/|$)',
+]
+
+exclude_path = [".claude", "node_modules"]
