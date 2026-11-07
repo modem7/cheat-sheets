@@ -7,7 +7,7 @@
   <p class="hero-stats">
     <span><strong>{{ len site.RegularPages }}</strong> sheets</span>
     <span><strong>{{ len $secs }}</strong> sections</span>
-    <button class="hero-search" type="button" data-search-open>Search <kbd aria-hidden="true">/</kbd></button>
+    <a class="btn" href="#sections">Browse sections <span aria-hidden="true">↓</span></a>
   </p>
 </section>
 
@@ -23,7 +23,7 @@
 </section>
 {{- end }}
 
-<div class="index-grid">
+<div class="index-grid" id="sections">
   {{- range $secs }}
   {{- $pages := partial "section-pages.html" .page }}
   {{- $key := path.Base .page.Path | lower }}
