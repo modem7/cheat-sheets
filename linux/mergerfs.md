@@ -97,5 +97,7 @@ Pool empty after boot | Mount the disks first, then the pool; systemd mount orde
 - [SnapRAID](snapraid.md)
 - [Storage and Filesystems](storage-and-filesystems.md)
 - [Mount](mount.md)
+- [Disk Usage](disk-usage.md)
+- [Hardware Inspection](hardware-inspection.md)
 - [NFS](nfs.md)
 - [Docker-Compose](../docker/docker-compose.md)
