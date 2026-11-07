@@ -5,7 +5,7 @@ Documentation: [PostgreSQL: backup and restore](https://www.postgresql.org/docs/
 
 > **Verification:** `sqlite3_rsync` existence and the 3.50.0 change (WAL and page-size requirement removed) were checked against the SQLite docs. Everything else here is standard database tooling written from knowledge and was **not** re-checked against the documentation this session, including `VACUUM INTO`, the Redis multi-part AOF layout, `mariadb-backup` and the MySQL `--source-data` rename. No command was executed. Restore every dump into a scratch instance at least once.
 
-See also: [Backup Strategy](backup.md) · [Docker Volume Backup](docker-volume-backup.md) · [PostgreSQL Cheat-Sheet](../databases/postgres.md) · [MySQL](../databases/mysql.md) · [MariaDB Cheat-Sheet](../databases/mariadb.md) · [SQLite Cheat-Sheet](../databases/sqlite.md) · [Docker](../docker/docker.md) · [Docker-Compose](../docker/docker-compose.md) · [Linux](../linux/linux.md)
+See also: [Backup Strategy](backup.md) · [Docker Volume Backup](docker-volume-backup.md) · [PostgreSQL Cheat-Sheet](../databases/postgres.md) · [MySQL](../databases/mysql.md) · [MariaDB Cheat-Sheet](../databases/mariadb.md) · [SQLite Cheat-Sheet](../databases/sqlite.md) · [MongoDB](../databases/mongodb.md) · [Docker](../docker/docker.md) · [Docker-Compose](../docker/docker-compose.md) · [Linux](../linux/linux.md)
 
 ---
 ## Principles
@@ -121,7 +121,7 @@ docker exec <CONTAINER> redis-cli BGSAVE
 ```
 - Use `docker exec` **without** `-t` when redirecting binary output (a TTY mangles it) for `-Fc` dumps. Use `-i` only when piping input.
 - Restore into a container: `docker exec -i <CONTAINER> pg_restore -U <USER> -d <DB> --clean --if-exists < <DB>.dump`.
-- [borgmatic](borgmatic.md) can dump PostgreSQL, MariaDB, MySQL, MongoDB and SQLite natively into the archive, see its sheet.
+- [borgmatic](borgmatic.md) can dump PostgreSQL, MariaDB, MySQL, MongoDB and SQLite natively into the archive, see its sheet. Manual MongoDB dumps are in [MongoDB](../databases/mongodb.md#backup-mongodump-and-mongorestore).
 - With the `offen/docker-volume-backup` sidecar, an `archive-pre` label can run the dump first, see [Docker Volume Backup](docker-volume-backup.md).
 
 ---
