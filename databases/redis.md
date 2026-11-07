@@ -5,7 +5,7 @@ Documentation: [Redis docs](https://redis.io/docs/latest/) · [Commands](https:/
 
 > **Verification:** the `redis-cli` options (`--bigkeys`, `--memkeys`, `--keystats`, `--scan`, `--latency`) and the Docker image tags were checked against the Redis docs and Docker Hub. **Not verified against the docs:** ACL, replication and persistence settings below (they come from the Redis documentation as known, not re-read). No command was executed. Commands like `FLUSHALL` and `KEYS *` are dangerous on a real instance.
 
-See also: [Docker](../docker/docker.md) · [Docker-Compose](../docker/docker-compose.md) · [PostgreSQL Cheat-Sheet](postgres.md) · [Linux](../linux/linux.md) · [Linux Performance Troubleshooting](../linux/performance-troubleshooting.md)
+See also: [Docker](../docker/docker.md) · [Docker-Compose](../docker/docker-compose.md) · [PostgreSQL Cheat-Sheet](postgres.md) · [MongoDB](mongodb.md) · [Linux](../linux/linux.md) · [Linux Performance Troubleshooting](../linux/performance-troubleshooting.md)
 
 ---
 ## Run in Docker

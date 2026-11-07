@@ -120,6 +120,6 @@ Delete the tunnel and the Access application in the dashboard, then delete the D
 
 ## Related Sheets
 - [Cloudflare](../cloud/provider/cloudflare.md) · [Reverse Proxy Patterns](../homelab/reverse-proxy-patterns.md) · [Traefik](../apps/traefik.md) · [Tailscale](../apps/tailscale.md) · [WireGuard](../apps/wireguard.md)
-- [Docker-Compose](../docker/docker-compose.md) · [Docker Networking](../docker/docker-networking.md) · [DNS Record Types](../networking/dns-record-types.md) · [curl](../tools/curl.md)
+- [cloudflared](../apps/cloudflared.md) · [Docker-Compose](../docker/docker-compose.md) · [Docker Networking](../docker/docker-networking.md) · [DNS Record Types](../networking/dns-record-types.md) · [curl](../tools/curl.md)
 - [authentik](../security/authentik.md) · [CrowdSec](../security/crowdsec.md) · [Security](../security/security.md)
 - [Docker Service Deploy](docker-service-deploy.md) · [WireGuard Remote Access](wireguard-remote-access.md) · [Single Sign-On with authentik](sso-with-authentik.md) · [DNS Troubleshooting](dns-troubleshooting.md)

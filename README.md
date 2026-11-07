@@ -92,11 +92,11 @@ Provider: [Amazon Web Services](cloud/provider/amazon-web-services.md) · [Backb
 
 ### Databases
 
-[MariaDB Cheat-Sheet](databases/mariadb.md) · [MySQL](databases/mysql.md) · [MySQL and MariaDB Replication](databases/mysql-replication.md) · [PostgreSQL Cheat-Sheet](databases/postgres.md) · [PostgreSQL Backup and Replication](databases/postgres-backup-replication.md) · [Redis](databases/redis.md) · [SQL](databases/sql.md) · [SQLite Cheat-Sheet](databases/sqlite.md)
+[MariaDB Cheat-Sheet](databases/mariadb.md) · [MongoDB](databases/mongodb.md) · [MySQL](databases/mysql.md) · [MySQL and MariaDB Replication](databases/mysql-replication.md) · [PostgreSQL Cheat-Sheet](databases/postgres.md) · [PostgreSQL Backup and Replication](databases/postgres-backup-replication.md) · [Redis](databases/redis.md) · [SQL](databases/sql.md) · [SQLite Cheat-Sheet](databases/sqlite.md)
 
 ### Apps
 
-[Argo CD](apps/argocd.md) · [Cert-Manager](apps/cert-manager.md) · [Dockhand](apps/dockhand.md) · [Grafana](apps/grafana.md) · [KASM Workspaces](apps/kasm.md) · [Longhorn](apps/longhorn.md) · [Nginx](apps/nginx.md) · [Portainer](apps/portainer.md) · [Prometheus](apps/prometheus.md) · [Rancher](apps/rancher.md) · [Samba](apps/samba.md) · [Tailscale](apps/tailscale.md) · [Teleport](apps/teleport.md) · [Traefik](apps/traefik.md) · [WireGuard](apps/wireguard.md)
+[Argo CD](apps/argocd.md) · [Arr Stack](apps/arr-stack.md) · [Cert-Manager](apps/cert-manager.md) · [cloudflared](apps/cloudflared.md) · [Dockhand](apps/dockhand.md) · [Grafana](apps/grafana.md) · [KASM Workspaces](apps/kasm.md) · [Longhorn](apps/longhorn.md) · [Nginx](apps/nginx.md) · [Passbolt](apps/passbolt.md) · [Portainer](apps/portainer.md) · [Prometheus](apps/prometheus.md) · [Rancher](apps/rancher.md) · [Samba](apps/samba.md) · [Tailscale](apps/tailscale.md) · [Teleport](apps/teleport.md) · [Traefik](apps/traefik.md) · [WireGuard](apps/wireguard.md)
 
 ### Tools
 
