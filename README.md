@@ -62,7 +62,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Infrastructure
 
-[TrueNAS Community Edition](infra/truenas-community-edition.md) · [Unraid](infra/unraid.md)
+[VMware ESXi](infra/esxi.md) · [Hypervisors Compared](infra/hypervisor-comparison.md) · [NAS Operating Systems Compared](infra/nas-os-comparison.md) · [OpenMediaVault](infra/openmediavault.md) · [TrueNAS Community Edition](infra/truenas-community-edition.md) · [UniFi NAS](infra/unifi-nas.md) · [Unraid](infra/unraid.md) · [XCP-ng](infra/xcp-ng.md)
 
 ### Cloud
 
