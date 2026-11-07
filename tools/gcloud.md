@@ -1,5 +1,5 @@
 # gcloud (Google Cloud CLI)
-The `gcloud` CLI manages Google Cloud from the terminal. Compare [AWS CLI](aws-cli.md) and [Azure CLI (az)](azure-cli.md); for infrastructure as code see [Terraform](terraform.md).
+The `gcloud` CLI manages Google Cloud from the terminal. Compare [AWS CLI](aws-cli.md) and [Azure CLI (az)](azure-cli.md); for infrastructure as code see [Terraform](terraform.md). Provider-level notes (free tier, pitfalls, backups): [Google Cloud](../cloud/provider/google-cloud.md).
 
 Documentation: [gcloud reference](https://cloud.google.com/sdk/gcloud/reference)
 

@@ -1,5 +1,5 @@
 # Cloud-Provider Comparison
-Equivalent services across major providers. Background: [What is Cloud-Computing?](../what-is-cloud-computing.md). Provider notes: [Civo](civo.md).
+Equivalent services across major providers. Background: [What is Cloud-Computing?](../what-is-cloud-computing.md). Provider sheets: [Amazon Web Services](amazon-web-services.md), [Google Cloud](google-cloud.md), [Hetzner Cloud](hetzner-cloud.md), [DigitalOcean](digitalocean.md), [Cloudflare](cloudflare.md), [Oracle Cloud](oracle-cloud.md), [Backblaze B2](backblaze-b2.md) and [Civo](civo.md).
 
 > Product names change. Treat this as a map, then check each provider's current docs and pricing.
 
@@ -25,6 +25,18 @@ Monitoring | CloudWatch | Azure Monitor | Cloud Monitoring | Basic metrics
 IaC (native) | CloudFormation | Bicep / ARM | Deployment Manager | none (use [Terraform](../../tools/terraform.md))
 CLI | `aws` | `az` | `gcloud` | `civo`
 
+## Self-Hosting Providers
+PROVIDER | GOOD FOR | SHEET
+---|---|---
+Hetzner Cloud | Cheap European VPS, Storage Box for backups | [Hetzner Cloud](hetzner-cloud.md)
+DigitalOcean | Simple Droplets, Spaces, clear billing | [DigitalOcean](digitalocean.md)
+Cloudflare | DNS, Tunnel, R2 with no egress fees | [Cloudflare](cloudflare.md)
+Oracle Cloud | Largest free VPS allowance (Always Free) | [Oracle Cloud](oracle-cloud.md)
+Backblaze B2 | Cheap off-site backup storage | [Backblaze B2](backblaze-b2.md)
+AWS | S3, Route 53, wide catalogue | [Amazon Web Services](amazon-web-services.md)
+Google Cloud | Free e2-micro, Cloud Run | [Google Cloud](google-cloud.md)
+Civo | Managed K3s, simple pricing | [Civo](civo.md)
+
 ## When to Pick What
 NEED | LEANING
 ---|---
@@ -33,6 +45,8 @@ Microsoft shop, hybrid with on-prem AD | Azure
 Data, analytics, Kubernetes pedigree | Google Cloud
 Simple, predictable pricing, fast K3s clusters, learning | Civo
 Small hobby or homelab extension | Civo, Hetzner, DigitalOcean, Linode
+Cheap off-site backups | Backblaze B2, Hetzner Storage Box, Cloudflare R2
+Free VPS | Oracle Cloud Always Free, Google Cloud e2-micro
 
 ## Free Tiers (check current terms)
 PROVIDER | TYPICAL OFFER
@@ -41,6 +55,8 @@ AWS | 12 months of small free tier plus always-free services
 Azure | Credit plus 12 months of selected services
 Google Cloud | Credit plus always-free small usage
 Civo | Sign-up credit
+Oracle Cloud | Always Free: Arm VM (2 OCPU, 12 GB), 2 AMD micro VMs, 200 GB block storage
+Backblaze B2 | First 10 GB of storage free
 
 ## CLI Quick Start
 PROVIDER | LOGIN | LIST VMS
