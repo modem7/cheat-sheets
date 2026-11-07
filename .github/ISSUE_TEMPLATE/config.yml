@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Browse the cheat sheets
+    url: https://modem7.github.io/cheat-sheets/
+    about: Check whether the sheet you want already exists
+  - name: Contributing guide
+    url: https://github.com/modem7/cheat-sheets/blob/master/docs/CONTRIBUTING.md
+    about: House style and how to add a sheet yourself with a pull request

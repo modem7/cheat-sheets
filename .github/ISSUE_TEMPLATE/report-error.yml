@@ -1,0 +1,58 @@
+name: Report an error
+description: A command, flag, default or link on a sheet is wrong or out of date
+title: "Error: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping keep the sheets accurate. Please include a source so the fix can be checked against official documentation.
+  - type: input
+    id: sheet
+    attributes:
+      label: Sheet
+      description: File path or page URL
+      placeholder: e.g. docker/docker-compose.md
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong?
+      options:
+        - Wrong or invented command or flag
+        - Wrong default or behaviour
+        - Out of date for a newer version
+        - Broken link
+        - Typo or formatting
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What the sheet says
+      description: Paste the line or table row
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: correct
+    attributes:
+      label: What it should say
+      description: Include the version you tested, if relevant
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: Link to the official docs, release notes or man page that confirms it
+      placeholder: https://example.com/docs/
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Before submitting
+      options:
+        - label: I removed any secrets, real IP addresses and personal domains from what I pasted
+          required: true
