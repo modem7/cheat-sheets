@@ -30,7 +30,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Linux
 
-[Linux](linux/linux.md) · [AWK](linux/awk.md) · [Grep](linux/grep.md) · [IPTables](linux/iptables.md) · [Linux Basics](linux/linuxbasics.md) · [LVM](linux/lvm.md) · [Mount](linux/mount.md) · [NFS](linux/nfs.md) · [nftables](linux/nftables.md) · [Linux Performance Troubleshooting](linux/performance-troubleshooting.md) · [RAID with mdadm](linux/raid-mdadm.md) · [SED Cheat-Sheet](linux/sed.md) · [SELinux and AppArmor](linux/selinux-apparmor.md) · [Storage and Filesystems](linux/storage-and-filesystems.md) · [systemd](linux/systemd.md) · [UFW (uncomplicated firewall)](linux/ufw.md) · [User Management](linux/user.md)
+[Linux](linux/linux.md) · [AWK](linux/awk.md) · [Grep](linux/grep.md) · [IPTables](linux/iptables.md) · [Linux Basics](linux/linuxbasics.md) · [LVM](linux/lvm.md) · [Mount](linux/mount.md) · [NFS](linux/nfs.md) · [nftables](linux/nftables.md) · [Linux Performance Troubleshooting](linux/performance-troubleshooting.md) · [RAID with mdadm](linux/raid-mdadm.md) · [SED Cheat-Sheet](linux/sed.md) · [SELinux and AppArmor](linux/selinux-apparmor.md) · [Storage and Filesystems](linux/storage-and-filesystems.md) · [systemd](linux/systemd.md) · [UFW (uncomplicated firewall)](linux/ufw.md) · [User Management](linux/user.md) · [XFS](linux/xfs.md)
 
 ### Windows
 
