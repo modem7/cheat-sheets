@@ -19,6 +19,55 @@ disableKinds = ["taxonomy", "term", "RSS"]
     cicd = "CI/CD"
     macos = "macOS"
     infra = "Infrastructure"
+  # Optional one-line blurbs for the home-page section cards, keyed by folder
+  # name. A folder without an entry gets an automatic line built from its
+  # sheet count and first sheet titles, so adding a folder needs no config.
+  [params.sectionDescriptions]
+    apps = "Self-hosted apps: proxies, VPNs, monitoring and dashboards."
+    backup = "Backup tools and strategies: Borg, rclone, snapshots, volumes."
+    cicd = "Pipelines, runners and automation recipes."
+    cloud = "Cloud concepts and provider comparisons."
+    databases = "MariaDB, MySQL, Postgres and Redis: queries, replication, backups."
+    distros = "Container base images and the distros behind them."
+    docker = "Images, containers, Compose, networking and troubleshooting."
+    docs = "House style and template for writing new sheets."
+    homelab = "DNS, DHCP, VLANs, reverse proxies and other home network plumbing."
+    infra = "Storage and infrastructure platforms."
+    kubernetes = "k3s, kubectl, k9s, DNS and cluster operations."
+    linux = "Everyday Linux: files, storage, services, firewall and performance."
+    macos = "Shortcuts, Homebrew and developer setup on macOS."
+    misc = "Reference tables: colour codes, HTTP statuses, certificates."
+    networking = "DNS, TLS, VPNs and diagnostics."
+    proxmox = "Proxmox VE: storage, passthrough, firewall, cloud-init."
+    recipes = "Step-by-step checklists and troubleshooting runbooks."
+    scripting = "Shells, Make and linters for scripts."
+    security = "Hardening, secrets, authentication and intrusion prevention."
+    tools = "Command-line and developer tools, from curl to Terraform."
+    windows = "Windows admin: package managers, AD, GPO, robocopy, troubleshooting."
+  # Optional glyph shown beside each card's `$ man` line (any short string).
+  # Missing entries fall back to a plain prompt marker.
+  [params.sectionGlyphs]
+    apps = "◫"
+    backup = "↻"
+    cicd = "⇄"
+    cloud = "≈"
+    databases = "≡"
+    distros = "◈"
+    docker = "▣"
+    docs = "¶"
+    homelab = "⌂"
+    infra = "▥"
+    kubernetes = "◎"
+    linux = "$"
+    macos = "⌘"
+    misc = "…"
+    networking = "⇆"
+    proxmox = "▤"
+    recipes = "§"
+    scripting = "#!"
+    security = "◆"
+    tools = "⌥"
+    windows = "▦"
 
 [markup]
   [markup.goldmark]

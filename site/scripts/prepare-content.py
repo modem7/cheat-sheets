@@ -7,6 +7,14 @@ adding YAML front matter (title, description, and weight 1 for a section's
 lead sheet such as docker/docker.md) unless the file already has some. The
 body is copied unchanged.
 
+Generated front matter also gets `lastmod: YYYY-MM-DD`, the date of the
+last commit that touched the sheet, and `stale: true` when that is over 12
+months ago (UTC). Dates come from scripts/check-freshness.py, so they
+skip the commits in .freshness-ignore-revs. They are left out, silently,
+when --src is not the top of a git repo, the clone is shallow, git fails
+or the sheet is not committed. Sheets with their own front matter are
+copied as they are.
+
 Usage:
   prepare-content.py [--src DIR] [--out DIR] [--watch]
 
@@ -24,6 +32,8 @@ Symlinked files are skipped. Python 3.9+, standard library only.
 from __future__ import annotations
 
 import argparse
+import datetime
+import importlib.util
 import json
 import os
 import posixpath
@@ -41,8 +51,11 @@ SITE_DIR = SCRIPT_DIR.parent
 REPO_ROOT = SITE_DIR.parent
 BUILD_DIR = SITE_DIR / ".build"
 
+FRESHNESS_SCRIPT = REPO_ROOT / "scripts" / "check-freshness.py"
+
 DESC_MAX = 160
 POLL_SECONDS = 1.0
+STALE_MONTHS = 12
 
 # --- Regexes ---------------------------------------------------------------
 
@@ -76,6 +89,8 @@ class Sheet:
     body: str = ""
     title: str = ""
     description: str = ""
+    lastmod: datetime.date | None = None
+    stale: bool = False
 
     @property
     def stem(self) -> str:
@@ -293,6 +308,10 @@ def front_matter_for(sheet: Sheet) -> str:
     ]
     if sheet.folder and sheet.stem == posixpath.basename(sheet.folder):
         lines.append("weight: 1")
+    if sheet.lastmod is not None:
+        lines.append(f"lastmod: {sheet.lastmod.isoformat()}")
+        if sheet.stale:
+            lines.append("stale: true")
     lines.append("---")
     return "\n".join(lines) + "\n\n"
 
@@ -306,10 +325,79 @@ def render_sheet(sheet: Sheet) -> str:
     return text.rstrip("\n") + "\n"
 
 
-def build(src: Path) -> dict[str, str]:
-    """Render every sheet. Returns {rel: content}."""
+def build(src: Path, today: datetime.date | None = None) -> dict[str, str]:
+    """Render every sheet. Returns {rel: content}.
+
+    today (default: today, UTC) is what staleness is measured from.
+    """
+    if today is None:
+        today = datetime.datetime.now(datetime.timezone.utc).date()
     sheets = [load_sheet(src, p) for p in discover(src)]
+    dates = last_commit_dates(src, [s.rel for s in sheets])
+    fresh = _freshness()
+    for s in sheets:
+        when = dates.get(s.rel)
+        if when is not None and fresh is not None:
+            s.lastmod = when
+            s.stale = fresh.is_stale(when, today, STALE_MONTHS)
     return {s.rel: render_sheet(s) for s in sheets}
+
+
+# --- Git dates -------------------------------------------------------------
+
+_FRESHNESS: object | None = None
+_FRESHNESS_LOADED = False
+# (src, HEAD sha, rels) -> dates, so watch rebuilds skip the git log pass.
+_DATES_CACHE: tuple[tuple[str, str, frozenset[str]], dict[str, datetime.date]] | None = None
+
+
+def _freshness():
+    """Load scripts/check-freshness.py once. None if it cannot be loaded."""
+    global _FRESHNESS, _FRESHNESS_LOADED
+    if not _FRESHNESS_LOADED:
+        _FRESHNESS_LOADED = True
+        try:
+            spec = importlib.util.spec_from_file_location(
+                "check_freshness", FRESHNESS_SCRIPT
+            )
+            if spec is not None and spec.loader is not None:
+                mod = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(mod)
+                _FRESHNESS = mod
+        except Exception:  # noqa: BLE001 - dates are optional
+            _FRESHNESS = None
+    return _FRESHNESS
+
+
+def last_commit_dates(src: Path, rels: list[str]) -> dict[str, datetime.date]:
+    """Map rel paths to the UTC date of their last commit.
+
+    Uses the author date, as check-freshness.py does. Returns {} if src is
+    not a repo top level, the clone is shallow or git fails. Paths with no
+    commit are simply missing from the result.
+    """
+    global _DATES_CACHE
+    fresh = _freshness()
+    if fresh is None or not rels:
+        return {}
+    root = str(src)
+    try:
+        top = fresh.git(root, "rev-parse", "--show-toplevel").strip()
+        # git log paths are relative to the top level, so src must be it.
+        if not top or Path(top).resolve() != src.resolve():
+            return {}
+        if fresh.git(root, "rev-parse", "--is-shallow-repository").strip() == "true":
+            return {}
+        head = fresh.git(root, "rev-parse", "HEAD").strip()
+        key = (root, head, frozenset(rels))
+        if _DATES_CACHE is not None and _DATES_CACHE[0] == key:
+            return _DATES_CACHE[1]
+        ignored = fresh.load_ignored(root)
+        dates = fresh.last_touched(root, rels, ignored)
+    except (fresh.GitError, OSError, ValueError):
+        return {}
+    _DATES_CACHE = (key, dates)
+    return dates
 
 
 # --- Output ----------------------------------------------------------------

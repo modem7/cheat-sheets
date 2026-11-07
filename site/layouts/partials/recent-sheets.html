@@ -1,0 +1,10 @@
+{{- /*
+  The N most recently updated sheets (needs `lastmod` front matter, which
+  prepare-content.py writes from git history). Returns an empty slice on a
+  shallow clone or outside git, so callers can hide the strip.
+*/ -}}
+{{- $dated := slice -}}
+{{- range site.RegularPages -}}
+  {{- if not .Lastmod.IsZero }}{{ $dated = $dated | append . }}{{ end -}}
+{{- end -}}
+{{- return first (.n | default 8) (sort $dated "Lastmod" "desc") -}}
