@@ -2,7 +2,8 @@
 {{- range .THead }}{{ $cols = len . }}{{ end -}}
 {{- $first := "" -}}
 {{- range .THead }}{{ with index . 0 }}{{ $first = .Text | plainify | lower | strings.TrimSpace }}{{ end }}{{ end -}}
-<div class="table-wrap{{ if ge $cols 4 }} table-sticky{{ end }}"{{ if eq $first "command" }} data-copy-col{{ end }} role="region" tabindex="0" aria-label="Table (scrolls horizontally on small screens)">
+<div class="table-scroll">
+<div class="table-wrap{{ if ge $cols 4 }} table-sticky{{ end }}"{{ if eq $first "command" }} data-copy-col{{ end }} role="region" tabindex="0" aria-label="Table {{ add .Ordinal 1 }} (scrolls horizontally if wide)">
   <table>
     <thead>
       {{- range .THead }}
@@ -23,4 +24,5 @@
       {{- end }}
     </tbody>
   </table>
+</div>
 </div>
