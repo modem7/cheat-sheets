@@ -5,6 +5,10 @@ SHEET | DESCRIPTION
 ---|---
 [Bash](bash.md) | Strict mode, variables, quoting, arrays, parameter expansion, tests, loops, functions, `trap`, `getopts`, here-docs, redirection
 [Bash Recipes](bash-recipes.md) | Argument parsing, logging, `flock` lockfiles, retry with backoff, safe temp files, idempotent checks, `xargs -P`
+[Zsh](zsh.md) | Startup files, arrays, expansion flags, globbing qualifiers, `zmv`, options, completion, differences from Bash
+[Fish](fish.md) | Not-Bash translation table, `set` scopes, functions, abbreviations, `string` and `math`
+[Nushell](nushell.md) | Structured pipelines, variables, custom commands, scripts, configuration
+[Shell Comparison](shell-comparison.md) | Bash, Zsh, Fish, Nushell and PowerShell syntax side by side, choosing and switching shells
 [ShellCheck and shfmt](shellcheck-shfmt.md) | Static analysis and formatting for shell, common SC codes, CI usage
 [Make](make.md) | Makefile syntax, phony targets, variables, pattern rules, self-documenting `help`
 [Python and uv](python-uv.md) | `uv` projects, venvs, tools, inline script metadata, `pyproject.toml`
