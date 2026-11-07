@@ -1,0 +1,9 @@
+# Commits that scripts/check-freshness.py skips when working out when
+# each cheat sheet was last touched.
+#
+# List bulk edits here (link conversions, mass reformatting, renames)
+# so they do not make every sheet look freshly reviewed.
+# One full or abbreviated commit SHA per line. Text after # is ignored.
+
+# Convert wikilinks to relative links (PR 29): mechanical edit across 194 files.
+0fd34fb93e164d5dfed48ce60c65a5f14a35e050
