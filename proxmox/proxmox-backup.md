@@ -5,7 +5,7 @@ Documentation: [Backup and Restore](https://pve.proxmox.com/pve-docs/chapter-vzd
 
 > **Verification:** `vzdump` modes and options, `--prune-backups`, `/etc/vzdump.conf`, the `proxmox-backup-client` syntax, and the PBS garbage collection command were checked against the docs. The `proxmox-backup-manager` commands for datastore, prune-job and verify-job creation were **not** verified, nor were `datastore list`, `garbage-collection status`, `versions`, `vzdump --exclude`, `--mailto`, `qmrestore --unique`, or restoring from a PBS volume ID in the form shown. No command was executed. Always test a restore.
 
-See also: [Proxmox Storage](proxmox-storage.md) · [Proxmox qm and pct](proxmox-qm-pct.md) · [Proxmox Clustering and HA](proxmox-cluster-ha.md) · [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md) · [TrueNAS Scale](../infra/truenas-scale.md) (offsite replication target)
+See also: [Proxmox Storage](proxmox-storage.md) · [Proxmox qm and pct](proxmox-qm-pct.md) · [Proxmox Clustering and HA](proxmox-cluster-ha.md) · [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md) · [TrueNAS Community Edition](../infra/truenas-community-edition.md) (offsite replication target)
 
 ---
 ## vzdump

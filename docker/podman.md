@@ -139,5 +139,6 @@ Image name prompts for a registry | Use a fully qualified image name or set `unq
 - [Docker-Compose](docker-compose.md)
 - [Docker Registry](docker-registry.md)
 - [OCI Images](oci-images.md)
+- [Buildah](buildah.md)
 - [SELinux and AppArmor](../linux/selinux-apparmor.md)
 - [Container Scanning](../security/container-scanning.md)

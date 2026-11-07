@@ -166,3 +166,6 @@ COMMAND | DESCRIPTION
 `python3 -m venv --help` | Venv options
 `python3 -m py_compile script.py` | Syntax check
 `uv run python -m pdb script.py` | Debugger
+
+## See Also
+- [pip and pipx](pip-and-pipx.md)

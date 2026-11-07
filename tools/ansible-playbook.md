@@ -131,3 +131,8 @@ roles/
 - Test with `--check --diff` first, and lint with `ansible-lint`.
 - Keep secrets in `ansible-vault`, never in plain vars.
 - `serial: 1` in a play does rolling updates, `max_fail_percentage` limits blast radius.
+
+## See Also
+- [Ansible Cheat-Sheet](ansible.md)
+- [Puppet Cheat-Sheet](puppet.md)
+- [Salt Cheat-Sheet](salt.md)
