@@ -1,5 +1,12 @@
 # Cheat-Sheets
 
+[![Lint](https://github.com/modem7/cheat-sheets/actions/workflows/lint.yml/badge.svg)](https://github.com/modem7/cheat-sheets/actions/workflows/lint.yml)
+[![Secret and IP scan](https://github.com/modem7/cheat-sheets/actions/workflows/secret-scan.yml/badge.svg)](https://github.com/modem7/cheat-sheets/actions/workflows/secret-scan.yml)
+[![Pages](https://github.com/modem7/cheat-sheets/actions/workflows/pages.yml/badge.svg)](https://github.com/modem7/cheat-sheets/actions/workflows/pages.yml)
+[![Last commit](https://img.shields.io/github/last-commit/modem7/cheat-sheets)](https://github.com/modem7/cheat-sheets/commits/master)
+[![Licence: MIT](https://img.shields.io/github/license/modem7/cheat-sheets)](LICENSE)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](docs/CONTRIBUTING.md)
+
 This Repository **Cheat-Sheets** is my personal knowledge-base. Here you'll find code-snippets, technical documentation, and command reference for various tools, and technologies.
 
 **Browse it online: [modem7.github.io/cheat-sheets](https://modem7.github.io/cheat-sheets/)**
@@ -77,7 +84,7 @@ Provider: [Civo](cloud/provider/civo.md) · [Cloud-Provider Comparison](cloud/pr
 
 ### Scripting
 
-[Scripting](scripting/scripting.md) · [Bash](scripting/bash.md) · [Bash Recipes](scripting/bash-recipes.md) · [Make](scripting/make.md) · [pre-commit](scripting/pre-commit.md) · [Python and uv](scripting/python-uv.md) · [ShellCheck and shfmt](scripting/shellcheck-shfmt.md)
+[Scripting](scripting/scripting.md) · [Bash](scripting/bash.md) · [Bash Recipes](scripting/bash-recipes.md) · [Fish](scripting/fish.md) · [Make](scripting/make.md) · [Nushell](scripting/nushell.md) · [pre-commit](scripting/pre-commit.md) · [Python and uv](scripting/python-uv.md) · [Shell Comparison](scripting/shell-comparison.md) · [ShellCheck and shfmt](scripting/shellcheck-shfmt.md) · [Zsh](scripting/zsh.md)
 
 ### Databases
 

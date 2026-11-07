@@ -1,5 +1,5 @@
 # Bash
-Bash is the default shell on most Linux servers and the language most homelab glue is written in. This sheet covers the syntax you reach for daily; ready-made patterns are in [Bash Recipes](bash-recipes.md), linting in [ShellCheck and shfmt](shellcheck-shfmt.md). For text tools see [Grep](../linux/grep.md), [SED Cheat-Sheet](../linux/sed.md), [AWK](../linux/awk.md) and [jq](../tools/jq.md).
+Bash is the default shell on most Linux servers and the language most homelab glue is written in. This sheet covers the syntax you reach for daily; ready-made patterns are in [Bash Recipes](bash-recipes.md), linting in [ShellCheck and shfmt](shellcheck-shfmt.md). Other shells: [Zsh](zsh.md), [Fish](fish.md), [Nushell](nushell.md) and [Shell Comparison](shell-comparison.md). For text tools see [Grep](../linux/grep.md), [SED Cheat-Sheet](../linux/sed.md), [AWK](../linux/awk.md) and [jq](../tools/jq.md).
 
 Documentation: [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html)
 
