@@ -45,6 +45,8 @@ COMMAND | DESCRIPTION
 `dig example.com DS +short` | Delegation signer at the parent
 `dig +cd example.com` | Checking disabled: see data that fails validation
 
+Signing a zone and troubleshooting validation: [DNSSEC](dnssec.md).
+
 ## Zone Transfer
 COMMAND | DESCRIPTION
 ---|---
@@ -83,6 +85,7 @@ FIELD | MEANING
 ## See Also
 - [DNS Troubleshooting](../recipes/dns-troubleshooting.md)
 - [DNS Record Types](dns-record-types.md)
+- [DNSSEC](dnssec.md)
 - [DNS over TLS (DoT)](dns-over-tls.md)
 - [Unbound](../homelab/unbound.md)
 - [Network Troubleshooting](../recipes/network-troubleshooting.md)
