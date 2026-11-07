@@ -12,6 +12,7 @@ SHEET | DESCRIPTION
 [ShellCheck and shfmt](shellcheck-shfmt.md) | Static analysis and formatting for shell, common SC codes, CI usage
 [Make](make.md) | Makefile syntax, phony targets, variables, pattern rules, self-documenting `help`
 [Python and uv](python-uv.md) | `uv` projects, venvs, tools, inline script metadata, `pyproject.toml`
+[pip and pipx](pip-and-pipx.md) | `pip` installs, requirements, hashes, config, cache; `pipx` for isolated CLI tools
 [pre-commit](pre-commit.md) | Run linters and secret scanning before every commit and in CI
 
 ## Related Sheets
