@@ -315,12 +315,11 @@ kbd {
 .hero-lead { max-width: 42rem; font-size: 1.1rem; color: var(--text); margin: 0 0 1.2rem; }
 .hero-stats { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; margin: 0; font: .9rem/1 var(--font-mono); color: var(--muted); }
 .hero-stats strong { color: var(--text-strong); font-size: 1.15rem; }
-.hero-search, .btn {
+.btn {
   display: inline-flex; align-items: center; gap: .6rem; padding: .55rem .9rem; border-radius: var(--radius); font: 600 .9rem/1 var(--font-ui); cursor: pointer; text-decoration: none;
   background: var(--accent); color: var(--accent-ink); border: 1px solid var(--accent);
 }
-.hero-search kbd { background: rgba(0, 0, 0, .15); border-color: rgba(0, 0, 0, .25); color: inherit; }
-.hero-search:hover, .btn:hover { filter: brightness(1.1); color: var(--accent-ink); }
+.btn:hover { filter: brightness(1.1); color: var(--accent-ink); }
 .btn-ghost { background: transparent; color: var(--text); border-color: var(--border); }
 .btn-ghost:hover { color: var(--text-strong); border-color: var(--accent); }
 .recent { max-width: 80rem; margin: 0 auto 2rem; }
