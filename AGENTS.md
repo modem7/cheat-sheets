@@ -10,6 +10,7 @@ A personal homelab and DevOps knowledge base: Markdown cheat sheets with quick-s
 - `docs/CONTRIBUTING.md` and `docs/_template.md`: house style and a starting template. Folder choice guide is in CONTRIBUTING.
 - `scripts/check-links.py`: link, anchor and file checker.
 - `scripts/gen-index.py`: generates the `README.md` index (`--check` in CI).
+- `.github/PULL_REQUEST_TEMPLATE.md` and `.github/PULL_REQUEST_TEMPLATE/`: default PR template plus `new-sheet.md` and `update-sheet.md` (select with `?template=`). Fill in the matching one in PR descriptions.
 - `.markdownlint-cli2.yaml`, `.github/workflows/lint.yml`: CI checks.
 
 ## House Style

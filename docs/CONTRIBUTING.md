@@ -72,6 +72,15 @@ npx markdownlint-cli2 "**/*.md"
 
 Configuration lives in `.markdownlint-cli2.yaml`. Fix the content rather than loosening a rule; if a rule is genuinely wrong for this repo, change the config in its own PR and explain why.
 
+## PR Templates
+Opening a pull request fills in `.github/PULL_REQUEST_TEMPLATE.md`. For sheet changes, add a query parameter to the PR URL to use a dedicated template (`https://github.com/modem7/cheat-sheets/compare/master...BRANCH?template=new-sheet.md`):
+
+TEMPLATE | USE FOR
+---|---
+`new-sheet.md` | Adding a new sheet
+`update-sheet.md` | Changing an existing sheet
+default | Everything else (fixes, repo and CI changes)
+
 ## PR Checklist
 - [ ] One topic per file, kebab-case file name, correct folder
 - [ ] Title, intro, and a documentation link where one exists
