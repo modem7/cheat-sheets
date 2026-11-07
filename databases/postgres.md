@@ -3,7 +3,7 @@ PostgreSQL, also known as Postgres, is a free and open-source relational databas
 
 Documentation: [PostgreSQL Docs](https://www.postgresql.org/docs/current/)
 
-See also: [PostgreSQL Backup and Replication](postgres-backup-replication.md) · [Redis](redis.md) · [MySQL](mysql.md) · [SQLite Cheat-Sheet](sqlite.md)
+See also: [PostgreSQL Backup and Replication](postgres-backup-replication.md) · [Redis](redis.md) · [MySQL](mysql.md) · [SQLite Cheat-Sheet](sqlite.md) · [SQL](sql.md)
 
 ## Installation
 ### Install PostgreSQL on Ubuntu / Debian
