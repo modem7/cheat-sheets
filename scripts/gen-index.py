@@ -32,6 +32,7 @@ SECTIONS = [
     ("windows", "Windows"),
     ("macos", "macOS"),
     ("docker", "Docker"),
+    ("distros", "Container Distros"),
     ("kubernetes", "Kubernetes"),
     ("proxmox", "Proxmox"),
     ("homelab", "Homelab"),

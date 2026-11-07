@@ -33,6 +33,7 @@ body:
         - cicd
         - cloud
         - databases
+        - distros
         - docker
         - homelab
         - infra

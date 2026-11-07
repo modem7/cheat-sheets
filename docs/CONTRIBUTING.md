@@ -24,6 +24,7 @@ FOLDER | WHAT GOES THERE
 `cicd/` | CI/CD systems and pipelines
 `cloud/` | Cloud concepts and provider comparisons
 `databases/` | Database engines and their CLIs
+`distros/` | Linux distributions as container base images (Alpine, Ubuntu, Debian)
 `docker/` | Docker, Dockerfile, Compose, container networking
 `homelab/` | Homelab design, services and operations
 `infra/` | Infrastructure platforms and appliances
@@ -40,7 +41,7 @@ FOLDER | WHAT GOES THERE
 `windows/` | Windows and PowerShell
 
 ### Where New Sections Go
-Add a new top-level folder only when you have several sheets for a theme that none of the folders above fits, for example `security/`, `backup/`, `scripting/`, `homelab/`, `cicd/` or `recipes/`. Use a short lower-case name, add the folder and its sheets in the same PR, and add the section to the README index. A single sheet goes into the closest existing folder instead.
+Add a new top-level folder only when you have several sheets for a theme that none of the folders above fits, for example `security/`, `backup/`, `distros/`, `scripting/`, `homelab/`, `cicd/` or `recipes/`. Use a short lower-case name, add the folder and its sheets in the same PR, and add the section to the README index. A single sheet goes into the closest existing folder instead.
 
 ## Content Rules
 - **Verify facts.** Check every command, flag and default against the official documentation or by running it. Do not invent commands or flags. If something cannot be verified, say so in the sheet (for example `(unverified)`) rather than guessing.
