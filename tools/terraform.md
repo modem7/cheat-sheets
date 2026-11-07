@@ -105,3 +105,8 @@ Set sensitive values with environment variables such as `TF_VAR_name` or the pro
 - Review `terraform plan` output before every apply; in CI run `fmt -check`, `validate`, `plan`.
 - Use `terraform apply --auto-approve` only in automation.
 - Policy and linting: `tflint`, `trivy config`, `checkov`.
+
+## See Also
+- [Ansible Cheat-Sheet](ansible.md)
+- [Puppet Cheat-Sheet](puppet.md)
+- [Salt Cheat-Sheet](salt.md)

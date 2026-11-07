@@ -235,3 +235,7 @@ docker buildx build --platform linux/amd64,linux/arm64 \
   --push .
 ```
 Pin third-party images in Compose files to a version (and ideally a digest) and let Renovate propose updates, instead of following `latest`.
+
+## See Also
+- [Docker Buildx](buildx.md)
+- [OCI Images](oci-images.md)
