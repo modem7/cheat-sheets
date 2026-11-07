@@ -99,10 +99,17 @@ Pagefind build (see Local preview), and the table marker comes from `layouts/_de
   command (the single `code` element if there is one, otherwise the cell text). Links are left alone, a double
   or triple click or an existing text selection selects instead of copying, and the result is announced through
   the `#live` polite live region. Mouse and touch only: keyboard users have the Copy button on code blocks.
-- **Smooth navigation**: a CSS cross-document view transition (`@view-transition` at the end of `main.css`)
-  keeps the top bar and sidebar fixed while the page content cross-fades, and a `speculationrules` block in
-  `head.html` prefetches same-site links on hover. Both are progressive enhancements: browsers without support
-  (currently Firefox) navigate as before, and `prefers-reduced-motion: reduce` turns the transition off.
+- **Smooth navigation**: clicking a same-site link (sidebar, pager, content, brand) is a soft navigation in
+  `main.js`: the next page is fetched (and warmed on hover, focus or touch), then only `<main>`, the title, the
+  canonical and Open Graph tags and the sidebar's current-page marker are swapped, and `history.pushState` updates
+  the URL. The top bar and sidebar are never reloaded, so there is no flash, the sidebar keeps its scroll
+  position, filter text and open sections, and page features (table of contents, copy buttons, click-to-copy,
+  table shadows, search highlighting) re-run through `initContent()`. Back and Forward restore the scroll
+  position. Where supported (and not under `prefers-reduced-motion: reduce`) the swap is wrapped in
+  `document.startViewTransition` for a short cross-fade. Modified clicks (Ctrl, Cmd, Shift, middle button),
+  `target` links, PDFs and other non-page files, search-dialog results and in-page anchors are left to the browser,
+  and any fetch error falls back to a normal page load. That normal load still uses the CSS cross-document view
+  transition (`@view-transition` at the end of `main.css`) and the `speculationrules` prefetch in `head.html`.
 
 Storage access is always wrapped in `try`/`catch`, so blocked storage only means nothing is remembered.
 
