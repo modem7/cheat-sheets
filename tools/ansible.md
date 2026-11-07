@@ -121,4 +121,5 @@ become = True
 - [Ansible-Playbook Cheat-Sheet](ansible-playbook.md)
 - [Puppet Cheat-Sheet](puppet.md)
 - [Salt Cheat-Sheet](salt.md)
+- [Chef](chef.md)
 - [Terraform](terraform.md)

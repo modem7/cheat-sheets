@@ -186,4 +186,5 @@ Pillar value not found | Check `pillar_roots`, the pillar `top.sls` target, and 
 ## See Also
 - [Ansible](ansible.md)
 - [Puppet](puppet.md)
+- [Chef](chef.md)
 - [Terraform](terraform.md)

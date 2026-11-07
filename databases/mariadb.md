@@ -1,5 +1,5 @@
 # MariaDB Cheat-Sheet
-MariaDB is a community fork of MySQL. Day-to-day SQL, backup and user commands are the same, see [MySQL](mysql.md).
+MariaDB is a community fork of MySQL. Day-to-day SQL, backup and user commands are the same, see [MySQL](mysql.md). General SQL: [SQL](sql.md).
 
 ## Install MariaDB on Ubuntu
 ```bash

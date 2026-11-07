@@ -5,6 +5,8 @@ Project Homepage: [Terraform by HashiCorp](https://www.terraform.io/)
 Documentation: [Terraform Docs](https://developer.hashicorp.com/terraform/docs), [OpenTofu](https://opentofu.org)
 TF Registry: [Terraform Registry](https://registry.terraform.io/)
 
+For state surgery, modules, `moved`/`removed` blocks and `terraform test` see [Terraform State and Modules](terraform-state-and-modules.md).
+
 ## Format and Validate
 COMMAND | DESCRIPTION
 ---|---
@@ -107,6 +109,7 @@ Set sensitive values with environment variables such as `TF_VAR_name` or the pro
 - Policy and linting: `tflint`, `trivy config`, `checkov`.
 
 ## See Also
+- [Terraform State and Modules](terraform-state-and-modules.md)
 - [Ansible Cheat-Sheet](ansible.md)
 - [Puppet Cheat-Sheet](puppet.md)
 - [Salt Cheat-Sheet](salt.md)

@@ -267,4 +267,4 @@ Tips:
 - A port can be open on the host but blocked by [UFW (uncomplicated firewall)](../linux/ufw.md), [IPTables](../linux/iptables.md), a cloud security group or the [Proxmox firewall](../proxmox/proxmox-firewall.md). Check from both sides.
 - `127.0.0.1:PORT` in `ss` means loopback only, `0.0.0.0:PORT` or `*:PORT` means all IPv4 interfaces, `[::]:PORT` all IPv6.
 - Docker published ports (`-p 8080:80`) are inserted into iptables ahead of `ufw` rules, so `ufw deny` does not hide them. Bind to loopback with `-p 127.0.0.1:8080:80`.
-- Scan only hosts you own or are authorised to test. See [NMap](../tools/nmap.md).
+- Scan only hosts you own or are authorised to test. See [NMap](../tools/nmap.md). To test a port by hand, see [socat and netcat](socat-and-netcat.md).

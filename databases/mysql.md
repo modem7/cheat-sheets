@@ -3,7 +3,7 @@ MySQL is an open source relational database. MariaDB is a compatible fork, see [
 
 Documentation: [MySQL Reference Manual](https://dev.mysql.com/doc/refman/en/)
 
-See also: [MySQL and MariaDB Replication](mysql-replication.md) · [MariaDB Cheat-Sheet](mariadb.md) · [PostgreSQL Cheat-Sheet](postgres.md)
+See also: [MySQL and MariaDB Replication](mysql-replication.md) · [MariaDB Cheat-Sheet](mariadb.md) · [PostgreSQL Cheat-Sheet](postgres.md) · [SQL](sql.md)
 
 ## Connect
 COMMAND | DESCRIPTION

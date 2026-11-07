@@ -106,3 +106,5 @@ Nothing is banned | Run `fail2ban-regex` against the log; check time zone/format
 Banned but attacker still connects | Wrong `banaction` for your firewall, or Docker traffic (see above). Check `sudo nft list ruleset` or `sudo iptables -S`
 Locked yourself out | From console: `sudo fail2ban-client set sshd unbanip <IP>`, then add the IP to `ignoreip`
 Bans lost on restart | Persistent by default via the sqlite DB (`/var/lib/fail2ban/fail2ban.sqlite3`); check `dbpurgeage`
+
+See also: [Lynis and auditd](lynis-and-auditd.md)
