@@ -11,11 +11,33 @@
   </p>
 </section>
 
+{{- $recent := partial "recent-sheets.html" (dict "n" 8) }}
+{{- if $recent }}
+<section class="recent" aria-labelledby="recent-h">
+  <h2 id="recent-h" class="recent-h"><span aria-hidden="true">$ </span>git log --since=recent</h2>
+  <ul class="recent-list">
+    {{- range $recent }}
+    <li><a href="{{ .RelPermalink }}"><span class="recent-title">{{ .Title }}</span><span class="recent-meta">{{ partial "section-title.html" .FirstSection }} · <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2 Jan 2006" }}</time></span></a></li>
+    {{- end }}
+  </ul>
+</section>
+{{- end }}
+
 <div class="index-grid">
   {{- range $secs }}
   {{- $pages := partial "section-pages.html" .page }}
+  {{- $key := path.Base .page.Path | lower }}
+  {{- $glyph := index (site.Params.sectionGlyphs | default dict) $key | default "▸" }}
+  {{- $desc := index (site.Params.sectionDescriptions | default dict) $key }}
+  {{- if not $desc }}
+    {{- $names := slice }}
+    {{- range first 3 $pages }}{{ $names = $names | append .Title }}{{ end }}
+    {{- $desc = printf "%d sheets, including %s." (len $pages) (delimit $names ", ") }}
+  {{- end }}
   <section class="index-sec" aria-labelledby="sec-{{ .page.Path | anchorize }}">
+    <p class="index-man" aria-hidden="true"><span class="index-glyph">{{ $glyph }}</span> $ man {{ $key }}</p>
     <h2 id="sec-{{ .page.Path | anchorize }}"><a href="{{ .page.RelPermalink }}">{{ .name }}</a><span class="count" aria-label="{{ len $pages }} sheets">{{ len $pages }}</span></h2>
+    <p class="index-desc">{{ $desc }}</p>
     <ul>
       {{- range $pages }}
       <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>

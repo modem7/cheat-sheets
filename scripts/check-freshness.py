@@ -24,6 +24,9 @@ compared as UTC calendar dates. Age in months is days / 30.4375, floored.
 Output is Markdown (for an issue body) or plain text on stdout. Warnings
 go to stderr.
 
+The functions last_touched, load_ignored and is_stale are also imported by
+site/scripts/prepare-content.py to date the website's sheets.
+
 Exits 0 when the scan worked, whether or not sheets are stale. With
 --fail-on-stale, exits 1 if any sheet is stale. Exits 2 on a usage
 error or a git failure, including a shallow clone (CI needs
@@ -116,6 +119,22 @@ def resolve_revs(root, revs, source):
     return full
 
 
+def load_ignored(root, revs_path=None):
+    """Return the full SHAs of the commits to skip.
+
+    revs_path defaults to DEFAULT_IGNORE_REVS at root, if it exists.
+    Unknown SHAs are warned about on stderr and dropped. Raises OSError
+    if the file cannot be read.
+    """
+    if revs_path is None:
+        default = os.path.join(root, DEFAULT_IGNORE_REVS)
+        if not os.path.isfile(default):
+            return set()
+        revs_path = default
+    revs = read_ignore_revs(revs_path)
+    return resolve_revs(root, revs, revs_path)
+
+
 def last_touched(root, sheets, ignored):
     """Map each sheet to the UTC date of its latest non-ignored commit.
 
@@ -147,6 +166,11 @@ def last_touched(root, sheets, ignored):
     for path, when in fallback.items():
         found.setdefault(path, when)
     return found
+
+
+def is_stale(when, today, months=12):
+    """True if when is more than months (of DAYS_PER_MONTH) before today."""
+    return (today - when).days > months * DAYS_PER_MONTH
 
 
 def months_between(earlier, later):
@@ -254,20 +278,12 @@ def main(argv=None):
                   file=sys.stderr)
             return 2
 
-        ignored = set()
-        revs_path = args.ignore_revs_file
-        if revs_path is None:
-            default = os.path.join(root, DEFAULT_IGNORE_REVS)
-            if os.path.isfile(default):
-                revs_path = default
-        if revs_path is not None:
-            try:
-                revs = read_ignore_revs(revs_path)
-            except OSError as exc:
-                print(f"error: cannot read ignore-revs file: {exc}",
-                      file=sys.stderr)
-                return 2
-            ignored = resolve_revs(root, revs, revs_path)
+        try:
+            ignored = load_ignored(root, args.ignore_revs_file)
+        except OSError as exc:
+            print(f"error: cannot read ignore-revs file: {exc}",
+                  file=sys.stderr)
+            return 2
 
         sheets = list_sheets(root)
         dates = last_touched(root, sheets, ignored)
@@ -275,7 +291,6 @@ def main(argv=None):
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
-    limit_days = args.months * DAYS_PER_MONTH
     stale = []
     for path in sheets:
         when = dates.get(path)
@@ -283,7 +298,7 @@ def main(argv=None):
             print(f"warning: {path}: no commit found (not committed yet), "
                   "skipped", file=sys.stderr)
             continue
-        if (today - when).days > limit_days:
+        if is_stale(when, today, args.months):
             stale.append((path, when, months_between(when, today)))
     stale.sort(key=lambda item: (item[1], item[0]))
 
