@@ -5,7 +5,7 @@ Documentation: [NUT user manual](https://networkupstools.org/docs/user-manual.ch
 
 > **Verification:** `MONITOR` line syntax, the `primary`/`secondary` roles, `SHUTDOWNCMD`, and `MODE` values (`none`, `standalone`, `netserver`, `netclient`) were checked against the `upsmon.conf` and `nut.conf` man pages. **Not verified:** systemd unit names, `upsd.conf` `LISTEN`, the `usbhid-ups` example, `upsc`/`upscmd`/`upsrw`/`upsdrvctl`/`nut-scanner` usage, the Proxmox shutdown ordering, and permissions on Debian. No command was executed.
 
-See also: [Homelab](homelab.md) · [Proxmox VE Overview and Install](../proxmox/proxmox-overview.md) · [Proxmox Clustering and HA](../proxmox/proxmox-cluster-ha.md) · [Proxmox qm and pct](../proxmox/proxmox-qm-pct.md) · [Prometheus](../apps/prometheus.md) · [Grafana](../apps/grafana.md) · [UFW (uncomplicated firewall)](../linux/ufw.md) · [Wake-on-LAN](wake-on-lan.md) · [Docker-Compose](../docker/docker-compose.md)
+See also: [apcupsd](apcupsd.md) · [Homelab](homelab.md) · [Proxmox VE Overview and Install](../proxmox/proxmox-overview.md) · [Proxmox Clustering and HA](../proxmox/proxmox-cluster-ha.md) · [Proxmox qm and pct](../proxmox/proxmox-qm-pct.md) · [Prometheus](../apps/prometheus.md) · [Grafana](../apps/grafana.md) · [UFW (uncomplicated firewall)](../linux/ufw.md) · [Wake-on-LAN](wake-on-lan.md) · [Docker-Compose](../docker/docker-compose.md)
 
 ---
 ## Files and Roles
