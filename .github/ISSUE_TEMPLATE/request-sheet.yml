@@ -28,6 +28,7 @@ body:
       label: Suggested folder
       description: See "Which Folder" in docs/CONTRIBUTING.md. Pick the closest one.
       options:
+        - ai
         - apps
         - backup
         - cicd
