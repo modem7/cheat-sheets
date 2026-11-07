@@ -5,7 +5,7 @@ Documentation: [Red Hat LVM guide](https://docs.redhat.com/en/documentation/red_
 
 > **Verification:** commands follow the LVM man pages and the Red Hat guide. No command was executed. Test on a spare disk first. Resizing and shrinking can destroy data: back up before you start.
 
-See also: [Storage and Filesystems](storage-and-filesystems.md) · [RAID with mdadm](raid-mdadm.md) · [Mount](mount.md) · [Linux](linux.md)
+See also: [Storage and Filesystems](storage-and-filesystems.md) · [XFS](xfs.md) · [RAID with mdadm](raid-mdadm.md) · [Mount](mount.md) · [Linux](linux.md)
 
 ---
 ## Concepts
