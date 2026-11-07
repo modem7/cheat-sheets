@@ -69,7 +69,7 @@ COMMAND | DESCRIPTION
 `kubectl config set-context --current --namespace=<NS>` | Set the default namespace for this context
 `kubectl config view --minify` | Show only the active context's config
 
-[kubectx and kubens](https://github.com/ahmetb/kubectx) make switching faster. See also [K9s](k9s.md).
+[kubectx and kubens](https://github.com/ahmetb/kubectx) make switching faster. See also [K9s](k9s.md). For rollouts, Jobs and probes see [Kubernetes Workloads](kubernetes-workloads.md).
 
 ---
 ## Commands

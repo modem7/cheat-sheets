@@ -13,6 +13,7 @@ SHEET | USE IT FOR
 [fail2ban](fail2ban.md) | Simple host-based log-driven IP bans
 [Secret Scanning](secret-scanning.md) | gitleaks, TruffleHog, GitHub push protection
 [Container Scanning](container-scanning.md) | Trivy, Grype and Syft for images and IaC
+[Lynis and auditd](lynis-and-auditd.md) | Host hardening audit and Linux audit logging
 
 ## Related Sheets Elsewhere
 SHEET | USE IT FOR

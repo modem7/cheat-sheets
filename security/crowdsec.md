@@ -114,3 +114,5 @@ Banned IP still connects | Container traffic bypasses the INPUT chain; put the b
 Reverse proxy sees only proxy IP | Configure trusted proxies / real-IP headers so the logged IP is the client
 You blocked yourself | `sudo cscli decisions delete --ip <IP>` and add an allowlist entry
 Port 8080 conflict with another service | Change `listen_uri` in `/etc/crowdsec/config.yaml` and the bouncer `api_url`
+
+See also: [Lynis and auditd](lynis-and-auditd.md)

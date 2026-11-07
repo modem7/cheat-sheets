@@ -3,7 +3,7 @@ Kubernetes (K8s) is an open source system for automating deployment, scaling and
 
 Documentation: [Kubernetes Docs](https://kubernetes.io/docs/)
 
-Related sheets: [Kubectl](kubectl.md), [K3S](k3s.md), [K9s](k9s.md), [Kind](kind.md), [Helm Cheat-Sheet](../tools/helm.md), [Kubernetes DNS](kubernetes-dns.md), [Kubernetes Automation](kubernetes-automation.md)
+Related sheets: [Kubernetes Workloads](kubernetes-workloads.md), [Kubectl](kubectl.md), [K3S](k3s.md), [K9s](k9s.md), [Kind](kind.md), [Helm Cheat-Sheet](../tools/helm.md), [Kubernetes DNS](kubernetes-dns.md), [Kubernetes Automation](kubernetes-automation.md)
 
 ## Core Concepts
 OBJECT | DESCRIPTION
@@ -47,6 +47,8 @@ COMMAND | DESCRIPTION
 `kubectl rollout undo deployment/<NAME>` | Roll back a Deployment
 
 ## Minimal Deployment and Service
+Rollouts, StatefulSets, DaemonSets, Jobs, probes and resources are covered in [Kubernetes Workloads](kubernetes-workloads.md).
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
