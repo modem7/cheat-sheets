@@ -1,6 +1,8 @@
 {{- $cols := 0 -}}
 {{- range .THead }}{{ $cols = len . }}{{ end -}}
-<div class="table-wrap{{ if ge $cols 4 }} table-sticky{{ end }}" role="region" tabindex="0" aria-label="Table (scrolls horizontally on small screens)">
+{{- $first := "" -}}
+{{- range .THead }}{{ with index . 0 }}{{ $first = .Text | plainify | lower | strings.TrimSpace }}{{ end }}{{ end -}}
+<div class="table-wrap{{ if ge $cols 4 }} table-sticky{{ end }}"{{ if eq $first "command" }} data-copy-col{{ end }} role="region" tabindex="0" aria-label="Table (scrolls horizontally on small screens)">
   <table>
     <thead>
       {{- range .THead }}

@@ -13,7 +13,7 @@
     {{- if .Params.stale }}
     <p class="stale-chip" title="This sheet has not been updated for over 12 months. Check the commands against the current documentation before relying on them."><span aria-hidden="true">⚠</span> May be out of date</p>
     {{- end }}
-    <article class="prose" data-pagefind-body data-pagefind-meta="section:{{ partial "section-title.html" .FirstSection }}">
+    <article class="prose" data-pagefind-body data-pagefind-meta="section:{{ partial "section-title.html" .FirstSection }}" data-pagefind-filter="section:{{ partial "section-title.html" .FirstSection }}">
       {{- if not (findRE `<h1[ >]` .Content 1) }}<h1>{{ .Title }}</h1>{{ end }}
       {{ .Content }}
     </article>
