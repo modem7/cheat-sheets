@@ -7,7 +7,7 @@ Keep manifests in Git and let a controller in the cluster apply them. Drift is c
 TOOL | DESCRIPTION
 ---|---
 Argo CD | See [Argo CD](../apps/argocd.md). UI plus CRDs, syncs apps from Git or Helm
-Flux | Controller toolkit. CLI-first, integrates with Helm and Kustomize
+Flux | See [Flux CD](../cicd/flux.md). Controller toolkit. CLI-first, integrates with Helm and Kustomize
 
 ```bash
 flux bootstrap github --owner=<USER> --repository=<REPO> --path=clusters/prod --personal
