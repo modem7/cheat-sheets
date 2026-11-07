@@ -26,7 +26,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Recipes
 
-[Recipes](recipes/recipes.md) · [DNS Troubleshooting](recipes/dns-troubleshooting.md) · [Docker Service Deploy](recipes/docker-service-deploy.md) · [K3s Cluster from Scratch](recipes/k3s-cluster-from-scratch.md) · [Network Troubleshooting](recipes/network-troubleshooting.md) · [New Server Checklist](recipes/new-server-checklist.md) · [Proxmox VM Template and Clone](recipes/proxmox-vm-template-and-clone.md) · [TLS Troubleshooting](recipes/tls-troubleshooting.md) · [WireGuard Remote Access](recipes/wireguard-remote-access.md)
+[Recipes](recipes/recipes.md) · [Automate Container Updates Safely](recipes/automate-container-updates.md) · [DNS Troubleshooting](recipes/dns-troubleshooting.md) · [Docker Service Deploy](recipes/docker-service-deploy.md) · [Expose a Service with Cloudflare Tunnel](recipes/expose-service-cloudflare-tunnel.md) · [K3s Cluster from Scratch](recipes/k3s-cluster-from-scratch.md) · [Migrate a Docker Service Between Hosts](recipes/migrate-docker-service-between-hosts.md) · [Monitor a Homelab with Prometheus and Grafana](recipes/monitor-homelab-prometheus-grafana.md) · [Network Troubleshooting](recipes/network-troubleshooting.md) · [New Server Checklist](recipes/new-server-checklist.md) · [Off-Site Docker Host Backup with restic](recipes/offsite-docker-host-backup.md) · [Proxmox VM Template and Clone](recipes/proxmox-vm-template-and-clone.md) · [Restore-Test a Backup](recipes/restore-test-a-backup.md) · [Single Sign-On with authentik](recipes/sso-with-authentik.md) · [TLS Troubleshooting](recipes/tls-troubleshooting.md) · [WireGuard Remote Access](recipes/wireguard-remote-access.md)
 
 ### Linux
 
