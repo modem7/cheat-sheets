@@ -156,7 +156,7 @@ graph LR
   A --> B
 ```
 ````
-Inline math is `$a^2 + b^2$` and block math uses `$$ ... $$`.
+More diagram syntax is in [Mermaid](../tools/mermaid.md). Inline math is `$a^2 + b^2$` and block math uses `$$ ... $$`.
 
 ## Tips
 - Keep one top-level `#` heading per file.

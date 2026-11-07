@@ -70,7 +70,7 @@ COMMAND | DESCRIPTION
 `help` | List commands
 
 ## Markdown Tips
-- Full Markdown plus checklists (`- [ ]`), tables, math (`$...$`), Mermaid and footnotes. See [Markdown](../misc/markdown.md).
+- Full Markdown plus checklists (`- [ ]`), tables, math (`$...$`), Mermaid and footnotes. See [Markdown](../misc/markdown.md) and [Mermaid](mermaid.md).
 - Internal links use note IDs (`[Title](:/noteid)`); right-click a note > Copy Markdown link.
 - The **Web Clipper** browser extension saves pages as Markdown notes.
 - Export and import as Markdown, JEX or raw files (File > Export all).
