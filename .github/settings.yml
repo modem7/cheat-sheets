@@ -5,7 +5,7 @@ repository:
   #name: NewRepo
   description: This is my personal knowledge-base. Here you'll find code-snippets, technical documentation, and command reference for various tools, and technologies.
   homepage: https://modem7.github.io/cheat-sheets/
-  topics: cheatsheet, technology, it, docker, tools
+  topics: cheatsheet, cheat-sheets, knowledge-base, documentation, command-line, sysadmin, devops, docker, kubernetes, linux, proxmox, homelab, networking, ci-cd, backup, databases, dns, tls, github-pages, markdown
 
   private: false
   has_issues: true
