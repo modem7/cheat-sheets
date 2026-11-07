@@ -45,7 +45,7 @@ sits in front of Hugo:
 
 The script adds front matter to each copy: `title` from the first `# H1`, `description` from the first
 paragraph, `lastmod` (see below), and `weight: 1` for the lead sheet of a folder (the one named after the folder, e.g.
-`docker/docker.md`) so it sorts first. A sheet that already has front matter keeps it. Your source files are
+`docker/docker.md`) so it sorts first; the remaining sheets in a folder are listed alphabetically by title (ignoring case). A sheet that already has front matter keeps it. Your source files are
 never modified.
 
 Each top-level folder becomes a **section**: it gets a sidebar group, a page count on the home page, a
