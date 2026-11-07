@@ -105,5 +105,5 @@ Dataset full but data deleted | Snapshots hold the space: `zfs list -t snapshot 
 - [ZFS Snapshots and Replication](../backup/zfs-snapshots-backup.md)
 - [Storage and Filesystems](storage-and-filesystems.md)
 - [Proxmox Storage](../proxmox/proxmox-storage.md)
-- [TrueNAS Scale](../infra/truenas-scale.md)
+- [TrueNAS Community Edition](../infra/truenas-community-edition.md)
 - [RAID with mdadm](raid-mdadm.md)
