@@ -27,7 +27,7 @@ FOLDER | WHAT GOES THERE
 `distros/` | Linux distributions as container base images (Alpine, Ubuntu, Debian)
 `docker/` | Docker, Dockerfile, Compose, container networking
 `homelab/` | Homelab design, services and operations
-`infra/` | Infrastructure platforms and appliances
+`infra/` | NAS operating systems and hypervisors (TrueNAS, Unraid, OpenMediaVault, UniFi NAS, ESXi, XCP-ng)
 `kubernetes/` | Kubernetes, K3s, kubectl and cluster tooling
 `linux/` | Linux commands, shell utilities, firewall, storage
 `macos/` | macOS-specific tools and shortcuts

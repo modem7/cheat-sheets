@@ -26,11 +26,11 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Recipes
 
-[Recipes](recipes/recipes.md) · [DNS Troubleshooting](recipes/dns-troubleshooting.md) · [Docker Service Deploy](recipes/docker-service-deploy.md) · [K3s Cluster from Scratch](recipes/k3s-cluster-from-scratch.md) · [Network Troubleshooting](recipes/network-troubleshooting.md) · [New Server Checklist](recipes/new-server-checklist.md) · [Proxmox VM Template and Clone](recipes/proxmox-vm-template-and-clone.md) · [TLS Troubleshooting](recipes/tls-troubleshooting.md) · [WireGuard Remote Access](recipes/wireguard-remote-access.md)
+[Recipes](recipes/recipes.md) · [Automate Container Updates Safely](recipes/automate-container-updates.md) · [DNS Troubleshooting](recipes/dns-troubleshooting.md) · [Docker Service Deploy](recipes/docker-service-deploy.md) · [Expose a Service with Cloudflare Tunnel](recipes/expose-service-cloudflare-tunnel.md) · [K3s Cluster from Scratch](recipes/k3s-cluster-from-scratch.md) · [Migrate a Docker Service Between Hosts](recipes/migrate-docker-service-between-hosts.md) · [Monitor a Homelab with Prometheus and Grafana](recipes/monitor-homelab-prometheus-grafana.md) · [Network Troubleshooting](recipes/network-troubleshooting.md) · [New Server Checklist](recipes/new-server-checklist.md) · [Off-Site Docker Host Backup with restic](recipes/offsite-docker-host-backup.md) · [Proxmox VM Template and Clone](recipes/proxmox-vm-template-and-clone.md) · [Restore-Test a Backup](recipes/restore-test-a-backup.md) · [Single Sign-On with authentik](recipes/sso-with-authentik.md) · [TLS Troubleshooting](recipes/tls-troubleshooting.md) · [WireGuard Remote Access](recipes/wireguard-remote-access.md)
 
 ### Linux
 
-[Linux](linux/linux.md) · [AWK](linux/awk.md) · [Grep](linux/grep.md) · [IPTables](linux/iptables.md) · [Linux Basics](linux/linuxbasics.md) · [LVM](linux/lvm.md) · [Mount](linux/mount.md) · [NFS](linux/nfs.md) · [nftables](linux/nftables.md) · [Linux Performance Troubleshooting](linux/performance-troubleshooting.md) · [RAID with mdadm](linux/raid-mdadm.md) · [SED Cheat-Sheet](linux/sed.md) · [SELinux and AppArmor](linux/selinux-apparmor.md) · [Storage and Filesystems](linux/storage-and-filesystems.md) · [systemd](linux/systemd.md) · [UFW (uncomplicated firewall)](linux/ufw.md) · [User Management](linux/user.md)
+[Linux](linux/linux.md) · [AWK](linux/awk.md) · [Btrfs](linux/btrfs.md) · [Grep](linux/grep.md) · [IPTables](linux/iptables.md) · [Linux Basics](linux/linuxbasics.md) · [LVM](linux/lvm.md) · [mergerfs](linux/mergerfs.md) · [Mount](linux/mount.md) · [NFS](linux/nfs.md) · [nftables](linux/nftables.md) · [Linux Performance Troubleshooting](linux/performance-troubleshooting.md) · [RAID with mdadm](linux/raid-mdadm.md) · [SED Cheat-Sheet](linux/sed.md) · [SELinux and AppArmor](linux/selinux-apparmor.md) · [SnapRAID](linux/snapraid.md) · [Storage and Filesystems](linux/storage-and-filesystems.md) · [systemd](linux/systemd.md) · [UFW (uncomplicated firewall)](linux/ufw.md) · [User Management](linux/user.md)
 
 ### Windows
 
@@ -42,7 +42,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Docker
 
-[Docker](docker/docker.md) · [Docker Cleanup](docker/docker-cleanup.md) · [Docker-Compose](docker/docker-compose.md) · [Dockerfile](docker/docker-file.md) · [Docker Networking](docker/docker-networking.md) · [Docker Registry](docker/docker-registry.md) · [Docker Troubleshooting](docker/docker-troubleshooting.md)
+[Docker](docker/docker.md) · [Buildah](docker/buildah.md) · [Docker Buildx](docker/buildx.md) · [Docker Cleanup](docker/docker-cleanup.md) · [Docker-Compose](docker/docker-compose.md) · [Dockerfile](docker/docker-file.md) · [Docker Networking](docker/docker-networking.md) · [Docker Registry](docker/docker-registry.md) · [Docker Troubleshooting](docker/docker-troubleshooting.md) · [OCI Images](docker/oci-images.md) · [Podman](docker/podman.md)
 
 ### Container Distros
 
@@ -62,13 +62,13 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Infrastructure
 
-[TrueNAS Scale](infra/truenas-scale.md)
+[VMware ESXi](infra/esxi.md) · [Hypervisors Compared](infra/hypervisor-comparison.md) · [NAS Operating Systems Compared](infra/nas-os-comparison.md) · [OpenMediaVault](infra/openmediavault.md) · [TrueNAS Community Edition](infra/truenas-community-edition.md) · [UniFi NAS](infra/unifi-nas.md) · [Unraid](infra/unraid.md) · [XCP-ng](infra/xcp-ng.md)
 
 ### Cloud
 
 [What is Cloud-Computing?](cloud/what-is-cloud-computing.md)
 
-Provider: [Civo](cloud/provider/civo.md) · [Cloud-Provider Comparison](cloud/provider/cloud-provider-comparison.md)
+Provider: [Amazon Web Services](cloud/provider/amazon-web-services.md) · [Backblaze B2](cloud/provider/backblaze-b2.md) · [Civo](cloud/provider/civo.md) · [Cloud-Provider Comparison](cloud/provider/cloud-provider-comparison.md) · [Cloudflare](cloud/provider/cloudflare.md) · [DigitalOcean](cloud/provider/digitalocean.md) · [Google Cloud](cloud/provider/google-cloud.md) · [Hetzner Cloud](cloud/provider/hetzner-cloud.md) · [Oracle Cloud](cloud/provider/oracle-cloud.md)
 
 ### Networking
 
@@ -88,7 +88,7 @@ Provider: [Civo](cloud/provider/civo.md) · [Cloud-Provider Comparison](cloud/pr
 
 ### Scripting
 
-[Scripting](scripting/scripting.md) · [Bash](scripting/bash.md) · [Bash Recipes](scripting/bash-recipes.md) · [Fish](scripting/fish.md) · [Make](scripting/make.md) · [Nushell](scripting/nushell.md) · [pre-commit](scripting/pre-commit.md) · [Python and uv](scripting/python-uv.md) · [Shell Comparison](scripting/shell-comparison.md) · [ShellCheck and shfmt](scripting/shellcheck-shfmt.md) · [Zsh](scripting/zsh.md)
+[Scripting](scripting/scripting.md) · [Bash](scripting/bash.md) · [Bash Recipes](scripting/bash-recipes.md) · [Fish](scripting/fish.md) · [Make](scripting/make.md) · [Nushell](scripting/nushell.md) · [pip and pipx](scripting/pip-and-pipx.md) · [pre-commit](scripting/pre-commit.md) · [Python and uv](scripting/python-uv.md) · [Shell Comparison](scripting/shell-comparison.md) · [ShellCheck and shfmt](scripting/shellcheck-shfmt.md) · [Zsh](scripting/zsh.md)
 
 ### Databases
 
@@ -100,7 +100,7 @@ Provider: [Civo](cloud/provider/civo.md) · [Cloud-Provider Comparison](cloud/pr
 
 ### Tools
 
-[1Password CLI Cheat-Sheet](tools/1password-cli.md) · [Ansible Cheat-Sheet](tools/ansible.md) · [Ansible-Playbook Cheat-Sheet](tools/ansible-playbook.md) · [Aptly](tools/aptly.md) · [AWS CLI](tools/aws-cli.md) · [Azure CLI (az)](tools/azure-cli.md) · [Bitwarden Cheat-Sheet](tools/bitwarden.md) · [Certutil](tools/certutil.md) · [curl](tools/curl.md) · [Datree](tools/datree.md) · [Docker Desktop](tools/docker-desktop.md) · [ffmpeg](tools/ffmpeg.md) · [gcloud (Google Cloud CLI)](tools/gcloud.md) · [Git](tools/git.md) · [Git Recipes](tools/git-recipes.md) · [Gitea (and Forgejo)](tools/gitea.md) · [GitHub and the gh CLI](tools/github-cli.md) · [GitLab and the glab CLI](tools/gitlab.md) · [Go and Rust Toolchains](tools/go-rust-toolchains.md) · [gopass Cheat-Sheet](tools/gopass.md) · [Helm Cheat-Sheet](tools/helm.md) · [iTerm2](tools/iterm2.md) · [Joplin](tools/joplin.md) · [jq](tools/jq.md) · [LastPass CLI Cheat-Sheet](tools/lastpass-cli.md) · [Logseq](tools/logseq.md) · [Modern CLI Tools](tools/modern-cli-tools.md) · [nano](tools/nano.md) · [NMap](tools/nmap.md) · [Node.js and npm](tools/node-npm.md) · [Obsidian](tools/obsidian.md) · [OpenSSH Cheat-Sheet](tools/openssh.md) · [OpenSSL](tools/openssl.md) · [Packer](tools/packer.md) · [pass Cheat-Sheet](tools/pass.md) · [Starship Prompt](tools/starship.md) · [Terraform](tools/terraform.md) · [tmux](tools/tmux.md) · [Vagrant Cheat-Sheet](tools/vagrant.md) · [Vim](tools/vim.md) · [VSCode (Visual Studio Code)](tools/vscode.md) · [WSL Cheat-Sheet](tools/wsl.md) · [yt-dlp](tools/yt-dlp.md)
+[1Password CLI Cheat-Sheet](tools/1password-cli.md) · [Ansible Cheat-Sheet](tools/ansible.md) · [Ansible-Playbook Cheat-Sheet](tools/ansible-playbook.md) · [Aptly](tools/aptly.md) · [AWS CLI](tools/aws-cli.md) · [Azure CLI (az)](tools/azure-cli.md) · [Bitwarden Cheat-Sheet](tools/bitwarden.md) · [Certutil](tools/certutil.md) · [Cloudsmith CLI](tools/cloudsmith-cli.md) · [curl](tools/curl.md) · [Datree](tools/datree.md) · [Docker Desktop](tools/docker-desktop.md) · [ffmpeg](tools/ffmpeg.md) · [gcloud (Google Cloud CLI)](tools/gcloud.md) · [Git](tools/git.md) · [Git Recipes](tools/git-recipes.md) · [Gitea (and Forgejo)](tools/gitea.md) · [GitHub and the gh CLI](tools/github-cli.md) · [GitLab and the glab CLI](tools/gitlab.md) · [Go and Rust Toolchains](tools/go-rust-toolchains.md) · [gopass Cheat-Sheet](tools/gopass.md) · [Helm Cheat-Sheet](tools/helm.md) · [iTerm2](tools/iterm2.md) · [Joplin](tools/joplin.md) · [jq](tools/jq.md) · [LastPass CLI Cheat-Sheet](tools/lastpass-cli.md) · [Logseq](tools/logseq.md) · [Modern CLI Tools](tools/modern-cli-tools.md) · [nano](tools/nano.md) · [NMap](tools/nmap.md) · [Node.js and npm](tools/node-npm.md) · [Obsidian](tools/obsidian.md) · [OpenSSH Cheat-Sheet](tools/openssh.md) · [OpenSSL](tools/openssl.md) · [Packer](tools/packer.md) · [pass Cheat-Sheet](tools/pass.md) · [Puppet Cheat-Sheet](tools/puppet.md) · [Salt Cheat-Sheet](tools/salt.md) · [Starship Prompt](tools/starship.md) · [Terraform](tools/terraform.md) · [tmux](tools/tmux.md) · [Vagrant Cheat-Sheet](tools/vagrant.md) · [Vim](tools/vim.md) · [VSCode (Visual Studio Code)](tools/vscode.md) · [WSL Cheat-Sheet](tools/wsl.md) · [yt-dlp](tools/yt-dlp.md)
 
 ### Misc
 
