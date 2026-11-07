@@ -64,6 +64,27 @@ checks the same links in CI.
 GitHub-style callouts (`> [!NOTE]`, `> [!attention]`, `> [!INFO] Custom title`) are rendered as coloured
 callout boxes by `render-blockquote.html`. Unknown types fall back to the "note" style.
 
+## Search and navigation
+
+All vanilla JS in `assets/js/main.js`; the pages work without it. Search, its chips and highlighting need the
+Pagefind build (see Local preview), and the table marker comes from `layouts/_default/_markup/render-table.html`.
+
+- **Search** (Pagefind in a dialog): open with `/` or `Ctrl`/`Cmd`+`K`. Each sheet is indexed with a `section`
+  filter (`data-pagefind-filter` in `single.html`); the dialog shows one chip per section (taken from the
+  sidebar) and the built-in Pagefind filter panel is hidden. Selected chips are OR-ed. The last five searches
+  are kept in `localStorage` (`recent-searches`) and shown as chips while the box is empty, with a Clear button.
+  Result links carry `?highlight=term`; on the destination page the script loads `pagefind/pagefind-highlight.js`
+  and marks the terms, with a "Clear highlights" link.
+- **Sidebar**: a filter box over sheet titles (matching sections open, others hide, the previous open/closed
+  state returns when cleared; Enter follows the first match, Esc clears) and a Collapse all / Expand all button. Open sections are remembered in
+  `localStorage` (`nav-sections`); the current sheet's section always opens.
+- **Click-to-copy**: in a table whose first header is `Command`, clicking the first-column cell copies the
+  command (the single `code` element if there is one, otherwise the cell text). Links are left alone, a double
+  or triple click or an existing text selection selects instead of copying, and the result is announced through
+  the `#live` polite live region. Mouse and touch only: keyboard users have the Copy button on code blocks.
+
+Storage access is always wrapped in `try`/`catch`, so blocked storage only means nothing is remembered.
+
 ## Adding a new section
 
 Create a folder at the repo root and put sheets in it. That is all: it appears on the next build.

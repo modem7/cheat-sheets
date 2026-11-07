@@ -7,7 +7,7 @@ How to add or change a cheat sheet. Start from [`_template.md`](_template.md) an
 - **Intro.** One or two sentences straight after the title: what it is and when to use it.
 - **Links.** Optional `Documentation:` and `Project:` lines with links to the official docs or site, placed right after the intro.
 - **Sections.** Use `##` headings, one per task or area, e.g. `## Options`, `## Install and Upgrade`.
-- **Tables.** Commands go in `COMMAND | DESCRIPTION` tables (or `OPTION`, `FILTER`, `FIELD` as the first header where it fits). Put the command or option in backticks. Escape a literal pipe inside a cell as `\|`.
+- **Tables.** Commands go in `COMMAND | DESCRIPTION` tables (or `OPTION`, `FILTER`, `FIELD` as the first header where it fits; the website's click-to-copy only applies to tables whose first header is `Command`). Put the command or option in backticks. Escape a literal pipe inside a cell as `\|`.
 - **Code blocks.** Multi-line commands and config go in fenced blocks with a language tag (`bash`, `yaml`, `json`, `ini`, `powershell`, `text`).
 - **Placeholders.** Write anything the reader must replace in ALL CAPS or `<ANGLE_BRACKETS>`, e.g. `<HOST>`, `CONTAINER`, `API_TOKEN`.
 - **Links between sheets.** Use standard relative Markdown links with the `.md` extension, e.g. `[Docker Compose](docker-compose.md)` in the same folder or `[Docker](../docker/docker.md)` from another folder. Use the target's H1 as the link text. Link to a heading with a GitHub-style anchor, e.g. `[Compose files](docker-compose.md#compose-files)`. Do not use `[[wikilinks]]`: the checker rejects them outside code spans and fences, and they do not work on GitHub or the Hugo site.

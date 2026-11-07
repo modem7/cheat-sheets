@@ -10,7 +10,7 @@
 <div class="doc">
   <div class="doc-main">
     {{ partial "breadcrumbs.html" . }}
-    <article class="prose" data-pagefind-body data-pagefind-meta="section:{{ partial "section-title.html" .FirstSection }}">
+    <article class="prose" data-pagefind-body data-pagefind-meta="section:{{ partial "section-title.html" .FirstSection }}" data-pagefind-filter="section:{{ partial "section-title.html" .FirstSection }}">
       {{- if not (findRE `<h1[ >]` .Content 1) }}<h1>{{ .Title }}</h1>{{ end }}
       {{ .Content }}
     </article>

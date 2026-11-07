@@ -7,6 +7,22 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || doc).querySelectorAll(s)); };
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* polite live region shared by the copy, filter and search features */
+  var live = $("#live");
+  function announce(msg) {
+    if (!live) return;
+    live.textContent = "";
+    setTimeout(function () { live.textContent = msg; }, 30);
+  }
+  /* localStorage that never throws (private windows, blocked storage) */
+  function store(key, value) {
+    try {
+      if (value === undefined) return localStorage.getItem(key);
+      localStorage.setItem(key, value);
+    } catch (e) { /* storage unavailable */ }
+    return null;
+  }
+
   /* ---------- theme toggle (dark is the default; choice persisted) ---------- */
   var themeBtn = $("[data-theme-toggle]");
   function applyTheme(t) {
@@ -35,6 +51,86 @@
   if (menuBtn) menuBtn.addEventListener("click", function () { setNav(!doc.body.classList.contains("nav-open")); });
   if (scrim) scrim.addEventListener("click", function () { setNav(false); });
   if (sidebar) sidebar.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("a")) setNav(false); });
+
+  /* ---------- sidebar: filter, remembered sections, collapse all ---------- */
+  var secs = sidebar ? $$("details.nav-sec", sidebar) : [];
+  if (secs.length) {
+    var secName = function (d) { return $(".nav-sec-name", d).textContent.trim(); };
+    var currentSec = $("details.nav-sec:has(a.is-current)", sidebar);
+    var saved = {};
+    try { saved = JSON.parse(store("nav-sections") || "{}") || {}; } catch (e) { saved = {}; }
+    var filtering = false;
+    secs.forEach(function (d) {
+      var n = secName(d);
+      if (d === currentSec) d.open = true;
+      else if (typeof saved[n] === "boolean") d.open = saved[n];
+      d.addEventListener("toggle", function () {
+        if (filtering) return;
+        saved[n] = d.open;
+        store("nav-sections", JSON.stringify(saved));
+        syncCollapse();
+      });
+    });
+
+    var tools = doc.createElement("div");
+    tools.className = "nav-tools";
+    tools.innerHTML =
+      '<input class="nav-filter" type="search" placeholder="Filter sheets…" aria-label="Filter sheets in the sidebar" autocomplete="off" spellcheck="false">' +
+      '<button class="nav-collapse" type="button"></button>';
+    var home = $(".nav-home", sidebar);
+    sidebar.insertBefore(tools, home ? home.nextSibling : sidebar.firstChild);
+    var filter = $(".nav-filter", tools);
+    var collapseBtn = $(".nav-collapse", tools);
+    var empty = doc.createElement("p");
+    empty.className = "nav-empty"; empty.hidden = true; empty.textContent = "No matching sheets.";
+    tools.insertAdjacentElement("afterend", empty);
+
+    function syncCollapse() {
+      var anyOpen = secs.some(function (d) { return d.open; });
+      collapseBtn.textContent = anyOpen ? "Collapse all" : "Expand all";
+      collapseBtn.setAttribute("aria-label", anyOpen ? "Collapse all sections" : "Expand all sections");
+    }
+    collapseBtn.addEventListener("click", function () {
+      var open = !secs.some(function (d) { return d.open; });
+      secs.forEach(function (d) { d.open = open; saved[secName(d)] = open; });
+      store("nav-sections", JSON.stringify(saved));
+      syncCollapse();
+    });
+    syncCollapse();
+
+    var openBefore = null;
+    function applyFilter() {
+      var q = filter.value.trim().toLowerCase();
+      var terms = q ? q.split(/\s+/) : [];
+      if (terms.length && !filtering) { filtering = true; openBefore = secs.map(function (d) { return d.open; }); }
+      var shown = 0;
+      secs.forEach(function (d) {
+        var hits = 0;
+        $$("li", d).forEach(function (li) {
+          if (li.classList.contains("nav-sub")) { li.hidden = terms.length > 0; return; }
+          var t = li.textContent.toLowerCase();
+          var ok = terms.every(function (w) { return t.indexOf(w) !== -1; });
+          li.hidden = !ok; if (ok) hits++;
+        });
+        if (terms.length) { d.hidden = !hits; d.open = hits > 0; shown += hits; }
+        else d.hidden = false;
+      });
+      if (!terms.length && filtering) {
+        filtering = false;
+        secs.forEach(function (d, i) { d.open = openBefore[i]; });
+        $$("li[hidden]", sidebar).forEach(function (li) { li.hidden = false; });
+        syncCollapse();
+      }
+      empty.hidden = !(terms.length && !shown);
+      collapseBtn.hidden = terms.length > 0;
+      if (terms.length) announce(shown ? shown + (shown === 1 ? " sheet" : " sheets") + " match" + (shown === 1 ? "es" : "") : "No matching sheets");
+    }
+    filter.addEventListener("input", applyFilter);
+    filter.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && filter.value) { filter.value = ""; applyFilter(); e.stopPropagation(); }
+      if (e.key === "Enter") { var a = $("li:not([hidden]) a", sidebar); if (a && filter.value.trim()) a.click(); }
+    });
+  }
 
   /* keep the current page visible inside the scrolling sidebar */
   var current = $("#sidebar a.is-current");
@@ -124,10 +220,97 @@
   /* announce copy result politely */
   $$(".copy-btn").forEach(function (b) { b.setAttribute("aria-live", "polite"); });
 
+  /* ---------- click-to-copy for COMMAND | DESCRIPTION tables ---------- */
+  $$(".table-wrap[data-copy-col]").forEach(function (wrap) {
+    var timer = null;
+    $$("tbody td:first-child", wrap).forEach(function (td) { td.classList.add("copyable"); td.title = "Click to copy"; });
+    wrap.addEventListener("click", function (e) {
+      var td = e.target.closest && e.target.closest("td.copyable");
+      if (!td || !wrap.contains(td) || (e.target.closest && e.target.closest("a"))) return;
+      clearTimeout(timer);
+      if (e.detail > 1) return; /* double or triple click selects text instead */
+      timer = setTimeout(function () {
+        var sel = window.getSelection && window.getSelection();
+        if (sel && String(sel).trim()) return; /* the user is selecting: leave it alone */
+        var codes = $$("code", td);
+        var text = (codes.length === 1 ? codes[0].textContent : td.innerText).trim();
+        copyText(text).then(function () {
+          td.classList.add("is-copied");
+          announce("Copied " + text);
+          setTimeout(function () { td.classList.remove("is-copied"); }, 1200);
+        }, function () { announce("Could not copy. Select the command and press Ctrl+C."); });
+      }, 220);
+    });
+  });
+
   /* ---------- search (Pagefind, loaded on first open) ---------- */
   var dialog = $("#search-dialog");
   var mount = $("#search");
   var loaded = false;
+  var ui = null;
+  var extras = $("#search-extras");
+  var chosen = [];
+  var RECENT_KEY = "recent-searches";
+  function recents() {
+    try {
+      var a = JSON.parse(store(RECENT_KEY) || "[]");
+      return Array.isArray(a) ? a.filter(function (x) { return typeof x === "string"; }).slice(0, 5) : [];
+    } catch (e) { return []; }
+  }
+  function remember(q) {
+    q = (q || "").trim();
+    if (q.length < 2) return;
+    var a = recents().filter(function (x) { return x !== q; });
+    a.unshift(q);
+    store(RECENT_KEY, JSON.stringify(a.slice(0, 5)));
+  }
+  function searchInput() { return $(".pagefind-ui__search-input", mount) || $("input", mount); }
+  function renderRecents() {
+    var box = $(".search-recent", extras);
+    if (!box) return;
+    var input = searchInput(), list = recents();
+    box.hidden = !list.length || !!(input && input.value);
+    var row = $(".search-recent-list", box);
+    row.innerHTML = "";
+    list.forEach(function (q) {
+      var b = doc.createElement("button");
+      b.type = "button"; b.className = "chip"; b.textContent = q;
+      b.addEventListener("click", function () { if (ui) { ui.triggerSearch(q); renderRecents(); } });
+      row.appendChild(b);
+    });
+  }
+  function buildExtras() {
+    if (!extras || extras.children.length) return;
+    var names = $$("#sidebar .nav-sec-name").map(function (n) { return n.textContent.trim(); });
+    extras.innerHTML =
+      '<div class="search-recent" hidden><span class="search-extras-label" id="recent-label">Recent</span>' +
+      '<span class="search-recent-list" role="group" aria-labelledby="recent-label"></span>' +
+      '<button class="chip chip-clear" type="button">Clear</button></div>' +
+      '<div class="search-filters" role="group" aria-label="Filter results by section"></div>';
+    var row = $(".search-filters", extras);
+    names.forEach(function (n) {
+      var b = doc.createElement("button");
+      b.type = "button"; b.className = "chip"; b.textContent = n; b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", function () {
+        var i = chosen.indexOf(n);
+        if (i === -1) chosen.push(n); else chosen.splice(i, 1);
+        b.setAttribute("aria-pressed", String(i === -1));
+        if (ui) ui.triggerFilters(chosen.length ? { section: chosen.slice() } : {});
+      });
+      row.appendChild(b);
+    });
+    $(".chip-clear", extras).addEventListener("click", function () {
+      store(RECENT_KEY, "[]"); renderRecents(); announce("Recent searches cleared");
+      var i = searchInput(); if (i) i.focus();
+    });
+    mount.addEventListener("input", function () { renderRecents(); });
+    mount.addEventListener("keydown", function (e) { if (e.key === "Enter" && e.target.tagName === "INPUT") remember(e.target.value); });
+    mount.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("a.pagefind-ui__result-link, a.pagefind-ui__result-title, a[href]")) {
+        var i = searchInput(); if (i) remember(i.value);
+      }
+    });
+  }
   function loadPagefind() {
     if (loaded || !mount) return;
     loaded = true;
@@ -139,12 +322,13 @@
     s.src = base + "pagefind-ui.js";
     s.onload = function () {
       mount.innerHTML = "";
-      new window.PagefindUI({
+      ui = new window.PagefindUI({
         element: "#search", bundlePath: base, showSubResults: true, showImages: false, autofocus: true,
-        resetStyles: false, pageSize: 8,
+        resetStyles: false, pageSize: 8, highlightParam: "highlight",
         translations: { placeholder: "Search commands, tools, topics…" }
       });
       var input = $("input", mount); if (input) input.focus();
+      renderRecents();
     };
     s.onerror = function () {
       loaded = false;
@@ -155,7 +339,9 @@
   function openSearch() {
     if (!dialog) return;
     if (!dialog.open) { if (dialog.showModal) dialog.showModal(); else dialog.setAttribute("open", ""); }
+    buildExtras();
     loadPagefind();
+    renderRecents();
     var input = $("input", mount); if (input) { input.focus(); input.select(); }
   }
   function closeSearch() { if (dialog && dialog.open) dialog.close ? dialog.close() : dialog.removeAttribute("open"); }
@@ -166,6 +352,35 @@
     /* close the dialog when a result is followed within the same page */
     dialog.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("a.pagefind-ui__result-link")) closeSearch(); });
   }
+  /* ---------- highlight search terms on the page a result led to ---------- */
+  (function () {
+    var term = "";
+    try { term = new URLSearchParams(location.search).get("highlight") || ""; } catch (e) { return; }
+    if (!term || !mount) return;
+    var base = mount.getAttribute("data-bundle");
+    var s = doc.createElement("script");
+    s.type = "module"; /* pagefind-highlight.js is an ES module that also sets window.PagefindHighlight */
+    s.src = base + "pagefind-highlight.js";
+    s.onload = function () {
+      if (!window.PagefindHighlight) return;
+      var hl = new window.PagefindHighlight({ highlightParam: "highlight" });
+      var first = $("#main mark");
+      if (!first) return;
+      var bar = doc.createElement("p");
+      bar.className = "hl-bar";
+      bar.innerHTML = '<span></span><button type="button">Clear highlights</button>';
+      $("span", bar).textContent = "Highlighting “" + term + "”";
+      $("button", bar).addEventListener("click", function () {
+        if (hl && hl.removeHighlights) hl.removeHighlights();
+        bar.remove();
+        try { var u = new URL(location.href); u.searchParams.delete("highlight"); history.replaceState(null, "", u); } catch (e) { /* ignore */ }
+      });
+      var m = $("#main"); if (m) m.insertBefore(bar, m.firstChild);
+      announce("Search terms highlighted on this page");
+    };
+    doc.head.appendChild(s);
+  })();
+
   doc.addEventListener("keydown", function (e) {
     var t = e.target, tag = t && t.tagName;
     var typing = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable);

@@ -42,6 +42,8 @@
     </div>
   </div>
 
+  <div id="live" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
   <dialog id="search-dialog" class="search-dialog" aria-label="Search">
     <div class="search-head">
       <span class="search-title">Search all sheets</span>
@@ -49,8 +51,9 @@
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
+    <div id="search-extras" class="search-extras"></div>
     <div id="search" data-bundle="{{ "pagefind/" | relURL }}"></div>
-    <p class="search-hint">Tip: <kbd>/</kbd> or <kbd>Ctrl</kbd>+<kbd>K</kbd> to open, <kbd>Esc</kbd> to close.</p>
+    <p class="search-hint">Tip: <kbd>/</kbd> or <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>K</kbd> to open, <kbd>Esc</kbd> to close.</p>
   </dialog>
 
   <button class="to-top" type="button" aria-label="Back to top" data-to-top hidden>
