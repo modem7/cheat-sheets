@@ -43,6 +43,7 @@ SECTIONS = [
     ("backup", "Backup"),
     ("cicd", "CI/CD"),
     ("scripting", "Scripting"),
+    ("ai", "AI"),
     ("databases", "Databases"),
     ("apps", "Apps"),
     ("tools", "Tools"),

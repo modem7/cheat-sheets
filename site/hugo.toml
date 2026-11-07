@@ -16,6 +16,7 @@ disableKinds = ["taxonomy", "term", "RSS"]
   # are title-cased automatically (my-folder -> My folder).
   # Add an entry only when the automatic name is not what you want.
   [params.sectionTitles]
+    ai = "AI"
     cicd = "CI/CD"
     macos = "macOS"
     infra = "Infrastructure"
@@ -23,6 +24,7 @@ disableKinds = ["taxonomy", "term", "RSS"]
   # name. A folder without an entry gets an automatic line built from its
   # sheet count and first sheet titles, so adding a folder needs no config.
   [params.sectionDescriptions]
+    ai = "Claude and other AI tools: Claude Code, APIs, MCP, local models and self-hosted stacks."
     apps = "Self-hosted apps: proxies, VPNs, monitoring and dashboards."
     backup = "Backup tools and strategies: Borg, rclone, snapshots, volumes."
     cicd = "Pipelines, runners and automation recipes."
@@ -47,6 +49,7 @@ disableKinds = ["taxonomy", "term", "RSS"]
   # Optional glyph shown beside each card's `$ man` line (any short string).
   # Missing entries fall back to a plain prompt marker.
   [params.sectionGlyphs]
+    ai = "✦"
     apps = "◫"
     backup = "↻"
     cicd = "⇄"

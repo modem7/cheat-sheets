@@ -90,6 +90,10 @@ Provider: [Amazon Web Services](cloud/provider/amazon-web-services.md) · [Backb
 
 [Scripting](scripting/scripting.md) · [Bash](scripting/bash.md) · [Bash Recipes](scripting/bash-recipes.md) · [Fish](scripting/fish.md) · [Make](scripting/make.md) · [Nushell](scripting/nushell.md) · [pip and pipx](scripting/pip-and-pipx.md) · [pre-commit](scripting/pre-commit.md) · [Python and uv](scripting/python-uv.md) · [Shell Comparison](scripting/shell-comparison.md) · [ShellCheck and shfmt](scripting/shellcheck-shfmt.md) · [Zsh](scripting/zsh.md)
 
+### AI
+
+[AI](ai/ai.md) · [Aider](ai/aider.md) · [Claude API and SDKs](ai/claude-api.md) · [Claude Code](ai/claude-code.md) · [Codex, Gemini and Copilot CLIs](ai/coding-agent-clis.md) · [Hugging Face CLI and Model Formats](ai/hugging-face.md) · [llama.cpp](ai/llama-cpp.md) · [LLM Glossary](ai/llm-glossary.md) · [LM Studio](ai/lm-studio.md) · [Model Context Protocol (MCP)](ai/mcp.md) · [Ollama](ai/ollama.md) · [Open WebUI and Self-Hosted AI Stacks](ai/open-webui.md) · [OpenAI API](ai/openai-api.md) · [Prompting and Context Engineering](ai/prompting-patterns.md)
+
 ### Databases
 
 [MariaDB Cheat-Sheet](databases/mariadb.md) · [MongoDB](databases/mongodb.md) · [MySQL](databases/mysql.md) · [MySQL and MariaDB Replication](databases/mysql-replication.md) · [PostgreSQL Cheat-Sheet](databases/postgres.md) · [PostgreSQL Backup and Replication](databases/postgres-backup-replication.md) · [Redis](databases/redis.md) · [SQL](databases/sql.md) · [SQLite Cheat-Sheet](databases/sqlite.md)

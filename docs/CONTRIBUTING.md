@@ -19,6 +19,7 @@ How to add or change a cheat sheet. Start from [`_template.md`](_template.md) an
 ## Which Folder
 FOLDER | WHAT GOES THERE
 ---|---
+`ai/` | Claude and other AI tools: coding agents, APIs, MCP, local models, prompting
 `apps/` | Self-hosted applications and services (Traefik, Grafana, Tailscale)
 `backup/` | Backup tools and strategies
 `cicd/` | CI/CD systems and pipelines
