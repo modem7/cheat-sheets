@@ -138,4 +138,5 @@ Dynamic update fails | The directory must be writable by `named` (`/var/cache/bi
 - [Pi-hole](pihole.md)
 - [DNS Troubleshooting](../recipes/dns-troubleshooting.md)
 - [DNS Record Types](../networking/dns-record-types.md)
+- [DNSSEC](../networking/dnssec.md)
 - [Ports and Protocols](../networking/ports-and-protocols.md)

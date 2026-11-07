@@ -3,6 +3,8 @@ Bitwarden is an open source password manager. This sheet covers the CLI (`bw`) a
 
 Documentation: [Bitwarden CLI](https://bitwarden.com/help/cli/)
 
+See also: [Passbolt](../apps/passbolt.md) (team-oriented self-hosted alternative) · [Security](../security/security.md)
+
 ## Install the CLI
 COMMAND | DESCRIPTION
 ---|---

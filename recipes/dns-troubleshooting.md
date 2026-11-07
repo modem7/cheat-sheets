@@ -59,7 +59,7 @@ dig NS example.com +short
 dig app.example.com @<AUTHORITATIVE-NS> +norecurse
 dig +dnssec app.example.com @1.1.1.1
 ```
-`+trace` queries from the root and shows where the chain breaks. If the authoritative server answers but a recursive one returns `SERVFAIL`, suspect DNSSEC (an expired signature or wrong DS record at the registrar). Check `dig +cd app.example.com @1.1.1.1`, where `+cd` disables DNSSEC validation. A working `+cd` answer confirms a DNSSEC problem. For record types see [DNS Record Types](../networking/dns-record-types.md).
+`+trace` queries from the root and shows where the chain breaks. If the authoritative server answers but a recursive one returns `SERVFAIL`, suspect DNSSEC (an expired signature or wrong DS record at the registrar). Check `dig +cd app.example.com @1.1.1.1`, where `+cd` disables DNSSEC validation. A working `+cd` answer confirms a DNSSEC problem. For signing and validation detail see [DNSSEC](../networking/dnssec.md). For record types see [DNS Record Types](../networking/dns-record-types.md).
 
 ### 5. Encrypted DNS (DoT and DoH)
 ```bash

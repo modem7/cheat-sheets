@@ -51,7 +51,7 @@ See [DNS Record Types](../../networking/dns-record-types.md) for record meanings
 - Non-HTTP services (SSH, game servers) need a grey-cloud (DNS only) record or a Tunnel/Spectrum.
 
 ## Tunnel (cloudflared)
-Tunnel connects out from your network to Cloudflare, so no inbound ports need opening.
+Tunnel connects out from your network to Cloudflare, so no inbound ports need opening. See [cloudflared](../../apps/cloudflared.md) for the full CLI, ingress rules and Compose.
 
 COMMAND | DESCRIPTION
 ---|---
@@ -133,5 +133,6 @@ Zero Trust free plan | 50 users (check current limits on the Cloudflare plans pa
 - [DNS Record Types](../../networking/dns-record-types.md)
 - [Traefik](../../apps/traefik.md)
 - [Cert-Manager](../../apps/cert-manager.md)
+- [cloudflared](../../apps/cloudflared.md)
 - [Node.js and npm](../../tools/node-npm.md)
 - [Terraform](../../tools/terraform.md)

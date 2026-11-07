@@ -32,7 +32,7 @@ SYNTAX | DESCRIPTION
 `==highlight==` | Highlight
 `%%comment%%` | Hidden comment
 `$E=mc^2$` | Inline math (LaTeX)
-` ```mermaid ` | Diagram block
+` ```mermaid ` | Diagram block (syntax in [Mermaid](mermaid.md))
 
 Properties (front matter) go at the top of a note:
 ```yaml

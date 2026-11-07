@@ -21,6 +21,7 @@ SHEET | USE IT FOR
 [OpenSSL](../tools/openssl.md) | Certificates, CSRs, key conversion
 [OpenSSH Cheat-Sheet](../tools/openssh.md) | SSH keys, hardening `sshd_config`
 [Bitwarden Cheat-Sheet](../tools/bitwarden.md) | Password manager and CLI
+[Passbolt](../apps/passbolt.md) | Self-hosted team password manager (Docker, `cake passbolt`, backup)
 [1Password CLI Cheat-Sheet](../tools/1password-cli.md) | `op` read, run and inject secrets
 [pass Cheat-Sheet](../tools/pass.md) | GPG and git password store
 [gopass Cheat-Sheet](../tools/gopass.md) | Team password store with recipients and OTP

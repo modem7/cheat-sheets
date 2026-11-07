@@ -124,4 +124,7 @@ Files changed since last sync | They are not protected: run `snapraid sync`
 - [mergerfs](mergerfs.md)
 - [Storage and Filesystems](storage-and-filesystems.md)
 - [RAID with mdadm](raid-mdadm.md)
+- [ZFS](zfs.md)
+- [Disk Usage](disk-usage.md)
+- [Hardware Inspection](hardware-inspection.md)
 - [Backup Strategy](../backup/backup.md)
