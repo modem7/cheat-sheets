@@ -1,0 +1,70 @@
+name: Request a sheet
+description: Suggest a tool or topic that should have a cheat sheet
+title: "Sheet request: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. One sheet covers one tool or topic. Check the [site](https://modem7.github.io/cheat-sheets/) first in case it already exists.
+  - type: input
+    id: topic
+    attributes:
+      label: Tool or topic
+      placeholder: e.g. tmux, Restic, WireGuard
+    validations:
+      required: true
+  - type: input
+    id: docs
+    attributes:
+      label: Official documentation
+      description: Link to the official docs or project site
+      placeholder: https://example.com/docs/
+    validations:
+      required: true
+  - type: dropdown
+    id: folder
+    attributes:
+      label: Suggested folder
+      description: See "Which Folder" in docs/CONTRIBUTING.md. Pick the closest one.
+      options:
+        - apps
+        - backup
+        - cicd
+        - cloud
+        - databases
+        - docker
+        - homelab
+        - infra
+        - kubernetes
+        - linux
+        - macos
+        - misc
+        - networking
+        - proxmox
+        - recipes
+        - scripting
+        - security
+        - tools
+        - windows
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it belongs here
+      description: What would you look up on this sheet, and how often?
+    validations:
+      required: true
+  - type: textarea
+    id: commands
+    attributes:
+      label: Commands or tasks to cover
+      description: Optional. List the commands, flags or tasks you want on the sheet.
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contributing
+      options:
+        - label: I can write this sheet and open a pull request (see docs/CONTRIBUTING.md)

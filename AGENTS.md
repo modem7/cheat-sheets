@@ -11,6 +11,7 @@ A personal homelab and DevOps knowledge base: Markdown cheat sheets with quick-s
 - `scripts/check-links.py`: link, anchor and file checker.
 - `scripts/gen-index.py`: generates the `README.md` index (`--check` in CI).
 - `.github/PULL_REQUEST_TEMPLATE.md` and `.github/PULL_REQUEST_TEMPLATE/`: default PR template plus `new-sheet.md` and `update-sheet.md` (select with `?template=`). Fill in the matching one in PR descriptions.
+- `.github/ISSUE_TEMPLATE/`: issue forms (`request-sheet.yml`, `report-error.yml`) and `config.yml` (blank issues disabled). Keep the folder dropdown in `request-sheet.yml` in step with the folders listed in CONTRIBUTING.
 - `.markdownlint-cli2.yaml`, `.github/workflows/lint.yml`: CI checks.
 
 ## House Style

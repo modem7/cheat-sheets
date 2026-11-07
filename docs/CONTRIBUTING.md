@@ -72,6 +72,9 @@ npx markdownlint-cli2 "**/*.md"
 
 Configuration lives in `.markdownlint-cli2.yaml`. Fix the content rather than loosening a rule; if a rule is genuinely wrong for this repo, change the config in its own PR and explain why.
 
+## Issue Forms
+Not ready to write a sheet? Open an issue with one of the forms in `.github/ISSUE_TEMPLATE/`: **Request a sheet** to suggest a tool or topic, or **Report an error** for a wrong command, flag, default or link. Blank issues are disabled.
+
 ## PR Templates
 Opening a pull request fills in `.github/PULL_REQUEST_TEMPLATE.md`. For sheet changes, add a query parameter to the PR URL to use a dedicated template (`https://github.com/modem7/cheat-sheets/compare/master...BRANCH?template=new-sheet.md`):
 
