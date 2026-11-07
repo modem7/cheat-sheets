@@ -159,20 +159,25 @@
     });
   }
 
-  /* ---------- table of contents: scroll-spy ---------- */
-  var toc = $(".toc");
-  if (toc) {
+  /* ---------- page content: re-run after every soft navigation ---------- */
+  var tocIO = null;
+  var cleanups = [];
+  var tocSmall = window.matchMedia("(max-width: 1180px)");
+  /* document-level handlers are added once and look the current TOC up when they fire */
+  doc.addEventListener("click", function (e) {
+    var t = $(".toc"), b = t && $(".toc-box", t);
+    if (b && tocSmall.matches && b.open && !t.contains(e.target)) b.open = false;
+  });
+  doc.addEventListener("keydown", function (e) {
+    var t = $(".toc"), b = t && $(".toc-box", t);
+    if (e.key === "Escape" && b && tocSmall.matches && b.open) { b.open = false; var sm = $("summary", b); if (sm) sm.focus(); }
+  });
+  function initToc() {
+    var toc = $(".toc");
+    if (!toc) return;
     var box = $(".toc-box", toc);
-    var small = window.matchMedia("(max-width: 1180px)");
-    if (box && small.matches) box.removeAttribute("open");
-    if (box) {
-      /* on small screens the box is a floating sheet: close it on outside click, link click or Escape */
-      doc.addEventListener("click", function (e) { if (small.matches && box.open && !toc.contains(e.target)) box.open = false; });
-      toc.addEventListener("click", function (e) { if (small.matches && e.target.closest && e.target.closest("a")) box.open = false; });
-      doc.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && small.matches && box.open) { box.open = false; var sm = $("summary", box); if (sm) sm.focus(); }
-      });
-    }
+    if (box && tocSmall.matches) box.removeAttribute("open");
+    if (box) toc.addEventListener("click", function (e) { if (tocSmall.matches && e.target.closest && e.target.closest("a")) box.open = false; });
     var links = $$("a[href^='#']", toc);
     var map = {};
     links.forEach(function (a) { map[decodeURIComponent(a.getAttribute("href").slice(1))] = a; });
@@ -190,7 +195,7 @@
     };
     if (heads.length && "IntersectionObserver" in window) {
       var visible = new Set();
-      var io = new IntersectionObserver(function (entries) {
+      tocIO = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) { if (en.isIntersecting) visible.add(en.target.id); else visible.delete(en.target.id); });
         var first = heads.find(function (h) { return visible.has(h.id); });
         if (first) { setActive(first.id); return; }
@@ -199,7 +204,7 @@
         heads.forEach(function (h) { if (h.getBoundingClientRect().top < 120) above = h; });
         if (above) setActive(above.id);
       }, { rootMargin: "-64px 0px -70% 0px", threshold: 0 });
-      heads.forEach(function (h) { io.observe(h); });
+      heads.forEach(function (h) { tocIO.observe(h); });
     }
   }
 
@@ -214,57 +219,66 @@
       doc.body.removeChild(ta);
     });
   }
-  $$(".codeblock").forEach(function (block) {
-    var btn = $(".copy-btn", block);
-    var code = $("pre code", block) || $("pre", block);
-    if (!btn || !code) return;
-    btn.hidden = false;
-    btn.addEventListener("click", function () {
-      copyText(code.innerText.replace(/\n$/, "")).then(function () {
-        btn.textContent = "Copied"; btn.classList.add("is-copied");
-      }, function () { btn.textContent = "Press Ctrl+C"; });
-      setTimeout(function () { btn.textContent = "Copy"; btn.classList.remove("is-copied"); }, 1800);
+  function initCopy() {
+    /* copy buttons on code blocks */
+    $$(".codeblock").forEach(function (block) {
+      var btn = $(".copy-btn", block);
+      var code = $("pre code", block) || $("pre", block);
+      if (!btn || !code) return;
+      btn.hidden = false;
+      btn.addEventListener("click", function () {
+        copyText(code.innerText.replace(/\n$/, "")).then(function () {
+          btn.textContent = "Copied"; btn.classList.add("is-copied");
+        }, function () { btn.textContent = "Press Ctrl+C"; });
+        setTimeout(function () { btn.textContent = "Copy"; btn.classList.remove("is-copied"); }, 1800);
+      });
     });
-  });
-  /* announce copy result politely */
-  $$(".copy-btn").forEach(function (b) { b.setAttribute("aria-live", "polite"); });
+    /* announce copy result politely */
+    $$(".copy-btn").forEach(function (b) { b.setAttribute("aria-live", "polite"); });
 
-  /* ---------- click-to-copy for COMMAND | DESCRIPTION tables ---------- */
-  $$(".table-wrap[data-copy-col]").forEach(function (wrap) {
-    var timer = null;
-    $$("tbody td:first-child", wrap).forEach(function (td) { td.classList.add("copyable"); td.title = "Click to copy"; });
-    wrap.addEventListener("click", function (e) {
-      var td = e.target.closest && e.target.closest("td.copyable");
-      if (!td || !wrap.contains(td) || (e.target.closest && e.target.closest("a"))) return;
-      clearTimeout(timer);
-      if (e.detail > 1) return; /* double or triple click selects text instead */
-      timer = setTimeout(function () {
-        var sel = window.getSelection && window.getSelection();
-        if (sel && String(sel).trim()) return; /* the user is selecting: leave it alone */
-        var codes = $$("code", td);
-        var text = (codes.length === 1 ? codes[0].textContent : td.innerText).trim();
-        copyText(text).then(function () {
-          td.classList.add("is-copied");
-          announce("Copied " + text);
-          setTimeout(function () { td.classList.remove("is-copied"); }, 1200);
-        }, function () { announce("Could not copy. Select the command and press Ctrl+C."); });
-      }, 220);
+    /* click-to-copy for COMMAND | DESCRIPTION tables */
+    $$(".table-wrap[data-copy-col]").forEach(function (wrap) {
+      var timer = null;
+      $$("tbody td:first-child", wrap).forEach(function (td) { td.classList.add("copyable"); td.title = "Click to copy"; });
+      wrap.addEventListener("click", function (e) {
+        var td = e.target.closest && e.target.closest("td.copyable");
+        if (!td || !wrap.contains(td) || (e.target.closest && e.target.closest("a"))) return;
+        clearTimeout(timer);
+        if (e.detail > 1) return; /* double or triple click selects text instead */
+        timer = setTimeout(function () {
+          var sel = window.getSelection && window.getSelection();
+          if (sel && String(sel).trim()) return; /* the user is selecting: leave it alone */
+          var codes = $$("code", td);
+          var text = (codes.length === 1 ? codes[0].textContent : td.innerText).trim();
+          copyText(text).then(function () {
+            td.classList.add("is-copied");
+            announce("Copied " + text);
+            setTimeout(function () { td.classList.remove("is-copied"); }, 1200);
+          }, function () { announce("Could not copy. Select the command and press Ctrl+C."); });
+        }, 220);
+      });
     });
-  });
+  }
 
-  /* ---------- edge shadows on tables that scroll sideways ---------- */
-  $$(".table-scroll").forEach(function (box) {
-    var w = $(".table-wrap", box), tbl = $("table", w);
-    function update() {
-      var max = w.scrollWidth - w.clientWidth;
-      box.classList.toggle("more-left", w.scrollLeft > 2);
-      box.classList.toggle("more-right", w.scrollLeft < max - 2);
-    }
-    w.addEventListener("scroll", update, { passive: true });
-    if ("ResizeObserver" in window) { var ro = new ResizeObserver(update); ro.observe(w); if (tbl) ro.observe(tbl); }
-    window.addEventListener("resize", update);
-    update();
-  });
+  /* edge shadows on tables that scroll sideways */
+  function initTables() {
+    $$(".table-scroll").forEach(function (box) {
+      var w = $(".table-wrap", box), tbl = $("table", w);
+      function update() {
+        var max = w.scrollWidth - w.clientWidth;
+        box.classList.toggle("more-left", w.scrollLeft > 2);
+        box.classList.toggle("more-right", w.scrollLeft < max - 2);
+      }
+      w.addEventListener("scroll", update, { passive: true });
+      if ("ResizeObserver" in window) {
+        var ro = new ResizeObserver(update); ro.observe(w); if (tbl) ro.observe(tbl);
+        cleanups.push(function () { ro.disconnect(); });
+      }
+      window.addEventListener("resize", update);
+      cleanups.push(function () { window.removeEventListener("resize", update); });
+      update();
+    });
+  }
 
   /* ---------- search (Pagefind, loaded on first open) ---------- */
   var dialog = $("#search-dialog");
@@ -376,14 +390,14 @@
     dialog.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("a.pagefind-ui__result-link")) closeSearch(); });
   }
   /* ---------- highlight search terms on the page a result led to ---------- */
-  (function () {
+  function initHighlight() {
     var term = "";
     try { term = new URLSearchParams(location.search).get("highlight") || ""; } catch (e) { return; }
     if (!term || !mount) return;
     var base = mount.getAttribute("data-bundle");
     var s = doc.createElement("script");
     s.type = "module"; /* pagefind-highlight.js is an ES module that also sets window.PagefindHighlight */
-    s.src = base + "pagefind-highlight.js";
+    s.src = base + "pagefind-highlight.js" + (window.PagefindHighlight ? "?" + Date.now() : "");
     s.onload = function () {
       if (!window.PagefindHighlight) return;
       var hl = new window.PagefindHighlight({ highlightParam: "highlight" });
@@ -402,7 +416,7 @@
       announce("Search terms highlighted on this page");
     };
     doc.head.appendChild(s);
-  })();
+  }
 
   doc.addEventListener("keydown", function (e) {
     var t = e.target, tag = t && t.tagName;
@@ -411,4 +425,124 @@
     if (e.key === "/" && !typing && !e.ctrlKey && !e.metaKey && !e.altKey) { e.preventDefault(); openSearch(); return; }
     if (e.key === "Escape" && doc.body.classList.contains("nav-open")) setNav(false);
   });
+
+  function initContent() {
+    cleanups.forEach(function (f) { f(); }); cleanups = [];
+    if (tocIO) { tocIO.disconnect(); tocIO = null; }
+    initToc(); initCopy(); initTables(); initHighlight();
+  }
+  initContent();
+
+  /* ---------- soft navigation ----------
+     Same-site links swap only <main> (plus title and the current marker in the sidebar), so the top bar and
+     sidebar are never torn down: no white flash, no sidebar scroll reset, no re-run of the filter or open state.
+     Anything unexpected falls back to a normal page load. */
+  var mainEl = $("#main");
+  var cache = new Map();           /* url -> Promise<Document> */
+  var navToken = 0;
+  var shown = location.pathname + location.search; /* the page currently rendered in <main> */
+  var canSoft = !!(mainEl && window.fetch && window.DOMParser && history.pushState && window.URL);
+  function pageUrl(a) {
+    if (!a || a.target && a.target !== "_self" || a.hasAttribute("download")) return null;
+    var u;
+    try { u = new URL(a.href, location.href); } catch (e) { return null; }
+    if (u.origin !== location.origin || (u.protocol !== "http:" && u.protocol !== "https:")) return null;
+    var last = u.pathname.split("/").pop();
+    if (last && /\.[a-z0-9]+$/i.test(last) && !/\.html?$/i.test(last)) return null; /* PDFs, images, feeds */
+    if (/\/(pagefind|sitemap)/.test(u.pathname)) return null;
+    return u;
+  }
+  function fetchDoc(u) {
+    var key = u.pathname + u.search;
+    if (!cache.has(key)) {
+      cache.set(key, fetch(u.href, { credentials: "same-origin" }).then(function (r) {
+        var type = r.headers.get("content-type") || "";
+        if (!r.ok || type.indexOf("text/html") === -1) throw new Error("not a page");
+        return r.text();
+      }).then(function (html) {
+        var d = new DOMParser().parseFromString(html, "text/html");
+        if (!$("#main", d)) throw new Error("no main");
+        return d;
+      }));
+      cache.get(key).catch(function () { cache.delete(key); });
+    }
+    return cache.get(key);
+  }
+  function markCurrent(u) {
+    if (!sidebar) return;
+    $$("a.is-current", sidebar).forEach(function (a) { a.classList.remove("is-current"); a.removeAttribute("aria-current"); });
+    var hit = $$("a", sidebar).filter(function (a) { return a.pathname === u.pathname; })[0];
+    if (!hit) return;
+    hit.classList.add("is-current"); hit.setAttribute("aria-current", "page");
+    var det = hit.closest("details.nav-sec");
+    if (det && !det.open) det.open = true;
+    var sr = sidebar.getBoundingClientRect(), r = hit.getBoundingClientRect();
+    if (r.top < sr.top || r.bottom > sr.bottom) hit.scrollIntoView({ block: "center" });
+  }
+  function apply(d, u, opts) {
+    var next = $("#main", d);
+    shown = u.pathname + u.search;
+    mainEl.innerHTML = next.innerHTML;
+    doc.title = d.title;
+    doc.body.className = (d.body.className || "") + (doc.body.classList.contains("nav-open") ? " nav-open" : "");
+    ["link[rel=canonical]", "meta[name=description]", "meta[property='og:title']", "meta[property='og:description']", "meta[property='og:url']", "meta[property='og:type']"].forEach(function (s) {
+      var a = $(s), b = $(s, d);
+      if (a && b) a.setAttribute(a.tagName === "LINK" ? "href" : "content", b.getAttribute(a.tagName === "LINK" ? "href" : "content"));
+    });
+    markCurrent(u);
+    initContent();
+    if (opts.restore != null) window.scrollTo(0, opts.restore);
+    else if (u.hash && doc.getElementById(decodeURIComponent(u.hash.slice(1)))) doc.getElementById(decodeURIComponent(u.hash.slice(1))).scrollIntoView();
+    else window.scrollTo(0, 0);
+    mainEl.focus({ preventScroll: true });
+    announce("Navigated to " + (d.title || "page").split(" · ")[0]);
+  }
+  function go(u, opts) {
+    opts = opts || {};
+    var token = ++navToken;
+    var samePath = u.pathname === location.pathname && u.search === location.search;
+    if (samePath && !opts.pop) { /* same page: let the browser handle the hash */ location.href = u.href; return; }
+    fetchDoc(u).then(function (d) {
+      if (token !== navToken) return; /* a newer click won */
+      var swap = function () {
+        if (!opts.pop) { try { history.replaceState({ y: window.scrollY }, ""); history.pushState({ y: 0 }, "", u.href); } catch (e) { location.href = u.href; return; } }
+        apply(d, u, opts);
+      };
+      if (doc.startViewTransition && !reduceMotion) doc.startViewTransition(swap); else swap();
+    }).catch(function () { if (token === navToken) location.href = u.href; });
+  }
+  if (canSoft) {
+    try { history.replaceState({ y: window.scrollY }, ""); } catch (e) { /* ignore */ }
+    doc.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a || a.closest("#search-dialog") || a.closest(".toc")) return;
+      var u = pageUrl(a);
+      if (!u) return;
+      if (u.pathname === location.pathname && u.search === location.search) return; /* in-page anchors */
+      e.preventDefault();
+      go(u);
+    });
+    /* warm the cache on hover or touch so the swap is instant */
+    var warm = function (e) {
+      var a = e.target.closest && e.target.closest("a[href]");
+      var u = a && !a.closest("#search-dialog") && pageUrl(a);
+      if (u && !(u.pathname === location.pathname && u.search === location.search)) fetchDoc(u).catch(function () {});
+    };
+    doc.addEventListener("mouseover", warm, { passive: true });
+    doc.addEventListener("touchstart", warm, { passive: true });
+    doc.addEventListener("focusin", warm);
+    window.addEventListener("popstate", function (e) {
+      var u = new URL(location.href);
+      if (u.pathname + u.search === shown) return; /* hash-only entry: the browser scrolls */
+      var y = e.state && typeof e.state.y === "number" ? e.state.y : 0;
+      go(u, { pop: true, restore: y });
+    });
+    window.addEventListener("pagehide", function () { try { history.replaceState({ y: window.scrollY }, ""); } catch (e) { /* ignore */ } });
+    var saveY = null;
+    window.addEventListener("scroll", function () {
+      clearTimeout(saveY);
+      saveY = setTimeout(function () { try { history.replaceState({ y: window.scrollY }, ""); } catch (e) { /* ignore */ } }, 150);
+    }, { passive: true });
+  }
 })();
