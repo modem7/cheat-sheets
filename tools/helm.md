@@ -86,3 +86,7 @@ wordpress/
 helm plugin install https://github.com/databus23/helm-diff
 helm plugin list
 ```
+
+## See Also
+- [Kubernetes Workloads](../kubernetes/kubernetes-workloads.md)
+- [Kubectl](../kubernetes/kubectl.md)

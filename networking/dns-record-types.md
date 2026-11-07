@@ -36,7 +36,7 @@ COMMAND | DESCRIPTION
 `dig +trace example.com` | Follow delegation from the root
 `dig example.com DNSKEY +dnssec` | DNSSEC records
 
-On Windows use `Resolve-DnsName example.com -Type MX` (see [Windows DNS Server](../windows/windows-dns-server.md)). Encrypted lookups are covered in [DNS Encryption](dns-encryption.md). Mail records: [Mail Server DNS Records Cheat-Sheet](dns-record-mailserver.md).
+DNSSEC signing and validation: [DNSSEC](dnssec.md). On Windows use `Resolve-DnsName example.com -Type MX` (see [Windows DNS Server](../windows/windows-dns-server.md)). Encrypted lookups are covered in [DNS Encryption](dns-encryption.md). Mail records: [Mail Server DNS Records Cheat-Sheet](dns-record-mailserver.md).
 
 ## Less commonly used DNS Records
 Type | Description
