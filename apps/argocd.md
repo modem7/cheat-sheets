@@ -199,4 +199,4 @@ OPTION | DESCRIPTION
 
 - Basic tutorial for installation and configuration: [Let loose the squid - Deploy ArgoCD the declarative way](https://thedatabaseme.de/2022/06/05/let-loose-the-squid-deploy-argocd-the-declarative-way/)
 - Writing ArgoCD Plugins: [ArgoCD Custom Plugins](https://dev.to/tylerauerbeck/argocd-custom-plugins-creating-a-custom-plugin-to-process-openshift-templates-4p5m)
-- See also [Kubernetes Automation](../kubernetes/kubernetes-automation.md) for GitOps in general.
+- See also [Kubernetes Automation](../kubernetes/kubernetes-automation.md) for GitOps in general, and [Flux CD](../cicd/flux.md) for the other main GitOps tool.

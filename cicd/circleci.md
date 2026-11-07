@@ -149,4 +149,6 @@ Secret empty in a fork PR | Secrets are withheld from forks by default
 - [CI/CD Overview](cicd.md)
 - [GitHub Actions](github-actions.md)
 - [GitLab CI/CD](gitlab-ci.md)
+- [Jenkins](jenkins.md)
+- [Drone CI](drone-ci.md)
 - [CI Docker Builds](ci-docker-builds.md)
