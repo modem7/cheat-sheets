@@ -8,7 +8,7 @@ See also: [Hypervisors Compared](hypervisor-comparison.md) · [XCP-ng](xcp-ng.md
 ## Versions and Licensing
 FACT | DETAIL
 ---|---
-Versions | 9.1 (9.1.1.0), 9.0 and 8.0 (U3k) listed by endoflife.date (third party); the product is called "ESX" in 9.x (inferred)
+Versions | 9.1, 9.0 and 8.0 (U3k) listed by endoflife.date (third party); the product is called "ESX" in 9.x (inferred)
 Free edition | Broadcom KB: free vSphere Hypervisor is ESXi 8.0 U3e, limited to 2 physical CPUs and 8 vCPU per VM, no vCenter, vMotion, HA or backup APIs, no support
 Download | Broadcom Support Portal, Free Software Downloads; still offered in Nov 2026 is unverified
 Free ESXi 9 | Not found
