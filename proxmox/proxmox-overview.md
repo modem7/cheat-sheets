@@ -79,7 +79,7 @@ pvenode acme account register default <EMAIL>
 pvenode config set --acme domains=<FQDN>
 pvenode acme cert order
 ```
-For a comparable flow on another platform, see [TrueNAS Community Edition](../infra/truenas-community-edition.md).
+For a comparable flow on another platform, see [TrueNAS Community Edition](../infra/truenas-community-edition.md). Compare hypervisors in [Hypervisors Compared](../infra/hypervisor-comparison.md).
 
 ---
 ## Useful Host Basics
