@@ -13,4 +13,4 @@ Storage | ZFS, LVM, Ceph, NFS, iSCSI | VMFS, NFS, vSAN | EXT, LVM, NFS, iSCSI, X
 CLI | `qm`, `pct`, `pvesh` | `esxcli`, `vim-cmd` (unverified) | `xe`
 Best fit | General homelab | Existing VMware estates | Xen shops wanting open source
 
-Hyper-V (Windows) and Incus (containers and VMs) are alternatives not covered by a sheet here.
+Hyper-V (Windows) and Incus (containers and VMs) are alternatives not covered by a sheet here. For plain KVM on a Linux host see [libvirt and KVM](../linux/libvirt-kvm.md); for desktop virtualisation see [VirtualBox](../tools/virtualbox.md).
