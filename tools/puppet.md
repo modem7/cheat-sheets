@@ -135,3 +135,4 @@ Need to see what would change | `puppet agent -t --noop` or `puppet apply --noop
 - [Terraform](terraform.md)
 - [Vagrant](vagrant.md)
 - [Salt](salt.md)
+- [Chef](chef.md)

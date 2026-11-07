@@ -1,5 +1,7 @@
 # SQLite Cheat-Sheet
 
+General SQL and engine differences: [SQL](sql.md).
+
 SQLite is a relational database contained in a C library. In contrast to many other databases, SQLite is not a client-server database engine. Rather, it's embedded into an end program.
 
 SQLite generally follows the PostgreSQL ([PostgreSQL Cheat-Sheet](postgres.md)) syntax but does not enforce type checking (columns use type affinity; `STRICT` tables are available since 3.37).

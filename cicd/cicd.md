@@ -1,7 +1,7 @@
 # CI/CD Overview
-Continuous integration (CI) builds and tests every change automatically; continuous delivery/deployment (CD) ships what passed. This sheet covers the concepts shared by every tool (stages, branch flow, secrets, caching) and links to the per-tool sheets: [GitHub Actions](github-actions.md), [Woodpecker CI](woodpecker-ci.md), [GitLab CI/CD](gitlab-ci.md), [Renovate](renovate.md), [CI Docker Builds](ci-docker-builds.md) and [CI Recipes](ci-recipes.md).
+Continuous integration (CI) builds and tests every change automatically; continuous delivery/deployment (CD) ships what passed. This sheet covers the concepts shared by every tool (stages, branch flow, secrets, caching) and links to the per-tool sheets: [GitHub Actions](github-actions.md), [Woodpecker CI](woodpecker-ci.md), [GitLab CI/CD](gitlab-ci.md), [Jenkins](jenkins.md), [Drone CI](drone-ci.md), [CircleCI](circleci.md), [Concourse CI](concourse.md), [Tekton](tekton.md), [Flux CD](flux.md), [Argo CD](../apps/argocd.md), [Renovate](renovate.md), [CI Docker Builds](ci-docker-builds.md) and [CI Recipes](ci-recipes.md).
 
-Documentation: [GitHub Actions](https://docs.github.com/actions), [Woodpecker](https://woodpecker-ci.org/docs/intro), [GitLab CI/CD](https://docs.gitlab.com/ci/)
+Documentation: [GitHub Actions](https://docs.github.com/actions), [Woodpecker](https://woodpecker-ci.org/docs/intro), [GitLab CI/CD](https://docs.gitlab.com/ci/), [Jenkins](https://www.jenkins.io/doc/)
 
 ---
 ## Choosing a Tool
@@ -11,6 +11,12 @@ GitHub Actions | Repos hosted on GitHub | Hosted runners, huge action marketplac
 Woodpecker CI | Self-hosted, container-native pipelines | Runs on Gitea/Forgejo/GitHub/GitLab, see [Woodpecker CI](woodpecker-ci.md)
 GitLab CI | Repos hosted on GitLab | Built in, see [GitLab CI/CD](gitlab-ci.md) and [GitLab and the glab CLI](../tools/gitlab.md)
 Gitea/Forgejo Actions | Self-hosted Gitea | GitHub-compatible syntax, see [Gitea (and Forgejo)](../tools/gitea.md)
+Jenkins | Self-hosted, plugin-heavy, any language | `Jenkinsfile` pipelines on controller plus agents, see [Jenkins](jenkins.md)
+Drone CI | Self-hosted, container-native | `.drone.yml`, Woodpecker's upstream, see [Drone CI](drone-ci.md)
+CircleCI | Hosted CI with a self-hosted runner option | `.circleci/config.yml` with orbs, see [CircleCI](circleci.md)
+Concourse | Self-hosted, resource and job pipelines driven by `fly` | See [Concourse CI](concourse.md)
+Tekton | Pipelines as Kubernetes resources | Runs inside a cluster, see [Tekton](tekton.md)
+Flux CD / Argo CD | GitOps delivery to Kubernetes (the CD half) | See [Flux CD](flux.md) and [Argo CD](../apps/argocd.md)
 Renovate | Dependency update PRs | Not a CI system, but triggers CI on every PR, see [Renovate](renovate.md)
 
 ## Pipeline Stages
