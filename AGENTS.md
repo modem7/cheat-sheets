@@ -14,6 +14,7 @@ A personal homelab and DevOps knowledge base: Markdown cheat sheets with quick-s
 - `.github/ISSUE_TEMPLATE/`: issue forms (`request-sheet.yml`, `report-error.yml`) and `config.yml` (blank issues disabled). Keep the folder dropdown in `request-sheet.yml` in step with the folders listed in CONTRIBUTING.
 - `.github/workflows/external-links.yml` and `.lychee.toml`: weekly external link check (lychee), opens one "Broken external links" issue. Not run on PRs.
 - `scripts/check-ips.py` and `.ip-allowlist`: flags real-looking public IPv4 addresses. `.github/workflows/secret-scan.yml` runs it plus gitleaks in CI.
+- `scripts/check-freshness.py`, `.freshness-ignore-revs` and `.github/workflows/freshness.yml`: monthly report of sheets untouched for over 12 months (one "Stale sheets to re-verify" issue). List mechanical bulk-edit commits in `.freshness-ignore-revs`.
 - `.markdownlint-cli2.yaml`, `.github/workflows/lint.yml`: CI checks.
 
 ## House Style

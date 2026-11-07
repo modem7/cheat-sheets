@@ -1,0 +1,64 @@
+name: Sheet freshness
+
+# Monthly report of sheets not touched for over 12 months, so they can be
+# re-verified against the official docs. Posts to one issue; never fails on stale sheets.
+on:
+  schedule:
+    - cron: '23 6 1 * *'
+  workflow_dispatch: {}
+
+concurrency:
+  group: freshness
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: 'Checkout (full history)'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: 'Find sheets not touched in over 12 months'
+        id: scan
+        run: |
+          mkdir -p "$RUNNER_TEMP/freshness"
+          rc=0
+          python3 scripts/check-freshness.py --months 12 --fail-on-stale > "$RUNNER_TEMP/freshness/report.md" || rc=$?
+          cat "$RUNNER_TEMP/freshness/report.md" >> "$GITHUB_STEP_SUMMARY"
+          case "$rc" in
+            0) echo "stale=false" >> "$GITHUB_OUTPUT" ;;
+            1) echo "stale=true" >> "$GITHUB_OUTPUT" ;;
+            *) echo "check-freshness.py failed with exit code $rc" >&2; exit "$rc" ;;
+          esac
+
+      - name: 'Open or update the stale-sheets issue'
+        if: steps.scan.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          REPORT_DIR: ${{ runner.temp }}/freshness
+        run: |
+          title='Stale sheets to re-verify'
+          {
+            cat "$REPORT_DIR/report.md"
+            echo
+            echo "Re-check each sheet against the official documentation, fix what changed and commit. A commit that touches the file resets its age. This issue is rewritten monthly."
+          } > "$REPORT_DIR/issue.md"
+          existing=$(gh issue list --repo "$REPO" --state open --search "\"$title\" in:title" \
+            --json number,title --jq "[.[] | select(.title == \"$title\")][0].number // empty")
+          if [ -n "$existing" ]; then
+            echo "Updating issue #$existing"
+            gh issue edit "$existing" --repo "$REPO" --body-file "$REPORT_DIR/issue.md"
+          else
+            echo "Creating issue"
+            gh issue create --repo "$REPO" --title "$title" --label documentation --body-file "$REPORT_DIR/issue.md"
+          fi
