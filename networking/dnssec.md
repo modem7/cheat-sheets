@@ -4,7 +4,7 @@ DNSSEC signs DNS data so a validating resolver can prove an answer is genuine an
 Documentation: [BIND 9 DNSSEC Guide](https://bind9.readthedocs.io/en/latest/dnssec-guide.html) · [BIND 9 manual pages](https://bind9.readthedocs.io/en/latest/manpages.html)
 Project: [BIND 9 at ISC](https://www.isc.org/bind/)
 
-Verification: BIND tools and `rndc` output checked against BIND 9.18.39 (Ubuntu 24.04 package) in a throwaway container, including a signed `example.com` test zone. Other versions may differ.
+Verification: BIND tools and `rndc` output checked against BIND 9.18.39 (Ubuntu 24.04 package) in a throwaway container, including a signed `example.com` test zone. Other versions may differ. Not exercised (taken from `--help` output only, unverified): `rndc dnssec -checkds` with `-key`/`-when`, `rndc dnssec -rollover`, `rndc nta`, `rndc loadkeys`, `rndc sign`, `dnssec-cds`, and `delv -a` with a custom anchor file.
 
 ## Concepts
 TERM | MEANING
