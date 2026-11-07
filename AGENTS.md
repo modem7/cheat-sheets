@@ -2,7 +2,7 @@
 Guidance for AI coding agents working in this repository. Human contributors should read `docs/CONTRIBUTING.md`; this file is the single source of truth for agents.
 
 ## Purpose
-A personal homelab and DevOps knowledge base: Markdown cheat sheets with quick-scan command tables for tools, platforms and concepts. There is no build step and no application code, only Markdown plus a small link checker and CI config.
+A personal homelab and DevOps knowledge base: Markdown cheat sheets with quick-scan command tables for tools, platforms and concepts. There is no build step for the sheets themselves: the repository is Markdown plus small checker scripts and CI config. `site/` holds the Hugo site that publishes them (see `site/SITE.md`).
 
 ## Layout
 - One folder per theme (`linux/`, `docker/`, `kubernetes/`, `networking/`, `tools/`, `apps/`, and others; new themed folders such as `security/` or `backup/` appear over time). One sheet per file.
@@ -14,7 +14,8 @@ A personal homelab and DevOps knowledge base: Markdown cheat sheets with quick-s
 - `.github/ISSUE_TEMPLATE/`: issue forms (`request-sheet.yml`, `report-error.yml`) and `config.yml` (blank issues disabled). Keep the folder dropdown in `request-sheet.yml` in step with the folders listed in CONTRIBUTING.
 - `.github/workflows/external-links.yml` and `.lychee.toml`: weekly external link check (lychee), opens one "Broken external links" issue. Not run on PRs.
 - `scripts/check-ips.py` and `.ip-allowlist`: flags real-looking public IPv4 addresses. `.github/workflows/secret-scan.yml` runs it plus gitleaks in CI.
-- `scripts/check-freshness.py`, `.freshness-ignore-revs` and `.github/workflows/freshness.yml`: monthly report of sheets untouched for over 12 months (one "Stale sheets to re-verify" issue). List mechanical bulk-edit commits in `.freshness-ignore-revs`.
+- `scripts/check-freshness.py`, `.freshness-ignore-revs` and `.github/workflows/freshness.yml`: monthly report of sheets untouched for over 12 months (one "Stale sheets to re-verify" issue). List mechanical bulk-edit commits in `.freshness-ignore-revs`. The same script also supplies the dates shown on the website.
+- `site/` and `.github/workflows/pages.yml`: the Hugo site (see `site/SITE.md`). `site/scripts/prepare-content.py` imports `scripts/check-freshness.py` (`last_touched`, `load_ignored`, `is_stale`) for each sheet's "Updated" date and stale chip, so keep those names and signatures stable.
 - `.markdownlint-cli2.yaml`, `.github/workflows/lint.yml`: CI checks.
 
 ## House Style
@@ -31,7 +32,7 @@ A personal homelab and DevOps knowledge base: Markdown cheat sheets with quick-s
 2. Mark anything you could not verify as unverified in the sheet, and say so in the PR description.
 3. No secrets, tokens, real IP addresses, internal hostnames or personal domains. Use placeholders, `example.com` and documentation ranges (`192.0.2.0/24`, `198.51.100.0/24`, `203.0.113.0/24`).
 4. Keep every relative link and `#anchor` valid. When you rename or delete a sheet, fix the links that point to it.
-5. When you add a sheet, regenerate the `README.md` index (`python3 scripts/gen-index.py`), and update any site or content list the repository keeps, in the same PR.
+5. When you add a sheet, regenerate the `README.md` index (`python3 scripts/gen-index.py`), and update any site or content list the repository keeps, in the same PR. (`[params.sectionDescriptions]` and `[params.sectionGlyphs]` in `site/hugo.toml` are optional per-folder extras for the home page.)
 6. Edit only what the task requires. Do not reformat unrelated sheets.
 7. Run all three checks before opening a PR and fix what they report in the content, not by loosening the config:
    - `python3 scripts/check-links.py`
