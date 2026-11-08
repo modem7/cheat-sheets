@@ -113,6 +113,8 @@ kbd {
   background: transparent; color: var(--text); border: 1px solid transparent; border-radius: var(--radius); cursor: pointer;
 }
 .icon-btn:hover { background: var(--bg-hover); border-color: var(--border); }
+.github-btn { text-decoration: none; }
+.github-btn:hover { color: var(--text-strong); }
 .menu-btn { display: none; }
 .search-btn {
   display: inline-flex; align-items: center; gap: .55rem; min-width: 12rem; height: 2.25rem; padding: 0 .65rem;
