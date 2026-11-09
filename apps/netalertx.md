@@ -68,4 +68,5 @@ The Pi.Alert `pialert.conf` keys, the NetAlertX config file name, the `nmap` opt
 ## See Also
 - [Notification Services](../homelab/notification-services.md)
 - [VLANs](../homelab/vlans.md)
+- [Network Hardening Recipe](../recipes/network-hardening.md)
 - [Pi-hole](../homelab/pihole.md)

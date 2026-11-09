@@ -98,5 +98,6 @@ Configure what to watch in `aide.conf`, and store the database somewhere an atta
 
 ## See Also
 - [Lynis and auditd](lynis-and-auditd.md)
+- [Wazuh](wazuh.md)
 - [Container Scanning](container-scanning.md)
 - [Cron](../misc/cron.md)

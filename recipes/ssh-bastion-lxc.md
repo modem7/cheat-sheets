@@ -75,7 +75,7 @@ You reach every internal host with `ssh <TARGET>`, through one bastion. The bast
 
 8. **Add brute-force protection.** Install [fail2ban](../security/fail2ban.md) or [CrowdSec](../security/crowdsec.md) on the bastion.
 
-9. **Keep records.** Ship the bastion's auth log to your logging stack ([Graylog](../apps/graylog.md), [Elastic Stack](../apps/elastic-stack.md) or [Loki and Alloy](../apps/loki-alloy.md)). A bastion that nobody reads logs from is only a delay.
+9. **Keep records.** Ship the bastion's auth log to your logging stack ([Graylog](../apps/graylog.md), [Elastic Stack](../apps/elastic-stack.md) or [Loki and Alloy](../apps/loki-alloy.md)) and into [Wazuh](../security/wazuh.md). A bastion that nobody reads logs from is only a delay.
 
 ## Verify
 - `ssh -J bastion <TARGET>` works, and `ssh <TARGET>` directly from your client does not.
@@ -95,5 +95,6 @@ The `pct create` line, the firewall and logging advice, and the PAM setup for a 
 ## See Also
 - [SSH Hardening](../security/ssh-hardening.md)
 - [Fail2ban](../security/fail2ban.md)
+- [Network Hardening Recipe](network-hardening.md)
 - [WireGuard Remote Access](wireguard-remote-access.md)
 - [New Server Checklist](new-server-checklist.md)

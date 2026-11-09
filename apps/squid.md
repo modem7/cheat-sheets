@@ -65,3 +65,4 @@ Squid can decrypt HTTPS (SSL-Bump) with its own certificate authority. The wiki 
 - [HAProxy](haproxy.md)
 - [APT Cacher NG](apt-cacher-ng.md)
 - [Reverse Proxy Patterns](../homelab/reverse-proxy-patterns.md)
+- [Network Hardening Recipe](../recipes/network-hardening.md)

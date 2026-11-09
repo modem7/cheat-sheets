@@ -65,3 +65,4 @@ Custom user-data replaces the generated user part, so include users and keys in 
 - [Terraform](../tools/terraform.md) with a Proxmox provider can clone this template and fill cloud-init fields.
 - [Ansible Cheat-Sheet](../tools/ansible.md) can configure the VM after boot.
 - Packer can build the template itself, see [Proxmox VE Overview and Install](proxmox-overview.md) for links.
+- [Ubuntu Cloud Template scripts](https://github.com/modem7/public_scripts/tree/master/Bash/Proxmox%20Scripts/Ubuntu%20Cloud%20Template) (modem7/public_scripts) holds Bash scripts that build and verify Ubuntu cloud-init templates on Proxmox (`create-ubuntu-cloud-template.sh`, `build-templates.sh`, `verify-template.sh`, `verify-clone.sh`).
