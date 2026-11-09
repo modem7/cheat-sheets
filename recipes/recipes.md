@@ -20,6 +20,7 @@ RECIPE | USE IT WHEN
 [Migrate a Docker Service Between Hosts](migrate-docker-service-between-hosts.md) | You are moving a Compose stack, its volumes and its database to another host
 [Monitor a Homelab with Prometheus and Grafana](monitor-homelab-prometheus-grafana.md) | You want dashboards and alerts, including an alert for when alerting stops
 [Automate Container Updates Safely](automate-container-updates.md) | You want Renovate pull requests and Diun notices instead of blind auto-updates
+[Zsh with antidote, Oh My Zsh and Powerlevel10k](zsh-antidote-omz-p10k.md) | You want a fast, reproducible Zsh set-up with plugins, a themed prompt and shared history
 
 ## Access and Identity
 RECIPE | USE IT WHEN
