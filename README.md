@@ -58,7 +58,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Homelab
 
-[Homelab](homelab/homelab.md) · [AdGuard Home](homelab/adguard-home.md) · [apcupsd](homelab/apcupsd.md) · [BIND 9](homelab/bind9.md) · [dnsmasq DHCP and DNS](homelab/dnsmasq-dhcp.md) · [netboot.xyz](homelab/netboot-xyz.md) · [Notification Services](homelab/notification-services.md) · [NUT (Network UPS Tools)](homelab/nut-ups.md) · [Pi-hole](homelab/pihole.md) · [PXE and iPXE Network Boot](homelab/pxe-boot.md) · [Reverse Proxy Patterns](homelab/reverse-proxy-patterns.md) · [Unbound](homelab/unbound.md) · [VLANs](homelab/vlans.md) · [Wake-on-LAN](homelab/wake-on-lan.md)
+[Homelab](homelab/homelab.md) · [AdGuard Home](homelab/adguard-home.md) · [apcupsd](homelab/apcupsd.md) · [BIND 9](homelab/bind9.md) · [dnsmasq DHCP and DNS](homelab/dnsmasq-dhcp.md) · [netboot.xyz](homelab/netboot-xyz.md) · [Notification Services](homelab/notification-services.md) · [NUT (Network UPS Tools)](homelab/nut-ups.md) · [OPNsense](homelab/opnsense.md) · [pfSense](homelab/pfsense.md) · [Pi-hole](homelab/pihole.md) · [PXE and iPXE Network Boot](homelab/pxe-boot.md) · [Reverse Proxy Patterns](homelab/reverse-proxy-patterns.md) · [Unbound](homelab/unbound.md) · [VLANs](homelab/vlans.md) · [Wake-on-LAN](homelab/wake-on-lan.md)
 
 ### Infrastructure
 
