@@ -60,7 +60,7 @@ HEADER | DESCRIPTION
 `Attach` | URL of a file to attach
 `Actions` | Up to three buttons, for example `view, Open, https://example.com`
 
-Authenticate with a token: `curl -H "Authorization: Bearer tk_TOKEN" -d "message" https://ntfy.example.com/TOPIC`. Basic auth also works: `curl -u USER:PASSWORD ...`.
+Authenticate with a token: `curl -H "Authorization: Bearer ${NTFY_TOKEN}" -d "message" https://ntfy.example.com/TOPIC`. Basic auth also works, for example with curl's `--netrc` option so the password stays out of shell history.
 
 ## Subscribe
 COMMAND | DESCRIPTION
