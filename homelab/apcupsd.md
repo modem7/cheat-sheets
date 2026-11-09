@@ -2,7 +2,7 @@
 apcupsd monitors APC UPSes (USB, serial, SNMP or network) and shuts the host down cleanly when the battery runs low. One host owns the cable and runs the daemon; other hosts can read its status over the built-in Network Information Server (NIS, TCP port 3551). For vendor-neutral UPS software see [NUT (Network UPS Tools)](nut-ups.md).
 
 Project: [apcupsd](http://www.apcupsd.org/)
-Documentation: [apcupsd manual](http://www.apcupsd.org/manual/manual.html)
+Documentation: [apcupsd(8)](https://manpages.debian.org/apcupsd.8)
 
 > **Verification:** Not run against a live UPS. Config directive names and `apcaccess` usage follow the apcupsd manual from memory; check `man apcupsd.conf`, `man apcaccess` and `man apcupsd` on your version. Items marked (unverified) in particular need checking. Third-party tools (exporters, REST wrappers) are named as examples only.
 

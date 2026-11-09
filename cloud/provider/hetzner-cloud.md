@@ -104,7 +104,7 @@ Ports 23, 445 and 443 must be enabled in the console first. Source: [Storage Box
 Object Storage is S3-compatible with endpoints of the form `https://<BUCKET>.<LOCATION>.your-objectstorage.com`, where the location is `fsn1`, `nbg1` or `hel1`. Source: [Object Storage overview](https://docs.hetzner.com/storage/object-storage/overview). Client examples (`aws`, `s3cmd`, [rclone](../../backup/rclone.md)) were not found in the official page.
 
 ## DNS
-The `hcloud` CLI has a `hcloud zone` command group for DNS zones and records. Hetzner announced that the older DNS Console and its API shut down in May 2026 and that DNS moves to the Cloud Console (*unverified, from a search snippet; see the [migration guide](https://docs.hetzner.com/networking/dns/migration-to-hetzner-console/process)*). Check `hcloud zone --help` for the current subcommands.
+The `hcloud` CLI has a `hcloud zone` command group for DNS zones and records. Hetzner announced that the older DNS Console and its API shut down in May 2026 and that DNS moves to the Cloud Console (*unverified, from a search snippet; see the [migration guide](https://docs.hetzner.com/networking/dns/migration-to-hetzner-console/features-and-differences/)*). Check `hcloud zone --help` for the current subcommands.
 
 ## Billing and Pitfalls
 PITFALL | DETAIL

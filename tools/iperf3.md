@@ -1,7 +1,7 @@
 # iperf3
 `iperf3` measures network throughput between two hosts: one runs as a server, the other as a client. Use it to test a link, a VLAN, a VPN or Wi-Fi, and to separate network problems from disk or application problems.
 
-Documentation: [iperf3 user documentation](https://iperf.fr/iperf-doc.php) · [iperf3(1)](https://man7.org/linux/man-pages/man1/iperf3.1.html)
+Documentation: [iperf3 user documentation](https://iperf.fr/iperf-doc.php) · [iperf3(1)](https://manpages.debian.org/iperf3.1)
 Project: [iperf3 on GitHub](https://github.com/esnet/iperf)
 
 > **Verification:** options were checked against the iperf3 man page in Ubuntu 24.04. No throughput test was run between real hosts. Both ends should run the same major version.
