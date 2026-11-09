@@ -68,7 +68,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 [What is Cloud-Computing?](cloud/what-is-cloud-computing.md)
 
-Provider: [Amazon Web Services](cloud/provider/amazon-web-services.md) · [Backblaze B2](cloud/provider/backblaze-b2.md) · [Civo](cloud/provider/civo.md) · [Cloud-Provider Comparison](cloud/provider/cloud-provider-comparison.md) · [Cloudflare](cloud/provider/cloudflare.md) · [DigitalOcean](cloud/provider/digitalocean.md) · [Google Cloud](cloud/provider/google-cloud.md) · [Hetzner Cloud](cloud/provider/hetzner-cloud.md) · [Oracle Cloud](cloud/provider/oracle-cloud.md)
+Provider: [Amazon Web Services](cloud/provider/amazon-web-services.md) · [Backblaze B2](cloud/provider/backblaze-b2.md) · [Civo](cloud/provider/civo.md) · [Cloud-Provider Comparison](cloud/provider/cloud-provider-comparison.md) · [Cloudflare](cloud/provider/cloudflare.md) · [Cloudflare DMARC](cloud/provider/cloudflare-dmarc.md) · [Cloudflare DNS Records](cloud/provider/cloudflare-dns-records.md) · [Cloudflare Pages and Workers](cloud/provider/cloudflare-pages-workers.md) · [Cloudflare Speed Test](cloud/provider/cloudflare-speed-test.md) · [Cloudflare SSHFP Records](cloud/provider/cloudflare-sshfp-records.md) · [Cloudflare TXT Records](cloud/provider/cloudflare-txt-records.md) · [DigitalOcean](cloud/provider/digitalocean.md) · [Google Cloud](cloud/provider/google-cloud.md) · [Hetzner Cloud](cloud/provider/hetzner-cloud.md) · [Oracle Cloud](cloud/provider/oracle-cloud.md)
 
 ### Networking
 
