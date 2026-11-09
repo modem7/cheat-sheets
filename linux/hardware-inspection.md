@@ -1,7 +1,7 @@
 # Hardware Inspection
 List the PCI and USB devices, CPU, memory, disks and firmware details of a Linux machine with `lspci`, `lsusb`, `lshw`, `dmidecode` and friends. Use it to identify a NIC or GPU for passthrough, check which kernel driver is bound, or confirm RAM speed and slots.
 
-Documentation: [lspci(8)](https://man7.org/linux/man-pages/man8/lspci.8.html) · [lsusb(8)](https://man7.org/linux/man-pages/man8/lsusb.8.html) · [dmidecode(8)](https://man7.org/linux/man-pages/man8/dmidecode.8.html) · [lscpu(1)](https://man7.org/linux/man-pages/man1/lscpu.1.html)
+Documentation: [lspci(8)](https://man7.org/linux/man-pages/man8/lspci.8.html) · [lsusb(8)](https://man7.org/linux/man-pages/man8/lsusb.8.html) · [dmidecode(8)](https://manpages.debian.org/dmidecode.8) · [lscpu(1)](https://man7.org/linux/man-pages/man1/lscpu.1.html)
 
 > **Verification:** options were checked against the man pages in Ubuntu 24.04 (`pciutils`, `usbutils`, `lshw`, `dmidecode`, `util-linux`). Output depends on the hardware; most commands need `sudo` for full detail.
 

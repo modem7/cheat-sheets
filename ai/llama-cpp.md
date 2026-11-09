@@ -2,7 +2,7 @@
 C and C++ inference engine for GGUF models on CPU and GPU. It is the engine behind many local tools; use it directly for control over offload, context and quantisation.
 
 Project: [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp)
-Documentation: [llama-server README](https://github.com/ggml-org/llama.cpp/tree/master/tools/server) · [llama-cli README](https://github.com/ggml-org/llama.cpp/tree/master/tools/main)
+Documentation: [llama-server README](https://github.com/ggml-org/llama.cpp/tree/master/tools/server) · [llama-cli README](https://github.com/ggml-org/llama.cpp/tree/master/tools/cli)
 
 > **Verification:** binary and flag names are from the project README and tool help as remembered; llama.cpp was not installed here and nothing was executed. Flags change between builds, so check `llama-server --help`. Items marked `(unverified)` need confirming.
 

@@ -107,7 +107,7 @@ Opt a container in with a label, in its own Compose file:
     labels:
       - diun.enable=true
 ```
-With `WATCHBYDEFAULT` set to `false`, only labelled containers are watched. Other labels: `diun.watch_repo=true` (watch all tags), `diun.include_tags` and `diun.exclude_tags` (semicolon-separated regular expressions) and `diun.max_tags`. The database in `./data` holds the image manifests Diun has seen. Diun supports many notifiers besides ntfy (e-mail, Slack, Telegram, webhook); see its [notification docs](https://crazymax.dev/diun/notif/). The Docker socket gives the container control of Docker, so it is mounted read-only (read-only still allows reading everything about your containers); consider a socket proxy on exposed hosts ([Docker Service Deploy](docker-service-deploy.md)).
+With `WATCHBYDEFAULT` set to `false`, only labelled containers are watched. Other labels: `diun.watch_repo=true` (watch all tags), `diun.include_tags` and `diun.exclude_tags` (semicolon-separated regular expressions) and `diun.max_tags`. The database in `./data` holds the image manifests Diun has seen. Diun supports many notifiers besides ntfy (e-mail, Slack, Telegram, webhook); see its [notification docs](https://crazymax.dev/diun/config/notif/). The Docker socket gives the container control of Docker, so it is mounted read-only (read-only still allows reading everything about your containers); consider a socket proxy on exposed hosts ([Docker Service Deploy](docker-service-deploy.md)).
 
 Do not run Diun and Renovate pull requests for the same images if the noise bothers you: label only what Renovate does not manage.
 

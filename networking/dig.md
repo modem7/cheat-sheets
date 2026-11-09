@@ -1,7 +1,7 @@
 # dig
 `dig` queries DNS servers and prints the full answer. Use it to check records, test a specific resolver, follow delegation from the root and see whether a zone is signed. `host` and `nslookup` are simpler alternatives, and `resolvectl` queries through `systemd-resolved`.
 
-Documentation: [dig(1)](https://man7.org/linux/man-pages/man1/dig.1.html) · [host(1)](https://man7.org/linux/man-pages/man1/host.1.html)
+Documentation: [dig(1)](https://manpages.debian.org/dig.1) · [host(1)](https://manpages.debian.org/host.1)
 Project: [BIND 9](https://www.isc.org/bind/)
 
 > **Verification:** options were checked against the `dig` and `host` man pages in Ubuntu 24.04 (`bind9-dnsutils`). `resolvectl` rows follow the systemd documentation and were not run. Use `example.com` style names; output varies by resolver.

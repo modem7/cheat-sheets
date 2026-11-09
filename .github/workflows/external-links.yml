@@ -57,5 +57,5 @@ jobs:
             gh issue edit "$existing" --repo "$REPO" --body-file lychee/issue.md
           else
             echo "Creating issue"
-            gh issue create --repo "$REPO" --title "$title" --label documentation --body-file lychee/issue.md
+            gh issue create --repo "$REPO" --title "$title" --label documentation --assignee modem7 --body-file lychee/issue.md
           fi

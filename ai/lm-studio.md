@@ -2,7 +2,7 @@
 Desktop app for downloading and chatting with local models, with a local OpenAI-compatible server and the `lms` command line. Suits a workstation more than a headless server; for servers prefer [Ollama](ollama.md) or [llama.cpp](llama-cpp.md).
 
 Project: [LM Studio](https://lmstudio.ai/)
-Documentation: [LM Studio docs](https://lmstudio.ai/docs) · [lms CLI](https://lmstudio.ai/docs/cli)
+Documentation: [LM Studio docs](https://lmstudio.ai/docs/app) · [lms CLI](https://lmstudio.ai/docs/cli)
 
 > **Verification:** the whole sheet is `(unverified)`: LM Studio was not installed here and the commands are from the vendor docs as remembered. Run `lms --help` to confirm.
 
