@@ -5,7 +5,7 @@ Documentation: [Storage](https://pve.proxmox.com/pve-docs/chapter-pvesm.html) ·
 
 > **Verification:** `pvesm add dir`, `add nfs`, `add pbs`, `scan nfs`, `set`, `remove` and the default storage layout were checked against the docs. The `zfspool`, `lvmthin`, `cifs` and `zfs`/`lvs` examples, the ARC limit and the Ceph notes were **not** verified against the docs. The LVM, BTRFS, iSCSI, CephFS, RBD, ZFS over iSCSI and ESXi sections were read in the [storage chapter](https://pve.proxmox.com/pve-docs/chapter-pvesm.html) (PVE 9.2 docs). Gaps are marked *(unverified)*. No command was executed.
 
-See also: [Proxmox VE Overview and Install](proxmox-overview.md) · [Proxmox Backup and Restore](proxmox-backup.md) · [Proxmox qm and pct](proxmox-qm-pct.md) · [NFS](../linux/nfs.md) · [TrueNAS Community Edition](../infra/truenas-community-edition.md) (ZFS and NFS server side)
+See also: [Proxmox VE Overview and Install](proxmox-overview.md) · [Proxmox Backup and Restore](proxmox-backup.md) · [Proxmox qm and pct](proxmox-qm-pct.md) · [Proxmox Disk Image Formats](proxmox-disk-formats.md) · [NFS](../linux/nfs.md) · [TrueNAS Community Edition](../infra/truenas-community-edition.md) (ZFS and NFS server side)
 
 ---
 ## pvesm
@@ -82,7 +82,7 @@ ESXi | n/a | n/a | Import source for migrating VMs, not a place to run guests, s
 Lightbits (plugin) | yes (crash-consistent) | yes | NVMe/TCP block storage, third-party plugin, PVE 9.x, see [Lightbits SDS](#lightbits-sds-nvmetcp)
 PBS | n/a | yes | Backups only
 
-Snapshot support depends on disk format: raw disks on plain directory storage cannot snapshot, qcow2 can.
+Snapshot support depends on disk format: raw disks on plain directory storage cannot snapshot, qcow2 can. See [Proxmox Disk Image Formats](proxmox-disk-formats.md) for raw, qcow2 and VMDK.
 
 ---
 ## LVM (Thick)
