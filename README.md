@@ -34,7 +34,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Windows
 
-[Active Directory](windows/active-directory.md) · [Chocolatey](windows/chocolatey.md) · [Environment Variables in Windows](windows/environment-variables.md) · [Group Policy](windows/group-policy.md) · [PowerShell Cheat-Sheet](windows/powershell.md) · [PowerShell Remote Access](windows/powershell-remote.md) · [Robocopy](windows/robocopy.md) · [Windows DNS Server](windows/windows-dns-server.md) · [Windows Networking](windows/windows-networking.md) · [Windows Terminal](windows/windows-terminal.md) · [Windows Troubleshooting](windows/windows-troubleshooting.md) · [Windows Updates](windows/windows-updates.md) · [winget](windows/winget.md)
+[Active Directory](windows/active-directory.md) · [Chocolatey](windows/chocolatey.md) · [Environment Variables in Windows](windows/environment-variables.md) · [Group Policy](windows/group-policy.md) · [PowerShell Cheat-Sheet](windows/powershell.md) · [PowerShell Remote Access](windows/powershell-remote.md) · [Windows Registry](windows/registry.md) · [Robocopy](windows/robocopy.md) · [Windows Scheduled Tasks](windows/scheduled-tasks.md) · [Sysinternals](windows/sysinternals.md) · [Windows DNS Server](windows/windows-dns-server.md) · [Windows Networking](windows/windows-networking.md) · [Windows Terminal](windows/windows-terminal.md) · [Windows Troubleshooting](windows/windows-troubleshooting.md) · [Windows Updates](windows/windows-updates.md) · [winget](windows/winget.md)
 
 ### macOS
 
@@ -73,6 +73,10 @@ Provider: [Amazon Web Services](cloud/provider/amazon-web-services.md) · [Backb
 ### Networking
 
 [Generate a DKIM Keypair](networking/create-dkim-keypair.md) · [dig](networking/dig.md) · [DNS Encryption](networking/dns-encryption.md) · [DNS over HTTPS (DoH)](networking/dns-over-https.md) · [DNS over TLS (DoT)](networking/dns-over-tls.md) · [Mail Server DNS Records Cheat-Sheet](networking/dns-record-mailserver.md) · [DNS Record Types](networking/dns-record-types.md) · [DNSSEC](networking/dnssec.md) · [Mesh VPN Comparison](networking/mesh-vpn-comparison.md) · [Ports and Protocols](networking/ports-and-protocols.md) · [SMTP](networking/smtp.md) · [socat and netcat](networking/socat-and-netcat.md) · [TCP vs UDP](networking/tcp-vs-udp.md) · [TLS (Transport Layer Security)](networking/tls.md) · [TLS Handshake](networking/tls-handshake.md) · [Twisted Pair Cables Cheat-Sheet](networking/twisted-pair-cables.md) · [VPN (Virtual Private Network)](networking/vpn.md)
+
+### UniFi
+
+[UniFi](unifi/unifi.md) · [UniFi API and Automation](unifi/unifi-api-automation.md) · [UniFi Backups and Migration](unifi/unifi-backups.md) · [UniFi Device CLI and Adoption](unifi/unifi-device-cli.md) · [UniFi Firewall and VPN](unifi/unifi-firewall-vpn.md) · [UniFi Hosting](unifi/unifi-hosting.md) · [UniFi Networks and VLANs](unifi/unifi-networks-vlans.md) · [UniFi Protect](unifi/unifi-protect.md) · [UniFi Routing and WAN](unifi/unifi-routing-wan.md) · [UniFi WiFi](unifi/unifi-wifi.md)
 
 ### Security
 

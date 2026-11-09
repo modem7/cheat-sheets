@@ -39,6 +39,7 @@ SECTIONS = [
     ("infra", "Infrastructure"),
     ("cloud", "Cloud"),
     ("networking", "Networking"),
+    ("unifi", "UniFi"),
     ("security", "Security"),
     ("backup", "Backup"),
     ("cicd", "CI/CD"),
