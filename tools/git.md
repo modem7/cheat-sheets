@@ -140,3 +140,4 @@ see the links below.
 
 For more information, check out the official Github repository [here](https://github.com/AGWA/git-crypt).
 A tutorial on git-crypt can be found [here](https://thedatabaseme.de/2022/04/13/lets-keep-this-our-secret-transparent-git-encryption-using-git-crypt/).
+For error messages and "something went wrong" fixes, see [Git Troubleshooting](git-troubleshooting.md). Task-oriented recipes are in [Git Recipes](git-recipes.md).
