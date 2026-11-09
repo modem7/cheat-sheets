@@ -20,7 +20,7 @@ STORAGE | FORMATS
 Directory | raw, qcow2, VMDK (and `subvol` for containers)
 NFS, CIFS | raw, qcow2, VMDK
 ZFS | raw (zvols), `subvol` for containers
-LVM, RBD | raw. LVM can also hold qcow2 with the `snapshot-as-volume-chain` storage option (technology preview, PVE 9.0 and later)
+LVM, RBD | raw. LVM can also hold qcow2 with the `snapshot-as-volume-chain` storage option (technology preview, PVE 9.0 and later), see [Snapshots as Volume Chain](proxmox-storage.md#snapshots-as-volume-chain)
 
 Storages that present block devices (LVM, ZFS, Ceph) need the raw format, so the choice only exists on file-based storage.
 
