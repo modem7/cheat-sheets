@@ -1,0 +1,4 @@
+# False positives: curl examples with placeholder credentials in the squash commit for PR 72.
+4d6ec93be77e27db7a3d1b8750eb1a9797f9f877:apps/gotify.md:curl-auth-user:42
+4d6ec93be77e27db7a3d1b8750eb1a9797f9f877:apps/ntfy.md:curl-auth-user:63
+4d6ec93be77e27db7a3d1b8750eb1a9797f9f877:apps/ntfy.md:curl-auth-header:63
