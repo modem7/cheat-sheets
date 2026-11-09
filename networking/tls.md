@@ -26,7 +26,7 @@ Root / Intermediate | Chain of trust: server cert, intermediate(s), root in the 
 SAN | Subject Alternative Name. The hostnames a cert is valid for. Browsers ignore CN
 DV / OV / EV | Domain / Organisation / Extended Validation
 Wildcard | `*.example.com`, covers one label only
-mTLS | Mutual TLS, client also presents a certificate
+mTLS | Mutual TLS, client also presents a certificate. See [mTLS (Mutual TLS)](mtls.md)
 
 File formats:
 

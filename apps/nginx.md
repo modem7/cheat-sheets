@@ -106,6 +106,50 @@ proxy_set_header Upgrade $http_upgrade;
 proxy_set_header Connection "upgrade";
 ```
 
+## mTLS (Client Certificates)
+Require clients to present a certificate signed by your CA. See [mTLS (Mutual TLS)](../networking/mtls.md) for creating the CA and client certificates.
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name example.com;
+    ssl_certificate     /etc/nginx/certs/server.crt;
+    ssl_certificate_key /etc/nginx/certs/server.key;
+
+    ssl_client_certificate /etc/nginx/certs/ca.crt;
+    ssl_verify_client on;
+    ssl_verify_depth 2;
+
+    location / {
+        proxy_pass http://localhost:4000;
+        proxy_set_header X-Client-DN $ssl_client_s_dn;
+    }
+}
+```
+
+DIRECTIVE | NOTE
+---|---
+`ssl_client_certificate <FILE>` | CA that signs client certificates. Also sends the CA list to clients (`ssl_trusted_certificate` does not)
+`ssl_verify_client on\|off\|optional\|optional_no_ca` | Default `off`. `optional` accepts no certificate, so check `$ssl_client_verify` yourself
+`ssl_verify_depth <N>` | Chain length to verify, default `1`
+`ssl_crl <FILE>` | PEM revocation list, including those for intermediates
+`$ssl_client_verify` | `SUCCESS`, `FAILED:<reason>` or `NONE`
+`$ssl_client_s_dn` | Client subject DN (RFC 2253)
+`$ssl_client_fingerprint` | SHA1 fingerprint of the client certificate
+
+Failures return special codes 496 (no certificate) and 495 (verification failed), which `error_page` can catch. A plain 400 is also possible *(not confirmed for every case)*.
+
+To present a client certificate **to** a backend:
+
+```nginx
+proxy_ssl_certificate         /etc/nginx/certs/client.crt;
+proxy_ssl_certificate_key     /etc/nginx/certs/client.key;
+proxy_ssl_trusted_certificate /etc/nginx/certs/backend-ca.crt;
+proxy_ssl_verify              on;   # default off
+```
+
+Documentation: [ngx_http_ssl_module](https://nginx.org/en/docs/http/ngx_http_ssl_module.html) · [ngx_http_proxy_module](https://nginx.org/en/docs/http/ngx_http_proxy_module.html)
+
 ## Useful Snippets
 ```nginx
 client_max_body_size 100M;                 # uploads
