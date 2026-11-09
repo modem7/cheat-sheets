@@ -36,10 +36,10 @@ Change the default `admin` password on first login, or create another admin and 
 
 ## Apps and Tokens
 - An **application** can only send messages. A **client** receives them (the web UI, the Android app).
-- Create an application in the UI, or with the API (replace the example credentials):
+- Create an application in the UI, or with the API. The command reads admin credentials from `~/.netrc` (`machine gotify.example.com login ADMIN_USER password ADMIN_PASSWORD`, mode `600`), which keeps them out of shell history:
 
 ```bash
-curl -u ADMIN_USER:ADMIN_PASSWORD https://gotify.example.com/application \
+curl --netrc https://gotify.example.com/application \
   -F "name=backups" -F "description=Backup job alerts"
 ```
 
