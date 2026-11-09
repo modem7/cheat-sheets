@@ -34,7 +34,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Windows
 
-[Active Directory](windows/active-directory.md) · [Chocolatey](windows/chocolatey.md) · [Environment Variables in Windows](windows/environment-variables.md) · [Group Policy](windows/group-policy.md) · [PowerShell Cheat-Sheet](windows/powershell.md) · [PowerShell Remote Access](windows/powershell-remote.md) · [Robocopy](windows/robocopy.md) · [Windows DNS Server](windows/windows-dns-server.md) · [Windows Networking](windows/windows-networking.md) · [Windows Terminal](windows/windows-terminal.md) · [Windows Troubleshooting](windows/windows-troubleshooting.md) · [Windows Updates](windows/windows-updates.md) · [winget](windows/winget.md)
+[Active Directory](windows/active-directory.md) · [Chocolatey](windows/chocolatey.md) · [Environment Variables in Windows](windows/environment-variables.md) · [Group Policy](windows/group-policy.md) · [PowerShell Cheat-Sheet](windows/powershell.md) · [PowerShell Remote Access](windows/powershell-remote.md) · [Windows Registry](windows/registry.md) · [Robocopy](windows/robocopy.md) · [Windows Scheduled Tasks](windows/scheduled-tasks.md) · [Sysinternals](windows/sysinternals.md) · [Windows DNS Server](windows/windows-dns-server.md) · [Windows Networking](windows/windows-networking.md) · [Windows Terminal](windows/windows-terminal.md) · [Windows Troubleshooting](windows/windows-troubleshooting.md) · [Windows Updates](windows/windows-updates.md) · [winget](windows/winget.md)
 
 ### macOS
 
