@@ -41,6 +41,32 @@ COMMAND | DESCRIPTION
 `sudo systemctl restart teleport` | Restart the service
 `tctl lock --user=<USER> --message="reason"` | Lock a user out immediately
 
+## Sessions and Recordings
+COMMAND | DESCRIPTION
+---|---
+`tsh ls <KEY>=<VALUE>` | List nodes by label (labels are a positional argument, not `--labels`)
+`tsh ls --search=<TEXT>` | Filter nodes by text
+`tsh recordings ls` | List session recordings (`--last`, `--limit`)
+`tsh play <SESSION_ID>` | Replay a recorded session (`--speed`, `--skip-idle-time`)
+`tsh recordings export <SESSION_ID>` | Export a recording
+
+## Access Requests
+`tsh request create --roles=<ROLE> --reason="<REASON>"` asks for temporary elevated access. Other flags: `--resource`, `--reviewers`, `--max-duration`, `--request-ttl`, `--session-ttl`, `--nowait`. Community Edition can only request roles through the CLI.
+
+## Use Teleport as a Bastion
+Nodes open a reverse SSH tunnel to the Proxy, so they need no inbound SSH. Clients reach the Proxy on port 443 (TLS routing) or 3080. The upstream guide keeps port 22 open only during setup and recommends closing it afterwards. This is an alternative to a [bastion host](../recipes/ssh-bastion-lxc.md).
+
+COMMAND | DESCRIPTION
+---|---
+`tsh ssh -J <JUMPHOST> <USER>@<NODE>` | Use a jump host (`-J` is a global flag)
+`tsh proxy ssh <USER>@<NODE>` | Proxy an SSH connection for another client
+`tsh config >> ~/.ssh/config` | Let the plain OpenSSH client reach nodes (generates a `ProxyCommand` using `tsh proxy ssh`)
+
+Documentation: [tsh reference](https://goteleport.com/docs/reference/cli/tsh/) · [Server access getting started](https://goteleport.com/docs/enroll-resources/server-access/getting-started/)
+
+## Licence
+Community Edition binaries from v16 onwards are under a commercial licence, free for companies with fewer than 100 employees and under $10M annual revenue. The source is AGPL-3.0, and earlier releases stay Apache 2.0. Check [the feature matrix](https://goteleport.com/docs/feature-matrix/) before relying on it.
+
 ## Joining a Node
 ```bash
 sudo teleport node configure --token=<TOKEN> --proxy=teleport.example.com:443 --output=file:///etc/teleport.yaml

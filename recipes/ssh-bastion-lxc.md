@@ -87,14 +87,24 @@ You reach every internal host with `ssh <TARGET>`, through one bastion. The bast
 Keep the Proxmox console open while you edit `sshd_config`, run `sshd -t` before `systemctl reload ssh`, and take a container snapshot first. Remove `ProxyJump` from your client config to go back to direct access.
 
 ## Alternatives
-Tailscale SSH, Teleport and HashiCorp Boundary exist for the same job. They were not researched here.
+A bastion is one way to centralise SSH. These replace it with identity-based access:
+
+OPTION | HOW IT WORKS | TRADE-OFF
+---|---|---
+[Tailscale SSH](../apps/tailscale.md#tailscale-ssh) | `tailscaled` serves SSH on each node's Tailscale IP, and tailnet policy decides who gets in | No bastion to run. Needs Tailscale on every target and a tailnet policy. Linux and open-source macOS only as servers
+[Teleport](../apps/teleport.md#use-teleport-as-a-bastion) | Nodes tunnel out to a Proxy, so port 22 can stay closed. Short-lived certificates, SSO and session recording | Most features, but you run a cluster. Community Edition from v16 has a commercial licence
+HashiCorp Boundary | Same goal | Not researched here
+
+The bastion in this recipe needs only OpenSSH and no extra service, which is its main advantage.
 
 ## Not Verified
-The `pct create` line, the firewall and logging advice, and the PAM setup for a second factor.
+The `pct create` line, the firewall and logging advice, and the PAM setup for a second factor. The Tailscale SSH and Teleport entries come from their official docs and were not run here.
 
 ## See Also
 - [SSH Hardening](../security/ssh-hardening.md)
 - [Fail2ban](../security/fail2ban.md)
 - [Network Hardening Recipe](network-hardening.md)
 - [WireGuard Remote Access](wireguard-remote-access.md)
+- [Tailscale](../apps/tailscale.md)
+- [Teleport](../apps/teleport.md)
 - [New Server Checklist](new-server-checklist.md)
