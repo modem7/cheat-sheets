@@ -175,6 +175,46 @@ tls:
       minVersion: VersionTLS12
 ```
 
+### mTLS (Client Certificates)
+Define a TLS option that requires client certificates (dynamic config), then attach it to a router. See [mTLS (Mutual TLS)](../networking/mtls.md) for creating the CA and client certificates.
+```yaml
+tls:
+  options:
+    mtls:
+      clientAuth:
+        caFiles:
+          - /certs/ca.crt
+        clientAuthType: RequireAndVerifyClientCert
+```
+
+`clientAuthType` | MEANING
+---|---
+`NoClientCert` | Do not ask for a certificate
+`RequestClientCert` | Ask, but accept none or an unverified one
+`RequireAnyClientCert` | Require one, not verified against the CA
+`VerifyClientCertIfGiven` | Optional, but verified if sent
+`RequireAndVerifyClientCert` | Required and verified (what mTLS normally means)
+
+Attach it with a label, or `tls: options: mtls` in a file-provider router:
+```yaml
+labels:
+  - traefik.http.routers.app.tls=true
+  - traefik.http.routers.app.tls.options=mtls@file
+```
+
+Pass the client certificate to the backend with the `passTLSClientCert` middleware (sets `X-Forwarded-Tls-Client-Cert` and `X-Forwarded-Tls-Client-Cert-Info`):
+```yaml
+http:
+  middlewares:
+    pass-cert:
+      passTLSClientCert:
+        pem: true
+```
+
+To present a client certificate **to** a backend, use a ServersTransport (`certificates` takes a list of paths, `rootCAs` the backend CA) and set `loadBalancer.serversTransport` on the service.
+
+Documentation: [TLS options](https://doc.traefik.io/traefik/reference/routing-configuration/http/tls/tls-options/) · [PassTLSClientCert](https://doc.traefik.io/traefik/reference/routing-configuration/http/middlewares/passtlsclientcert/) · [ServersTransport](https://doc.traefik.io/traefik/reference/routing-configuration/http/load-balancing/serverstransport/)
+
 ---
 ## Providers
 

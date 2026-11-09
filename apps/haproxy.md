@@ -82,6 +82,27 @@ COMMAND | DESCRIPTION
 
 Use `drain` first, then `maint` once connections have gone, for a clean upgrade.
 
+## mTLS (Client Certificates)
+Require client certificates on a TLS frontend. See [mTLS (Mutual TLS)](../networking/mtls.md) for creating the CA and client certificates.
+
+```text
+frontend web
+    bind :443 ssl crt /etc/haproxy/certs/site.pem ca-file /etc/haproxy/certs/ca.crt verify required
+    http-request set-header X-SSL-Client-CN %{+Q}[ssl_c_s_dn(cn)]
+    default_backend app
+```
+
+OPTION | NOTE
+---|---
+`ca-file <FILE>` | CA used to verify client certificates (`bind` option)
+`verify none\|optional\|required` | `required` rejects clients without a valid certificate
+`crl-file <FILE>` | Revocation list (`bind` option)
+`ssl_c_verify` | Verification result code for the client certificate
+`ssl_c_s_dn(cn)` | Client subject, here the common name
+`ssl_c_used` | True if the connection used a client certificate
+
+On a `server` line, `verify` takes only `none` or `required`. The header example is from the manual. I saw only the option headings for the rest, so check `ssl_c_verify` values and `server ... ssl crt <CLIENT.PEM> ca-file <CA>` against the [configuration manual](https://docs.haproxy.org/3.0/configuration.html) *(partly unverified)*. Overwrite any client-supplied `X-SSL-Client-CN` header, as `set-header` above does.
+
 ## Not Verified
 ACL and `use_backend` routing examples, the `check inter` text, logging directives, and certificate renewal hooks.
 
