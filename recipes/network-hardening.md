@@ -43,3 +43,5 @@ This recipe has not been run end to end. pfSense and OPNsense are not covered ye
 - [VLANs](../homelab/vlans.md)
 - [UniFi Networks and VLANs](../unifi/unifi-networks-vlans.md)
 - [UniFi Firewall and VPN](../unifi/unifi-firewall-vpn.md)
+- [pfSense](../homelab/pfsense.md)
+- [OPNsense](../homelab/opnsense.md)

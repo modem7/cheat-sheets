@@ -19,6 +19,8 @@ URL | MEANING
 - Add `rid=<UUID>` to pair a start ping with its finish ping when jobs overlap.
 - A `POST` body is stored (first 100 kB), useful for job output.
 - Do not ping one check more than 5 times per minute. Responses are `200 OK` with the body `OK`.
+- `rid` must be a client-generated UUID in canonical form. `?create=1` returns `201 Created` for a new check.
+- Responses may carry a `Ping-Body-Limit` header with the body size limit. The body is stored only if it is UTF-8 text, and a `/log` ping shows with a Log label in Events.
 
 ## Cron and Scripts
 ```bash
@@ -48,6 +50,48 @@ In a pipeline the exit status is the last command's, so use `set -o pipefail`. S
 
 Set the grace time to cover the job's normal worst-case run time.
 
+- Cron expressions have five fields. Day of week is 0 to 7 (0 and 7 are Sunday), and lists, ranges, steps and names (`JAN` to `DEC`, `MON` to `SUN`) work.
+- If the server is not on UTC, set a matching time zone on the check. If pings arrive an hour out, compare with `timedatectl status`, and see recent cron runs with `journalctl --since "1 hour ago" -t CRON`.
+
+## Management API
+Base URL `https://healthchecks.io/api/v3/` (or your own `SITE_ROOT` plus `/api/v3/`). Send the project's API key in the `X-Api-Key` header. Keys belong to one project, and are read-write or read-only (created in Project Settings).
+
+```bash
+curl -fsS --header "X-Api-Key: ${HC_API_KEY}" https://healthchecks.io/api/v3/checks/
+```
+
+ENDPOINT | DESCRIPTION
+---|---
+`GET /checks/` | List checks
+`GET /checks/<UUID>` | Get one check (a read-only key uses `unique_key` instead)
+`POST /checks/` | Create a check
+`POST /checks/<UUID>` | Update a check
+`POST /checks/<UUID>/pause` | Pause monitoring
+`POST /checks/<UUID>/resume` | Resume monitoring
+`DELETE /checks/<UUID>` | Delete a check (**destructive**)
+`GET /checks/<UUID>/pings/` | Recent pings (100 on free accounts, 1,000 on paid)
+`GET /checks/<UUID>/flips/` | Status changes
+`GET /channels/` | Integrations
+`GET /badges/` | Badge URLs
+
+- Create and update take JSON: `name`, `slug`, `tags` (space-separated), `timeout` and `grace` (60 to 31,536,000 seconds), `schedule` (cron or systemd `OnCalendar`, which overrides `timeout`), `tz`, `methods`, `manual_resume` and `channels` (`"*"` assigns all integrations).
+- A `unique` array on create (`name`, `slug`, `tags`, `timeout`, `grace`) makes it an upsert: `200` for an existing match, `201` for a new check.
+- A read-only key works only for list, get, flips and badges, and hides UUIDs and ping URLs.
+- Keep to 100 requests a minute or you get `429`.
+
+## Prometheus and Badges
+Scrape `https://healthchecks.io/projects/<PROJECT_UUID>/metrics/<READONLY_KEY>` with `scheme: https`. The docs example uses `scrape_interval: 60s`. See [Prometheus](prometheus.md).
+
+METRIC | MEANING
+---|---
+`hc_check_up` | 1 when the check is up
+`hc_check_started` | Job has started
+`hc_check_grace` | Check is in its grace period
+`hc_check_paused` | Check is paused
+`hc_tag_up`, `hc_checks_total`, `hc_checks_down_total` | Tag and total counts
+
+Badges cover a project, a tag or a single check, in SVG, JSON or Shields.io JSON. Late counts as up by default. The `svg3`, `json3` and `shields3` variants add a separate late state. Fetch the URLs with `GET /badges/`.
+
 ## Self-host (Docker)
 ```bash
 git clone https://github.com/healthchecks/healthchecks.git
@@ -62,7 +106,24 @@ docker compose up -d
 docker compose run web /opt/healthchecks/manage.py createsuperuser
 ```
 
-The UI is on `http://localhost:8000` (`GUNICORN_PORT` changes it). The sample stack has no TLS, so put a [reverse proxy](../homelab/reverse-proxy-patterns.md) in front that sets `X-Forwarded-For` and `X-Forwarded-Proto`. Pre-built images are `healthchecks/healthchecks:vX.Y`. The Apprise library is preinstalled in the Docker image (see [Apprise](apprise.md)). Database options (SQLite, PostgreSQL, MySQL) are on the configuration page, which was not checked here.
+The UI is on `http://localhost:8000` (`GUNICORN_PORT` changes it). The sample stack has no TLS, so put a [reverse proxy](../homelab/reverse-proxy-patterns.md) in front that sets `X-Forwarded-For` and `X-Forwarded-Proto`. Pre-built images are `healthchecks/healthchecks:vX.Y`. The Apprise library is preinstalled in the Docker image (see [Apprise](apprise.md)). The image includes PostgreSQL and MySQL drivers. `createsuperuser` accepts `--email` and `--password` to skip the prompts. `LISTEN_IPV6=1` enables IPv6.
+
+SETTING | DEFAULT
+---|---
+`SITE_ROOT` | `http://localhost:8000`
+`SECRET_KEY` | Placeholder, set your own (`SECRET_KEY_FILE` takes precedence)
+`DB` | `sqlite`, or `postgres` or `mysql`
+`DB_NAME`, `DB_USER`, `DB_HOST`, `DB_PORT`, `DB_PASSWORD` | `hc`, then `postgres` (or `root` for MySQL), the rest empty (`DB_PASSWORD_FILE` takes precedence)
+`DB_SSLMODE` | `prefer`
+`EMAIL_PORT` | 587
+`EMAIL_USE_TLS`, `EMAIL_USE_SSL` | True, False
+`EMAIL_USE_VERIFICATION` | True
+`REGISTRATION_OPEN` | True. Set to False once your account exists
+`ALLOWED_HOSTS` | The domain of `SITE_ROOT`
+`PING_ENDPOINT` | `SITE_ROOT` plus `/ping/` (needs the trailing slash)
+`DEBUG` | True. Never leave on in production
+
+Default Docker volumes and the status page feature were not verified.
 
 ## Notifications
 Healthchecks can alert by email, webhook, SMS, chat and incident tools (PagerDuty, Splunk On-Call, Opsgenie, PagerTree). The Pushover "Emergency" priority repeats every 5 minutes until acknowledged. Run Healthchecks on a different host from the jobs it watches, or both fail together.
@@ -71,4 +132,5 @@ Healthchecks can alert by email, webhook, SMS, chat and incident tools (PagerDut
 - [Uptime Kuma](uptime-kuma.md) (push monitors do a similar job)
 - [Pushover](pushover.md)
 - [Apprise](apprise.md)
+- [Prometheus](prometheus.md)
 - [Cron](../misc/cron.md)
