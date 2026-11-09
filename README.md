@@ -30,7 +30,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Linux
 
-[Linux](linux/linux.md) · [AWK](linux/awk.md) · [Btrfs](linux/btrfs.md) · [Disk Usage](linux/disk-usage.md) · [ethtool](linux/ethtool.md) · [firewalld](linux/firewalld.md) · [Grep](linux/grep.md) · [Hardware Inspection](linux/hardware-inspection.md) · [ip and ss](linux/ip-and-ss.md) · [IPTables](linux/iptables.md) · [libvirt and KVM](linux/libvirt-kvm.md) · [Linux Basics](linux/linuxbasics.md) · [logrotate](linux/logrotate.md) · [LVM](linux/lvm.md) · [mergerfs](linux/mergerfs.md) · [Mount](linux/mount.md) · [Netplan](linux/netplan.md) · [NFS](linux/nfs.md) · [nftables](linux/nftables.md) · [Linux Performance Troubleshooting](linux/performance-troubleshooting.md) · [RAID with mdadm](linux/raid-mdadm.md) · [SED Cheat-Sheet](linux/sed.md) · [SELinux and AppArmor](linux/selinux-apparmor.md) · [SnapRAID](linux/snapraid.md) · [Storage and Filesystems](linux/storage-and-filesystems.md) · [systemd](linux/systemd.md) · [UFW (uncomplicated firewall)](linux/ufw.md) · [User Management](linux/user.md) · [XFS](linux/xfs.md) · [ZFS](linux/zfs.md)
+[Linux](linux/linux.md) · [AWK](linux/awk.md) · [Btrfs](linux/btrfs.md) · [Ceph](linux/ceph.md) · [chrony](linux/chrony.md) · [Disk Usage](linux/disk-usage.md) · [ethtool](linux/ethtool.md) · [firewalld](linux/firewalld.md) · [Grep](linux/grep.md) · [Hardware Inspection](linux/hardware-inspection.md) · [ip and ss](linux/ip-and-ss.md) · [IPTables](linux/iptables.md) · [journalctl](linux/journalctl.md) · [libvirt and KVM](linux/libvirt-kvm.md) · [Linux Basics](linux/linuxbasics.md) · [logrotate](linux/logrotate.md) · [LVM](linux/lvm.md) · [mergerfs](linux/mergerfs.md) · [Mount](linux/mount.md) · [Netplan](linux/netplan.md) · [NFS](linux/nfs.md) · [nftables](linux/nftables.md) · [Linux Performance Troubleshooting](linux/performance-troubleshooting.md) · [RAID with mdadm](linux/raid-mdadm.md) · [SED Cheat-Sheet](linux/sed.md) · [SELinux and AppArmor](linux/selinux-apparmor.md) · [smartctl](linux/smartctl.md) · [SnapRAID](linux/snapraid.md) · [Storage and Filesystems](linux/storage-and-filesystems.md) · [systemd](linux/systemd.md) · [UFW (uncomplicated firewall)](linux/ufw.md) · [User Management](linux/user.md) · [XFS](linux/xfs.md) · [ZFS](linux/zfs.md)
 
 ### Windows
 
@@ -58,7 +58,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Homelab
 
-[Homelab](homelab/homelab.md) · [AdGuard Home](homelab/adguard-home.md) · [apcupsd](homelab/apcupsd.md) · [BIND 9](homelab/bind9.md) · [dnsmasq DHCP and DNS](homelab/dnsmasq-dhcp.md) · [NUT (Network UPS Tools)](homelab/nut-ups.md) · [Pi-hole](homelab/pihole.md) · [Reverse Proxy Patterns](homelab/reverse-proxy-patterns.md) · [Unbound](homelab/unbound.md) · [VLANs](homelab/vlans.md) · [Wake-on-LAN](homelab/wake-on-lan.md)
+[Homelab](homelab/homelab.md) · [AdGuard Home](homelab/adguard-home.md) · [apcupsd](homelab/apcupsd.md) · [BIND 9](homelab/bind9.md) · [dnsmasq DHCP and DNS](homelab/dnsmasq-dhcp.md) · [netboot.xyz](homelab/netboot-xyz.md) · [NUT (Network UPS Tools)](homelab/nut-ups.md) · [Pi-hole](homelab/pihole.md) · [PXE and iPXE Network Boot](homelab/pxe-boot.md) · [Reverse Proxy Patterns](homelab/reverse-proxy-patterns.md) · [Unbound](homelab/unbound.md) · [VLANs](homelab/vlans.md) · [Wake-on-LAN](homelab/wake-on-lan.md)
 
 ### Infrastructure
 
@@ -72,11 +72,11 @@ Provider: [Amazon Web Services](cloud/provider/amazon-web-services.md) · [Backb
 
 ### Networking
 
-[Generate a DKIM Keypair](networking/create-dkim-keypair.md) · [dig](networking/dig.md) · [DNS Encryption](networking/dns-encryption.md) · [DNS over HTTPS (DoH)](networking/dns-over-https.md) · [DNS over TLS (DoT)](networking/dns-over-tls.md) · [Mail Server DNS Records Cheat-Sheet](networking/dns-record-mailserver.md) · [DNS Record Types](networking/dns-record-types.md) · [DNSSEC](networking/dnssec.md) · [Ports and Protocols](networking/ports-and-protocols.md) · [SMTP](networking/smtp.md) · [socat and netcat](networking/socat-and-netcat.md) · [TCP vs UDP](networking/tcp-vs-udp.md) · [TLS (Transport Layer Security)](networking/tls.md) · [TLS Handshake](networking/tls-handshake.md) · [Twisted Pair Cables Cheat-Sheet](networking/twisted-pair-cables.md) · [VPN (Virtual Private Network)](networking/vpn.md)
+[Generate a DKIM Keypair](networking/create-dkim-keypair.md) · [dig](networking/dig.md) · [DNS Encryption](networking/dns-encryption.md) · [DNS over HTTPS (DoH)](networking/dns-over-https.md) · [DNS over TLS (DoT)](networking/dns-over-tls.md) · [Mail Server DNS Records Cheat-Sheet](networking/dns-record-mailserver.md) · [DNS Record Types](networking/dns-record-types.md) · [DNSSEC](networking/dnssec.md) · [Mesh VPN Comparison](networking/mesh-vpn-comparison.md) · [Ports and Protocols](networking/ports-and-protocols.md) · [SMTP](networking/smtp.md) · [socat and netcat](networking/socat-and-netcat.md) · [TCP vs UDP](networking/tcp-vs-udp.md) · [TLS (Transport Layer Security)](networking/tls.md) · [TLS Handshake](networking/tls-handshake.md) · [Twisted Pair Cables Cheat-Sheet](networking/twisted-pair-cables.md) · [VPN (Virtual Private Network)](networking/vpn.md)
 
 ### Security
 
-[Security](security/security.md) · [authentik](security/authentik.md) · [Container Scanning](security/container-scanning.md) · [CrowdSec](security/crowdsec.md) · [fail2ban](security/fail2ban.md) · [GPG](security/gpg.md) · [Keycloak](security/keycloak.md) · [Lynis and auditd](security/lynis-and-auditd.md) · [Secret Scanning](security/secret-scanning.md) · [SOPS and age](security/sops-age.md) · [Vault and OpenBao](security/vault.md)
+[Security](security/security.md) · [Authelia](security/authelia.md) · [authentik](security/authentik.md) · [Container Scanning](security/container-scanning.md) · [CrowdSec](security/crowdsec.md) · [fail2ban](security/fail2ban.md) · [GPG](security/gpg.md) · [Keycloak](security/keycloak.md) · [Lynis and auditd](security/lynis-and-auditd.md) · [Secret Scanning](security/secret-scanning.md) · [SOPS and age](security/sops-age.md) · [SSH Hardening](security/ssh-hardening.md) · [Vault and OpenBao](security/vault.md)
 
 ### Backup
 
@@ -100,7 +100,7 @@ Provider: [Amazon Web Services](cloud/provider/amazon-web-services.md) · [Backb
 
 ### Apps
 
-[Argo CD](apps/argocd.md) · [Arr Stack](apps/arr-stack.md) · [Cert-Manager](apps/cert-manager.md) · [cloudflared](apps/cloudflared.md) · [Dockhand](apps/dockhand.md) · [Grafana](apps/grafana.md) · [KASM Workspaces](apps/kasm.md) · [Longhorn](apps/longhorn.md) · [Nginx](apps/nginx.md) · [Passbolt](apps/passbolt.md) · [Portainer](apps/portainer.md) · [Prometheus](apps/prometheus.md) · [Rancher](apps/rancher.md) · [Samba](apps/samba.md) · [Tailscale](apps/tailscale.md) · [Teleport](apps/teleport.md) · [Traefik](apps/traefik.md) · [WireGuard](apps/wireguard.md)
+[Alertmanager](apps/alertmanager.md) · [Argo CD](apps/argocd.md) · [Arr Stack](apps/arr-stack.md) · [Beszel](apps/beszel.md) · [Cert-Manager](apps/cert-manager.md) · [cloudflared](apps/cloudflared.md) · [Dockhand](apps/dockhand.md) · [Dozzle](apps/dozzle.md) · [Grafana](apps/grafana.md) · [Headscale](apps/headscale.md) · [Home Assistant](apps/home-assistant.md) · [Immich](apps/immich.md) · [Jellyfin](apps/jellyfin.md) · [KASM Workspaces](apps/kasm.md) · [Komodo](apps/komodo.md) · [Loki and Grafana Alloy](apps/loki-alloy.md) · [Longhorn](apps/longhorn.md) · [MinIO](apps/minio.md) · [NetBird](apps/netbird.md) · [NetBox](apps/netbox.md) · [Nextcloud](apps/nextcloud.md) · [Nginx](apps/nginx.md) · [ntfy](apps/ntfy.md) · [Passbolt](apps/passbolt.md) · [Pocket ID](apps/pocket-id.md) · [Portainer](apps/portainer.md) · [Prometheus](apps/prometheus.md) · [Rancher](apps/rancher.md) · [Samba](apps/samba.md) · [Syncthing](apps/syncthing.md) · [Tailscale](apps/tailscale.md) · [Teleport](apps/teleport.md) · [Traefik](apps/traefik.md) · [Uptime Kuma](apps/uptime-kuma.md) · [Vaultwarden](apps/vaultwarden.md) · [WireGuard](apps/wireguard.md) · [ZeroTier](apps/zerotier.md)
 
 ### Tools
 
