@@ -1,5 +1,5 @@
 # Git Recipes
-Task-oriented Git recipes: "I did X by mistake, how do I get back?" and "how do I find Y?". Basics (init, add, commit, branches, remotes) live in [Git](git.md), and GitHub from the terminal in [GitHub and the gh CLI](github-cli.md). Commands here were checked against current Git (2.5x). Lines marked **rewrites history** change commit IDs, so only do them on commits you have not shared, or coordinate and use `--force-with-lease`.
+Task-oriented Git recipes: "I did X by mistake, how do I get back?" and "how do I find Y?". Basics (init, add, commit, branches, remotes) live in [Git](git.md), GitHub from the terminal in [GitHub and the gh CLI](github-cli.md), and error-message-led fixes in [Git Troubleshooting](git-troubleshooting.md). Commands here were checked against current Git (2.5x). Lines marked **rewrites history** change commit IDs, so only do them on commits you have not shared, or coordinate and use `--force-with-lease`.
 
 Documentation: [Git reference](https://git-scm.com/docs), [Pro Git book](https://git-scm.com/book), [git-filter-repo](https://github.com/newren/git-filter-repo)
 
