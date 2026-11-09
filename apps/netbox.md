@@ -38,7 +38,7 @@ A homelab can start with one site, a few prefixes (one per [VLAN](../homelab/vla
 Base URL `https://HOST/api/`, detail URLs need a trailing slash, and Swagger UI is at `/api/schema/swagger-ui/`.
 
 ```bash
-curl -H "Authorization: Bearer nbt_KEY.TOKEN" -H "Accept: application/json" \
+curl -H "Authorization: Bearer ${NETBOX_TOKEN}" -H "Accept: application/json" \
   "https://netbox.example.com/api/dcim/devices/?limit=50"
 ```
 

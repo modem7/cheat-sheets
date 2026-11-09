@@ -80,5 +80,8 @@ The CLI reads `~/.config/ntfy/client.yml` (`default-host`, `default-user`, `defa
 ## See Also
 - [Alertmanager](alertmanager.md)
 - [Uptime Kuma](uptime-kuma.md)
+- [Gotify](gotify.md)
+- [Apprise](apprise.md)
+- [Notification Services](../homelab/notification-services.md)
 - [apcupsd](../homelab/apcupsd.md)
 - [Borgmatic](../backup/borgmatic.md)
