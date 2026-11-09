@@ -53,3 +53,7 @@ Local USB | exFAT, FAT32 or ext4
 - Restoring pools needs all drives from all earlier pools, plus a UI account backup.
 - Adding or replacing drives triggers a rebuild that takes hours.
 - Firmware update steps and config backup are not documented here (unverified).
+
+## See Also
+- [UniFi](../unifi/unifi.md)
+- [UniFi Backups and Migration](../unifi/unifi-backups.md)

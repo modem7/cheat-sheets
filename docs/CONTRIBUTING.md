@@ -35,6 +35,7 @@ FOLDER | WHAT GOES THERE
 `misc/` | Reference material that fits nowhere else (status codes, colour codes, Markdown)
 `networking/` | Protocols, DNS, TLS, VPN, mail records
 `proxmox/` | Proxmox VE
+`unifi/` | UniFi (Ubiquiti) gateways, switches, WiFi, Protect and automation
 `recipes/` | End-to-end task pages that combine several sheets
 `scripting/` | Shell, Python and other scripting references
 `security/` | Hardening, scanning, secrets and identity tooling
