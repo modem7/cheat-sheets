@@ -54,7 +54,7 @@ This was inspired by https://github.com/ChristianLempa/cheat-sheets
 
 ### Proxmox
 
-[Proxmox VE Overview and Install](proxmox/proxmox-overview.md) · [Proxmox Users, Permissions, API Tokens and pvesh](proxmox/proxmox-access-api.md) · [Proxmox Backup and Restore](proxmox/proxmox-backup.md) · [Proxmox Cloud-Init Templates](proxmox/proxmox-cloud-init.md) · [Proxmox Clustering and HA](proxmox/proxmox-cluster-ha.md) · [Proxmox Firewall](proxmox/proxmox-firewall.md) · [Proxmox Networking](proxmox/proxmox-networking.md) · [Proxmox GPU and PCIe Passthrough](proxmox/proxmox-passthrough.md) · [Proxmox qm and pct](proxmox/proxmox-qm-pct.md) · [Proxmox Storage](proxmox/proxmox-storage.md) · [Proxmox Troubleshooting and One-Liners](proxmox/proxmox-troubleshooting.md)
+[Proxmox VE Overview and Install](proxmox/proxmox-overview.md) · [Proxmox Users, Permissions, API Tokens and pvesh](proxmox/proxmox-access-api.md) · [Proxmox Backup and Restore](proxmox/proxmox-backup.md) · [Proxmox Cloud-Init Templates](proxmox/proxmox-cloud-init.md) · [Proxmox Clustering and HA](proxmox/proxmox-cluster-ha.md) · [Proxmox Disk Image Formats](proxmox/proxmox-disk-formats.md) · [Proxmox Firewall](proxmox/proxmox-firewall.md) · [Proxmox Networking](proxmox/proxmox-networking.md) · [Proxmox GPU and PCIe Passthrough](proxmox/proxmox-passthrough.md) · [Proxmox qm and pct](proxmox/proxmox-qm-pct.md) · [Proxmox Storage](proxmox/proxmox-storage.md) · [Proxmox Troubleshooting and One-Liners](proxmox/proxmox-troubleshooting.md)
 
 ### Homelab
 

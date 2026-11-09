@@ -5,7 +5,7 @@ Documentation: [Proxmox VE Docs](https://pve.proxmox.com/pve-docs/) · [Package 
 
 > **Verification:** repository, upgrade and certificate details were read against the official docs (PVE 9.2 era). No command on this sheet was executed. Not verified: `pvenode acme` option names, `pveam` details. Check `man` pages on your node before relying on them.
 
-Other sheets in this section: [Proxmox qm and pct](proxmox-qm-pct.md) · [Proxmox Storage](proxmox-storage.md) · [Proxmox Networking](proxmox-networking.md) · [Proxmox Backup and Restore](proxmox-backup.md) · [Proxmox Clustering and HA](proxmox-cluster-ha.md) · [Proxmox Cloud-Init Templates](proxmox-cloud-init.md) · [Proxmox GPU and PCIe Passthrough](proxmox-passthrough.md) · [Proxmox Users, Permissions, API Tokens and pvesh](proxmox-access-api.md) · [Proxmox Firewall](proxmox-firewall.md) · [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md)
+Other sheets in this section: [Proxmox qm and pct](proxmox-qm-pct.md) · [Proxmox Storage](proxmox-storage.md) · [Proxmox Disk Image Formats](proxmox-disk-formats.md) · [Proxmox Networking](proxmox-networking.md) · [Proxmox Backup and Restore](proxmox-backup.md) · [Proxmox Clustering and HA](proxmox-cluster-ha.md) · [Proxmox Cloud-Init Templates](proxmox-cloud-init.md) · [Proxmox GPU and PCIe Passthrough](proxmox-passthrough.md) · [Proxmox Users, Permissions, API Tokens and pvesh](proxmox-access-api.md) · [Proxmox Firewall](proxmox-firewall.md) · [Proxmox Troubleshooting and One-Liners](proxmox-troubleshooting.md)
 
 ---
 ## First Run

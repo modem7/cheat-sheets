@@ -95,6 +95,28 @@ COMMAND | DESCRIPTION
 The password comes from `PBS_PASSWORD` or a prompt. General host tooling: [Linux](../linux/linux.md).
 
 ---
+## Backup Fleecing
+Fleecing keeps a VM responsive when the backup target is slow. While a backup runs, the old version of any block the guest overwrites is copied to a temporary **fleecing image** instead of being held until the slow target accepts it, so guest I/O is not limited by the target's speed. It costs extra space and applies to VMs only. The docs say "fleecing storage", not "fleece storage".
+
+Documentation: [vzdump chapter](https://pve.proxmox.com/pve-docs/chapter-vzdump.html) · [vzdump(1)](https://pve.proxmox.com/pve-docs/vzdump.1.html)
+
+COMMAND | DESCRIPTION
+---|---
+`vzdump <VMID> --fleecing enabled=1,storage=<STORAGE>` | Back up one VM with fleecing on a chosen storage
+`vzdump <VMID> --fleecing 1` | Enable it without naming a storage *(which storage is used then was not confirmed)*
+`fleecing: enabled=1,storage=<STORAGE>` | Node-wide default in `/etc/vzdump.conf`
+
+Per job, set it in the GUI on the **Advanced** tab of the backup job. The default is off, and `enabled` and `storage` are the only sub-options.
+
+What to put the fleecing image on:
+- Fast local storage, ideally dedicated, with thin provisioning and discard (LVM-thin, RBD, sparse ZFS, many file-based storages).
+- On storage that is not thin, the full disk size is reserved up front.
+- On storage without discard (such as NFS before 4.2), set preallocation to off. See [Proxmox Disk Image Formats](proxmox-disk-formats.md#preallocation).
+- The image is qcow2 automatically when the storage supports it, and backed-up parts are discarded as it goes.
+
+The PVE release that introduced fleecing is not stated in the docs, and 8.2 comes from a forum quote of the roadmap *(unverified)*. Whether the image is always removed afterwards is also not stated in the docs read. Check the storage for leftover fleecing images after failed backups. The roadmap notes a PVE 9.1 fix for fleecing on VMs with TPM state.
+
+---
 ## Tips
 - Back up before major changes and upgrades ([Proxmox VE Overview and Install](proxmox-overview.md)).
 - Snapshot-mode backups of VMs get consistent filesystems only with the guest agent enabled.
