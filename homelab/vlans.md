@@ -202,3 +202,7 @@ Management lost after change | Native VLAN changed on one end only; use `netplan
 Large packets fail over a tunnel | MTU/MSS: test `ping -M do -s 1472 <HOST>`
 Discovery works only in one VLAN | mDNS reflector or repeater not enabled on every involved interface
 `ip -d link` shows no VLAN | `8021q` module not loaded: `sudo modprobe 8021q`
+
+## See Also
+- [UniFi Networks and VLANs](../unifi/unifi-networks-vlans.md)
+- [UniFi Firewall and VPN](../unifi/unifi-firewall-vpn.md)

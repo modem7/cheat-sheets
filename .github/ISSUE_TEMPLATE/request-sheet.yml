@@ -48,6 +48,7 @@ body:
         - scripting
         - security
         - tools
+        - unifi
         - windows
         - Not sure
     validations:
